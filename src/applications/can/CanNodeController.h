@@ -26,6 +26,7 @@ public:
     virtual ~CanNodeController();
 
     virtual void receiveSendingPermission(int id);
+
 protected:
     virtual void registerForArbitration(int id, bool rtr, bool remoteSent);
 

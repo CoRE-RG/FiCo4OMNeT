@@ -98,6 +98,7 @@ void canBusApp::handleMessage(cMessage *msg) {
                 } else {
                     ArbMsg *newam = new ArbMsg("SendingComplete");
                     newam->setId(am->getId());
+                    //TODO aaahhhhhhhh
                     port->sendMsgToNode(newam, am->getNode());
                     stateok = true;
                 }
@@ -292,7 +293,6 @@ void canBusApp::handleErrorFrame(cMessage *msg) {
 void canBusApp::handleDataFrame(cMessage *msg) {
     ArbMsg *self = new ArbMsg("idle");
     DataFrame *df = check_and_cast<DataFrame *>(msg);
-    self->setNode(df->getGateId());
     self->setId(df->getID());
     int length = df->getLength();
     double nextidle;

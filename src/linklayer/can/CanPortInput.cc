@@ -47,7 +47,9 @@ void CanPortInput::handleMessage(cMessage *msg) {
 bool CanPortInput::forwardMessage(cMessage *msg) {
     for (std::vector<int>::iterator it = incomingIDs.begin();
             it != incomingIDs.end(); ++it) {
-        if (it == msg->getId()) {
+        vector<int> temp;
+        temp.push_back(msg->getId());
+        if (it == temp.end()) {//TODO dirty i think
             send(msg, "out");
             return true;
         }
