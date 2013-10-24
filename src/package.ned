@@ -1,0 +1,3 @@
+package busmodel;
+
+@license(LGPL);
