@@ -17,7 +17,7 @@
 
 void nodePort::handleMessage(cMessage *msg) {
     if (msg->arrivedOn("phygate$i")) {
-        canNodeApp *cannode = (canNodeApp*) (getParentModule()->getSubmodule("canNodeApp"));
+//        canNodeApp *cannode = (canNodeApp*) (getParentModule()->getSubmodule("canNodeApp"));
     //    sendDirect(msg,cannode->gate("frameIn"));
         send(msg, "upperLayerOut");
     } else {
@@ -25,7 +25,7 @@ void nodePort::handleMessage(cMessage *msg) {
     }
 }
 
-void nodePort::sendMsgToBus(cMessage *msg){
+void nodePort::sendMsgToBus(cMessage *msg){ //TODO needed?
     Enter_Method_Silent();
     take(msg);
     send(msg, "phygate$o");

@@ -17,6 +17,8 @@
 #define CANPORTOUTPUT_H_
 
 #include <omnetpp.h>
+#include "err_m.h"
+#include "dataframe_m.h"
 
 class CanPortOutput : public cSimpleModule{
 public:

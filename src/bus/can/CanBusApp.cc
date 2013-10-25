@@ -96,10 +96,12 @@ void canBusApp::handleMessage(cMessage *msg) {
                 if (ack) {
                     checkAcknowledgementReception(am);
                 } else {
-                    ArbMsg *newam = new ArbMsg("SendingComplete");
-                    newam->setId(am->getId());
+//                    ArbMsg *newam = new ArbMsg("SendingComplete");
+//                    newam->setId(am->getId());
                     //TODO aaahhhhhhhh
-                    port->sendMsgToNode(newam, am->getNode());
+//                    port->sendMsgToNode(newam, am->getNode());
+                    CanNodeController* controller = check_and_cast<CanNodeController *>(sendingNode);
+                    controller->sendingCompleted(currentSendingID);
                     stateok = true;
                 }
 
@@ -200,28 +202,36 @@ void canBusApp::checkAcknowledgementReception(ArbMsg *am) {
 }
 
 void canBusApp::grantSendingPermission() {
-    int highestprio = INT_MAX;
-    CanNodeController *hprionode = NULL;
+    currentSendingID = INT_MAX;
+//    int highestprio = INT_MAX;
+//    CanNodeController *hprionode = NULL;
+    sendingNode = NULL;
 
     bool remotes = false;
     list<CanID*>::iterator delit;
     vector<list<CanID*>::iterator> eraseids;
-    for (list<CanID*>::iterator it = ids.begin(); it != ids.end(); ++it) {
+    for (list<CanID*>::iterator it = ids.begin(); it != ids.end(); ++it) { //finden der höchsten Priorität aller angemeldeten Nachrichten
         CanID *id = *it;
-        if (id->getId() < highestprio) {
-            highestprio = id->getId();
-            hprionode = (CanNodeController*) id->getNode();
+        if (id->getId() < currentSendingID) {
+            currentSendingID = id->getId();
+//            if (id->getId() < highestprio) {
+//                highestprio = id->getId();
+            sendingNode = (CanNodeController*) id->getNode();
+//            hprionode = (CanNodeController*) id->getNode();
             remotes = id->getRemotesent();
             currsit = id->getSignInTime();
         }
     }
     int sendcount = 0;
-    for (list<CanID*>::iterator it = ids.begin(); it != ids.end(); ++it) {
+    for (list<CanID*>::iterator it = ids.begin(); it != ids.end(); ++it) { //finden, ob remote frame für diese ID auch gesendet werden soll und das löschen aller frames mit dieser ID wird eingeleitet
         CanID *id = *it;
-        if (id->getId() == highestprio) {
+        if (id->getId() == currentSendingID) {
+//            if (id->getId() == highestprio) {
             if (id->getRtr() == false) { //Data-Frame
-                if (hprionode != id->getNode()) {
-                    hprionode = (CanNodeController*) id->getNode();
+                if (sendingNode != id->getNode()) { //bei dem ursprünglich gefundenen node handelt es sich um einen remote frame
+//                    if (hprionode != id->getNode()) {
+                    sendingNode = (CanNodeController*) id->getNode(); //der Node, der einen Data frame senden möcte wird zum senden ausgewählt
+//                    hprionode = (CanNodeController*) id->getNode();
                     remotes = id->getRemotesent();
                     currsit = id->getSignInTime();
                     sendcount++;
@@ -237,7 +247,8 @@ void canBusApp::grantSendingPermission() {
         EV<< "Da dies zu fortlaufenden Bit-Fehlern durch die versendenden Knoten fuehrt, wird die Simulation angehalten\n";
         endSimulation();
     }
-    if (hprionode != NULL) {
+    if (sendingNode != NULL) {
+//        if (hprionode != NULL) {
         for (unsigned int it = 0; it != eraseids.size(); it++) {
             ids.erase(eraseids.at(it));
         }
@@ -251,7 +262,9 @@ void canBusApp::grantSendingPermission() {
 //        }
 //        busPort *port = (busPort*) (getParentModule()->getSubmodule("busPort"));
 //        port->sendMsgToNode(am, hprionode); //Erlaubnis verschicken, ID in Liste bereits gel�scht
-        hprionode->receiveSendingPermission(highestprio);
+        CanNodeController* controller = check_and_cast<CanNodeController *>(sendingNode);
+        controller->receiveSendingPermission(currentSendingID);
+//        hprionode->receiveSendingPermission(highestprio);
     } else {
         EV<< "no pending message" << endl;
         simtime_t timetaken = simTime() - busytimestamp;

@@ -239,19 +239,14 @@ $O/bus/can/CanID.o: bus/can/CanID.cc \
 $O/bus/flexray/FRTopologyPort.o: bus/flexray/FRTopologyPort.cc \
 	bus/flexray/FRTopologyPort.h
 $O/linklayer/NodePort.o: linklayer/NodePort.cc \
-	buffer/can/Buffer.h \
 	linklayer/NodePort.h \
-	linklayer/can/ack_m.h \
-	linklayer/can/arb_m.h \
-	linklayer/can/dataframe_m.h \
-	linklayer/can/err_m.h \
-	nodes/can/CanNodeApp.h \
-	nodes/can/MOB.h \
-	nodes/can/Stats.h
+	nodes/can/CanNodeApp.h
 $O/linklayer/can/CanPortInput.o: linklayer/can/CanPortInput.cc \
 	linklayer/can/CanPortInput.h
 $O/linklayer/can/CanPortOutput.o: linklayer/can/CanPortOutput.cc \
-	linklayer/can/CanPortOutput.h
+	linklayer/can/CanPortOutput.h \
+	linklayer/can/dataframe_m.h \
+	linklayer/can/err_m.h
 $O/linklayer/can/ack_m.o: linklayer/can/ack_m.cc \
 	linklayer/can/ack_m.h
 $O/linklayer/can/arb_m.o: linklayer/can/arb_m.cc \
@@ -271,16 +266,7 @@ $O/linklayer/flexray/FRPort.o: linklayer/flexray/FRPort.cc \
 	scheduler/flexray/SchedulerMessageEvents_m.h \
 	scheduler/flexray/SchedulerMessage_m.h \
 	synchronisation/flexray/FRSync.h
-$O/nodes/can/CanNodeApp.o: nodes/can/CanNodeApp.cc \
-	buffer/can/Buffer.h \
-	linklayer/NodePort.h \
-	linklayer/can/ack_m.h \
-	linklayer/can/arb_m.h \
-	linklayer/can/dataframe_m.h \
-	linklayer/can/err_m.h \
-	nodes/can/CanNodeApp.h \
-	nodes/can/MOB.h \
-	nodes/can/Stats.h
+$O/nodes/can/CanNodeApp.o: nodes/can/CanNodeApp.cc
 $O/nodes/can/MOB.o: nodes/can/MOB.cc \
 	nodes/can/MOB.h
 $O/nodes/can/Stats.o: nodes/can/Stats.cc \

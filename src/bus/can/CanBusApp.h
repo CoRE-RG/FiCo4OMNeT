@@ -183,6 +183,16 @@ private:
     long numErr;    //Anzahl an aufgetretenen Fehlern
 
     /**
+     * @brief ID of the message which is currently transmitted.
+     */
+    int currentSendingID;
+
+    /**
+     * @brief NodeController which is currently sending.
+     */
+    cModule *sendingNode;
+
+    /**
      * @brief Checks wether the current frame was acknowledged or not.
      *
      *

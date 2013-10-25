@@ -27,11 +27,12 @@ public:
 
     virtual void receiveSendingPermission(int id);
 
+    virtual void sendingCompleted(int id);
+
 protected:
     virtual void registerForArbitration(int id, bool rtr, bool remoteSent);
 
 
-    virtual void sendingCompleted(int id);
 
 };
 
