@@ -35,5 +35,5 @@ protected:
 
 
 };
-
+Define_Module(CanNodeController);
 #endif /* CANNODECONTROLLER_H_ */

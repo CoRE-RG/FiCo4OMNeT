@@ -22,7 +22,7 @@
 
 using namespace std;
 
-class nodePort : public cSimpleModule {
+class NodePort : public cSimpleModule {
 
 protected:
     /**
@@ -42,6 +42,6 @@ public:
     virtual void sendMsgToBus(cMessage *msg);
 };
 
-Define_Module(nodePort);
+Define_Module(NodePort);
 
 #endif /* NODEPORT_H_ */

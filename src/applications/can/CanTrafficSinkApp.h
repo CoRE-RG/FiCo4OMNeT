@@ -68,6 +68,6 @@ private:
      */
     void startWorkOnFrame(double workTime);
 };
-
+Define_Module(CanTrafficSinkApp);
 
 #endif /* CANTRAFFICSINKAPP_H_ */

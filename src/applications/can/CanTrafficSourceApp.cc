@@ -25,7 +25,7 @@ CanTrafficSourceApp::~CanTrafficSourceApp() {
 }
 
 void CanTrafficSourceApp::initialize() {
-    initialRemoteFrameCreation();
+//    initialRemoteFrameCreation();//TODO wieder reinmachen
     initialDataFrameCreation();
     canVersion =getParentModule()->par("version").str();
 }
@@ -55,7 +55,7 @@ void CanTrafficSourceApp::initialRemoteFrameCreation() {
         DataFrame *can_msg = new DataFrame("remoteFrame");
         can_msg->setNode(getParentModule()->par("node"));
         can_msg->setID(checkAndReturnID(remoteFrameIDs.at(i+1)));
-        can_msg->setLength(atoi(dataLengthRemoteFramesTokenizer.nextToken()));
+        can_msg->setLength(calculateLength(atoi(dataLengthRemoteFramesTokenizer.nextToken())));
         can_msg->setRtr(true);
         can_msg->setPeriod(atoi(remoteFramesPeriodicityTokenizer.nextToken()));
         outgoingRemoteFrames.push_back(can_msg); // TODO brauch ich das?
@@ -78,7 +78,7 @@ void CanTrafficSourceApp::initialDataFrameCreation() {
         DataFrame *can_msg = new DataFrame("message");
         can_msg->setNode(getParentModule()->par("node"));
         can_msg->setID(checkAndReturnID(dataFrameIDs.at(i+1)));
-        can_msg->setLength(atoi(dataLengthDataFramesTokenizer.nextToken()));
+        can_msg->setLength(calculateLength(atoi(dataLengthDataFramesTokenizer.nextToken())));
         can_msg->setPeriod(atoi(dataFramesPeriodicityTokenizer.nextToken()));
         outgoingDataFrames.push_back(can_msg); // TODO brauch ich das?
         scheduleAt(simTime() + (can_msg->getPeriod() / 1000.), can_msg);

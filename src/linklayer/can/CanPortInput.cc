@@ -27,7 +27,7 @@ CanPortInput::~CanPortInput() {
 void CanPortInput::initialize() {
 
     cStringTokenizer idIncomingFramesTokenizer(
-            getParentModule()->par("idIncomingFrames"), ",");
+            getParentModule()->getParentModule()->par("idIncomingFrames"), ",");
     incomingIDs = idIncomingFramesTokenizer.asIntVector();
 
     //TODO stats

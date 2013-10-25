@@ -105,5 +105,5 @@ private:
      */
     int calculateLength(int datalength);
 };
-
+Define_Module(CanTrafficSourceApp);
 #endif /* CANTRAFFICSOURCEAPP_H_ */

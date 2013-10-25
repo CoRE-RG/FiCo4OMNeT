@@ -15,7 +15,7 @@
 
 #include "NodePort.h"
 
-void nodePort::handleMessage(cMessage *msg) {
+void NodePort::handleMessage(cMessage *msg) {
     if (msg->arrivedOn("phygate$i")) {
 //        canNodeApp *cannode = (canNodeApp*) (getParentModule()->getSubmodule("canNodeApp"));
     //    sendDirect(msg,cannode->gate("frameIn"));
@@ -25,7 +25,7 @@ void nodePort::handleMessage(cMessage *msg) {
     }
 }
 
-void nodePort::sendMsgToBus(cMessage *msg){ //TODO needed?
+void NodePort::sendMsgToBus(cMessage *msg){ //TODO needed?
     Enter_Method_Silent();
     take(msg);
     send(msg, "phygate$o");

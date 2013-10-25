@@ -24,28 +24,27 @@ import busmodel.applications.can.CanTrafficSinkApp;
 module canNode
 {
     parameters:
-        bool extcode = default(false);			// Activate if external code shall be used (has to be deactivated in this version)
-        bool payload = default(false);			// Activate if payload shall be enabled
-        string version = default("2.0A");		// Version of CAN-Protocol. 2.0A = 11 Bits identifier, 2.0B = 29 Bits identifier
-        int percentage = default(50);			// For Bit-Stuffing mode 2
-        int bitstuffing = default(0);			// Bit-Stuffing mode. See .ini files for further information
-        bool errors = default(false);			// Activate if errors shall be enabled (must be activated for CAN_Bus and CAN_Node)
-        int errorperc = default(10);			// If errors are enabled: percentage of errors
-        bool ack = default(false);				// Activate if ack-recognition of receiving nodes shall be enabled (must be activated for CAN_Bus and CAN_Node)
-        int bandwidth = default(1000000);		// valid values are 10000 - 1000000 (must be same for CAN_Bus and CAN_Node)
-        int numOfMessages = default(1);			// Number of messages of the node
-        int numOfMobs = default(2);				// Number of physical message buffers
-        bool trafficGen = default(true);		// Activate if traffic-generator shall be used (must be activated in this version)	
-        string data;							// The data - String parameter (string) separated with spaces
-        string idDataFrames;					// The Data Frames ID(s) - String parameter (int) separated with commas
-        string periodicityDataFrames;		 	// data Frame period(s) for sending of messages - String parameter (int) separated with commas
-        string idRemoteFrames;					// The Remote Frame ID(s) - String parameter (int) separated with commas
-        string periodicityRemoteFrames; 		// Remote Frame period(s) for sending of messages - String parameter (int) separated with commas
-        string idIncomingFrames;				// The Incoming Frame ID(s) - String parameter (int) separated with commas
-        //TODO mode wird wegfallen wegen Unterteilung der IDs
-        string dataLengthDataFrames;			// Datafield-length - String parameter (int) separated with commas
-        string dataLengthremoteFrames;			// Datafield-length - String parameter (int) separated with commas
-        string node;							// Name of the node
+        bool extcode = default(false);						// Activate if external code shall be used (has to be deactivated in this version)
+        bool payload = default(false);						// Activate if payload shall be enabled
+        string version = default("2.0A");					// Version of CAN-Protocol. 2.0A = 11 Bits identifier, 2.0B = 29 Bits identifier
+        int percentage = default(50);						// For Bit-Stuffing mode 2
+        int bitstuffing = default(0);						// Bit-Stuffing mode. See .ini files for further information
+        bool errors = default(false);						// Activate if errors shall be enabled (must be activated for CAN_Bus and CAN_Node)
+        int errorperc = default(10);						// If errors are enabled: percentage of errors
+        bool ack = default(false);							// Activate if ack-recognition of receiving nodes shall be enabled (must be activated for CAN_Bus and CAN_Node)
+        int bandwidth = default(1000000);					// valid values are 10000 - 1000000 (must be same for CAN_Bus and CAN_Node)
+        int numOfMessages = default(1);						// Number of messages of the node
+        int numOfMobs = default(2);							// Number of physical message buffers
+        bool trafficGen = default(true);					// Activate if traffic-generator shall be used (must be activated in this version)	
+        string data = default("0");							// The data - String parameter (string) separated with spaces
+        string idDataFrames = default("0");					// The Data Frames ID(s) - String parameter (int) separated with commas
+        string periodicityDataFrames = default("0");		// data Frame period(s) for sending of messages - String parameter (int) separated with commas
+        string dataLengthDataFrames = default("0");			// Datafield-length - String parameter (int) separated with commas
+        string idRemoteFrames = default("0");				// The Remote Frame ID(s) - String parameter (int) separated with commas
+        string periodicityRemoteFrames = default("0"); 		// Remote Frame period(s) for sending of messages - String parameter (int) separated with commas
+        string dataLengthRemoteFrames = default("0");		// Datafield-length - String parameter (int) separated with commas
+        string idIncomingFrames = default("0");				// The Incoming Frame ID(s) - String parameter (int) separated with commas
+        string node = default("0");							// Name of the node
         @display("i=block/app2;bgb=248,222");
 
     gates:

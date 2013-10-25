@@ -50,5 +50,5 @@ private:
      */
     bool forwardMessage(cMessage *msg);
 };
-
+Define_Module(CanPortInput);
 #endif /* CANPORTINPUT_H_ */

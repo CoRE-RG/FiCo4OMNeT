@@ -50,5 +50,5 @@ private:
     */
     int errorperc;
 };
-
+Define_Module(CanPortOutput);
 #endif /* CANPORTOUTPUT_H_ */
