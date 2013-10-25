@@ -1,0 +1,4 @@
+# Partial Tkenv config file -- see $HOME/.tkenvrc as well
+inspector "NewLayout" "NewLayout" "2" "607x337+1282+24:normal"
+inspector "Canbus" "Canbus" "2" "607x337+1920+24:normal"
+
