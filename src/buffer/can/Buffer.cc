@@ -34,7 +34,7 @@ void Buffer::deleteFrame(int id) {
 }
 
 void Buffer::deliverFrame(int id) {
-    sendToDestinationsGates(getFrame(id));
+    sendToDestinationGates(getFrame(id));
 }
 
 void Buffer::deliverPrioFrame() {
@@ -48,14 +48,14 @@ void Buffer::deliverPrioFrame() {
             prioId = tmp->getId();
         }
     }
-    sendToDestinationsGates(prioFrame);
+    sendToDestinationGates(prioFrame);
 }
 
 void Buffer::deliverNextFrame() {
-    sendToDestinationsGates(frames.front());
+    sendToDestinationGates(frames.front());
 }
 
-void Buffer::sendToDestinationsGates(DataFrame *df) {
+void Buffer::sendToDestinationGates(DataFrame *df) {
     for (std::list<cGate*>::iterator it = destinationGates.begin();
             it != destinationGates.end(); ++it) {
         cGate *tmpGate = *it;

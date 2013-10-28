@@ -79,7 +79,7 @@ private:
     /**
      *
      */
-    void sendToDestinationsGates(DataFrame *msg);
+    void sendToDestinationGates(DataFrame *msg);
 };
 
 Define_Module(Buffer);

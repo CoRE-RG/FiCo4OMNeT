@@ -27,7 +27,8 @@ CanTrafficSourceApp::~CanTrafficSourceApp() {
 void CanTrafficSourceApp::initialize() {
 //    initialRemoteFrameCreation();//TODO wieder reinmachen
     initialDataFrameCreation();
-    canVersion =getParentModule()->par("version").str();
+//    canVersion =getParentModule()->par("version").str();
+    canVersion = "2.0A";
 }
 
 void CanTrafficSourceApp::handleMessage(cMessage *msg) {
@@ -72,12 +73,12 @@ void CanTrafficSourceApp::initialDataFrameCreation() {
             getParentModule()->par("periodicityDataFrames"), ",");
 
     cStringTokenizer dataLengthDataFramesTokenizer(
-            getParentModule()->par("dataLengthDataFrames"));
+            getParentModule()->par("dataLengthDataFrames"), ",");
 
     for (unsigned int i = 0; i < dataFrameIDs.size(); i++) {
         DataFrame *can_msg = new DataFrame("message");
         can_msg->setNode(getParentModule()->par("node"));
-        can_msg->setID(checkAndReturnID(dataFrameIDs.at(i+1)));
+        can_msg->setID(checkAndReturnID(dataFrameIDs.at(i)));
         can_msg->setLength(calculateLength(atoi(dataLengthDataFramesTokenizer.nextToken())));
         can_msg->setPeriod(atoi(dataFramesPeriodicityTokenizer.nextToken()));
         outgoingDataFrames.push_back(can_msg); // TODO brauch ich das?
