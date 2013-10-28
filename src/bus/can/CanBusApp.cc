@@ -100,7 +100,7 @@ void canBusApp::handleMessage(cMessage *msg) {
 //                    newam->setId(am->getId());
                     //TODO aaahhhhhhhh
 //                    port->sendMsgToNode(newam, am->getNode());
-                    CanNodeController* controller = check_and_cast<CanNodeController *>(sendingNode);
+                    OutBufferController* controller = check_and_cast<OutBufferController*>(sendingNode);
                     controller->sendingCompleted(currentSendingID);
                     stateok = true;
                 }
@@ -216,7 +216,7 @@ void canBusApp::grantSendingPermission() {
             currentSendingID = id->getId();
 //            if (id->getId() < highestprio) {
 //                highestprio = id->getId();
-            sendingNode = (CanNodeController*) id->getNode();
+            sendingNode = (OutBufferController*) id->getNode();
 //            hprionode = (CanNodeController*) id->getNode();
             remotes = id->getRemotesent();
             currsit = id->getSignInTime();
@@ -230,7 +230,7 @@ void canBusApp::grantSendingPermission() {
             if (id->getRtr() == false) { //Data-Frame
                 if (sendingNode != id->getNode()) { //bei dem ursprünglich gefundenen node handelt es sich um einen remote frame
 //                    if (hprionode != id->getNode()) {
-                    sendingNode = (CanNodeController*) id->getNode(); //der Node, der einen Data frame senden möcte wird zum senden ausgewählt
+                    sendingNode = (OutBufferController*) id->getNode(); //der Node, der einen Data frame senden möcte wird zum senden ausgewählt
 //                    hprionode = (CanNodeController*) id->getNode();
                     remotes = id->getRemotesent();
                     currsit = id->getSignInTime();
@@ -262,7 +262,7 @@ void canBusApp::grantSendingPermission() {
 //        }
 //        busPort *port = (busPort*) (getParentModule()->getSubmodule("busPort"));
 //        port->sendMsgToNode(am, hprionode); //Erlaubnis verschicken, ID in Liste bereits gel�scht
-        CanNodeController* controller = check_and_cast<CanNodeController *>(sendingNode);
+        OutBufferController* controller = check_and_cast<OutBufferController *>(sendingNode);
         controller->receiveSendingPermission(currentSendingID);
 //        hprionode->receiveSendingPermission(highestprio);
     } else {

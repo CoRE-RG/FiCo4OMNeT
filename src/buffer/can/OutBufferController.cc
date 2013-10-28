@@ -13,14 +13,19 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package busmodel.applications.can;
+#include "OutBufferController.h"
 
-simple CanTrafficSinkApp
-{
-    parameters:
-        @class(CanTrafficSinkApp);
-        @display("i=block/sink");
-    gates:
-        input in @labels(DataFrame);
-        input controllerIn @directIn;
+void OutBufferController::registerForArbitration(int id, bool rtr, bool remoteSent){
+    canBusApp *canBus = (canBusApp*) (getParentModule()->getParentModule()->getSubmodule("canBus")->getSubmodule("busPort"));
+    canBus->registerForArbitration(id, this, simTime(), rtr, remoteSent);
+}
+
+void OutBufferController::receiveSendingPermission(int id){
+    Buffer *buf = (Buffer*) (getParentModule()->getSubmodule("outBuffer"));
+    buf->deliverFrame(id);
+}
+
+void OutBufferController::sendingCompleted(int id){
+    Buffer *buf = (Buffer*) (getParentModule()->getSubmodule("outBuffer"));
+    buf->deleteFrame(id);
 }

@@ -13,14 +13,10 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package busmodel.applications.can;
+package busmodel.buffer.can;
 
-simple CanTrafficSinkApp
+simple BufferControllerBase
 {
-    parameters:
-        @class(CanTrafficSinkApp);
-        @display("i=block/sink");
     gates:
-        input in @labels(DataFrame);
-        input controllerIn @directIn;
+        input bufferIn @directIn;
 }

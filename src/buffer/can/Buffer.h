@@ -17,6 +17,11 @@
 class Buffer : public cSimpleModule {
 public:
     /**
+     * @brief This method registers the gate for the reception of the messages.
+     */
+    virtual void registerDestinationGate();
+
+    /**
      *
      * @return A pointer to the DataFrame with the corresponding ID. Returns
      * null if there is no DataFrame in the buffer.

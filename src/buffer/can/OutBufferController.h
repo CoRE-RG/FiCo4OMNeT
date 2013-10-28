@@ -13,14 +13,25 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package busmodel.applications.can;
+#ifndef OUTBUFFERCONTROLLER_H_
+#define OUTBUFFERCONTROLLER_H_
 
-simple CanTrafficSinkApp
-{
-    parameters:
-        @class(CanTrafficSinkApp);
-        @display("i=block/sink");
-    gates:
-        input in @labels(DataFrame);
-        input controllerIn @directIn;
-}
+#include <omnetpp.h>
+#include "CanBusApp.h"
+#include "Buffer.h"
+
+class OutBufferController : public cSimpleModule {
+public:
+    virtual void receiveSendingPermission(int id);
+
+    virtual void sendingCompleted(int id);
+
+protected:
+    virtual void registerForArbitration(int id, bool rtr, bool remoteSent);
+
+
+
+};
+Define_Module(OutBufferController);
+
+#endif /* OUTBUFFERCONTROLLER_H_ */

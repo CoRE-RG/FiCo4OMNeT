@@ -26,7 +26,7 @@
 #include "err_m.h"
 #include "BusPort.h"
 #include "CanID.h"
-#include "CanNodeController.h"
+#include "OutBufferController.h"
 
 using namespace std;
 /**

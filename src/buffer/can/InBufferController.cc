@@ -13,14 +13,12 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package busmodel.applications.can;
+#include "InBufferController.h"
 
-simple CanTrafficSinkApp
-{
-    parameters:
-        @class(CanTrafficSinkApp);
-        @display("i=block/sink");
-    gates:
-        input in @labels(DataFrame);
-        input controllerIn @directIn;
+void InBufferController::workFinished(int id){
+
+}
+
+void InBufferController::informSinkApp(){
+    sendDirect(new cMessage("new message in buffer"), getParentModule()->getSubmodule("sinkApp"), "controllerIn");
 }

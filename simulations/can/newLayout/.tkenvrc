@@ -1,4 +1,5 @@
 # Partial Tkenv config file -- see $HOME/.tkenvrc as well
-inspector "NewLayout" "NewLayout" "2" "607x337+1275+24:normal"
+inspector "NewLayout" "NewLayout" "2" "607x337+1254+24:normal"
+inspector "NewLayout.node[0].bufferOut.message" "DataFrame" "1" "460x314+1458+384:normal"
 inspector "Canbus" "Canbus" "2" "607x337+1920+24:normal"
 

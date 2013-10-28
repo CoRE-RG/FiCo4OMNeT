@@ -13,14 +13,15 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package busmodel.applications.can;
+#ifndef BUFFERCONTROLLERBASE_H_
+#define BUFFERCONTROLLERBASE_H_
 
-simple CanTrafficSinkApp
-{
-    parameters:
-        @class(CanTrafficSinkApp);
-        @display("i=block/sink");
-    gates:
-        input in @labels(DataFrame);
-        input controllerIn @directIn;
-}
+#include <omnetpp.h>
+#include "CanBusApp.h"
+#include "Buffer.h"
+
+class BufferControllerBase : public cSimpleModule {
+
+};
+Define_Module(BufferControllerBase);
+#endif /* BUFFERCONTROLLERBASE_H_ */

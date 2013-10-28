@@ -26,14 +26,13 @@ CanTrafficSinkApp::~CanTrafficSinkApp() {
 
 void CanTrafficSinkApp::initialize() {
     //TODO init statistics
-    //TODO bei Buffer registrieren?
     idle = true;
     currentFrameID = 0;
 }
 
 void CanTrafficSinkApp::handleMessage(cMessage *msg) {
     //TODO statistics
-    if (msg->arrivedOn("bufferIn")) {
+    if (msg->arrivedOn("controllerIn")) {
         bufferMessageCounter++;
         if (idle) {
             requestFrame();
@@ -42,7 +41,7 @@ void CanTrafficSinkApp::handleMessage(cMessage *msg) {
         DataFrame *frame = check_and_cast<DataFrame *>(msg);
         currentFrameID = frame->getId();
         bufferMessageCounter--;
-        startWorkOnFrame(0);
+        startWorkOnFrame(0);//TODO working time
     } else if (msg->isSelfMessage()) {
         Buffer *buffer = (Buffer*) (getParentModule()->getSubmodule("inBuffer"));
         buffer->deleteFrame(currentFrameID);
