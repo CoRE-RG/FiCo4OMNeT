@@ -26,7 +26,8 @@
 #include "err_m.h"
 #include "BusPort.h"
 #include "CanID.h"
-#include "OutBufferController.h"
+#include "OutputBuffer.h"
+//#include "CanTrafficSourceApp.h"
 
 using namespace std;
 /**
@@ -36,12 +37,12 @@ using namespace std;
  * It is also forwarding all incoming data-frames and error-frames to all participating nodes.
  *
  */
-class canBusApp: public cSimpleModule {
+class CanBusApp: public cSimpleModule {
 public:
     /**
      *
      */
-    virtual void registerForArbitration(int id, cModule *node, simtime_t signInTime, bool rtr, bool remotesent);
+    virtual void registerForArbitration(int id, cModule *node, simtime_t signInTime, bool rtr);
 
 protected:
     /**
@@ -221,7 +222,7 @@ private:
     virtual void handleDataFrame(cMessage *msg);
 };
 
-Define_Module(canBusApp)
+Define_Module(CanBusApp)
 ;
 
 #endif /* CANBUSAPP_H_ */

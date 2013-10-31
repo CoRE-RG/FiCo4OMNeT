@@ -13,25 +13,36 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef OUTBUFFERCONTROLLER_H_
-#define OUTBUFFERCONTROLLER_H_
+#ifndef OUTPUTBUFFER_H_
+#define OUTPUTBUFFER_H_
 
+#include <stdio.h>
+#include <string.h>
 #include <omnetpp.h>
-#include "CanBusApp.h"
 #include "Buffer.h"
+#include "CanBusApp.h"
+#include "CanTrafficSourceApp.h"
 
-class OutBufferController : public cSimpleModule {
+using namespace std;
+
+class OutputBuffer: public Buffer {
+
 public:
     virtual void receiveSendingPermission(int id);
 
     virtual void sendingCompleted(int id);
 
+    /**
+     * @brief Puts the frame into the collection and informs the connected gates about the receiption.
+     *
+     * @param frame The DataFrame to put in the buffer.
+     *
+     */
+    virtual void putFrame(DataFrame* frame);
+
 protected:
-    virtual void registerForArbitration(int id, bool rtr, bool remoteSent);
-
-
-
+    virtual void registerForArbitration(int id, bool rtr);
 };
-Define_Module(OutBufferController);
+Define_Module(OutputBuffer);
 
-#endif /* OUTBUFFERCONTROLLER_H_ */
+#endif /* OUTPUTBUFFER_H_ */

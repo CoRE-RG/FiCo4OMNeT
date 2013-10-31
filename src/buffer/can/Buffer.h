@@ -13,7 +13,11 @@
  *
  */
 
-//using namespace std;
+using namespace std;
+
+//class CanTrafficSinkApp;
+//class CanTrafficSourceApp;
+
 class Buffer : public cSimpleModule {
 public:
     /**
@@ -35,33 +39,38 @@ public:
      * @param frame The DataFrame to put in the buffer.
      *
      */
-    void putFrame(DataFrame* frame);
+    virtual void putFrame(DataFrame* frame) = 0;
 
     /**
      * @brief Deletes the frame with the corresponding id from the frames collection.
      */
-    void deleteFrame(int id);
+    virtual void deleteFrame(int id);
 
     /**
      * @brief Forwards the frame with the corresponding id to all destination gates.
      */
-    void deliverFrame(int id);
+    virtual void deliverFrame(int id);
 
     /**
      * @brief Forwards the frame with the highest priority to all destination gates.
      */
-    void deliverPrioFrame();
+    virtual void deliverPrioFrame();
 
     /**
      * @brief Forwards the first received frame to all destination gates.
      */
-    void deliverNextFrame();
+    virtual void deliverNextFrame();
 
 protected:
     /**
      * Stores the Gates to that the messages are delivered
      */
     std::list<cGate*> destinationGates;
+
+    /**
+     * @brief Queue for the EtherFrames in the Buffer.
+     */
+    std::list<DataFrame*> frames;
 
     /**
      * @brief Is called when a new Frame is received in the buffer.
@@ -73,18 +82,14 @@ protected:
      *
      * @param msg The incoming message
      */
-    void handleMessage(cMessage *msg);
+    virtual void handleMessage(cMessage *msg);
 
 private:
-    /**
-     * @brief Queue for the EtherFrames in the Buffer.
-     */
-    std::list<DataFrame*> frames;
 
     /**
      *
      */
-    void sendToDestinationGates(DataFrame *msg);
+    virtual void sendToDestinationGates(DataFrame *msg);
 };
 
-Define_Module(Buffer);
+//Define_Module(Buffer);

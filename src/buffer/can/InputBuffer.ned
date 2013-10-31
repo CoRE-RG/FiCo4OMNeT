@@ -15,8 +15,22 @@
 
 package busmodel.buffer.can;
 
-simple BufferControllerBase
+import busmodel.buffer.can.Buffer;
+
+simple InputBuffer like Buffer
 {
+    parameters:
+        @display("i=block/buffer");
+        //Statistic of the amount of packets that were sent by the buffer
+        //@statistic[txPk](title="TX Packets"; record=count,vector);
+        //End-to-end latency
+        //@statistic[latency](title="End-to-end latency"; unit=s; record=stats,histogram,vector);
+
+        //Comma seperated list of gates where the frames of the buffer are delivered
+        string destination_gates = default("");
     gates:
-        input bufferIn @directIn;
+        //The buffers Input
+        input in @loose @labels(DataFrame);
+        //The buffers Output @warning CURRENTLY NOT USED!
+        output out @loose @labels(DataFrame);
 }

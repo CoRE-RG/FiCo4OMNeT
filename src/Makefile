@@ -50,9 +50,10 @@ O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 OBJS = \
     $O/applications/can/CanTrafficSourceApp.o \
     $O/applications/can/CanTrafficSinkApp.o \
-    $O/applications/can/CanNodeController.o \
     $O/applications/flexray/FRApp.o \
     $O/buffer/can/Buffer.o \
+    $O/buffer/can/OutputBuffer.o \
+    $O/buffer/can/InputBuffer.o \
     $O/bus/BusPort.o \
     $O/bus/can/CanID.o \
     $O/bus/can/CanBusApp.o \
@@ -184,16 +185,6 @@ depend:
 	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cc applications/*.cc applications/can/*.cc applications/flexray/*.cc buffer/*.cc buffer/can/*.cc bus/*.cc bus/can/*.cc bus/flexray/*.cc linklayer/*.cc linklayer/can/*.cc linklayer/flexray/*.cc nodes/*.cc nodes/can/*.cc nodes/flexray/*.cc scheduler/*.cc scheduler/flexray/*.cc synchronisation/*.cc synchronisation/flexray/*.cc
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
-$O/applications/can/CanNodeController.o: applications/can/CanNodeController.cc \
-	applications/can/CanNodeController.h \
-	buffer/can/Buffer.h \
-	bus/BusPort.h \
-	bus/can/CanBusApp.h \
-	bus/can/CanID.h \
-	linklayer/can/ack_m.h \
-	linklayer/can/arb_m.h \
-	linklayer/can/dataframe_m.h \
-	linklayer/can/err_m.h
 $O/applications/can/CanTrafficSinkApp.o: applications/can/CanTrafficSinkApp.cc \
 	applications/can/CanTrafficSinkApp.h \
 	buffer/can/Buffer.h \
@@ -214,9 +205,25 @@ $O/applications/flexray/FRApp.o: applications/flexray/FRApp.cc \
 $O/buffer/can/Buffer.o: buffer/can/Buffer.cc \
 	buffer/can/Buffer.h \
 	linklayer/can/dataframe_m.h
-$O/bus/BusPort.o: bus/BusPort.cc \
-	applications/can/CanNodeController.h \
+$O/buffer/can/InputBuffer.o: buffer/can/InputBuffer.cc \
 	buffer/can/Buffer.h \
+	buffer/can/InputBuffer.h \
+	linklayer/can/dataframe_m.h
+$O/buffer/can/OutputBuffer.o: buffer/can/OutputBuffer.cc \
+	applications/can/CanTrafficSourceApp.h \
+	buffer/can/Buffer.h \
+	buffer/can/OutputBuffer.h \
+	bus/BusPort.h \
+	bus/can/CanBusApp.h \
+	bus/can/CanID.h \
+	linklayer/can/ack_m.h \
+	linklayer/can/arb_m.h \
+	linklayer/can/dataframe_m.h \
+	linklayer/can/err_m.h
+$O/bus/BusPort.o: bus/BusPort.cc \
+	applications/can/CanTrafficSourceApp.h \
+	buffer/can/Buffer.h \
+	buffer/can/OutputBuffer.h \
 	bus/BusPort.h \
 	bus/can/CanBusApp.h \
 	bus/can/CanID.h \
@@ -225,8 +232,9 @@ $O/bus/BusPort.o: bus/BusPort.cc \
 	linklayer/can/dataframe_m.h \
 	linklayer/can/err_m.h
 $O/bus/can/CanBusApp.o: bus/can/CanBusApp.cc \
-	applications/can/CanNodeController.h \
+	applications/can/CanTrafficSourceApp.h \
 	buffer/can/Buffer.h \
+	buffer/can/OutputBuffer.h \
 	bus/BusPort.h \
 	bus/can/CanBusApp.h \
 	bus/can/CanID.h \

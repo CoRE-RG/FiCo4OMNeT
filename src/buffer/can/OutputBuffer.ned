@@ -14,9 +14,12 @@
 // 
 
 package busmodel.buffer.can;
-moduleinterface Buffer
+
+import busmodel.buffer.can.Buffer;
+
+simple OutputBuffer like Buffer
 {
-    parameters:
+        parameters:
         @display("i=block/buffer");
         //Statistic of the amount of packets that were sent by the buffer
         //@statistic[txPk](title="TX Packets"; record=count,vector);
@@ -24,10 +27,11 @@ moduleinterface Buffer
         //@statistic[latency](title="End-to-end latency"; unit=s; record=stats,histogram,vector);
 
         //Comma seperated list of gates where the frames of the buffer are delivered
-        string destination_gates;
+        string destination_gates = default("");
     gates:
         //The buffers Input
         input in @loose @labels(DataFrame);
         //The buffers Output @warning CURRENTLY NOT USED!
         output out @loose @labels(DataFrame);
+
 }

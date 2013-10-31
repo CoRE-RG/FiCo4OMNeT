@@ -13,7 +13,14 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package busmodel.buffer.can;
+#include "InputBuffer.h"
 
-simple OutBufferController{
+void InputBuffer::putFrame(DataFrame* frame) {
+    frames.push_back(frame);
+    for (std::list<cGate*>::iterator it = destinationGates.begin();
+            it != destinationGates.end(); ++it) {
+        cGate *tmpGate = *it;
+        cMessage *msg = new cMessage("Message in buffer");
+        sendDirect(msg, tmpGate->getOwnerModule()->gate("bufferIn"));
+    }
 }

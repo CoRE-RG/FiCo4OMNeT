@@ -28,15 +28,16 @@ DataFrame* Buffer::getFrame(int id) {
     return NULL;
 }
 
-void Buffer::putFrame(DataFrame* frame) {
-    frames.push_back(frame);
-    for (std::list<cGate*>::iterator it = destinationGates.begin();
-            it != destinationGates.end(); ++it) {
-        cGate *tmpGate = *it;
-        cMessage *msg = new cMessage("Message in buffer");
-        sendDirect(msg, tmpGate->getOwnerModule()->gate("bufferIn"));
-    }
-}
+//void Buffer::putFrame(DataFrame* frame) {
+//    EV <<"FICKEN\n";
+//    frames.push_back(frame);
+//    for (std::list<cGate*>::iterator it = destinationGates.begin();
+//            it != destinationGates.end(); ++it) {
+//        cGate *tmpGate = *it;
+//        cMessage *msg = new cMessage("Message in buffer");
+//        sendDirect(msg, tmpGate->getOwnerModule()->gate("bufferIn"));
+//    }
+//}
 
 void Buffer::deleteFrame(int id) {
     DataFrame *tmp = getFrame(id);
@@ -66,10 +67,11 @@ void Buffer::deliverNextFrame() {
 }
 
 void Buffer::sendToDestinationGates(DataFrame *df) {
-    for (std::list<cGate*>::iterator it = destinationGates.begin();
-            it != destinationGates.end(); ++it) {
-        cGate *tmpGate = *it;
-        sendDirect(df->dup(), tmpGate);
-    }
-    delete df;
+//    for (std::list<cGate*>::iterator it = destinationGates.begin();
+//            it != destinationGates.end(); ++it) {
+//        cGate *tmpGate = *it;
+//        sendDirect(df->dup(), tmpGate);
+//    }
+    send(df,"out");
+//    delete df;
 }

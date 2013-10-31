@@ -23,6 +23,8 @@
 
 using namespace std;
 
+//class Buffer;
+
 class CanTrafficSourceApp: public cSimpleModule {
 public:
     CanTrafficSourceApp();

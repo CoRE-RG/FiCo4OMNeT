@@ -20,7 +20,7 @@ class CanID {
 		 * Creates an ID object
 		 *
 		 */
-		CanID(int id, cModule* node, simtime_t signInTime, bool rtr, bool remotesent);
+		CanID(int id, cModule* node, simtime_t signInTime, bool rtr);
 		/**
 	     * @brief Getter for the message-ID 
 		 *
@@ -49,13 +49,7 @@ class CanID {
 		 *
 		 */
 		bool getRtr();
-		/**
-	     * @brief Getter for the bool remoteSent
-		 *
-		 * @return remoteSent. If true = node won't re-schedule the message after this. If false = message will be re-scheduled.
-		 *
-		 */
-		bool getRemotesent();
+
 	private:
 		/**
 		* message-ID
@@ -77,9 +71,4 @@ class CanID {
 		*
 		*/
 		bool rtr;
-		/**
-		* true if a message is sent upon a remote-request from another node
-		*
-		*/
-		bool remotesent;
 };

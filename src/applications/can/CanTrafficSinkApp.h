@@ -21,6 +21,7 @@
 
 using namespace std;
 
+//class Buffer;
 
 class CanTrafficSinkApp : public cSimpleModule{
 public:

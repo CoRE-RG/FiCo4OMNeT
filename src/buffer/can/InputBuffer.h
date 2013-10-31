@@ -13,19 +13,24 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include "OutBufferController.h"
+#ifndef INPUTBUFFER_H_
+#define INPUTBUFFER_H_
 
-void OutBufferController::registerForArbitration(int id, bool rtr, bool remoteSent){
-    canBusApp *canBus = (canBusApp*) (getParentModule()->getParentModule()->getSubmodule("canBus")->getSubmodule("busPort"));
-    canBus->registerForArbitration(id, this, simTime(), rtr, remoteSent);
-}
+#include <omnetpp.h>
+#include "Buffer.h"
 
-void OutBufferController::receiveSendingPermission(int id){
-    Buffer *buf = (Buffer*) (getParentModule()->getSubmodule("outBuffer"));
-    buf->deliverFrame(id);
-}
+//using namespace std;
 
-void OutBufferController::sendingCompleted(int id){
-    Buffer *buf = (Buffer*) (getParentModule()->getSubmodule("outBuffer"));
-    buf->deleteFrame(id);
-}
+class InputBuffer :public Buffer{
+
+public:
+    /**
+     * @brief Puts the frame into the collection and informs the connected gates about the receiption.
+     *
+     * @param frame The DataFrame to put in the buffer.
+     *
+     */
+    virtual void putFrame(DataFrame* frame);
+};
+Define_Module(InputBuffer);
+#endif /* INPUTBUFFER_H_ */

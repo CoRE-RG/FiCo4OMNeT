@@ -16,7 +16,7 @@
 #include "BusPort.h"
 
 void busPort::handleMessage(cMessage *msg) {
-    canBusApp *canbus = (canBusApp*) (getParentModule()->getSubmodule("canBusApp"));
+    CanBusApp *canbus = (CanBusApp*) (getParentModule()->getSubmodule("canBusApp"));
     sendDirect(msg,canbus->gate("frameIn"));
 }
 

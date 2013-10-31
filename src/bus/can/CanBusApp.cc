@@ -1,6 +1,6 @@
 #include "CanBusApp.h"
 
-void canBusApp::initialize() {
+void CanBusApp::initialize() {
     numSent = 0;
     numErr = 0;
     WATCH(numSent);
@@ -37,7 +37,7 @@ void canBusApp::initialize() {
 
 }
 
-void canBusApp::finish() {
+void CanBusApp::finish() {
     simtime_t busload = (busytime / simTime()) * 100;
     if (busload == 0.0 && !idle) {
         busload = 100.0;
@@ -50,7 +50,7 @@ void canBusApp::finish() {
     recordScalar("%Errors", errpercentage);
 }
 
-void canBusApp::signIn(cMessage *msg) {
+void CanBusApp::signIn(cMessage *msg) {
 //    ArbMsg *am = check_and_cast<ArbMsg *>(msg);
 //    ids.push_back(
 //            new CanID(am->getId(), am->getNode(), simTime(), am->getRtr(),
@@ -69,7 +69,7 @@ void canBusApp::signIn(cMessage *msg) {
     delete msg;
 }
 
-void canBusApp::signOut(cMessage *msg) {
+void CanBusApp::signOut(cMessage *msg) {
     ArbMsg *am = check_and_cast<ArbMsg *>(msg);
     int delid = am->getId();
     bool delrtr = am->getRtr();
@@ -83,7 +83,7 @@ void canBusApp::signOut(cMessage *msg) {
     delete msg;
 }
 
-void canBusApp::handleMessage(cMessage *msg) {
+void CanBusApp::handleMessage(cMessage *msg) {
     if (msg->isSelfMessage()) { //Bus ist wieder im Idle-Zustand
         busPort *port = (busPort*) (getParentModule()->getSubmodule("busPort"));
         string name = msg->getName();
@@ -100,7 +100,7 @@ void canBusApp::handleMessage(cMessage *msg) {
 //                    newam->setId(am->getId());
                     //TODO aaahhhhhhhh
 //                    port->sendMsgToNode(newam, am->getNode());
-                    OutBufferController* controller = check_and_cast<OutBufferController*>(sendingNode);
+                    OutputBuffer* controller = check_and_cast<OutputBuffer*>(sendingNode);
                     controller->sendingCompleted(currentSendingID);
                     stateok = true;
                 }
@@ -176,7 +176,7 @@ void canBusApp::handleMessage(cMessage *msg) {
     }
 }
 
-void canBusApp::checkAcknowledgementReception(ArbMsg *am) {
+void CanBusApp::checkAcknowledgementReception(ArbMsg *am) {
     if (ack_rcvd) {
         EV<< "Nachricht bestaetigt" << endl;
         ArbMsg *newam = new ArbMsg("SendingComplete");
@@ -201,13 +201,13 @@ void canBusApp::checkAcknowledgementReception(ArbMsg *am) {
     delete am;
 }
 
-void canBusApp::grantSendingPermission() {
+void CanBusApp::grantSendingPermission() {
     currentSendingID = INT_MAX;
 //    int highestprio = INT_MAX;
 //    CanNodeController *hprionode = NULL;
     sendingNode = NULL;
 
-    bool remotes = false;
+//    bool remotes = false;
     list<CanID*>::iterator delit;
     vector<list<CanID*>::iterator> eraseids;
     for (list<CanID*>::iterator it = ids.begin(); it != ids.end(); ++it) { //finden der höchsten Priorität aller angemeldeten Nachrichten
@@ -216,9 +216,9 @@ void canBusApp::grantSendingPermission() {
             currentSendingID = id->getId();
 //            if (id->getId() < highestprio) {
 //                highestprio = id->getId();
-            sendingNode = (OutBufferController*) id->getNode();
+            sendingNode = (OutputBuffer*) id->getNode();
 //            hprionode = (CanNodeController*) id->getNode();
-            remotes = id->getRemotesent();
+//            remotes = id->getRemotesent();
             currsit = id->getSignInTime();
         }
     }
@@ -230,9 +230,9 @@ void canBusApp::grantSendingPermission() {
             if (id->getRtr() == false) { //Data-Frame
                 if (sendingNode != id->getNode()) { //bei dem ursprünglich gefundenen node handelt es sich um einen remote frame
 //                    if (hprionode != id->getNode()) {
-                    sendingNode = (OutBufferController*) id->getNode(); //der Node, der einen Data frame senden möcte wird zum senden ausgewählt
+                    sendingNode = (OutputBuffer*) id->getNode(); //der Node, der einen Data frame senden möcte wird zum senden ausgewählt
 //                    hprionode = (CanNodeController*) id->getNode();
-                    remotes = id->getRemotesent();
+//                    remotes = id->getRemotesent();
                     currsit = id->getSignInTime();
                     sendcount++;
                 }
@@ -262,7 +262,7 @@ void canBusApp::grantSendingPermission() {
 //        }
 //        busPort *port = (busPort*) (getParentModule()->getSubmodule("busPort"));
 //        port->sendMsgToNode(am, hprionode); //Erlaubnis verschicken, ID in Liste bereits gel�scht
-        OutBufferController* controller = check_and_cast<OutBufferController *>(sendingNode);
+        OutputBuffer* controller = check_and_cast<OutputBuffer *>(sendingNode);
         controller->receiveSendingPermission(currentSendingID);
 //        hprionode->receiveSendingPermission(highestprio);
     } else {
@@ -277,7 +277,7 @@ void canBusApp::grantSendingPermission() {
     }
 }
 
-void canBusApp::handleErrorFrame(cMessage *msg) {
+void CanBusApp::handleErrorFrame(cMessage *msg) {
     ErrorFrame *ef = check_and_cast<ErrorFrame *>(msg);
     if (!errored) {
         ArbMsg *amrs = new ArbMsg("ErrResend");
@@ -303,7 +303,7 @@ void canBusApp::handleErrorFrame(cMessage *msg) {
     }
 }
 
-void canBusApp::handleDataFrame(cMessage *msg) {
+void CanBusApp::handleDataFrame(cMessage *msg) {
     ArbMsg *self = new ArbMsg("idle");
     DataFrame *df = check_and_cast<DataFrame *>(msg);
     self->setId(df->getID());
@@ -322,9 +322,9 @@ void canBusApp::handleDataFrame(cMessage *msg) {
     port->forward_to_all(msg);
 }
 
-void canBusApp::registerForArbitration(int id, cModule *node, simtime_t signInTime, bool rtr, bool remotesent){
+void CanBusApp::registerForArbitration(int id, cModule *node, simtime_t signInTime, bool rtr){
 
-    ids.push_back(new CanID(id, node, signInTime, rtr, remotesent));
+    ids.push_back(new CanID(id, node, signInTime, rtr));
 
     if (idle) {
         cMessage *self = new cMessage("idle_signin");

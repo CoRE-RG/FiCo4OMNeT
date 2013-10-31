@@ -1,6 +1,6 @@
 #include "CanID.h"
 
-	CanID::CanID(int id, cModule *node, simtime_t signInTime, bool rtr, bool remotesent): id(id), node(node), signInTime(signInTime), rtr(rtr), remotesent(remotesent){}
+	CanID::CanID(int id, cModule *node, simtime_t signInTime, bool rtr): id(id), node(node), signInTime(signInTime), rtr(rtr){}
 		
 	int CanID::getId(){
 		return id;
@@ -12,10 +12,6 @@
 	
 	bool CanID::getRtr(){
 		return rtr;
-	}
-	
-	bool CanID::getRemotesent(){
-		return remotesent;
 	}
 	
 	simtime_t CanID::getSignInTime(){
