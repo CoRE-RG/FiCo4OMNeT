@@ -20,8 +20,9 @@ void Buffer::registerDestinationGate() {
 DataFrame* Buffer::getFrame(int id) {
     for (std::list<DataFrame*>::iterator it = frames.begin();
             it != frames.end(); ++it) {
-        DataFrame *tmp = *it;
-        if ((tmp->getId() == id)) {
+        DataFrame* tmp = dynamic_cast<DataFrame*>(*it);
+
+        if ((tmp->getCanId() == id)) {
             return tmp;
         }
     }
@@ -54,9 +55,9 @@ void Buffer::deliverPrioFrame() {
     for (std::list<DataFrame*>::iterator it = frames.begin();
             it != frames.end(); ++it) {
         DataFrame *tmp = *it;
-        if ((tmp->getId() < prioId)) {
+        if ((tmp->getCanID() < prioId)) {
             prioFrame = tmp;
-            prioId = tmp->getId();
+            prioId = tmp->getCanId();
         }
     }
     sendToDestinationGates(prioFrame);

@@ -15,7 +15,7 @@
 
 package busmodel.bus.can;
 
-simple canBusApp
+simple CanBusApp
 {
     parameters:
     	@display("i=block/app");

@@ -20,7 +20,7 @@
  * <pre>
  * message DataFrame{
  * 	string node;		
- * 	int ID;				
+ * 	int canID;				
  *     int length;			
  * 	bool rtr;			
  * 	char data[8];		
@@ -33,7 +33,7 @@ class DataFrame : public ::cMessage
 {
   protected:
     opp_string node_var;
-    int ID_var;
+    int canID_var;
     int length_var;
     bool rtr_var;
     char data_var[8];
@@ -59,8 +59,8 @@ class DataFrame : public ::cMessage
     // field getter/setter methods
     virtual const char * getNode() const;
     virtual void setNode(const char * node);
-    virtual int getID() const;
-    virtual void setID(int ID);
+    virtual int getCanID() const;
+    virtual void setCanID(int canID);
     virtual int getLength() const;
     virtual void setLength(int length);
     virtual bool getRtr() const;

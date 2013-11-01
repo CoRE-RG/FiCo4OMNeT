@@ -1,3 +1,6 @@
+#ifndef BUFFER_H_
+#define BUFFER_H_
+
 #include <stdio.h>
 #include <string.h>
 #include <omnetpp.h>
@@ -93,3 +96,4 @@ private:
 };
 
 //Define_Module(Buffer);
+#endif

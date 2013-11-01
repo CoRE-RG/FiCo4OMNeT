@@ -25,10 +25,11 @@ void OutputBuffer::putFrame(DataFrame* frame) {
 
 void OutputBuffer::registerForArbitration(int id, bool rtr) {
     EV <<"2.1\n";
+//    cModule *mod =  simulation.getModuleByPath("NewLayout.bus.canBusApp");
 //    CanTrafficSourceApp *source = (CanTrafficSourceApp*) (getParentModule()->getSubmodule("sourceApp"));
-    CanBusApp *canBusApp =
-            (CanBusApp*) (getParentModule()->getParentModule()->getSubmodule(
-                    "canBus")->getSubmodule("canBusApp"));
+    CanBusApp *canBusApp =(CanBusApp*)(simulation.getModuleByPath("NewLayout.bus.canBusApp"));
+//            (CanBusApp*) (getParentModule()->getParentModule()->getSubmodule(
+//                    "canBus")->getSubmodule("canBusApp"));
     EV <<"2.2\n";
     canBusApp->registerForArbitration(id, this, simTime(), rtr);
     EV <<"2.3\n";

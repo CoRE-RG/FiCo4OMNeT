@@ -48,40 +48,40 @@ O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 
 # Object files for local .cc and .msg files
 OBJS = \
-    $O/applications/can/CanTrafficSourceApp.o \
     $O/applications/can/CanTrafficSinkApp.o \
+    $O/applications/can/CanTrafficSourceApp.o \
     $O/applications/flexray/FRApp.o \
     $O/buffer/can/Buffer.o \
-    $O/buffer/can/OutputBuffer.o \
     $O/buffer/can/InputBuffer.o \
+    $O/buffer/can/OutputBuffer.o \
     $O/bus/BusPort.o \
-    $O/bus/can/CanID.o \
     $O/bus/can/CanBusApp.o \
+    $O/bus/can/CanID.o \
     $O/bus/flexray/FRTopologyPort.o \
     $O/linklayer/NodePort.o \
     $O/linklayer/can/CanPortInput.o \
     $O/linklayer/can/CanPortOutput.o \
     $O/linklayer/flexray/FRPort.o \
     $O/nodes/can/CanNodeApp.o \
-    $O/nodes/can/Stats.o \
     $O/nodes/can/MOB.o \
+    $O/nodes/can/Stats.o \
     $O/scheduler/flexray/FRScheduler.o \
     $O/scheduler/flexray/SchedulerEvent.o \
     $O/synchronisation/flexray/FRSync.o \
-    $O/linklayer/can/arb_m.o \
-    $O/linklayer/can/err_m.o \
-    $O/linklayer/can/dataframe_m.o \
     $O/linklayer/can/ack_m.o \
+    $O/linklayer/can/arb_m.o \
+    $O/linklayer/can/dataframe_m.o \
+    $O/linklayer/can/err_m.o \
     $O/linklayer/flexray/FRFrame_m.o \
     $O/scheduler/flexray/SchedulerMessage_m.o \
     $O/scheduler/flexray/SchedulerMessageEvents_m.o
 
 # Message files
 MSGFILES = \
-    linklayer/can/arb.msg \
-    linklayer/can/err.msg \
-    linklayer/can/dataframe.msg \
     linklayer/can/ack.msg \
+    linklayer/can/arb.msg \
+    linklayer/can/dataframe.msg \
+    linklayer/can/err.msg \
     linklayer/flexray/FRFrame.msg \
     scheduler/flexray/SchedulerMessage.msg \
     scheduler/flexray/SchedulerMessageEvents.msg

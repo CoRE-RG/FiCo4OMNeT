@@ -55,7 +55,7 @@ void CanTrafficSourceApp::initialRemoteFrameCreation() {
     for (unsigned int i = 0; i < remoteFrameIDs.size(); i++) {
         DataFrame *can_msg = new DataFrame("remoteFrame");
         can_msg->setNode(getParentModule()->par("node"));
-        can_msg->setID(checkAndReturnID(remoteFrameIDs.at(i+1)));
+        can_msg->setCanID(checkAndReturnID(remoteFrameIDs.at(i+1)));
         can_msg->setLength(calculateLength(atoi(dataLengthRemoteFramesTokenizer.nextToken())));
         can_msg->setRtr(true);
         can_msg->setPeriod(atoi(remoteFramesPeriodicityTokenizer.nextToken()));
@@ -78,7 +78,7 @@ void CanTrafficSourceApp::initialDataFrameCreation() {
     for (unsigned int i = 0; i < dataFrameIDs.size(); i++) {
         DataFrame *can_msg = new DataFrame("message");
         can_msg->setNode(getParentModule()->par("node"));
-        can_msg->setID(checkAndReturnID(dataFrameIDs.at(i)));
+        can_msg->setCanID(checkAndReturnID(dataFrameIDs.at(i)));
         can_msg->setLength(calculateLength(atoi(dataLengthDataFramesTokenizer.nextToken())));
         can_msg->setPeriod(atoi(dataFramesPeriodicityTokenizer.nextToken()));
         outgoingDataFrames.push_back(can_msg); // TODO brauch ich das?

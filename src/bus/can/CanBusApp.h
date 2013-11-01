@@ -222,7 +222,6 @@ private:
     virtual void handleDataFrame(cMessage *msg);
 };
 
-Define_Module(CanBusApp)
-;
+Define_Module(CanBusApp);
 
 #endif /* CANBUSAPP_H_ */

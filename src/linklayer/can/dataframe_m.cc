@@ -35,7 +35,7 @@ Register_Class(DataFrame);
 DataFrame::DataFrame(const char *name, int kind) : cMessage(name,kind)
 {
     this->node_var = 0;
-    this->ID_var = 0;
+    this->canID_var = 0;
     this->length_var = 0;
     this->rtr_var = 0;
     for (unsigned int i=0; i<8; i++)
@@ -64,7 +64,7 @@ DataFrame& DataFrame::operator=(const DataFrame& other)
 void DataFrame::copy(const DataFrame& other)
 {
     this->node_var = other.node_var;
-    this->ID_var = other.ID_var;
+    this->canID_var = other.canID_var;
     this->length_var = other.length_var;
     this->rtr_var = other.rtr_var;
     for (unsigned int i=0; i<8; i++)
@@ -77,7 +77,7 @@ void DataFrame::parsimPack(cCommBuffer *b)
 {
     cMessage::parsimPack(b);
     doPacking(b,this->node_var);
-    doPacking(b,this->ID_var);
+    doPacking(b,this->canID_var);
     doPacking(b,this->length_var);
     doPacking(b,this->rtr_var);
     doPacking(b,this->data_var,8);
@@ -89,7 +89,7 @@ void DataFrame::parsimUnpack(cCommBuffer *b)
 {
     cMessage::parsimUnpack(b);
     doUnpacking(b,this->node_var);
-    doUnpacking(b,this->ID_var);
+    doUnpacking(b,this->canID_var);
     doUnpacking(b,this->length_var);
     doUnpacking(b,this->rtr_var);
     doUnpacking(b,this->data_var,8);
@@ -107,14 +107,14 @@ void DataFrame::setNode(const char * node)
     this->node_var = node;
 }
 
-int DataFrame::getID() const
+int DataFrame::getCanID() const
 {
-    return ID_var;
+    return canID_var;
 }
 
-void DataFrame::setID(int ID)
+void DataFrame::setCanID(int canID)
 {
-    this->ID_var = ID;
+    this->canID_var = canID;
 }
 
 int DataFrame::getLength() const
@@ -254,7 +254,7 @@ const char *DataFrameDescriptor::getFieldName(void *object, int field) const
     }
     static const char *fieldNames[] = {
         "node",
-        "ID",
+        "canID",
         "length",
         "rtr",
         "data",
@@ -269,7 +269,7 @@ int DataFrameDescriptor::findField(void *object, const char *fieldName) const
     cClassDescriptor *basedesc = getBaseClassDescriptor();
     int base = basedesc ? basedesc->getFieldCount(object) : 0;
     if (fieldName[0]=='n' && strcmp(fieldName, "node")==0) return base+0;
-    if (fieldName[0]=='I' && strcmp(fieldName, "ID")==0) return base+1;
+    if (fieldName[0]=='c' && strcmp(fieldName, "canID")==0) return base+1;
     if (fieldName[0]=='l' && strcmp(fieldName, "length")==0) return base+2;
     if (fieldName[0]=='r' && strcmp(fieldName, "rtr")==0) return base+3;
     if (fieldName[0]=='d' && strcmp(fieldName, "data")==0) return base+4;
@@ -337,7 +337,7 @@ std::string DataFrameDescriptor::getFieldAsString(void *object, int field, int i
     DataFrame *pp = (DataFrame *)object; (void)pp;
     switch (field) {
         case 0: return oppstring2string(pp->getNode());
-        case 1: return long2string(pp->getID());
+        case 1: return long2string(pp->getCanID());
         case 2: return long2string(pp->getLength());
         case 3: return bool2string(pp->getRtr());
         case 4: return long2string(pp->getData(i));
@@ -358,7 +358,7 @@ bool DataFrameDescriptor::setFieldAsString(void *object, int field, int i, const
     DataFrame *pp = (DataFrame *)object; (void)pp;
     switch (field) {
         case 0: pp->setNode((value)); return true;
-        case 1: pp->setID(string2long(value)); return true;
+        case 1: pp->setCanID(string2long(value)); return true;
         case 2: pp->setLength(string2long(value)); return true;
         case 3: pp->setRtr(string2bool(value)); return true;
         case 4: pp->setData(i,string2long(value)); return true;

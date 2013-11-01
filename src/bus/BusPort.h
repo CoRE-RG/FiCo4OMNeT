@@ -21,7 +21,7 @@
 
 using namespace std;
 
-class busPort : public cSimpleModule {
+class BusPort : public cSimpleModule {
 
     protected:
         /**
@@ -47,6 +47,6 @@ class busPort : public cSimpleModule {
         virtual void sendMsgToNode(cMessage *msg, int id);
 };
 
-Define_Module(busPort);
+Define_Module(BusPort);
 
 #endif /* BUSPORT_H_ */

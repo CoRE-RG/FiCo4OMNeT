@@ -21,7 +21,7 @@ import busmodel.buffer.can.OutputBuffer;
 import busmodel.applications.can.CanTrafficSourceApp;
 import busmodel.applications.can.CanTrafficSinkApp;
 
-module canNode
+module CanNode
 {
     parameters:
         bool extcode = default(false);						// Activate if external code shall be used (has to be deactivated in this version)

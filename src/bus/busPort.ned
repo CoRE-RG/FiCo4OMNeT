@@ -15,7 +15,7 @@
 
 package busmodel.bus;
 
-simple busPort
+simple BusPort
 {
     parameters:
         @display("bgb=300,158");

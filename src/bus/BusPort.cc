@@ -15,12 +15,12 @@
 
 #include "BusPort.h"
 
-void busPort::handleMessage(cMessage *msg) {
+void BusPort::handleMessage(cMessage *msg) {
     CanBusApp *canbus = (CanBusApp*) (getParentModule()->getSubmodule("canBusApp"));
     sendDirect(msg,canbus->gate("frameIn"));
 }
 
-void busPort::forward_to_all(cMessage *msg) {
+void BusPort::forward_to_all(cMessage *msg) {
     Enter_Method_Silent();
     take(msg);
     for (int i = 0; i < this->gateSize("phygate"); ++i) {
@@ -30,7 +30,7 @@ void busPort::forward_to_all(cMessage *msg) {
     delete msg;
 }
 
-void busPort::sendMsgToNode(cMessage *msg, int id){
+void BusPort::sendMsgToNode(cMessage *msg, int id){
     Enter_Method_Silent();
     take(msg);
     send(msg, "phygate$o", id);

@@ -28,7 +28,7 @@ void CanBusApp::initialize() {
     bandwidth = getParentModule()->par("bandwidth");
     int nodecount = getParentModule()->par("nodecount");
     int i;
-    busPort *port = (busPort*) (getParentModule()->getSubmodule("busPort"));
+    BusPort *port = (BusPort*) (getParentModule()->getSubmodule("busPort"));
     for (i = 0; i < nodecount; i++) {
         ArbMsg *init = new ArbMsg("initialize");
         init->setNode(i);
@@ -85,7 +85,7 @@ void CanBusApp::signOut(cMessage *msg) {
 
 void CanBusApp::handleMessage(cMessage *msg) {
     if (msg->isSelfMessage()) { //Bus ist wieder im Idle-Zustand
-        busPort *port = (busPort*) (getParentModule()->getSubmodule("busPort"));
+        BusPort *port = (BusPort*) (getParentModule()->getSubmodule("busPort"));
         string name = msg->getName();
 
         if (name.compare("idle") == 0) { //Wenn zuvor eine Nachricht gesendet wurde
@@ -190,7 +190,7 @@ void CanBusApp::checkAcknowledgementReception(ArbMsg *am) {
         AckMsg *newam = new AckMsg("SendingFailed");
         newam->setAck(false);
         newam->setId(am->getId());
-        busPort *port = (busPort*) (getParentModule()->getSubmodule("busPort"));
+        BusPort *port = (BusPort*) (getParentModule()->getSubmodule("busPort"));
         port->sendMsgToNode(newam, am->getNode());
         ArbMsg *sp = new ArbMsg("SendingPermission");
         sp->setSignInTime(currsit);
@@ -294,7 +294,7 @@ void CanBusApp::handleErrorFrame(cMessage *msg) {
             delete msg;
         } else {
             errpos = ef->getPos();
-            busPort *port = (busPort*) (getParentModule()->getSubmodule(
+            BusPort *port = (BusPort*) (getParentModule()->getSubmodule(
                     "busPort"));
             port->forward_to_all(msg);
         }
@@ -318,12 +318,12 @@ void CanBusApp::handleDataFrame(cMessage *msg) {
     scheduleAt(simTime() + nextidle, self);
     ack_rcvd = false;
     numSent++;
-    busPort *port = (busPort*) (getParentModule()->getSubmodule("busPort"));
+    BusPort *port = (BusPort*) (getParentModule()->getSubmodule("busPort"));
     port->forward_to_all(msg);
 }
 
 void CanBusApp::registerForArbitration(int id, cModule *node, simtime_t signInTime, bool rtr){
-
+    Enter_Method_Silent();
     ids.push_back(new CanID(id, node, signInTime, rtr));
 
     if (idle) {

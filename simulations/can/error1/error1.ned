@@ -1,7 +1,7 @@
 package busmodel.simulations.can.error1;
 
-import busmodel.bus.can.canBus;
-import busmodel.nodes.can.canNode;
+import busmodel.bus.can.CanBus;
+import busmodel.nodes.can.CanNode;
 
 // Generic network configuration for CAN-Networks
 // 
@@ -10,10 +10,10 @@ network Error1
 {
 	@display("bgb=550,350,white");
     submodules:
-        bus: canBus {
+        bus: CanBus {
             @display("i=abstract/bus");
         }
-        node[bus.nodecount]: canNode;
+        node[bus.nodecount]: CanNode;
     connections:
         for i=0..(bus.nodecount-1) {
             bus.gate++ <--> node[i].gate;

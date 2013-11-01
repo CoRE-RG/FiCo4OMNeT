@@ -5,10 +5,10 @@ package busmodel.bus.can;
 // Forwards data-frames and error-frames to all participating nodes of the network
 //
 
-import busmodel.bus.busPort;
-import busmodel.bus.can.canBusApp;
+import busmodel.bus.BusPort;
+import busmodel.bus.can.CanBusApp;
 
-module canBus
+module CanBus
 {
     parameters:
         bool payload = default(false);		// activate if payload transfer shall be enabled
@@ -22,12 +22,12 @@ module canBus
         inout gate[nodecount];
 
     submodules:
-        busPort: busPort {
+        busPort: BusPort {
             @display("p=163,74");
             gates:
                 phygate[nodecount];
         }
-        canBusApp: canBusApp {
+        canBusApp: CanBusApp {
             @display("p=52,74");                
         }
 

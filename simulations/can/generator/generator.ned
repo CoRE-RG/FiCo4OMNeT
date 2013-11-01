@@ -1,7 +1,7 @@
 package busmodel.simulations.can.generator;
 
-import busmodel.bus.can.canBus;
-import busmodel.nodes.can.canNode;
+import busmodel.bus.can.CanBus;
+import busmodel.nodes.can.CanNode;
 
 // Generic network configuration for CAN-Networks
 // 
@@ -10,31 +10,31 @@ network generator_CAN
 {
     @display("bgb=931,343,white;i=bus/philips");
     submodules:
-        bus: canBus {
+        bus: CanBus {
             @display("p=460,127;i=abstract/bus");
         }
-        aws: canNode {
+        aws: CanNode {
             @display("p=257,47;i=device/pc2");
         }
-        motorx: canNode {
+        motorx: CanNode {
             @display("p=66,227;i=block/cogwheel");
         }
-        motory: canNode {
+        motory: CanNode {
             @display("p=205,266;i=block/cogwheel");
         }
-        motorz: canNode {
+        motorz: CanNode {
             @display("p=350,216;i=block/cogwheel");
         }
-        motoralpha: canNode {
+        motoralpha: CanNode {
             @display("p=493,266;i=block/cogwheel");
         }
-        motorbeta: canNode {
+        motorbeta: CanNode {
             @display("p=649,241;i=block/cogwheel");
         }
-        motorgamma: canNode {
+        motorgamma: CanNode {
             @display("p=829,227;i=block/cogwheel");
         }
-        generator: canNode {
+        generator: CanNode {
 
             @display("p=539,47;i=block/control");
         }
