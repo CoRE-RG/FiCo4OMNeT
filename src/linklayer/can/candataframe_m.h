@@ -1,9 +1,9 @@
 //
-// Generated file, do not edit! Created by opp_msgc 4.3 from linklayer/can/dataframe.msg.
+// Generated file, do not edit! Created by opp_msgc 4.3 from linklayer/can/candataframe.msg.
 //
 
-#ifndef _DATAFRAME_M_H_
-#define _DATAFRAME_M_H_
+#ifndef _CANDATAFRAME_M_H_
+#define _CANDATAFRAME_M_H_
 
 #include <omnetpp.h>
 
@@ -16,9 +16,9 @@
 
 
 /**
- * Class generated from <tt>linklayer/can/dataframe.msg</tt> by opp_msgc.
+ * Class generated from <tt>linklayer/can/candataframe.msg</tt> by opp_msgc.
  * <pre>
- * message DataFrame{
+ * message CanDataFrame{
  * 	string node;		
  * 	int canID;				
  *     int length;			
@@ -29,7 +29,7 @@
  * }
  * </pre>
  */
-class DataFrame : public ::cMessage
+class CanDataFrame : public ::cMessage
 {
   protected:
     opp_string node_var;
@@ -41,18 +41,18 @@ class DataFrame : public ::cMessage
     int period_var;
 
   private:
-    void copy(const DataFrame& other);
+    void copy(const CanDataFrame& other);
 
   protected:
     // protected and unimplemented operator==(), to prevent accidental usage
-    bool operator==(const DataFrame&);
+    bool operator==(const CanDataFrame&);
 
   public:
-    DataFrame(const char *name=NULL, int kind=0);
-    DataFrame(const DataFrame& other);
-    virtual ~DataFrame();
-    DataFrame& operator=(const DataFrame& other);
-    virtual DataFrame *dup() const {return new DataFrame(*this);}
+    CanDataFrame(const char *name=NULL, int kind=0);
+    CanDataFrame(const CanDataFrame& other);
+    virtual ~CanDataFrame();
+    CanDataFrame& operator=(const CanDataFrame& other);
+    virtual CanDataFrame *dup() const {return new CanDataFrame(*this);}
     virtual void parsimPack(cCommBuffer *b);
     virtual void parsimUnpack(cCommBuffer *b);
 
@@ -74,8 +74,8 @@ class DataFrame : public ::cMessage
     virtual void setPeriod(int period);
 };
 
-inline void doPacking(cCommBuffer *b, DataFrame& obj) {obj.parsimPack(b);}
-inline void doUnpacking(cCommBuffer *b, DataFrame& obj) {obj.parsimUnpack(b);}
+inline void doPacking(cCommBuffer *b, CanDataFrame& obj) {obj.parsimPack(b);}
+inline void doUnpacking(cCommBuffer *b, CanDataFrame& obj) {obj.parsimUnpack(b);}
 
 
-#endif // _DATAFRAME_M_H_
+#endif // _CANDATAFRAME_M_H_

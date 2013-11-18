@@ -19,7 +19,7 @@
 #include <omnetpp.h>
 #include <string.h>
 #include "Buffer.h"
-#include "dataframe_m.h"
+#include "candataframe_m.h"
 
 using namespace std;
 
@@ -80,7 +80,7 @@ private:
     /**
      * @brief Collection including all
      */
-    vector<DataFrame*> outgoingRemoteFrames;
+    vector<CanDataFrame*> outgoingRemoteFrames;
 
     /**
      * @brief Creates a data frame which will be queued in the buffer.
@@ -90,7 +90,7 @@ private:
     /**
      * @brief Collection including all
      */
-    vector<DataFrame*> outgoingDataFrames;
+    vector<CanDataFrame*> outgoingDataFrames;
 
     /**
      * @brief Creates a data frame which will be queued in the buffer.

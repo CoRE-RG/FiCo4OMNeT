@@ -15,15 +15,6 @@
 
 #include "CanPortInput.h"
 
-CanPortInput::CanPortInput() {
-    // TODO Auto-generated constructor stub
-
-}
-
-CanPortInput::~CanPortInput() {
-    // TODO Auto-generated destructor stub
-}
-
 void CanPortInput::initialize() {
 
     cStringTokenizer idIncomingFramesTokenizer(
@@ -36,21 +27,22 @@ void CanPortInput::initialize() {
 
 void CanPortInput::handleMessage(cMessage *msg) {
     string name = msg->getName();
-    if (name.compare("message")) {
+    if (name.compare("message") == 0) {
         if (!forwardMessage(msg)) {
             EV<<"Message received but not relevant.\n";
-            delete msg;
+        } else {
+            EV<<"Message received and forwarded to the buffer.\n";
         }
     }
+    delete msg;
 }
 
 bool CanPortInput::forwardMessage(cMessage *msg) {
     for (std::vector<int>::iterator it = incomingIDs.begin();
             it != incomingIDs.end(); ++it) {
-        vector<int> temp;
-        temp.push_back(msg->getId());
-        if (it == temp.end()) {//TODO dirty i think
-            send(msg, "out");
+        CanDataFrame* df = check_and_cast<CanDataFrame*>(msg);
+        if (*it == df->getCanID()) {
+            send(msg->dup(), "out");
             return true;
         }
     }

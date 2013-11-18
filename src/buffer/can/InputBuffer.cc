@@ -15,12 +15,16 @@
 
 #include "InputBuffer.h"
 
-void InputBuffer::putFrame(DataFrame* frame) {
+void InputBuffer::putFrame(CanDataFrame* frame) {
     frames.push_back(frame);
-    for (std::list<cGate*>::iterator it = destinationGates.begin();
-            it != destinationGates.end(); ++it) {
-        cGate *tmpGate = *it;
-        cMessage *msg = new cMessage("Message in buffer");
-        sendDirect(msg, tmpGate->getOwnerModule()->gate("bufferIn"));
-    }
+    //TODO weiterleiten an sinkApp
+//    send(new cMessage("Message in buffer"),"out");
+
+//    sendDirect(msg,getParentModule()->getSubmodule("sinkApp"), "controllerIn");
+//    for (std::list<cGate*>::iterator it = destinationGates.begin();
+//            it != destinationGates.end(); ++it) {
+//        cGate *tmpGate = *it;
+//        cMessage *msg = new cMessage("Message in buffer");
+//        sendDirect(msg, tmpGate->getOwnerModule()->gate("bufferIn"));
+//    }
 }

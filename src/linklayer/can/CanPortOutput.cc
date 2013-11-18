@@ -34,12 +34,12 @@ void CanPortOutput::handleMessage(cMessage *msg) {
     if (errors) {
         int senderr = intuniform(0, 99);
         if (senderr < errorperc) {
-            DataFrame *df = check_and_cast<DataFrame *>(msg);
+            CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
             ErrorFrame *errself = new ErrorFrame("senderror");
             int pos = intuniform(0, df->getLength() - 12); //Position zwischen 0 - L�nge des Frames (abz�glich ((EOF und ACK-Delimiter)+1))
             errself->setKind(intuniform(0, 1)); //0: Bit-Error, 1: Form-Error
 //            errself->setNode(vectorid);
-            errself->setId(df->getID());
+            errself->setId(df->getCanID());
             if (pos > 0)
                 pos--;  //wegen der verschobenen Sendezeiten
             errself->setPos(pos);

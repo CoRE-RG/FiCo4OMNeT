@@ -48,40 +48,40 @@ O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 
 # Object files for local .cc and .msg files
 OBJS = \
-    $O/applications/can/CanTrafficSinkApp.o \
     $O/applications/can/CanTrafficSourceApp.o \
+    $O/applications/can/CanTrafficSinkApp.o \
     $O/applications/flexray/FRApp.o \
     $O/buffer/can/Buffer.o \
-    $O/buffer/can/InputBuffer.o \
     $O/buffer/can/OutputBuffer.o \
+    $O/buffer/can/InputBuffer.o \
     $O/bus/BusPort.o \
-    $O/bus/can/CanBusApp.o \
     $O/bus/can/CanID.o \
+    $O/bus/can/CanBusApp.o \
     $O/bus/flexray/FRTopologyPort.o \
     $O/linklayer/NodePort.o \
     $O/linklayer/can/CanPortInput.o \
     $O/linklayer/can/CanPortOutput.o \
     $O/linklayer/flexray/FRPort.o \
     $O/nodes/can/CanNodeApp.o \
-    $O/nodes/can/MOB.o \
     $O/nodes/can/Stats.o \
+    $O/nodes/can/MOB.o \
     $O/scheduler/flexray/FRScheduler.o \
     $O/scheduler/flexray/SchedulerEvent.o \
     $O/synchronisation/flexray/FRSync.o \
-    $O/linklayer/can/ack_m.o \
     $O/linklayer/can/arb_m.o \
-    $O/linklayer/can/dataframe_m.o \
     $O/linklayer/can/err_m.o \
+    $O/linklayer/can/ack_m.o \
+    $O/linklayer/can/candataframe_m.o \
     $O/linklayer/flexray/FRFrame_m.o \
     $O/scheduler/flexray/SchedulerMessage_m.o \
     $O/scheduler/flexray/SchedulerMessageEvents_m.o
 
 # Message files
 MSGFILES = \
-    linklayer/can/ack.msg \
     linklayer/can/arb.msg \
-    linklayer/can/dataframe.msg \
     linklayer/can/err.msg \
+    linklayer/can/ack.msg \
+    linklayer/can/candataframe.msg \
     linklayer/flexray/FRFrame.msg \
     scheduler/flexray/SchedulerMessage.msg \
     scheduler/flexray/SchedulerMessageEvents.msg
@@ -188,11 +188,12 @@ depend:
 $O/applications/can/CanTrafficSinkApp.o: applications/can/CanTrafficSinkApp.cc \
 	applications/can/CanTrafficSinkApp.h \
 	buffer/can/Buffer.h \
-	linklayer/can/dataframe_m.h
+	buffer/can/InputBuffer.h \
+	linklayer/can/candataframe_m.h
 $O/applications/can/CanTrafficSourceApp.o: applications/can/CanTrafficSourceApp.cc \
 	applications/can/CanTrafficSourceApp.h \
 	buffer/can/Buffer.h \
-	linklayer/can/dataframe_m.h
+	linklayer/can/candataframe_m.h
 $O/applications/flexray/FRApp.o: applications/flexray/FRApp.cc \
 	applications/flexray/FRApp.h \
 	linklayer/flexray/FRFrame_m.h \
@@ -204,11 +205,11 @@ $O/applications/flexray/FRApp.o: applications/flexray/FRApp.cc \
 	synchronisation/flexray/FRSync.h
 $O/buffer/can/Buffer.o: buffer/can/Buffer.cc \
 	buffer/can/Buffer.h \
-	linklayer/can/dataframe_m.h
+	linklayer/can/candataframe_m.h
 $O/buffer/can/InputBuffer.o: buffer/can/InputBuffer.cc \
 	buffer/can/Buffer.h \
 	buffer/can/InputBuffer.h \
-	linklayer/can/dataframe_m.h
+	linklayer/can/candataframe_m.h
 $O/buffer/can/OutputBuffer.o: buffer/can/OutputBuffer.cc \
 	applications/can/CanTrafficSourceApp.h \
 	buffer/can/Buffer.h \
@@ -218,7 +219,7 @@ $O/buffer/can/OutputBuffer.o: buffer/can/OutputBuffer.cc \
 	bus/can/CanID.h \
 	linklayer/can/ack_m.h \
 	linklayer/can/arb_m.h \
-	linklayer/can/dataframe_m.h \
+	linklayer/can/candataframe_m.h \
 	linklayer/can/err_m.h
 $O/bus/BusPort.o: bus/BusPort.cc \
 	applications/can/CanTrafficSourceApp.h \
@@ -229,7 +230,7 @@ $O/bus/BusPort.o: bus/BusPort.cc \
 	bus/can/CanID.h \
 	linklayer/can/ack_m.h \
 	linklayer/can/arb_m.h \
-	linklayer/can/dataframe_m.h \
+	linklayer/can/candataframe_m.h \
 	linklayer/can/err_m.h
 $O/bus/can/CanBusApp.o: bus/can/CanBusApp.cc \
 	applications/can/CanTrafficSourceApp.h \
@@ -240,7 +241,7 @@ $O/bus/can/CanBusApp.o: bus/can/CanBusApp.cc \
 	bus/can/CanID.h \
 	linklayer/can/ack_m.h \
 	linklayer/can/arb_m.h \
-	linklayer/can/dataframe_m.h \
+	linklayer/can/candataframe_m.h \
 	linklayer/can/err_m.h
 $O/bus/can/CanID.o: bus/can/CanID.cc \
 	bus/can/CanID.h
@@ -250,17 +251,18 @@ $O/linklayer/NodePort.o: linklayer/NodePort.cc \
 	linklayer/NodePort.h \
 	nodes/can/CanNodeApp.h
 $O/linklayer/can/CanPortInput.o: linklayer/can/CanPortInput.cc \
-	linklayer/can/CanPortInput.h
+	linklayer/can/CanPortInput.h \
+	linklayer/can/candataframe_m.h
 $O/linklayer/can/CanPortOutput.o: linklayer/can/CanPortOutput.cc \
 	linklayer/can/CanPortOutput.h \
-	linklayer/can/dataframe_m.h \
+	linklayer/can/candataframe_m.h \
 	linklayer/can/err_m.h
 $O/linklayer/can/ack_m.o: linklayer/can/ack_m.cc \
 	linklayer/can/ack_m.h
 $O/linklayer/can/arb_m.o: linklayer/can/arb_m.cc \
 	linklayer/can/arb_m.h
-$O/linklayer/can/dataframe_m.o: linklayer/can/dataframe_m.cc \
-	linklayer/can/dataframe_m.h
+$O/linklayer/can/candataframe_m.o: linklayer/can/candataframe_m.cc \
+	linklayer/can/candataframe_m.h
 $O/linklayer/can/err_m.o: linklayer/can/err_m.cc \
 	linklayer/can/err_m.h
 $O/linklayer/flexray/FRFrame_m.o: linklayer/flexray/FRFrame_m.cc \

@@ -38,7 +38,7 @@ public:
      * @param frame The DataFrame to put in the buffer.
      *
      */
-    virtual void putFrame(DataFrame* frame);
+    virtual void putFrame(CanDataFrame* frame);
 
 protected:
     virtual void registerForArbitration(int id, bool rtr);

@@ -18,14 +18,11 @@
 
 #include <omnetpp.h>
 #include <string.h>
+#include "candataframe_m.h"
 
 using namespace std;
 
 class CanPortInput : public cSimpleModule{
-public:
-    CanPortInput();
-    virtual ~CanPortInput();
-
 protected:
     /**
      *

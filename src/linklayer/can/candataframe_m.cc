@@ -1,5 +1,5 @@
 //
-// Generated file, do not edit! Created by opp_msgc 4.2 from linklayer/can/dataframe.msg.
+// Generated file, do not edit! Created by opp_msgc 4.3 from linklayer/can/candataframe.msg.
 //
 
 // Disable warnings about unused variables, empty switch stmts, etc:
@@ -10,7 +10,7 @@
 
 #include <iostream>
 #include <sstream>
-#include "dataframe_m.h"
+#include "candataframe_m.h"
 
 // Template rule which fires if a struct or class doesn't have operator<<
 template<typename T>
@@ -30,30 +30,30 @@ void doUnpacking(cCommBuffer *, T& t) {
 
 
 
-Register_Class(DataFrame);
+Register_Class(CanDataFrame);
 
-DataFrame::DataFrame(const char *name, int kind) : cMessage(name,kind)
+CanDataFrame::CanDataFrame(const char *name, int kind) : cMessage(name,kind)
 {
     this->node_var = 0;
-    this->gateId_var = 0;
-    this->identifier_var = 0;
+    this->canID_var = 0;
     this->length_var = 0;
     this->rtr_var = 0;
     for (unsigned int i=0; i<8; i++)
         this->data_var[i] = 0;
     this->startTime_var = 0;
+    this->period_var = 0;
 }
 
-DataFrame::DataFrame(const DataFrame& other) : cMessage(other)
+CanDataFrame::CanDataFrame(const CanDataFrame& other) : cMessage(other)
 {
     copy(other);
 }
 
-DataFrame::~DataFrame()
+CanDataFrame::~CanDataFrame()
 {
 }
 
-DataFrame& DataFrame::operator=(const DataFrame& other)
+CanDataFrame& CanDataFrame::operator=(const CanDataFrame& other)
 {
     if (this==&other) return *this;
     cMessage::operator=(other);
@@ -61,124 +61,124 @@ DataFrame& DataFrame::operator=(const DataFrame& other)
     return *this;
 }
 
-void DataFrame::copy(const DataFrame& other)
+void CanDataFrame::copy(const CanDataFrame& other)
 {
     this->node_var = other.node_var;
-    this->gateId_var = other.gateId_var;
-    this->identifier_var = other.identifier_var;
+    this->canID_var = other.canID_var;
     this->length_var = other.length_var;
     this->rtr_var = other.rtr_var;
     for (unsigned int i=0; i<8; i++)
         this->data_var[i] = other.data_var[i];
     this->startTime_var = other.startTime_var;
+    this->period_var = other.period_var;
 }
 
-void DataFrame::parsimPack(cCommBuffer *b)
+void CanDataFrame::parsimPack(cCommBuffer *b)
 {
     cMessage::parsimPack(b);
     doPacking(b,this->node_var);
-    doPacking(b,this->gateId_var);
-    doPacking(b,this->identifier_var);
+    doPacking(b,this->canID_var);
     doPacking(b,this->length_var);
     doPacking(b,this->rtr_var);
     doPacking(b,this->data_var,8);
     doPacking(b,this->startTime_var);
+    doPacking(b,this->period_var);
 }
 
-void DataFrame::parsimUnpack(cCommBuffer *b)
+void CanDataFrame::parsimUnpack(cCommBuffer *b)
 {
     cMessage::parsimUnpack(b);
     doUnpacking(b,this->node_var);
-    doUnpacking(b,this->gateId_var);
-    doUnpacking(b,this->identifier_var);
+    doUnpacking(b,this->canID_var);
     doUnpacking(b,this->length_var);
     doUnpacking(b,this->rtr_var);
     doUnpacking(b,this->data_var,8);
     doUnpacking(b,this->startTime_var);
+    doUnpacking(b,this->period_var);
 }
 
-const char * DataFrame::getNode() const
+const char * CanDataFrame::getNode() const
 {
     return node_var.c_str();
 }
 
-void DataFrame::setNode(const char * node)
+void CanDataFrame::setNode(const char * node)
 {
     this->node_var = node;
 }
 
-int DataFrame::getGateId() const
+int CanDataFrame::getCanID() const
 {
-    return gateId_var;
+    return canID_var;
 }
 
-void DataFrame::setGateId(int gateId)
+void CanDataFrame::setCanID(int canID)
 {
-    this->gateId_var = gateId;
+    this->canID_var = canID;
 }
 
-int DataFrame::getIdentifier() const
-{
-    return identifier_var;
-}
-
-void DataFrame::setIdentifier(int identifier)
-{
-    this->identifier_var = identifier;
-}
-
-int DataFrame::getLength() const
+int CanDataFrame::getLength() const
 {
     return length_var;
 }
 
-void DataFrame::setLength(int length)
+void CanDataFrame::setLength(int length)
 {
     this->length_var = length;
 }
 
-bool DataFrame::getRtr() const
+bool CanDataFrame::getRtr() const
 {
     return rtr_var;
 }
 
-void DataFrame::setRtr(bool rtr)
+void CanDataFrame::setRtr(bool rtr)
 {
     this->rtr_var = rtr;
 }
 
-unsigned int DataFrame::getDataArraySize() const
+unsigned int CanDataFrame::getDataArraySize() const
 {
     return 8;
 }
 
-char DataFrame::getData(unsigned int k) const
+char CanDataFrame::getData(unsigned int k) const
 {
     if (k>=8) throw cRuntimeError("Array of size 8 indexed by %lu", (unsigned long)k);
     return data_var[k];
 }
 
-void DataFrame::setData(unsigned int k, char data)
+void CanDataFrame::setData(unsigned int k, char data)
 {
     if (k>=8) throw cRuntimeError("Array of size 8 indexed by %lu", (unsigned long)k);
     this->data_var[k] = data;
 }
 
-simtime_t DataFrame::getStartTime() const
+simtime_t CanDataFrame::getStartTime() const
 {
     return startTime_var;
 }
 
-void DataFrame::setStartTime(simtime_t startTime)
+void CanDataFrame::setStartTime(simtime_t startTime)
 {
     this->startTime_var = startTime;
 }
 
-class DataFrameDescriptor : public cClassDescriptor
+int CanDataFrame::getPeriod() const
+{
+    return period_var;
+}
+
+void CanDataFrame::setPeriod(int period)
+{
+    this->period_var = period;
+}
+
+class CanDataFrameDescriptor : public cClassDescriptor
 {
   public:
-    DataFrameDescriptor();
-    virtual ~DataFrameDescriptor();
+    CanDataFrameDescriptor();
+    virtual ~CanDataFrameDescriptor();
 
     virtual bool doesSupport(cObject *obj) const;
     virtual const char *getProperty(const char *propertyname) const;
@@ -197,34 +197,34 @@ class DataFrameDescriptor : public cClassDescriptor
     virtual void *getFieldStructPointer(void *object, int field, int i) const;
 };
 
-Register_ClassDescriptor(DataFrameDescriptor);
+Register_ClassDescriptor(CanDataFrameDescriptor);
 
-DataFrameDescriptor::DataFrameDescriptor() : cClassDescriptor("DataFrame", "cMessage")
+CanDataFrameDescriptor::CanDataFrameDescriptor() : cClassDescriptor("CanDataFrame", "cMessage")
 {
 }
 
-DataFrameDescriptor::~DataFrameDescriptor()
+CanDataFrameDescriptor::~CanDataFrameDescriptor()
 {
 }
 
-bool DataFrameDescriptor::doesSupport(cObject *obj) const
+bool CanDataFrameDescriptor::doesSupport(cObject *obj) const
 {
-    return dynamic_cast<DataFrame *>(obj)!=NULL;
+    return dynamic_cast<CanDataFrame *>(obj)!=NULL;
 }
 
-const char *DataFrameDescriptor::getProperty(const char *propertyname) const
+const char *CanDataFrameDescriptor::getProperty(const char *propertyname) const
 {
     cClassDescriptor *basedesc = getBaseClassDescriptor();
     return basedesc ? basedesc->getProperty(propertyname) : NULL;
 }
 
-int DataFrameDescriptor::getFieldCount(void *object) const
+int CanDataFrameDescriptor::getFieldCount(void *object) const
 {
     cClassDescriptor *basedesc = getBaseClassDescriptor();
     return basedesc ? 7+basedesc->getFieldCount(object) : 7;
 }
 
-unsigned int DataFrameDescriptor::getFieldTypeFlags(void *object, int field) const
+unsigned int CanDataFrameDescriptor::getFieldTypeFlags(void *object, int field) const
 {
     cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -237,14 +237,14 @@ unsigned int DataFrameDescriptor::getFieldTypeFlags(void *object, int field) con
         FD_ISEDITABLE,
         FD_ISEDITABLE,
         FD_ISEDITABLE,
-        FD_ISEDITABLE,
         FD_ISARRAY | FD_ISEDITABLE,
+        FD_ISEDITABLE,
         FD_ISEDITABLE,
     };
     return (field>=0 && field<7) ? fieldTypeFlags[field] : 0;
 }
 
-const char *DataFrameDescriptor::getFieldName(void *object, int field) const
+const char *CanDataFrameDescriptor::getFieldName(void *object, int field) const
 {
     cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -254,31 +254,31 @@ const char *DataFrameDescriptor::getFieldName(void *object, int field) const
     }
     static const char *fieldNames[] = {
         "node",
-        "gateId",
-        "identifier",
+        "canID",
         "length",
         "rtr",
         "data",
         "startTime",
+        "period",
     };
     return (field>=0 && field<7) ? fieldNames[field] : NULL;
 }
 
-int DataFrameDescriptor::findField(void *object, const char *fieldName) const
+int CanDataFrameDescriptor::findField(void *object, const char *fieldName) const
 {
     cClassDescriptor *basedesc = getBaseClassDescriptor();
     int base = basedesc ? basedesc->getFieldCount(object) : 0;
     if (fieldName[0]=='n' && strcmp(fieldName, "node")==0) return base+0;
-    if (fieldName[0]=='g' && strcmp(fieldName, "gateId")==0) return base+1;
-    if (fieldName[0]=='i' && strcmp(fieldName, "identifier")==0) return base+2;
-    if (fieldName[0]=='l' && strcmp(fieldName, "length")==0) return base+3;
-    if (fieldName[0]=='r' && strcmp(fieldName, "rtr")==0) return base+4;
-    if (fieldName[0]=='d' && strcmp(fieldName, "data")==0) return base+5;
-    if (fieldName[0]=='s' && strcmp(fieldName, "startTime")==0) return base+6;
+    if (fieldName[0]=='c' && strcmp(fieldName, "canID")==0) return base+1;
+    if (fieldName[0]=='l' && strcmp(fieldName, "length")==0) return base+2;
+    if (fieldName[0]=='r' && strcmp(fieldName, "rtr")==0) return base+3;
+    if (fieldName[0]=='d' && strcmp(fieldName, "data")==0) return base+4;
+    if (fieldName[0]=='s' && strcmp(fieldName, "startTime")==0) return base+5;
+    if (fieldName[0]=='p' && strcmp(fieldName, "period")==0) return base+6;
     return basedesc ? basedesc->findField(object, fieldName) : -1;
 }
 
-const char *DataFrameDescriptor::getFieldTypeString(void *object, int field) const
+const char *CanDataFrameDescriptor::getFieldTypeString(void *object, int field) const
 {
     cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -290,15 +290,15 @@ const char *DataFrameDescriptor::getFieldTypeString(void *object, int field) con
         "string",
         "int",
         "int",
-        "int",
         "bool",
         "char",
         "simtime_t",
+        "int",
     };
     return (field>=0 && field<7) ? fieldTypeStrings[field] : NULL;
 }
 
-const char *DataFrameDescriptor::getFieldProperty(void *object, int field, const char *propertyname) const
+const char *CanDataFrameDescriptor::getFieldProperty(void *object, int field, const char *propertyname) const
 {
     cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -311,7 +311,7 @@ const char *DataFrameDescriptor::getFieldProperty(void *object, int field, const
     }
 }
 
-int DataFrameDescriptor::getArraySize(void *object, int field) const
+int CanDataFrameDescriptor::getArraySize(void *object, int field) const
 {
     cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -319,14 +319,14 @@ int DataFrameDescriptor::getArraySize(void *object, int field) const
             return basedesc->getArraySize(object, field);
         field -= basedesc->getFieldCount(object);
     }
-    DataFrame *pp = (DataFrame *)object; (void)pp;
+    CanDataFrame *pp = (CanDataFrame *)object; (void)pp;
     switch (field) {
-        case 5: return 8;
+        case 4: return 8;
         default: return 0;
     }
 }
 
-std::string DataFrameDescriptor::getFieldAsString(void *object, int field, int i) const
+std::string CanDataFrameDescriptor::getFieldAsString(void *object, int field, int i) const
 {
     cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -334,20 +334,20 @@ std::string DataFrameDescriptor::getFieldAsString(void *object, int field, int i
             return basedesc->getFieldAsString(object,field,i);
         field -= basedesc->getFieldCount(object);
     }
-    DataFrame *pp = (DataFrame *)object; (void)pp;
+    CanDataFrame *pp = (CanDataFrame *)object; (void)pp;
     switch (field) {
         case 0: return oppstring2string(pp->getNode());
-        case 1: return long2string(pp->getGateId());
-        case 2: return long2string(pp->getIdentifier());
-        case 3: return long2string(pp->getLength());
-        case 4: return bool2string(pp->getRtr());
-        case 5: return long2string(pp->getData(i));
-        case 6: return double2string(pp->getStartTime());
+        case 1: return long2string(pp->getCanID());
+        case 2: return long2string(pp->getLength());
+        case 3: return bool2string(pp->getRtr());
+        case 4: return long2string(pp->getData(i));
+        case 5: return double2string(pp->getStartTime());
+        case 6: return long2string(pp->getPeriod());
         default: return "";
     }
 }
 
-bool DataFrameDescriptor::setFieldAsString(void *object, int field, int i, const char *value) const
+bool CanDataFrameDescriptor::setFieldAsString(void *object, int field, int i, const char *value) const
 {
     cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -355,20 +355,20 @@ bool DataFrameDescriptor::setFieldAsString(void *object, int field, int i, const
             return basedesc->setFieldAsString(object,field,i,value);
         field -= basedesc->getFieldCount(object);
     }
-    DataFrame *pp = (DataFrame *)object; (void)pp;
+    CanDataFrame *pp = (CanDataFrame *)object; (void)pp;
     switch (field) {
         case 0: pp->setNode((value)); return true;
-        case 1: pp->setGateId(string2long(value)); return true;
-        case 2: pp->setIdentifier(string2long(value)); return true;
-        case 3: pp->setLength(string2long(value)); return true;
-        case 4: pp->setRtr(string2bool(value)); return true;
-        case 5: pp->setData(i,string2long(value)); return true;
-        case 6: pp->setStartTime(string2double(value)); return true;
+        case 1: pp->setCanID(string2long(value)); return true;
+        case 2: pp->setLength(string2long(value)); return true;
+        case 3: pp->setRtr(string2bool(value)); return true;
+        case 4: pp->setData(i,string2long(value)); return true;
+        case 5: pp->setStartTime(string2double(value)); return true;
+        case 6: pp->setPeriod(string2long(value)); return true;
         default: return false;
     }
 }
 
-const char *DataFrameDescriptor::getFieldStructName(void *object, int field) const
+const char *CanDataFrameDescriptor::getFieldStructName(void *object, int field) const
 {
     cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -388,7 +388,7 @@ const char *DataFrameDescriptor::getFieldStructName(void *object, int field) con
     return (field>=0 && field<7) ? fieldStructNames[field] : NULL;
 }
 
-void *DataFrameDescriptor::getFieldStructPointer(void *object, int field, int i) const
+void *CanDataFrameDescriptor::getFieldStructPointer(void *object, int field, int i) const
 {
     cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -396,7 +396,7 @@ void *DataFrameDescriptor::getFieldStructPointer(void *object, int field, int i)
             return basedesc->getFieldStructPointer(object, field, i);
         field -= basedesc->getFieldCount(object);
     }
-    DataFrame *pp = (DataFrame *)object; (void)pp;
+    CanDataFrame *pp = (CanDataFrame *)object; (void)pp;
     switch (field) {
         default: return NULL;
     }

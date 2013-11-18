@@ -17,7 +17,9 @@
 #define CANTRAFFICSINKAPP_H_
 
 #include <omnetpp.h>
-#include "Buffer.h"
+#include <string.h>
+#include "InputBuffer.h"
+#include "candataframe_m.h"
 
 using namespace std;
 

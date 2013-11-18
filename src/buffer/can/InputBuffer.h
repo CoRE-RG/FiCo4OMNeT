@@ -30,7 +30,7 @@ public:
      * @param frame The DataFrame to put in the buffer.
      *
      */
-    virtual void putFrame(DataFrame* frame);
+    virtual void putFrame(CanDataFrame* frame);
 };
 Define_Module(InputBuffer);
 #endif /* INPUTBUFFER_H_ */

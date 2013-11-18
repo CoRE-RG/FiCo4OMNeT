@@ -15,30 +15,25 @@
 
 #include "OutputBuffer.h"
 
-void OutputBuffer::putFrame(DataFrame* frame) {
-    EV <<"1.1\n";
+void OutputBuffer::putFrame(CanDataFrame* frame) {
     frames.push_back(frame);
-    EV <<"1.2\n";
-    registerForArbitration(frame->getID(), frame->getRtr());
-    EV <<"1.3\n";
+    registerForArbitration(frame->getCanID(), frame->getRtr());
 }
 
 void OutputBuffer::registerForArbitration(int id, bool rtr) {
-    EV <<"2.1\n";
-//    cModule *mod =  simulation.getModuleByPath("NewLayout.bus.canBusApp");
-//    CanTrafficSourceApp *source = (CanTrafficSourceApp*) (getParentModule()->getSubmodule("sourceApp"));
-    CanBusApp *canBusApp =(CanBusApp*)(simulation.getModuleByPath("NewLayout.bus.canBusApp"));
-//            (CanBusApp*) (getParentModule()->getParentModule()->getSubmodule(
-//                    "canBus")->getSubmodule("canBusApp"));
-    EV <<"2.2\n";
+    CanBusApp *canBusApp =
+            (CanBusApp*) (getParentModule()->getParentModule()->getSubmodule(
+                    "bus")->getSubmodule("canBusApp"));
     canBusApp->registerForArbitration(id, this, simTime(), rtr);
-    EV <<"2.3\n";
 }
 
 void OutputBuffer::receiveSendingPermission(int id) {
+    Enter_Method_Silent
+    ();
     deliverFrame(id);
 }
 
 void OutputBuffer::sendingCompleted(int id) {
+    Enter_Method_Silent();
     deleteFrame(id);
 }

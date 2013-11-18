@@ -26,14 +26,14 @@ void CanBusApp::initialize() {
     errors = getParentModule()->par("errors");
     ack = getParentModule()->par("ack");
     bandwidth = getParentModule()->par("bandwidth");
-    int nodecount = getParentModule()->par("nodecount");
-    int i;
-    BusPort *port = (BusPort*) (getParentModule()->getSubmodule("busPort"));
-    for (i = 0; i < nodecount; i++) {
-        ArbMsg *init = new ArbMsg("initialize");
-        init->setNode(i);
-        port->sendMsgToNode(init, i);
-    }
+//    int nodecount = getParentModule()->par("nodecount");
+//    int i;
+//    BusPort *port = (BusPort*) (getParentModule()->getSubmodule("busPort"));
+//    for (i = 0; i < nodecount; i++) {
+//        ArbMsg *init = new ArbMsg("initialize");
+//        init->setNode(i);
+//        port->sendMsgToNode(init, i);
+//    }
 
 }
 
@@ -50,38 +50,38 @@ void CanBusApp::finish() {
     recordScalar("%Errors", errpercentage);
 }
 
-void CanBusApp::signIn(cMessage *msg) {
-//    ArbMsg *am = check_and_cast<ArbMsg *>(msg);
-//    ids.push_back(
-//            new CanID(am->getId(), am->getNode(), simTime(), am->getRtr(),
-//                    am->getRemotesent()));
-    if (idle) {
-        cMessage *self = new cMessage("idle_signin");
-        ack_rcvd = true;
-        scheduleAt(simTime() + (1 / (double) bandwidth), self);
-        idle = false;
-        busytimestamp = simTime();
-        char buf[64];
-        sprintf(buf, "state: busy");
-        bubble("state: busy");
-        getDisplayString().setTagArg("tt", 0, buf);
-    }
-    delete msg;
-}
+//void CanBusApp::signIn(cMessage *msg) {
+////    ArbMsg *am = check_and_cast<ArbMsg *>(msg);
+////    ids.push_back(
+////            new CanID(am->getId(), am->getNode(), simTime(), am->getRtr(),
+////                    am->getRemotesent()));
+//    if (idle) {
+//        cMessage *self = new cMessage("idle_signin");
+//        ack_rcvd = true;
+//        scheduleAt(simTime() + (1 / (double) bandwidth), self);
+//        idle = false;
+//        busytimestamp = simTime();
+//        char buf[64];
+//        sprintf(buf, "state: busy");
+//        bubble("state: busy");
+//        getDisplayString().setTagArg("tt", 0, buf);
+//    }
+//    delete msg;
+//}
 
-void CanBusApp::signOut(cMessage *msg) {
-    ArbMsg *am = check_and_cast<ArbMsg *>(msg);
-    int delid = am->getId();
-    bool delrtr = am->getRtr();
-    for (list<CanID*>::iterator it = ids.begin(); it != ids.end(); ++it) {
-        CanID *id = *it;
-        if (id->getId() == delid && id->getRtr() == delrtr) {
-            it = ids.erase(it);
-        }
-    }
-    EV<< "Check-Out fuer die ID " << am->getId() << endl;
-    delete msg;
-}
+//void CanBusApp::signOut(cMessage *msg) {
+//    ArbMsg *am = check_and_cast<ArbMsg *>(msg);
+//    int delid = am->getId();
+//    bool delrtr = am->getRtr();
+//    for (list<CanID*>::iterator it = ids.begin(); it != ids.end(); ++it) {
+//        CanID *id = *it;
+//        if (id->getId() == delid && id->getRtr() == delrtr) {
+//            it = ids.erase(it);
+//        }
+//    }
+//    EV<< "Check-Out fuer die ID " << am->getId() << endl;
+//    delete msg;
+//}
 
 void CanBusApp::handleMessage(cMessage *msg) {
     if (msg->isSelfMessage()) { //Bus ist wieder im Idle-Zustand
@@ -155,24 +155,25 @@ void CanBusApp::handleMessage(cMessage *msg) {
         delete msg;
 
     } else { // externe Nachricht
-        string name = msg->getName();
-        if (name.compare("ArbIn") == 0) {
-            signIn(msg);
-        } else if (name.compare("ArbOut") == 0) {
-            signOut(msg);
-        } else if (name.compare("ack") == 0) {
-            AckMsg *ackm = check_and_cast<AckMsg *>(msg);
-            if (ackm->getAck()) {
-                ack_rcvd = true;
-                //EV << "Acknowledged" << endl;
-            }
-            delete msg;
-        } else if (name.compare("senderror") == 0
-                || name.compare("geterror") == 0) {
-            handleErrorFrame(msg);
-        } else { //Es handelt sich um einen Data-Frame
-            handleDataFrame(msg);
-        }
+//        string name = msg->getName();
+//        if (name.compare("ArbIn") == 0) {
+//            signIn(msg);
+//        } else if (name.compare("ArbOut") == 0) {
+//            signOut(msg);
+//        } else if (name.compare("ack") == 0) {
+//            AckMsg *ackm = check_and_cast<AckMsg *>(msg);
+//            if (ackm->getAck()) {
+//                ack_rcvd = true;
+//                //EV << "Acknowledged" << endl;
+//            }
+//            delete msg;
+//        } else if (name.compare("senderror") == 0
+//                || name.compare("geterror") == 0) {
+//            handleErrorFrame(msg);
+//        } else { //Es handelt sich um einen Data-Frame
+//            handleDataFrame(msg);
+//        }
+        handleDataFrame(msg);
     }
 }
 
@@ -305,8 +306,8 @@ void CanBusApp::handleErrorFrame(cMessage *msg) {
 
 void CanBusApp::handleDataFrame(cMessage *msg) {
     ArbMsg *self = new ArbMsg("idle");
-    DataFrame *df = check_and_cast<DataFrame *>(msg);
-    self->setId(df->getID());
+    CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
+    self->setId(df->getCanID());
     int length = df->getLength();
     double nextidle;
     if (ack) {

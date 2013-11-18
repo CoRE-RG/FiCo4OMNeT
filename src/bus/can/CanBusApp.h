@@ -20,7 +20,7 @@
 #include <string.h>
 #include <omnetpp.h>
 #include <limits>
-#include "dataframe_m.h"
+#include "candataframe_m.h"
 #include "arb_m.h"
 #include "ack_m.h"
 #include "err_m.h"
@@ -60,14 +60,14 @@ protected:
      * The ids-list is a substitution for the arbitration mechanism.
      *
      */
-    virtual void signIn(cMessage *msg);
+//    virtual void signIn(cMessage *msg);
     /**
      * @brief Deletes a message-ID in the ids-list
      *
      * Incoming Arbitration messages ("ArbOut") trigger this method.
      *
      */
-    virtual void signOut(cMessage *msg);
+//    virtual void signOut(cMessage *msg);
 //        /**
 //         * @brief Forwards an incoming Data- or Error-Frame to all participants
 //         *

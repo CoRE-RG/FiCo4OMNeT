@@ -2,7 +2,7 @@
 
 void Buffer::handleMessage(cMessage *msg) {
     if (msg->arrivedOn("in")) {
-        DataFrame *frame = check_and_cast<DataFrame *>(msg);
+        CanDataFrame *frame = check_and_cast<CanDataFrame *>(msg);
         putFrame(frame);
     }
 }
@@ -17,12 +17,14 @@ void Buffer::registerDestinationGate() {
     }
 }
 
-DataFrame* Buffer::getFrame(int id) {
-    for (std::list<DataFrame*>::iterator it = frames.begin();
+CanDataFrame* Buffer::getFrame(int id) {
+    for (std::list<CanDataFrame*>::iterator it = frames.begin();
             it != frames.end(); ++it) {
-        DataFrame* tmp = dynamic_cast<DataFrame*>(*it);
-
-        if ((tmp->getCanId() == id)) {
+//        DataFrame* tmp = check_and_cast<DataFrame *>(*it);
+        CanDataFrame* tmp = *it;
+        int i = tmp->getCanID();
+//        if (tmp->getCanId() == id) {
+            if ((i == id)) {
             return tmp;
         }
     }
@@ -30,7 +32,6 @@ DataFrame* Buffer::getFrame(int id) {
 }
 
 //void Buffer::putFrame(DataFrame* frame) {
-//    EV <<"FICKEN\n";
 //    frames.push_back(frame);
 //    for (std::list<cGate*>::iterator it = destinationGates.begin();
 //            it != destinationGates.end(); ++it) {
@@ -41,23 +42,26 @@ DataFrame* Buffer::getFrame(int id) {
 //}
 
 void Buffer::deleteFrame(int id) {
-    DataFrame *tmp = getFrame(id);
+    CanDataFrame *tmp = getFrame(id);
     frames.remove(tmp);
+    delete tmp;
 }
 
 void Buffer::deliverFrame(int id) {
-    sendToDestinationGates(getFrame(id));
+    sendToDestinationGates(getFrame(id)->dup());
 }
 
 void Buffer::deliverPrioFrame() {
     int prioId = INT_MAX;
-    DataFrame *prioFrame;
-    for (std::list<DataFrame*>::iterator it = frames.begin();
+    CanDataFrame *prioFrame;
+    for (std::list<CanDataFrame*>::iterator it = frames.begin();
             it != frames.end(); ++it) {
-        DataFrame *tmp = *it;
-        if ((tmp->getCanID() < prioId)) {
+        CanDataFrame *tmp = *it;
+        int i = tmp->getCanID();
+        if ((i < prioId)) {
+//        if ((tmp->getCanID() < prioId)) {
             prioFrame = tmp;
-            prioId = tmp->getCanId();
+            prioId = i;
         }
     }
     sendToDestinationGates(prioFrame);
@@ -67,7 +71,7 @@ void Buffer::deliverNextFrame() {
     sendToDestinationGates(frames.front());
 }
 
-void Buffer::sendToDestinationGates(DataFrame *df) {
+void Buffer::sendToDestinationGates(CanDataFrame *df) {
 //    for (std::list<cGate*>::iterator it = destinationGates.begin();
 //            it != destinationGates.end(); ++it) {
 //        cGate *tmpGate = *it;

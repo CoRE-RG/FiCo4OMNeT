@@ -33,8 +33,8 @@ void CanTrafficSourceApp::initialize() {
 
 void CanTrafficSourceApp::handleMessage(cMessage *msg) {
     if (msg->isSelfMessage()) {
-        DataFrame *df = check_and_cast<DataFrame *>(msg);
-        DataFrame *outgoingFrame = df->dup();
+        CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
+        CanDataFrame *outgoingFrame = df->dup();
         outgoingFrame->setStartTime(simTime());
         send(outgoingFrame, "out");
         scheduleAt(simTime() + (df->getPeriod() / 1000.), df);
@@ -53,7 +53,7 @@ void CanTrafficSourceApp::initialRemoteFrameCreation() {
             getParentModule()->par("dataLengthRemoteFrames"));
 
     for (unsigned int i = 0; i < remoteFrameIDs.size(); i++) {
-        DataFrame *can_msg = new DataFrame("remoteFrame");
+        CanDataFrame *can_msg = new CanDataFrame("remoteFrame");
         can_msg->setNode(getParentModule()->par("node"));
         can_msg->setCanID(checkAndReturnID(remoteFrameIDs.at(i+1)));
         can_msg->setLength(calculateLength(atoi(dataLengthRemoteFramesTokenizer.nextToken())));
@@ -76,7 +76,7 @@ void CanTrafficSourceApp::initialDataFrameCreation() {
             getParentModule()->par("dataLengthDataFrames"), ",");
 
     for (unsigned int i = 0; i < dataFrameIDs.size(); i++) {
-        DataFrame *can_msg = new DataFrame("message");
+        CanDataFrame *can_msg = new CanDataFrame("message");
         can_msg->setNode(getParentModule()->par("node"));
         can_msg->setCanID(checkAndReturnID(dataFrameIDs.at(i)));
         can_msg->setLength(calculateLength(atoi(dataLengthDataFramesTokenizer.nextToken())));

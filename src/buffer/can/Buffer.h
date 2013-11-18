@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <omnetpp.h>
-#include "dataframe_m.h"
+#include "candataframe_m.h"
 
 /**
  * @brief Represents the content of a physical buffer on a CAN_Node 
@@ -34,7 +34,7 @@ public:
      * null if there is no DataFrame in the buffer.
      *
      */
-    DataFrame* getFrame(int id);
+    CanDataFrame* getFrame(int id);
 
     /**
      * @brief Puts the frame into the collection and informs the connected gates about the receiption.
@@ -42,7 +42,7 @@ public:
      * @param frame The DataFrame to put in the buffer.
      *
      */
-    virtual void putFrame(DataFrame* frame) = 0;
+    virtual void putFrame(CanDataFrame* frame) = 0;
 
     /**
      * @brief Deletes the frame with the corresponding id from the frames collection.
@@ -73,7 +73,7 @@ protected:
     /**
      * @brief Queue for the EtherFrames in the Buffer.
      */
-    std::list<DataFrame*> frames;
+    std::list<CanDataFrame*> frames;
 
     /**
      * @brief Is called when a new Frame is received in the buffer.
@@ -92,7 +92,7 @@ private:
     /**
      *
      */
-    virtual void sendToDestinationGates(DataFrame *msg);
+    virtual void sendToDestinationGates(CanDataFrame *msg);
 };
 
 //Define_Module(Buffer);
