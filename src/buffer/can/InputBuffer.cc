@@ -18,7 +18,10 @@
 void InputBuffer::putFrame(CanDataFrame* frame) {
     frames.push_back(frame);
     //TODO weiterleiten an sinkApp
-    send(new cMessage("Message in buffer"),"out");
+//    send(new cMessage("Message in buffer"),"out");
+
+    cModule *sinkApp = getParentModule()->getSubmodule("sinkApp");
+    sendDirect(new cMessage("Message in buffer"), sinkApp, "controllerIn");
 
 //    sendDirect(msg,getParentModule()->getSubmodule("sinkApp"), "controllerIn");
 //    for (std::list<cGate*>::iterator it = destinationGates.begin();

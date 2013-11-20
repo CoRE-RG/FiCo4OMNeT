@@ -34,7 +34,7 @@ void CanTrafficSinkApp::initialize() {
 void CanTrafficSinkApp::handleMessage(cMessage *msg) {
     //TODO statistics
     string name = msg->getName();
-    if (name.compare("Message in buffer") == 0) {
+    if (msg->arrivedOn("controllerIn")) {
         bufferMessageCounter++;
         if (idle) {
             requestFrame();
