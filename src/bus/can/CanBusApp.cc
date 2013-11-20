@@ -339,3 +339,14 @@ void CanBusApp::registerForArbitration(int id, cModule *node, simtime_t signInTi
         getDisplayString().setTagArg("tt", 0, buf);
     }
 }
+
+void CanBusApp::checkoutFromArbitration(int id){
+    Enter_Method_Silent();
+    for (list<CanID*>::iterator it = ids.begin(); it != ids.end(); ++it) {
+        CanID* tmp = *it;
+        if (tmp->getId() == id) {
+            ids.remove(tmp);
+        }
+        break;
+    }
+}

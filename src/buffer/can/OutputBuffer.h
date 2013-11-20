@@ -42,6 +42,8 @@ public:
 
 protected:
     virtual void registerForArbitration(int id, bool rtr);
+
+    virtual void checkoutFromArbitration(int id);
 };
 Define_Module(OutputBuffer);
 

@@ -25,6 +25,7 @@ moduleinterface Buffer
 
         //Comma seperated list of gates where the frames of the buffer are delivered
         string destination_gates;
+        bool MOB;//If true frames with the same ID will be overwritten.
     gates:
         //The buffers Input
         input in @loose @labels(DataFrame);

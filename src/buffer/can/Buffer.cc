@@ -1,5 +1,9 @@
 #include "Buffer.h"
 
+void Buffer::initialize(){
+    MOB = par("MOB");
+}
+
 void Buffer::handleMessage(cMessage *msg) {
     if (msg->arrivedOn("in")) {
         CanDataFrame *frame = check_and_cast<CanDataFrame *>(msg);

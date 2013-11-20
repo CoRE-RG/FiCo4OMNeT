@@ -76,6 +76,11 @@ protected:
     std::list<CanDataFrame*> frames;
 
     /**
+     * @brief Initialization of the module.
+     */
+    virtual void initialize();
+
+    /**
      * @brief Is called when a new Frame is received in the buffer.
      *
      * When a frame is received on the in-Gate it is processed. If the destination
@@ -86,6 +91,11 @@ protected:
      * @param msg The incoming message
      */
     virtual void handleMessage(cMessage *msg);
+
+    /**
+     * @brief If true frames with the same ID will be overwritten.
+     */
+    bool MOB;
 
 private:
 

@@ -16,22 +16,38 @@
 #include "OutputBuffer.h"
 
 void OutputBuffer::putFrame(CanDataFrame* frame) {
+    if (MOB == true) {
+        if (getFrame(frame->getCanID()) != NULL) {
+            deleteFrame(frame->getCanID());
+            checkoutFromArbitration(frame->getCanID());
+        }
+    }
     frames.push_back(frame);
     registerForArbitration(frame->getCanID(), frame->getRtr());
 }
 
 void OutputBuffer::registerForArbitration(int id, bool rtr) {
-    CanBusApp *canBusApp = (CanBusApp*) (getParentModule()->getParentModule()->getSubmodule(
+    CanBusApp *canBusApp =
+            (CanBusApp*) (getParentModule()->getParentModule()->getSubmodule(
                     "bus")->getSubmodule("canBusApp"));
     canBusApp->registerForArbitration(id, this, simTime(), rtr);
 }
 
+void OutputBuffer::checkoutFromArbitration(int id) {
+    CanBusApp *canBusApp =
+            (CanBusApp*) (getParentModule()->getParentModule()->getSubmodule(
+                    "bus")->getSubmodule("canBusApp"));
+    canBusApp->checkoutFromArbitration(id);
+}
+
 void OutputBuffer::receiveSendingPermission(int id) {
-    Enter_Method_Silent();
+    Enter_Method_Silent
+    ();
     deliverFrame(id);
 }
 
 void OutputBuffer::sendingCompleted(int id) {
-    Enter_Method_Silent();
+    Enter_Method_Silent
+    ();
     deleteFrame(id);
 }

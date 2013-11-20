@@ -44,6 +44,11 @@ public:
      */
     virtual void registerForArbitration(int id, cModule *node, simtime_t signInTime, bool rtr);
 
+    /**
+     * @brief The request for frame with the corresponding ID will be checked out.
+     */
+    virtual void checkoutFromArbitration(int id);
+
 protected:
     /**
      * @brief collects data for the  results

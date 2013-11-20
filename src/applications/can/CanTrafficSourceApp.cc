@@ -50,7 +50,7 @@ void CanTrafficSourceApp::initialRemoteFrameCreation() {
             getParentModule()->par("periodicityRemoteFrames"), ",");
 
     cStringTokenizer dataLengthRemoteFramesTokenizer(
-            getParentModule()->par("dataLengthRemoteFrames"));
+            getParentModule()->par("dataLengthRemoteFrames"), ",");
 
     for (unsigned int i = 0; i < remoteFrameIDs.size(); i++) {
         CanDataFrame *can_msg = new CanDataFrame("remoteFrame");

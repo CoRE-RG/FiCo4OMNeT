@@ -16,10 +16,13 @@
 #include "InputBuffer.h"
 
 void InputBuffer::putFrame(CanDataFrame* frame) {
-    frames.push_back(frame);
-    //TODO weiterleiten an sinkApp
 //    send(new cMessage("Message in buffer"),"out");
-
+    if (MOB == true) {
+        if (getFrame(frame->getCanID()) != NULL) {
+            deleteFrame(frame->getCanID());
+        }
+    }
+    frames.push_back(frame);
     cModule *sinkApp = getParentModule()->getSubmodule("sinkApp");
     sendDirect(new cMessage("Message in buffer"), sinkApp, "controllerIn");
 
