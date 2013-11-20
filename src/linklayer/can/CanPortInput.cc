@@ -26,6 +26,7 @@ void CanPortInput::initialize() {
 }
 
 void CanPortInput::handleMessage(cMessage *msg) {
+    take(msg);
     string name = msg->getName();
     if (name.compare("message") == 0) {
         if (!forwardMessage(msg)) {

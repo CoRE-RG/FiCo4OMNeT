@@ -21,15 +21,13 @@ void OutputBuffer::putFrame(CanDataFrame* frame) {
 }
 
 void OutputBuffer::registerForArbitration(int id, bool rtr) {
-    CanBusApp *canBusApp =
-            (CanBusApp*) (getParentModule()->getParentModule()->getSubmodule(
+    CanBusApp *canBusApp = (CanBusApp*) (getParentModule()->getParentModule()->getSubmodule(
                     "bus")->getSubmodule("canBusApp"));
     canBusApp->registerForArbitration(id, this, simTime(), rtr);
 }
 
 void OutputBuffer::receiveSendingPermission(int id) {
-    Enter_Method_Silent
-    ();
+    Enter_Method_Silent();
     deliverFrame(id);
 }
 

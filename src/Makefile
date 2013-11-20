@@ -70,6 +70,7 @@ OBJS = \
     $O/synchronisation/flexray/FRSync.o \
     $O/linklayer/can/arb_m.o \
     $O/linklayer/can/err_m.o \
+    $O/linklayer/can/dataframe_m.o \
     $O/linklayer/can/ack_m.o \
     $O/linklayer/can/candataframe_m.o \
     $O/linklayer/flexray/FRFrame_m.o \
@@ -80,6 +81,7 @@ OBJS = \
 MSGFILES = \
     linklayer/can/arb.msg \
     linklayer/can/err.msg \
+    linklayer/can/dataframe.msg \
     linklayer/can/ack.msg \
     linklayer/can/candataframe.msg \
     linklayer/flexray/FRFrame.msg \
@@ -263,6 +265,8 @@ $O/linklayer/can/arb_m.o: linklayer/can/arb_m.cc \
 	linklayer/can/arb_m.h
 $O/linklayer/can/candataframe_m.o: linklayer/can/candataframe_m.cc \
 	linklayer/can/candataframe_m.h
+$O/linklayer/can/dataframe_m.o: linklayer/can/dataframe_m.cc \
+	linklayer/can/dataframe_m.h
 $O/linklayer/can/err_m.o: linklayer/can/err_m.cc \
 	linklayer/can/err_m.h
 $O/linklayer/flexray/FRFrame_m.o: linklayer/flexray/FRFrame_m.cc \

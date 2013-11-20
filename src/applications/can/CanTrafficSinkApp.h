@@ -69,7 +69,7 @@ private:
      *
      * @param workTime represents the time it takes until the sink can process the next frame.
      */
-    void startWorkOnFrame(double workTime);
+    void startWorkOnFrame(float workTime);
 };
 Define_Module(CanTrafficSinkApp);
 

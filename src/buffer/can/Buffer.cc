@@ -42,16 +42,19 @@ CanDataFrame* Buffer::getFrame(int id) {
 //}
 
 void Buffer::deleteFrame(int id) {
+    Enter_Method_Silent();
     CanDataFrame *tmp = getFrame(id);
     frames.remove(tmp);
     delete tmp;
 }
 
 void Buffer::deliverFrame(int id) {
+    Enter_Method_Silent();
     sendToDestinationGates(getFrame(id)->dup());
 }
 
 void Buffer::deliverPrioFrame() {
+    Enter_Method_Silent();
     int prioId = INT_MAX;
     CanDataFrame *prioFrame;
     for (std::list<CanDataFrame*>::iterator it = frames.begin();
@@ -64,11 +67,12 @@ void Buffer::deliverPrioFrame() {
             prioId = i;
         }
     }
-    sendToDestinationGates(prioFrame);
+    sendToDestinationGates(prioFrame->dup());
 }
 
 void Buffer::deliverNextFrame() {
-    sendToDestinationGates(frames.front());
+    Enter_Method_Silent();
+    sendToDestinationGates(frames.front()->dup());
 }
 
 void Buffer::sendToDestinationGates(CanDataFrame *df) {
@@ -78,5 +82,4 @@ void Buffer::sendToDestinationGates(CanDataFrame *df) {
 //        sendDirect(df->dup(), tmpGate);
 //    }
     send(df,"out");
-//    delete df;
 }
