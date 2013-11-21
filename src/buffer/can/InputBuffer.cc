@@ -16,15 +16,19 @@
 #include "InputBuffer.h"
 
 void InputBuffer::putFrame(CanDataFrame* frame) {
-//    send(new cMessage("Message in buffer"),"out");
     if (MOB == true) {
         if (getFrame(frame->getCanID()) != NULL) {
             deleteFrame(frame->getCanID());
+        } else {
+            cModule *sinkApp = getParentModule()->getSubmodule("sinkApp");
+            sendDirect(new cMessage("Message in buffer"), sinkApp,
+                    "controllerIn");
         }
+    } else {
+        cModule *sinkApp = getParentModule()->getSubmodule("sinkApp");
+        sendDirect(new cMessage("Message in buffer"), sinkApp, "controllerIn");
     }
     frames.push_back(frame);
-    cModule *sinkApp = getParentModule()->getSubmodule("sinkApp");
-    sendDirect(new cMessage("Message in buffer"), sinkApp, "controllerIn");
 
 //    sendDirect(msg,getParentModule()->getSubmodule("sinkApp"), "controllerIn");
 //    for (std::list<cGate*>::iterator it = destinationGates.begin();

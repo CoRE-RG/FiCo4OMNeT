@@ -1,8 +1,5 @@
 # Partial Tkenv config file -- see $HOME/.tkenvrc as well
-inspector "NewLayout.node[2].bufferOut" "OutputBuffer" "1" "907x314+496+34:normal"
-inspector "NewLayout" "NewLayout" "2" "460x337+1447+35:normal"
-inspector "NewLayout.node[2]" "CanNode" "2" "607x337+2056+105:normal"
-inspector "NewLayout.node[2].bufferOut.message" "CanDataFrame" "1" "460x314+8+39:normal"
+inspector "NewLayout" "NewLayout" "2" "460x337+1433+35:normal"
 inspector "NewLayout.bus.canBusApp" "canBusApp" "1" "468x314+954+709:normal"
 inspector "Canbus" "Canbus" "2" "607x337+1920+24:normal"
 inspector "NewLayout.bus" "canBus" "2" "607x337+-8+-4:normal"

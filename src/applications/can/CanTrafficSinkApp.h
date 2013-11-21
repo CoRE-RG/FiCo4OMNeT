@@ -26,9 +26,6 @@ using namespace std;
 //class Buffer;
 
 class CanTrafficSinkApp : public cSimpleModule{
-public:
-    CanTrafficSinkApp();
-    virtual ~CanTrafficSinkApp();
 
 protected:
     /**

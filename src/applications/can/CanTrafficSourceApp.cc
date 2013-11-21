@@ -27,8 +27,8 @@ CanTrafficSourceApp::~CanTrafficSourceApp() {
 void CanTrafficSourceApp::initialize() {
 //    initialRemoteFrameCreation();//TODO wieder reinmachen
     initialDataFrameCreation();
-//    canVersion =getParentModule()->par("version").str();
-    canVersion = "2.0A";
+    canVersion =getParentModule()->par("version").str();
+//    canVersion = "2.0A";
 }
 
 void CanTrafficSourceApp::handleMessage(cMessage *msg) {

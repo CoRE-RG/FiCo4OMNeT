@@ -15,15 +15,6 @@
 
 #include "CanTrafficSinkApp.h"
 
-CanTrafficSinkApp::CanTrafficSinkApp() {
-    // TODO Auto-generated constructor stub
-
-}
-
-CanTrafficSinkApp::~CanTrafficSinkApp() {
-    // TODO Auto-generated destructor stub
-}
-
 void CanTrafficSinkApp::initialize() {
     //TODO init statistics
     idle = true;
