@@ -20,9 +20,9 @@
  * <pre>
  * message DataFrame{
  * 	string node;		
- * 	int canID;				
+ * 	int canID;			
  *     int length;			
- * 	bool rtr;			
+ * 	bool remote;		
  * 	char data[8];		
  * 	simtime_t startTime;
  * 	int period;			
@@ -35,7 +35,7 @@ class DataFrame : public ::cMessage
     opp_string node_var;
     int canID_var;
     int length_var;
-    bool rtr_var;
+    bool remote_var;
     char data_var[8];
     simtime_t startTime_var;
     int period_var;
@@ -63,8 +63,8 @@ class DataFrame : public ::cMessage
     virtual void setCanID(int canID);
     virtual int getLength() const;
     virtual void setLength(int length);
-    virtual bool getRtr() const;
-    virtual void setRtr(bool rtr);
+    virtual bool getRemote() const;
+    virtual void setRemote(bool remote);
     virtual unsigned int getDataArraySize() const;
     virtual char getData(unsigned int k) const;
     virtual void setData(unsigned int k, char data);

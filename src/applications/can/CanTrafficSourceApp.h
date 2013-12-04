@@ -26,9 +26,6 @@ using namespace std;
 //class Buffer;
 
 class CanTrafficSourceApp: public cSimpleModule {
-public:
-    CanTrafficSourceApp();
-    virtual ~CanTrafficSourceApp();
 
 protected:
     /**
@@ -106,6 +103,11 @@ private:
      * @brief Calculates the length for the data frame.
      */
     int calculateLength(int datalength);
+
+    /**
+     * @brief Transmits the data frame to the connected output buffer.
+     */
+    void dataFrameTransmission(CanDataFrame *df);
 };
 Define_Module(CanTrafficSourceApp);
 #endif /* CANTRAFFICSOURCEAPP_H_ */

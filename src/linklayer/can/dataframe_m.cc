@@ -37,7 +37,7 @@ DataFrame::DataFrame(const char *name, int kind) : cMessage(name,kind)
     this->node_var = 0;
     this->canID_var = 0;
     this->length_var = 0;
-    this->rtr_var = 0;
+    this->remote_var = 0;
     for (unsigned int i=0; i<8; i++)
         this->data_var[i] = 0;
     this->startTime_var = 0;
@@ -66,7 +66,7 @@ void DataFrame::copy(const DataFrame& other)
     this->node_var = other.node_var;
     this->canID_var = other.canID_var;
     this->length_var = other.length_var;
-    this->rtr_var = other.rtr_var;
+    this->remote_var = other.remote_var;
     for (unsigned int i=0; i<8; i++)
         this->data_var[i] = other.data_var[i];
     this->startTime_var = other.startTime_var;
@@ -79,7 +79,7 @@ void DataFrame::parsimPack(cCommBuffer *b)
     doPacking(b,this->node_var);
     doPacking(b,this->canID_var);
     doPacking(b,this->length_var);
-    doPacking(b,this->rtr_var);
+    doPacking(b,this->remote_var);
     doPacking(b,this->data_var,8);
     doPacking(b,this->startTime_var);
     doPacking(b,this->period_var);
@@ -91,7 +91,7 @@ void DataFrame::parsimUnpack(cCommBuffer *b)
     doUnpacking(b,this->node_var);
     doUnpacking(b,this->canID_var);
     doUnpacking(b,this->length_var);
-    doUnpacking(b,this->rtr_var);
+    doUnpacking(b,this->remote_var);
     doUnpacking(b,this->data_var,8);
     doUnpacking(b,this->startTime_var);
     doUnpacking(b,this->period_var);
@@ -127,14 +127,14 @@ void DataFrame::setLength(int length)
     this->length_var = length;
 }
 
-bool DataFrame::getRtr() const
+bool DataFrame::getRemote() const
 {
-    return rtr_var;
+    return remote_var;
 }
 
-void DataFrame::setRtr(bool rtr)
+void DataFrame::setRemote(bool remote)
 {
-    this->rtr_var = rtr;
+    this->remote_var = remote;
 }
 
 unsigned int DataFrame::getDataArraySize() const
@@ -256,7 +256,7 @@ const char *DataFrameDescriptor::getFieldName(void *object, int field) const
         "node",
         "canID",
         "length",
-        "rtr",
+        "remote",
         "data",
         "startTime",
         "period",
@@ -271,7 +271,7 @@ int DataFrameDescriptor::findField(void *object, const char *fieldName) const
     if (fieldName[0]=='n' && strcmp(fieldName, "node")==0) return base+0;
     if (fieldName[0]=='c' && strcmp(fieldName, "canID")==0) return base+1;
     if (fieldName[0]=='l' && strcmp(fieldName, "length")==0) return base+2;
-    if (fieldName[0]=='r' && strcmp(fieldName, "rtr")==0) return base+3;
+    if (fieldName[0]=='r' && strcmp(fieldName, "remote")==0) return base+3;
     if (fieldName[0]=='d' && strcmp(fieldName, "data")==0) return base+4;
     if (fieldName[0]=='s' && strcmp(fieldName, "startTime")==0) return base+5;
     if (fieldName[0]=='p' && strcmp(fieldName, "period")==0) return base+6;
@@ -339,7 +339,7 @@ std::string DataFrameDescriptor::getFieldAsString(void *object, int field, int i
         case 0: return oppstring2string(pp->getNode());
         case 1: return long2string(pp->getCanID());
         case 2: return long2string(pp->getLength());
-        case 3: return bool2string(pp->getRtr());
+        case 3: return bool2string(pp->getRemote());
         case 4: return long2string(pp->getData(i));
         case 5: return double2string(pp->getStartTime());
         case 6: return long2string(pp->getPeriod());
@@ -360,7 +360,7 @@ bool DataFrameDescriptor::setFieldAsString(void *object, int field, int i, const
         case 0: pp->setNode((value)); return true;
         case 1: pp->setCanID(string2long(value)); return true;
         case 2: pp->setLength(string2long(value)); return true;
-        case 3: pp->setRtr(string2bool(value)); return true;
+        case 3: pp->setRemote(string2bool(value)); return true;
         case 4: pp->setData(i,string2long(value)); return true;
         case 5: pp->setStartTime(string2double(value)); return true;
         case 6: pp->setPeriod(string2long(value)); return true;

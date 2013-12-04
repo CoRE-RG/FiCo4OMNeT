@@ -22,4 +22,5 @@ simple CanTrafficSourceApp
         @display("i=block/source");
     gates:
         output out @labels(DataFrame);
+        input remoteIn @directIn;
 }

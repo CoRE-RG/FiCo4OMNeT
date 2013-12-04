@@ -19,7 +19,10 @@ void CanPortInput::initialize() {
 
     cStringTokenizer idIncomingFramesTokenizer(
             getParentModule()->getParentModule()->par("idIncomingFrames"), ",");
-    incomingIDs = idIncomingFramesTokenizer.asIntVector();
+    incomingDataFrameIDs = idIncomingFramesTokenizer.asIntVector();
+    cStringTokenizer idIncomingRemoteFramesTokenizer(
+            getParentModule()->getParentModule()->par("idDataFrames"), ",");
+    incomingRemoteFrameIDs = idIncomingRemoteFramesTokenizer.asIntVector();
 
     //TODO stats
 //    messagestats.push_back(new Stats(id)); //Statistiken f�r diese Nachricht erstellen
@@ -28,23 +31,38 @@ void CanPortInput::initialize() {
 void CanPortInput::handleMessage(cMessage *msg) {
     take(msg);
     string name = msg->getName();
-    if (name.compare("message") == 0) {
-        if (!forwardMessage(msg)) {
+    if (name.compare("message") == 0 || name.compare("remoteFrame") == 0) {
+        CanDataFrame* df = check_and_cast<CanDataFrame*>(msg);
+        if (!forwardMessage(df)) {
             EV<<"Message received but not relevant.\n";
         } else {
-            EV<<"Message received and forwarded to the buffer.\n";
+            EV<<"Message received and forwarded.\n";
         }
     }
     delete msg;
 }
 
-bool CanPortInput::forwardMessage(cMessage *msg) {
-    for (std::vector<int>::iterator it = incomingIDs.begin();
-            it != incomingIDs.end(); ++it) {
-        CanDataFrame* df = check_and_cast<CanDataFrame*>(msg);
-        if (*it == df->getCanID()) {
-            send(msg->dup(), "out");
-            return true;
+bool CanPortInput::forwardMessage(CanDataFrame *msg) {
+    if (msg->getRtr()) {
+        for (std::vector<int>::iterator it = incomingRemoteFrameIDs.begin();
+                it != incomingRemoteFrameIDs.end(); ++it) {
+            CanDataFrame* df = check_and_cast<CanDataFrame*>(msg);
+            if (*it == df->getCanID()) {
+                CanTrafficSourceApp* sourceApp =
+                        (CanTrafficSourceApp*) getParentModule()->getParentModule()->getSubmodule(
+                                "sourceApp");
+                sendDirect(msg->dup(), sourceApp, "remoteIn");
+                return true;
+            }
+        }
+    } else {
+        for (std::vector<int>::iterator it = incomingDataFrameIDs.begin();
+                it != incomingDataFrameIDs.end(); ++it) {
+            CanDataFrame* df = check_and_cast<CanDataFrame*>(msg);
+            if (*it == df->getCanID()) {
+                send(msg->dup(), "out");
+                return true;
+            }
         }
     }
     return false;

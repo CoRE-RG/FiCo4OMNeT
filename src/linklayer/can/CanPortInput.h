@@ -19,6 +19,7 @@
 #include <omnetpp.h>
 #include <string.h>
 #include "candataframe_m.h"
+#include "CanTrafficSourceApp.h"
 
 using namespace std;
 
@@ -38,14 +39,19 @@ protected:
 
 private:
     /**
-     * @brief Vector with relevant incoming messages
+     * @brief Vector with IDs of relevant incoming data frames
      */
-    vector<int> incomingIDs;
+    vector<int> incomingDataFrameIDs;
+
+    /**
+     * @brief Vector with IDs of relevant incoming remote frames
+     */
+    vector<int> incomingRemoteFrameIDs;
 
     /**
      * @brief Sends the the message to the output gate if incomingIDs contains the message ID.
      */
-    bool forwardMessage(cMessage *msg);
+    bool forwardMessage(CanDataFrame *msg);
 };
 Define_Module(CanPortInput);
 #endif /* CANPORTINPUT_H_ */

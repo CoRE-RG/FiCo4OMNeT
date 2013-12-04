@@ -36,7 +36,7 @@ module CanNode
         int numOfMessages = default(1);						// Number of messages of the node
         int numOfMobs = default(2);							// Number of physical message buffers
         bool trafficGen = default(true);					// Activate if traffic-generator shall be used (must be activated in this version)	
-        string data = default("0");							// The data - String parameter (string) separated with spaces
+        string data = default("0");							// The data - String parameter (string) separated with commas
         string idDataFrames = default("0");					// The Data Frames ID(s) - String parameter (int) separated with commas
         string periodicityDataFrames = default("0");		// data Frame period(s) for sending of messages - String parameter (int) separated with commas
         string dataLengthDataFrames = default("0");			// Datafield-length - String parameter (int) separated with commas

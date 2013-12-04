@@ -15,15 +15,6 @@
 
 #include "CanTrafficSourceApp.h"
 
-CanTrafficSourceApp::CanTrafficSourceApp() {
-    // TODO Auto-generated constructor stub
-
-}
-
-CanTrafficSourceApp::~CanTrafficSourceApp() {
-    // TODO Auto-generated destructor stub
-}
-
 void CanTrafficSourceApp::initialize() {
     canVersion = getParentModule()->par("version").stdstringValue();
     initialDataFrameCreation();
@@ -31,13 +22,8 @@ void CanTrafficSourceApp::initialize() {
 }
 
 void CanTrafficSourceApp::handleMessage(cMessage *msg) {
-    if (msg->isSelfMessage()) {
-        CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
-        CanDataFrame *outgoingFrame = df->dup();
-        outgoingFrame->setStartTime(simTime());
-        send(outgoingFrame, "out");
-        scheduleAt(simTime() + (df->getPeriod() / 1000.), df);
-    }
+    CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
+    dataFrameTransmission(df);
 }
 
 void CanTrafficSourceApp::initialRemoteFrameCreation() { //TODO was, wenn keine frames vorhanden?
@@ -94,7 +80,9 @@ void CanTrafficSourceApp::initialDataFrameCreation() { //TODO was, wenn keine fr
             can_msg->setPeriod(
                     atoi(dataFramesPeriodicityTokenizer.nextToken()));
             outgoingDataFrames.push_back(can_msg); // TODO brauch ich das? ich glaube schon
-            scheduleAt(simTime() + (can_msg->getPeriod() / 1000.), can_msg);
+            if (can_msg->getPeriod() != 0) {
+                scheduleAt(simTime() + (can_msg->getPeriod() / 1000.), can_msg);
+            }
         }
     }
 }
@@ -120,4 +108,24 @@ int CanTrafficSourceApp::calculateLength(int dataLength) {
         frameLength += ARBITRATIONFIELD29BIT;
     }
     return frameLength + DATAFRAMEOVERHEAD + (dataLength << 3); //TODO + StuffingBits
+}
+
+void CanTrafficSourceApp::dataFrameTransmission(CanDataFrame *df) {
+    CanDataFrame *outgoingFrame;
+    if (df->isSelfMessage()) {
+        outgoingFrame = df->dup();
+        scheduleAt(simTime() + (df->getPeriod() / 1000.), df);
+    } else if (df->arrivedOn("remoteIn")) {
+        for (std::vector<CanDataFrame*>::iterator it = outgoingDataFrames.begin();
+                it != outgoingDataFrames.end(); ++it) {
+            CanDataFrame *tmp = *it;
+            if (tmp->getCanID() == df->getCanID()) {
+                outgoingFrame = tmp->dup();
+                break;
+            }
+        }
+        delete df;
+    }
+    outgoingFrame->setStartTime(simTime());
+    send(outgoingFrame, "out");
 }
