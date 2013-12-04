@@ -18,8 +18,8 @@ package busmodel.nodes.can;
 import busmodel.linklayer.can.CanNodePort;
 import busmodel.buffer.can.InputBuffer;
 import busmodel.buffer.can.OutputBuffer;
-import busmodel.applications.can.CanTrafficSourceApp;
-import busmodel.applications.can.CanTrafficSinkApp;
+import busmodel.applications.can.source.CanTrafficSourceAppBase;
+import busmodel.applications.can.sink.CanTrafficSinkAppBase;
 
 module CanNode
 {
@@ -62,10 +62,10 @@ module CanNode
         bufferOut: OutputBuffer {
             @display("p=98,102");
         }
-        sourceApp: CanTrafficSourceApp {
+        sourceApp: CanTrafficSourceAppBase {
             @display("p=98,32");
         }
-        sinkApp: CanTrafficSinkApp {
+        sinkApp: CanTrafficSinkAppBase {
             @display("p=203,32");
         }
     connections:

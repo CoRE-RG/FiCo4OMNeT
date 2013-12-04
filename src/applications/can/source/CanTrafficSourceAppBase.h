@@ -13,8 +13,8 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef CANTRAFFICSOURCEAPP_H_
-#define CANTRAFFICSOURCEAPP_H_
+#ifndef CANTRAFFICSOURCEAPPBASE_H_
+#define CANTRAFFICSOURCEAPPBASE_H_
 
 #include <omnetpp.h>
 #include <string.h>
@@ -25,7 +25,7 @@ using namespace std;
 
 //class Buffer;
 
-class CanTrafficSourceApp: public cSimpleModule {
+class CanTrafficSourceAppBase: public cSimpleModule {
 
 protected:
     /**
@@ -109,5 +109,5 @@ private:
      */
     void dataFrameTransmission(CanDataFrame *df);
 };
-Define_Module(CanTrafficSourceApp);
-#endif /* CANTRAFFICSOURCEAPP_H_ */
+Define_Module(CanTrafficSourceAppBase);
+#endif /* CANTRAFFICSOURCEAPPBASE_H_ */

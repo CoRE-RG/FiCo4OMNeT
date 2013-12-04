@@ -13,20 +13,20 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include "CanTrafficSourceApp.h"
+#include "CanTrafficSourceAppBase.h"
 
-void CanTrafficSourceApp::initialize() {
+void CanTrafficSourceAppBase::initialize() {
     canVersion = getParentModule()->par("version").stdstringValue();
     initialDataFrameCreation();
     initialRemoteFrameCreation();
 }
 
-void CanTrafficSourceApp::handleMessage(cMessage *msg) {
+void CanTrafficSourceAppBase::handleMessage(cMessage *msg) {
     CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
     dataFrameTransmission(df);
 }
 
-void CanTrafficSourceApp::initialRemoteFrameCreation() { //TODO was, wenn keine frames vorhanden?
+void CanTrafficSourceAppBase::initialRemoteFrameCreation() { //TODO was, wenn keine frames vorhanden?
 
     if (getParentModule()->par("idRemoteFrames").stdstringValue() != "0") {
         cStringTokenizer remoteFrameIDsTokenizer(
@@ -58,7 +58,7 @@ void CanTrafficSourceApp::initialRemoteFrameCreation() { //TODO was, wenn keine 
     }
 }
 
-void CanTrafficSourceApp::initialDataFrameCreation() { //TODO was, wenn keine frames vorhanden?
+void CanTrafficSourceAppBase::initialDataFrameCreation() { //TODO was, wenn keine frames vorhanden?
     if (getParentModule()->par("idDataFrames").stdstringValue() != "0") {
         cStringTokenizer dataFrameIDsTokenizer(
                 getParentModule()->par("idDataFrames"), ",");
@@ -87,7 +87,7 @@ void CanTrafficSourceApp::initialDataFrameCreation() { //TODO was, wenn keine fr
     }
 }
 
-int CanTrafficSourceApp::checkAndReturnID(int id) {
+int CanTrafficSourceAppBase::checkAndReturnID(int id) {
     if (canVersion.compare("2.0A") == 0) {           //2.0A
         if (id < 0 || id > VERSIONAMAX) {
             EV<< "ID " << id << " not valid." << endl;
@@ -102,7 +102,7 @@ int CanTrafficSourceApp::checkAndReturnID(int id) {
     return id;
 }
 
-int CanTrafficSourceApp::calculateLength(int dataLength) {
+int CanTrafficSourceAppBase::calculateLength(int dataLength) {
     int frameLength = 0;
     if (canVersion.compare("2.0B") == 0) {
         frameLength += ARBITRATIONFIELD29BIT;
@@ -110,7 +110,7 @@ int CanTrafficSourceApp::calculateLength(int dataLength) {
     return frameLength + DATAFRAMEOVERHEAD + (dataLength << 3); //TODO + StuffingBits
 }
 
-void CanTrafficSourceApp::dataFrameTransmission(CanDataFrame *df) {
+void CanTrafficSourceAppBase::dataFrameTransmission(CanDataFrame *df) {
     CanDataFrame *outgoingFrame;
     if (df->isSelfMessage()) {
         outgoingFrame = df->dup();

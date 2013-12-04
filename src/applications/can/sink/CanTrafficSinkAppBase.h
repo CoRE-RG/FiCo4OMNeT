@@ -25,7 +25,7 @@ using namespace std;
 
 //class Buffer;
 
-class CanTrafficSinkApp : public cSimpleModule{
+class CanTrafficSinkAppBase : public cSimpleModule{
 
 protected:
     /**
@@ -68,6 +68,6 @@ private:
      */
     void startWorkOnFrame(float workTime);
 };
-Define_Module(CanTrafficSinkApp);
+Define_Module(CanTrafficSinkAppBase);
 
 #endif /* CANTRAFFICSINKAPP_H_ */

@@ -21,7 +21,7 @@
 #include <omnetpp.h>
 #include "Buffer.h"
 #include "CanBusApp.h"
-#include "CanTrafficSourceApp.h"
+#include "CanTrafficSourceAppBase.h"
 
 using namespace std;
 

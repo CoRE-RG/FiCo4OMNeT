@@ -48,8 +48,8 @@ bool CanPortInput::forwardMessage(CanDataFrame *msg) {
                 it != incomingRemoteFrameIDs.end(); ++it) {
             CanDataFrame* df = check_and_cast<CanDataFrame*>(msg);
             if (*it == df->getCanID()) {
-                CanTrafficSourceApp* sourceApp =
-                        (CanTrafficSourceApp*) getParentModule()->getParentModule()->getSubmodule(
+                cModule* sourceApp =
+                        getParentModule()->getParentModule()->getSubmodule(
                                 "sourceApp");
                 sendDirect(msg->dup(), sourceApp, "remoteIn");
                 return true;

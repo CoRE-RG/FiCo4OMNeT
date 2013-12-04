@@ -13,12 +13,11 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package busmodel.applications.can;
+package busmodel.applications.can.source;
 
-simple CanTrafficSourceApp
+moduleinterface ISourceApplication
 {
     parameters:
-        @class(CanTrafficSourceApp);
         @display("i=block/source");
     gates:
         output out @labels(DataFrame);

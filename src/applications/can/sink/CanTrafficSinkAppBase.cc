@@ -13,16 +13,16 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include "CanTrafficSinkApp.h"
+#include "CanTrafficSinkAppBase.h"
 
-void CanTrafficSinkApp::initialize() {
+void CanTrafficSinkAppBase::initialize() {
     //TODO init statistics
     idle = true;
     currentFrameID = 0;
     bufferMessageCounter = 0;
 }
 
-void CanTrafficSinkApp::handleMessage(cMessage *msg) {
+void CanTrafficSinkAppBase::handleMessage(cMessage *msg) {
     //TODO statistics
     string name = msg->getName();
     if (msg->arrivedOn("controllerIn")) {
@@ -50,14 +50,14 @@ void CanTrafficSinkApp::handleMessage(cMessage *msg) {
     delete msg;
 }
 
-void CanTrafficSinkApp::requestFrame() {
+void CanTrafficSinkAppBase::requestFrame() {
     InputBuffer *buffer = (InputBuffer*) (getParentModule()->getSubmodule(
             "bufferIn"));
     buffer->deliverNextFrame();
     idle = false;
 }
 
-void CanTrafficSinkApp::startWorkOnFrame(float workTime) {
+void CanTrafficSinkAppBase::startWorkOnFrame(float workTime) {
     cMessage *msg = new cMessage("workFinished");
     scheduleAt(simTime() + workTime, msg);
 }

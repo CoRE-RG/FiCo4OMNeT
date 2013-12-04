@@ -19,7 +19,6 @@
 #include <omnetpp.h>
 #include <string.h>
 #include "candataframe_m.h"
-#include "CanTrafficSourceApp.h"
 
 using namespace std;
 
