@@ -24,6 +24,7 @@ void CanPortInput::initialize() {
             getParentModule()->getParentModule()->par("idDataFrames"), ",");
     incomingRemoteFrameIDs = idIncomingRemoteFramesTokenizer.asIntVector();
 
+    bandwidth = getParentModule()->getParentModule()->par("bandwidth");
     errors = getParentModule()->getParentModule()->par("errors");
     errorperc = getParentModule()->getParentModule()->par("errorperc");
 
@@ -36,7 +37,7 @@ void CanPortInput::handleMessage(cMessage *msg) {
 //    string name = msg->getName();
     std::string msgClass = msg->getClassName();
     //TODO fix that
-    if(msgClass.compare("CanDataFrame") == 0) {
+    if (msgClass.compare("CanDataFrame") == 0) {
 //    if (name.compare("message") == 0 || name.compare("remoteFrame") == 0) {
         CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
         int rcverr = intuniform(0, 99);
@@ -50,19 +51,50 @@ void CanPortInput::handleMessage(cMessage *msg) {
                 pos--;  //wegen der verschobenen Sendezeiten
             errorMsg->setPos(pos);
             //TODO ERROR MSG VERSENDEN
-            cModule* portOutput =
-                    getParentModule()->getSubmodule(
-                            "canPortOutput");
+            cModule* portOutput = getParentModule()->getSubmodule(
+                    "canPortOutput");
             sendDirect(errorMsg, portOutput, "directIn");
         } else {
             if (!forwardMessage(df)) {
-                EV<<"Message received but not relevant. classname:" << msg->getClassName() << "\n";
+                EV<<"Message received but not relevant.\n";
             } else {
-                EV<<"Message received and forwarded. classname:" << msg->getClassName() << "\n";
+                EV<<"Message received and forwarded.\n";
             }
         }
+    } else if(msgClass.compare("ErrorFrame") == 0) {
+
+    } else if(msg->isSelfMessage()) {
+
     }
     delete msg;
+}
+
+void CanPortInput::receiveMessage(CanDataFrame *msg) {
+    CanDataFrame* df = check_and_cast<CanDataFrame*>(msg);
+    int frameLength = df->getLength();
+    if (msg->getRtr()) {
+        if (checkExistence(incomingRemoteFrameIDs, df)) {
+            cModule* sourceApp =
+                    getParentModule()->getParentModule()->getSubmodule(
+                            "sourceApp");
+            sendDirect(msg->dup(), sourceApp, "remoteIn");
+        }
+    } else {
+        if (checkExistence(incomingDataFrameIDs, df)) {
+            send(msg->dup(), "out");
+        }
+    }
+}
+
+bool CanPortInput::checkExistence(std::vector<int> registeredIncomingFrames,
+        CanDataFrame *df) {
+    for (std::vector<int>::iterator it = registeredIncomingFrames.begin();
+            it != registeredIncomingFrames.end(); ++it) {
+        if (*it == df->getCanID()) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool CanPortInput::forwardMessage(CanDataFrame *msg) {

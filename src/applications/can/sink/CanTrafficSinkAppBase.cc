@@ -30,7 +30,6 @@ void CanTrafficSinkAppBase::handleMessage(cMessage *msg) {
         if (idle) {
             requestFrame();
         }
-//    } else if (msg->arrivedOn("in")) {
     } else if (msgClass.compare("CanDataFrame") == 0) {
         CanDataFrame *frame = check_and_cast<CanDataFrame *>(msg);
         int i = frame->getCanID();

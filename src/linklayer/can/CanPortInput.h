@@ -49,7 +49,12 @@ private:
     vector<int> incomingRemoteFrameIDs;
 
     /**
-     * true if errors are activated. Initialized from ned-attribute of CAN-Node
+     * @brief Valid values are between 10000 and 1000000. Initialized from ned-attribute of CAN-Bus.
+     */
+    int bandwidth;
+
+    /**
+     * true if errors are activated. Initialized from ned-attribute of CAN-Node.
      */
     bool errors;
 
@@ -58,6 +63,13 @@ private:
     *
     */
     int errorperc;
+
+    /**
+     * @brief Incoming Data frame is scheduled until receiving is completed.
+     */
+    virtual void receiveMessage(CanDataFrame *msg);
+
+    virtual bool checkExistence(std::vector<int>registeredIncomingFrames, CanDataFrame *df);
 
     /**
      * @brief Sends the the message to the output gate if incomingIDs contains the message ID.
