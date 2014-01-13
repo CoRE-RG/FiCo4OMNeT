@@ -110,6 +110,25 @@ int CanTrafficSourceAppBase::calculateLength(int dataLength) {
     return frameLength + DATAFRAMEOVERHEAD + (dataLength << 3); //TODO + StuffingBits
 }
 
+//int CanTrafficSourceAppBase::calculateStuffingBits(CanDataFrame *df){
+//    switch(bitStuffingMethod){
+//        //no bitstuffing:
+//        case 0: return 0;
+//        //worst case:
+//        case 1: length = 47 + idlength + (datalength<<3) + (29+ idlength + (datalength<<3))/4 + 1;  //Der hintere Teil steht fuer die Stopfbits
+//        break;
+//        //Fuer eine prozentuale Verteilung:
+//        case 2: length = 47 + idlength + (datalength<<3) + (((29+ idlength + (datalength<<3))/4 + 1) * ((double)percentage/100));
+//        break;
+//        case 3: length = 47 + idlength + (datalength<<3) + binstuffbits();
+//        break;
+//        case 4: length = 0;
+//        break;
+//        default: length = 0;
+//        break;
+//    }
+//}
+
 void CanTrafficSourceAppBase::dataFrameTransmission(CanDataFrame *df) {
     CanDataFrame *outgoingFrame;
     if (df->isSelfMessage()) {

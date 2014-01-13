@@ -20,5 +20,5 @@ simple CanPortOutput
     gates:
         output out @loose;
         input in @loose;
-
+		input directIn @directIn;
 }

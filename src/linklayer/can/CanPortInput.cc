@@ -24,19 +24,42 @@ void CanPortInput::initialize() {
             getParentModule()->getParentModule()->par("idDataFrames"), ",");
     incomingRemoteFrameIDs = idIncomingRemoteFramesTokenizer.asIntVector();
 
+    errors = getParentModule()->getParentModule()->par("errors");
+    errorperc = getParentModule()->getParentModule()->par("errorperc");
+
     //TODO stats
 //    messagestats.push_back(new Stats(id)); //Statistiken f�r diese Nachricht erstellen
 }
 
 void CanPortInput::handleMessage(cMessage *msg) {
     take(msg);
-    string name = msg->getName();
-    if (name.compare("message") == 0 || name.compare("remoteFrame") == 0) {
-        CanDataFrame* df = check_and_cast<CanDataFrame*>(msg);
-        if (!forwardMessage(df)) {
-            EV<<"Message received but not relevant.\n";
+//    string name = msg->getName();
+    std::string msgClass = msg->getClassName();
+    //TODO fix that
+    if(msgClass.compare("CanDataFrame") == 0) {
+//    if (name.compare("message") == 0 || name.compare("remoteFrame") == 0) {
+        CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
+        int rcverr = intuniform(0, 99);
+        if (errors && (rcverr < errorperc)) {
+            ErrorFrame *errorMsg = new ErrorFrame("senderror");
+            int pos = intuniform(0, df->getLength() - 12); //Position zwischen 0 - L�nge des Frames (abz�glich ((EOF und ACK-Delimiter)+1))
+            errorMsg->setKind(intuniform(0, 1)); //0: Bit-Error, 1: Form-Error
+            //            errself->setNode(vectorid);
+            errorMsg->setId(df->getCanID());
+            if (pos > 0)
+                pos--;  //wegen der verschobenen Sendezeiten
+            errorMsg->setPos(pos);
+            //TODO ERROR MSG VERSENDEN
+            cModule* portOutput =
+                    getParentModule()->getSubmodule(
+                            "canPortOutput");
+            sendDirect(errorMsg, portOutput, "directIn");
         } else {
-            EV<<"Message received and forwarded.\n";
+            if (!forwardMessage(df)) {
+                EV<<"Message received but not relevant. classname:" << msg->getClassName() << "\n";
+            } else {
+                EV<<"Message received and forwarded. classname:" << msg->getClassName() << "\n";
+            }
         }
     }
     delete msg;

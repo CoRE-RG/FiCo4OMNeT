@@ -105,6 +105,11 @@ private:
     int calculateLength(int datalength);
 
     /**
+     * @brief Calculates the additional bits needed for the chosen bitstuffing method.
+     */
+    int calculateStuffingBits(CanDataFrame *df);
+
+    /**
      * @brief Transmits the data frame to the connected output buffer.
      */
     void dataFrameTransmission(CanDataFrame *df);

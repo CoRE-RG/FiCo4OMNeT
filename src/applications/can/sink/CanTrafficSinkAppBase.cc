@@ -24,14 +24,14 @@ void CanTrafficSinkAppBase::initialize() {
 
 void CanTrafficSinkAppBase::handleMessage(cMessage *msg) {
     //TODO statistics
-    string name = msg->getName();
+    std::string msgClass = msg->getClassName();
     if (msg->arrivedOn("controllerIn")) {
         bufferMessageCounter++;
         if (idle) {
             requestFrame();
         }
 //    } else if (msg->arrivedOn("in")) {
-    } else if (name.compare("message") == 0) {
+    } else if (msgClass.compare("CanDataFrame") == 0) {
         CanDataFrame *frame = check_and_cast<CanDataFrame *>(msg);
         int i = frame->getCanID();
         currentFrameID = i;
