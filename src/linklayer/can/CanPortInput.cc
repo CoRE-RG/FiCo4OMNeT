@@ -34,11 +34,8 @@ void CanPortInput::initialize() {
 
 void CanPortInput::handleMessage(cMessage *msg) {
     take(msg);
-//    string name = msg->getName();
     std::string msgClass = msg->getClassName();
-    //TODO fix that
     if (msgClass.compare("CanDataFrame") == 0) {
-//    if (name.compare("message") == 0 || name.compare("remoteFrame") == 0) {
         CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
         int rcverr = intuniform(0, 99);
         if (errors && (rcverr < errorperc)) {
@@ -50,7 +47,8 @@ void CanPortInput::handleMessage(cMessage *msg) {
             if (pos > 0)
                 pos--;  //wegen der verschobenen Sendezeiten
             errorMsg->setPos(pos);
-            //TODO ERROR MSG VERSENDEN
+            //TODO ERROR MSG SCHEDULEN
+
             cModule* portOutput = getParentModule()->getSubmodule(
                     "canPortOutput");
             sendDirect(errorMsg, portOutput, "directIn");
