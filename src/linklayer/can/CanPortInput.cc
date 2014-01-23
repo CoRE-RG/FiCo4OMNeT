@@ -35,88 +35,113 @@ void CanPortInput::initialize() {
 void CanPortInput::handleMessage(cMessage *msg) {
     take(msg);
     std::string msgClass = msg->getClassName();
-    if (msgClass.compare("CanDataFrame") == 0) {
+    if (msg->isSelfMessage()) {
+        if (msgClass.compare("ErrorFrame") == 0) {
+            ErrorFrame *ef = check_and_cast<ErrorFrame *>(msg);
+            forwardErrorFrame(ef);
+        } else {
+            CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
+            forwardDataFrame(df);
+        }
+    } else if (msgClass.compare("CanDataFrame") == 0) {
         CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
         int rcverr = intuniform(0, 99);
         if (errors && (rcverr < errorperc)) {
-            ErrorFrame *errorMsg = new ErrorFrame("senderror");
-            int pos = intuniform(0, df->getLength() - 12); //Position zwischen 0 - L�nge des Frames (abz�glich ((EOF und ACK-Delimiter)+1))
-            errorMsg->setKind(intuniform(0, 1)); //0: Bit-Error, 1: Form-Error
-            //            errself->setNode(vectorid);
-            errorMsg->setId(df->getCanID());
-            if (pos > 0)
-                pos--;  //wegen der verschobenen Sendezeiten
-            errorMsg->setPos(pos);
-            //TODO ERROR MSG SCHEDULEN
-
-            cModule* portOutput = getParentModule()->getSubmodule(
-                    "canPortOutput");
-            sendDirect(errorMsg, portOutput, "directIn");
+            handleError(df);
+//            ErrorFrame *errorMsg = new ErrorFrame("senderror");
+//            int pos = intuniform(0, df->getLength() - 12); //Position zwischen 0 - L�nge des Frames (abz�glich ((EOF und ACK-Delimiter)+1))
+//            errorMsg->setKind(intuniform(0, 1)); //0: Bit-Error, 1: Form-Error
+//            //            errself->setNode(vectorid);
+//            errorMsg->setId(df->getCanID());
+//            if (pos > 0)
+//                pos--;  //wegen der verschobenen Sendezeiten
+//            errorMsg->setPos(pos);
+//            //TODO ERROR MSG SCHEDULEN
+//
+//            cModule* portOutput = getParentModule()->getSubmodule(
+//                    "canPortOutput");
+//            sendDirect(errorMsg, portOutput, "directIn");
         } else {
-            if (!forwardMessage(df)) {
-                EV<<"Message received but not relevant.\n";
-            } else {
-                EV<<"Message received and forwarded.\n";
-            }
+            receiveMessage(df);
+//            if (!forwardMessage(df)) {
+//                EV<<"Message received but not relevant.\n";
+//            } else {
+//                EV<<"Message received and forwarded.\n";
+//            }
         }
-    } else if(msgClass.compare("ErrorFrame") == 0) {
-
-    } else if(msg->isSelfMessage()) {
-
     }
     delete msg;
 }
 
-void CanPortInput::receiveMessage(CanDataFrame *msg) {
-    CanDataFrame* df = check_and_cast<CanDataFrame*>(msg);
+void CanPortInput::receiveMessage(CanDataFrame *df) {
     int frameLength = df->getLength();
-    if (msg->getRtr()) {
-        if (checkExistence(incomingRemoteFrameIDs, df)) {
-            cModule* sourceApp =
-                    getParentModule()->getParentModule()->getSubmodule(
-                            "sourceApp");
-            sendDirect(msg->dup(), sourceApp, "remoteIn");
-        }
-    } else {
-        if (checkExistence(incomingDataFrameIDs, df)) {
-            send(msg->dup(), "out");
-        }
+    if (checkExistence(df)) {
+        scheduleAt((simTime() + calculateScheduleTiming(frameLength)), df->dup());
     }
 }
 
-bool CanPortInput::checkExistence(std::vector<int> registeredIncomingFrames,
-        CanDataFrame *df) {
-    for (std::vector<int>::iterator it = registeredIncomingFrames.begin();
-            it != registeredIncomingFrames.end(); ++it) {
-        if (*it == df->getCanID()) {
-            return true;
-        }
-    }
-    return false;
+void CanPortInput::handleError(CanDataFrame *df) {
+    ErrorFrame *errorMsg = new ErrorFrame("senderror");
+    int pos = intuniform(0, df->getLength() - 12); //Position zwischen 0 - L�nge des Frames (abz�glich ((EOF und ACK-Delimiter)+1))
+    errorMsg->setKind(intuniform(0, 1)); //0: Bit-Error, 1: Form-Error
+    //            errself->setNode(vectorid);
+    errorMsg->setId(df->getCanID());
+    if (pos > 0)
+        pos--;  //wegen der verschobenen Sendezeiten
+    errorMsg->setPos(pos);
+    scheduleAt((simTime() + calculateScheduleTiming(pos)), errorMsg->dup());
+//    cModule* portOutput = getParentModule()->getSubmodule("canPortOutput");
+//    sendDirect(errorMsg, portOutput, "directIn");
 }
 
-bool CanPortInput::forwardMessage(CanDataFrame *msg) {
-    if (msg->getRtr()) {
+bool CanPortInput::checkExistence(CanDataFrame *df) {
+    if (df->getRtr()) {
         for (std::vector<int>::iterator it = incomingRemoteFrameIDs.begin();
                 it != incomingRemoteFrameIDs.end(); ++it) {
-            CanDataFrame* df = check_and_cast<CanDataFrame*>(msg);
             if (*it == df->getCanID()) {
-                cModule* sourceApp =
-                        getParentModule()->getParentModule()->getSubmodule(
-                                "sourceApp");
-                sendDirect(msg->dup(), sourceApp, "remoteIn");
                 return true;
             }
         }
     } else {
         for (std::vector<int>::iterator it = incomingDataFrameIDs.begin();
                 it != incomingDataFrameIDs.end(); ++it) {
-            CanDataFrame* df = check_and_cast<CanDataFrame*>(msg);
             if (*it == df->getCanID()) {
-                send(msg->dup(), "out");
                 return true;
             }
         }
     }
     return false;
+}
+
+double CanPortInput::calculateScheduleTiming(int length) {
+    return ((double) length) / bandwidth;
+}
+
+void CanPortInput::forwardDataFrame(CanDataFrame *df) {
+    if (df->getRtr()) {
+        for (std::vector<int>::iterator it = incomingRemoteFrameIDs.begin();
+                it != incomingRemoteFrameIDs.end(); ++it) {
+            if (*it == df->getCanID()) {
+                cModule* sourceApp =
+                        getParentModule()->getParentModule()->getSubmodule(
+                                "sourceApp");
+                sendDirect(df->dup(), sourceApp, "remoteIn");
+                break;
+            }
+        }
+    } else {
+        for (std::vector<int>::iterator it = incomingDataFrameIDs.begin();
+                it != incomingDataFrameIDs.end(); ++it) {
+            if (*it == df->getCanID()) {
+                send(df->dup(), "out");
+                break;
+            }
+        }
+    }
+}
+
+void CanPortInput::forwardErrorFrame(ErrorFrame *ef) {
+    cModule* portOutput =
+            getParentModule()->getSubmodule("canPortOutput");
+    sendDirect(ef, portOutput, "directIn");
 }

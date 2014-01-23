@@ -1,7 +1,7 @@
 # Partial Tkenv config file -- see $HOME/.tkenvrc as well
-inspector "SimpleNewLayout.node[1]" "CanNode" "2" "469x341+1188+18:normal"
+inspector "SimpleNewLayout.node[1]" "CanNode" "2" "469x341+1181+24:normal"
 inspector "SimpleNewLayout" "SimpleNewLayout" "2" "567x337+-1+24:normal"
-inspector "SimpleNewLayout.node[0]" "CanNode" "2" "607x337+573+16:normal"
+inspector "SimpleNewLayout.node[0]" "CanNode" "2" "607x337+566+24:normal"
 inspector "NewLayout.bus" "CanBus" "2" "565x341+25+42:normal"
 inspector "NewLayout.node[0]" "CanNode" "2" "565x341+610+46:normal"
 inspector "NewLayout.bus" "canBus" "2" "607x337+-8+-4:normal"
@@ -10,7 +10,7 @@ inspector "NewLayout.node[1].canNodePort" "CanNodePort" "2" "565x341+39+388:norm
 inspector "NewLayout" "NewLayout" "2" "460x337+1193+47:normal"
 inspector "NewLayout.node[0].canNodePort" "CanNodePort" "2" "565x341+182+182:normal"
 inspector "NewLayout.node[1]" "CanNode" "2" "565x341+25+43:normal"
-inspector "NewLayout.bus.canBusApp" "CanBusApp" "1" "532x314+95+179:normal"
 inspector "NewLayout.bus.canBusApp" "canBusApp" "1" "468x314+954+709:normal"
+inspector "NewLayout.bus.canBusApp" "CanBusApp" "1" "532x314+95+179:normal"
 inspector "Canbus" "Canbus" "2" "607x337+1920+24:normal"
 

@@ -70,19 +70,29 @@ private:
     virtual void receiveMessage(CanDataFrame *msg);
 
     /**
+     * @brief
+     */
+    virtual void handleError(CanDataFrame *df);
+
+    /**
      * @brief Checks whether the received frame is relevant for this node.
      */
-    virtual bool checkExistence(std::vector<int>registeredIncomingFrames, CanDataFrame *df);
+    virtual bool checkExistence(CanDataFrame *df);
 
     /**
      * @brief Calculates when the frame is ready to be forwarded based on the number of bits.
      */
-    virtual void calculateScheduleTiming(int length);
+    virtual double calculateScheduleTiming(int length);
 
     /**
-     * @brief Sends the the message to the output gate if incomingIDs contains the message ID.
+     * @brief Sends the message to the output gate if incomingIDs contains the message ID or to the SourceApp in case of a remote frame.
      */
-    bool forwardMessage(CanDataFrame *msg);
+    virtual void forwardDataFrame(CanDataFrame *msg);
+
+    /**
+     * @brief Sends the error frame to the output gate
+     */
+    virtual void forwardErrorFrame(ErrorFrame *ef);
 };
 Define_Module(CanPortInput);
 #endif /* CANPORTINPUT_H_ */
