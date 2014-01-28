@@ -17,8 +17,8 @@
 
 void CanPortOutput::handleReceivedErrorFrame() {
     cancelEvent(scheduledErrorFrame);
-//    scheduledErrorFrame = NULL; brauch ich nicht imho
-    // frame muss neu gescheduled werden
+    delete scheduledErrorFrame;
+    scheduledErrorFrame = new ErrorFrame();
 }
 
 void CanPortOutput::initialize() {
@@ -31,7 +31,7 @@ void CanPortOutput::initialize() {
 
 void CanPortOutput::handleMessage(cMessage *msg) {
     if (msg->isSelfMessage()) {
-
+        send(msg->dup(), "out");
     } else {
         send(msg, "out");
         std::string msgClass = msg->getClassName();

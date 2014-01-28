@@ -21,6 +21,7 @@ void CanBusApp::initialize() {
     payload = false;
     errors = true;
     ack = false;
+
     payload = getParentModule()->par("payload");
     errors = getParentModule()->par("errors");
     ack = getParentModule()->par("ack");
@@ -100,6 +101,10 @@ void CanBusApp::handleMessage(cMessage *msg) {
 //                ids.erase(eraseids.at(it));
 //            }
 //            port->sendMsgToNode(sp, ef->getNode());
+        } else if(msgClass.compare("ErrorFrame") == 0) {
+
+            errored = false;
+            eraseids.clear();
         }
         grantSendingPermission();
 
@@ -109,13 +114,13 @@ void CanBusApp::handleMessage(cMessage *msg) {
 //        }
 
         ack_rcvd = true;
-        delete msg;
 
     } else if (msgClass.compare("CanDataFrame") == 0) { // externe Nachricht
         handleDataFrame(msg);
     } else if (msgClass.compare("ErrorFrame") == 0) {
         handleErrorFrame(msg);
     }
+    delete msg;
 }
 
 void CanBusApp::checkAcknowledgementReception(ArbMsg *am) {
@@ -199,32 +204,6 @@ void CanBusApp::sendingCompleted() {
     eraseids.clear();
 }
 
-void CanBusApp::handleErrorFrame(cMessage *msg) { // ich glaube das ganze hier muss komplett anders implementiert werden
-    ErrorFrame *ef = check_and_cast<ErrorFrame *>(msg);
-    if (!errored) {
-        ArbMsg *amrs = new ArbMsg("ErrResend");
-        amrs->setId(ef->getId());
-        amrs->setNode(ef->getNode());
-        scheduleAt(simTime() + (12 / (double) bandwidth), amrs); //12 - maximale L�nge eines Error-Frames
-        errorcount++;
-        numErr++;
-        errored = true;
-//    }// ich glaube das ist nach dem neuen Konzept überflüssig
-//    if (errpos > ef->getPos()) {
-//        if (errpos < INT_MAX) {
-//            errpos = ef->getPos(); //Position wird ge�ndert, aber nicht erneut an die Knoten gemeldet
-//            delete msg;
-//        } else {
-//            errpos = ef->getPos();
-//            BusPort *port = (BusPort*) (getParentModule()->getSubmodule(
-//                    "busPort"));
-//            port->forward_to_all(msg);
-//        }
-    } else {
-        delete msg;
-    }
-}
-
 void CanBusApp::handleDataFrame(cMessage *msg) {
     CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
     int length = df->getLength();
@@ -235,11 +214,27 @@ void CanBusApp::handleDataFrame(cMessage *msg) {
     nextidle = length / (double) bandwidth;
 //    }
     //TODO Der naechste Idle-Zustand ist eigentlich die (berechnete Zeit - 1), aber hier ist wieder die Sicherheits-Bitzeit mit verrechnet; Ist das so?
-    scheduleAt(simTime() + nextidle, df);
+    scheduledDataFrame = df->dup();
+    scheduleAt(simTime() + nextidle, scheduledDataFrame);
     ack_rcvd = false;
     numSent++;
     BusPort *port = (BusPort*) (getParentModule()->getSubmodule("busPort"));
     port->forward_to_all(msg->dup());
+}
+
+void CanBusApp::handleErrorFrame(cMessage *msg) { // ich glaube das ganze hier muss komplett anders implementiert werden
+    if (!errored) {
+        cancelEvent(scheduledDataFrame);
+        delete scheduledDataFrame;
+        scheduledDataFrame = new CanDataFrame();
+        ErrorFrame *ef = check_and_cast<ErrorFrame *>(msg);
+        scheduleAt(simTime() + (12 / (double) bandwidth), ef->dup()); //12 - maximale L�nge eines Error-Frames
+        errorcount++;
+        numErr++;
+        errored = true;
+        BusPort *port = (BusPort*) (getParentModule()->getSubmodule("busPort"));
+        port->forward_to_all(msg->dup());
+    }
 }
 
 void CanBusApp::registerForArbitration(int id, cModule *node,

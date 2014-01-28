@@ -39,7 +39,7 @@ void CanPortInput::initialize() {
 }
 
 void CanPortInput::handleMessage(cMessage *msg) {
-    take(msg);
+//    take(msg);
     std::string msgClass = msg->getClassName();
     if (msg->isSelfMessage()) {
         if (msgClass.compare("ErrorFrame") == 0) {
@@ -74,7 +74,7 @@ void CanPortInput::receiveMessage(CanDataFrame *df) {
 }
 
 void CanPortInput::handleError(CanDataFrame *df) {
-    ErrorFrame *errorMsg = new ErrorFrame("senderror");
+    ErrorFrame *errorMsg = new ErrorFrame("rcverror");
     int pos = intuniform(0, df->getLength() - 12); //Position zwischen 0 - L�nge des Frames (abz�glich ((EOF und ACK-Delimiter)+1))
     errorMsg->setKind(intuniform(0, 1)); //0: Bit-Error, 1: Form-Error
     errorMsg->setCanID(df->getCanID());
@@ -153,7 +153,7 @@ void CanPortInput::forwardDataFrame(CanDataFrame *df) {
 
 void CanPortInput::forwardOwnErrorFrame(ErrorFrame *ef) {
     cModule* portOutput = getParentModule()->getSubmodule("canPortOutput");
-    sendDirect(ef, portOutput, "directIn");
+    sendDirect(ef->dup(), portOutput, "directIn");
 }
 
 void CanPortInput::handleExternErrorFrame(ErrorFrame *ef) {
@@ -164,4 +164,8 @@ void CanPortInput::handleExternErrorFrame(ErrorFrame *ef) {
     }
     cancelEvent(scheduledDataFrame);
     cancelEvent(scheduledErrorFrame);
+    delete scheduledDataFrame;
+    delete scheduledErrorFrame;
+    scheduledDataFrame = new CanDataFrame();
+    scheduledErrorFrame = new ErrorFrame();
 }

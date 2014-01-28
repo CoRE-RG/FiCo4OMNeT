@@ -199,6 +199,11 @@ private:
     int currentSendingID;
 
     /**
+     * @brief Currently scheduled Data Frame
+     */
+    CanDataFrame *scheduledDataFrame;
+
+    /**
      * @brief NodeController which is currently sending.
      */
     cModule *sendingNode;
@@ -223,18 +228,18 @@ private:
     virtual void sendingCompleted();
 
     /**
-     * @brief Is called when an error frame is received.
-     *
-     *
-     */
-    virtual void handleErrorFrame(cMessage *msg);
-
-    /**
      * @brief Is called when a data frame is received.
      *
      *
      */
     virtual void handleDataFrame(cMessage *msg);
+
+    /**
+     * @brief Is called when an error frame is received.
+     *
+     *
+     */
+    virtual void handleErrorFrame(cMessage *msg);
 };
 
 Define_Module(CanBusApp);
