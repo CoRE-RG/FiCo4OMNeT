@@ -260,6 +260,7 @@ $O/linklayer/NodePort.o: linklayer/NodePort.cc \
 	nodes/can/CanNodeApp.h
 $O/linklayer/can/CanPortInput.o: linklayer/can/CanPortInput.cc \
 	linklayer/can/CanPortInput.h \
+	linklayer/can/CanPortOutput.h \
 	linklayer/can/messages/candataframe_m.h \
 	linklayer/can/messages/err_m.h
 $O/linklayer/can/CanPortOutput.o: linklayer/can/CanPortOutput.cc \

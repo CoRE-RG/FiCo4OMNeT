@@ -21,20 +21,10 @@ void CanBusApp::initialize() {
     payload = false;
     errors = true;
     ack = false;
-//    bandwidth = 1000000;
     payload = getParentModule()->par("payload");
     errors = getParentModule()->par("errors");
     ack = getParentModule()->par("ack");
     bandwidth = getParentModule()->par("bandwidth");
-//    int nodecount = getParentModule()->par("nodecount");
-//    int i;
-//    BusPort *port = (BusPort*) (getParentModule()->getSubmodule("busPort"));
-//    for (i = 0; i < nodecount; i++) {
-//        ArbMsg *init = new ArbMsg("initialize");
-//        init->setNode(i);
-//        port->sendMsgToNode(init, i);
-//    }
-
 }
 
 void CanBusApp::finish() {
@@ -51,74 +41,80 @@ void CanBusApp::finish() {
 }
 
 void CanBusApp::handleMessage(cMessage *msg) {
+    std::string msgClass = msg->getClassName();
     if (msg->isSelfMessage()) { //Bus ist wieder im Idle-Zustand
-        BusPort *port = (BusPort*) (getParentModule()->getSubmodule("busPort"));
-        string name = msg->getName();
+//        BusPort *port = (BusPort*) (getParentModule()->getSubmodule("busPort"));
+//        string name = msg->getName();
+//
+//        if (name.compare("idle") == 0) { //Wenn zuvor eine Nachricht gesendet wurde
+        if (msgClass.compare("CanDataFrame") == 0) { //Wenn zuvor eine Nachricht gesendet wurde
 
-        if (name.compare("idle") == 0) { //Wenn zuvor eine Nachricht gesendet wurde
+//            if (errorcount == 0 || !errors) {
+//                ArbMsg *am = check_and_cast<ArbMsg *>(msg);
+//
+//                if (ack) {
+//                    checkAcknowledgementReception(am);
+//                } else {
+//                    OutputBuffer* controller = check_and_cast<OutputBuffer*>(
+//                            sendingNode);
+//                    controller->sendingCompleted(currentSendingID);
+//                    stateok = true;
+//                }
+            sendingCompleted();
 
-            if (errorcount == 0 || !errors) {
-                ArbMsg *am = check_and_cast<ArbMsg *>(msg);
-
-                if (ack) {
-                    checkAcknowledgementReception(am);
-                } else {
-                    OutputBuffer* controller = check_and_cast<OutputBuffer*>(sendingNode);
-                    controller->sendingCompleted(currentSendingID);
-                    stateok = true;
-                }
-
-            } else {
-                errorcount--;
-            }
-
-        } else if (name.compare("SendingComplete") == 0) {
-            ArbMsg *am = check_and_cast<ArbMsg *>(msg);
-            AckMsg *newam = new AckMsg("SendingComplete");
-            newam->setId(am->getId());
-            stateok = true;
-            port->sendMsgToNode(newam, am->getNode());
-
-        } else if (name.compare("ErrResend") == 0) {
-            ArbMsg *ef = check_and_cast<ArbMsg *>(msg);
-            ArbMsg *sp = new ArbMsg("ErrResendCompl");
-            sp->setRemotesent(true);
-            sp->setId(ef->getId());
-            sp->setNode(ef->getNode());
-            scheduleAt(simTime() + (errpos / (double) bandwidth), sp);
-            errored = false;
-            stateok = false;
-            errpos = INT_MAX;
-
-        } else if (name.compare("ErrResendCompl") == 0) {
-            ArbMsg *ef = check_and_cast<ArbMsg *>(msg);
-            ArbMsg *sp = new ArbMsg("SendingPermission");
-            sp->setSignInTime(currsit);
-            sp->setRemotesent(true);
-            sp->setId(ef->getId());
-            vector<list<CanID*>::iterator> eraseids;
-            for (list<CanID*>::iterator it = ids.begin(); it != ids.end(); ++it) {
-                CanID *id = *it;
-                if (id->getId() == ef->getId()) {
-                    eraseids.push_back(it);
-                }
-            }
-            for (unsigned int it = 0; it != eraseids.size(); it++) {
-                ids.erase(eraseids.at(it));
-            }
-            port->sendMsgToNode(sp, ef->getNode());
+//            } else {
+//                errorcount--;
+//            }
+//        } else if (name.compare("SendingComplete") == 0) {
+//            ArbMsg *am = check_and_cast<ArbMsg *>(msg);
+//            AckMsg *newam = new AckMsg("SendingComplete");
+//            newam->setId(am->getId());
+//            stateok = true;
+//            port->sendMsgToNode(newam, am->getNode());
+//
+//        } else if (name.compare("ErrResend") == 0) {
+//            ArbMsg *ef = check_and_cast<ArbMsg *>(msg);
+//            ArbMsg *sp = new ArbMsg("ErrResendCompl");
+//            sp->setRemotesent(true);
+//            sp->setId(ef->getId());
+//            sp->setNode(ef->getNode());
+//            scheduleAt(simTime() + (errpos / (double) bandwidth), sp);
+//            errored = false;
+//            stateok = false;
+//            errpos = INT_MAX;
+//
+//        } else if (name.compare("ErrResendCompl") == 0) {
+//            ArbMsg *ef = check_and_cast<ArbMsg *>(msg);
+//            ArbMsg *sp = new ArbMsg("SendingPermission");
+//            sp->setSignInTime(currsit);
+//            sp->setRemotesent(true);
+//            sp->setId(ef->getId());
+//            vector<list<CanID*>::iterator> eraseids;
+//            for (list<CanID*>::iterator it = ids.begin(); it != ids.end(); ++it) {
+//                CanID *id = *it;
+//                if (id->getId() == ef->getId()) {
+//                    eraseids.push_back(it);
+//                }
+//            }
+//            for (unsigned int it = 0; it != eraseids.size(); it++) {
+//                ids.erase(eraseids.at(it));
+//            }
+//            port->sendMsgToNode(sp, ef->getNode());
         }
+        grantSendingPermission();
 
-        if ((!errors || errorcount == 0) && ((ack && ack_rcvd) || !ack)
-                && stateok) { //Auswahl der nächsten zu sendenden Nachricht
-            grantSendingPermission();
-        }
+//        if ((!errors || errorcount == 0) && ((ack && ack_rcvd) || !ack) //TODO äh ja soll das so? brauch ich das? ich glaube (hoffe) nicht
+//                && stateok) { //Auswahl der nächsten zu sendenden Nachricht
+//            grantSendingPermission();
+//        }
 
         ack_rcvd = true;
         delete msg;
 
-    } else { // externe Nachricht
+    } else if (msgClass.compare("CanDataFrame") == 0) { // externe Nachricht
         handleDataFrame(msg);
+    } else if (msgClass.compare("ErrorFrame") == 0) {
+        handleErrorFrame(msg);
     }
 }
 
@@ -151,8 +147,6 @@ void CanBusApp::grantSendingPermission() {
     currentSendingID = INT_MAX;
     sendingNode = NULL;
 
-    list<CanID*>::iterator delit;
-    vector<list<CanID*>::iterator> eraseids;
     for (list<CanID*>::iterator it = ids.begin(); it != ids.end(); ++it) { //finden der höchsten Priorität aller angemeldeten Nachrichten
         CanID *id = *it;
         if (id->getId() < currentSendingID) {
@@ -161,20 +155,19 @@ void CanBusApp::grantSendingPermission() {
             currsit = id->getSignInTime();
         }
     }
+
     int sendcount = 0;
-    for (list<CanID*>::iterator it = ids.begin(); it != ids.end(); ++it) { //finden, ob remote frame für diese ID auch gesendet werden soll und das löschen aller frames mit dieser ID wird eingeleitet
+    for (list<CanID*>::iterator it = ids.begin(); it != ids.end(); ++it) { //finden, ob remote frame für diese ID auch gesendet werden soll
         CanID *id = *it;
         if (id->getId() == currentSendingID) {
             if (id->getRtr() == false) { //Data-Frame
-                if (sendingNode != id->getNode()) { //bei dem ursprünglich gefundenen node handelt es sich um einen remote frame
+//                if (sendingNode != id->getNode()) { //bei dem ursprünglich gefundenen node handelt es sich um einen remote frame
                     sendingNode = (OutputBuffer*) id->getNode(); //der Node, der einen Data frame senden möcte wird zum senden ausgewählt
                     currsit = id->getSignInTime();
                     sendcount++;
-                }
-                eraseids.push_back(it);
-            } else { //Remote-Frame
-                eraseids.push_back(it);
+//                }
             }
+            eraseids.push_back(it);
         }
     }
     if (sendcount > 1) {
@@ -183,9 +176,6 @@ void CanBusApp::grantSendingPermission() {
         endSimulation();
     }
     if (sendingNode != NULL) {
-        for (unsigned int it = 0; it != eraseids.size(); it++) {
-            ids.erase(eraseids.at(it));
-        }
         OutputBuffer* controller = check_and_cast<OutputBuffer *>(sendingNode);
         controller->receiveSendingPermission(currentSendingID);
     } else {
@@ -200,7 +190,16 @@ void CanBusApp::grantSendingPermission() {
     }
 }
 
-void CanBusApp::handleErrorFrame(cMessage *msg) {
+void CanBusApp::sendingCompleted() {
+    OutputBuffer* controller = check_and_cast<OutputBuffer*>(sendingNode);
+    controller->sendingCompleted(currentSendingID);
+    for (unsigned int it = 0; it != eraseids.size(); it++) {
+        ids.erase(eraseids.at(it));
+    }
+    eraseids.clear();
+}
+
+void CanBusApp::handleErrorFrame(cMessage *msg) { // ich glaube das ganze hier muss komplett anders implementiert werden
     ErrorFrame *ef = check_and_cast<ErrorFrame *>(msg);
     if (!errored) {
         ArbMsg *amrs = new ArbMsg("ErrResend");
@@ -210,49 +209,48 @@ void CanBusApp::handleErrorFrame(cMessage *msg) {
         errorcount++;
         numErr++;
         errored = true;
-    }
-    if (errpos > ef->getPos()) {
-        if (errpos < INT_MAX) {
-            errpos = ef->getPos(); //Position wird ge�ndert, aber nicht erneut an die Knoten gemeldet
-            delete msg;
-        } else {
-            errpos = ef->getPos();
-            BusPort *port = (BusPort*) (getParentModule()->getSubmodule(
-                    "busPort"));
-            port->forward_to_all(msg);
-        }
+//    }// ich glaube das ist nach dem neuen Konzept überflüssig
+//    if (errpos > ef->getPos()) {
+//        if (errpos < INT_MAX) {
+//            errpos = ef->getPos(); //Position wird ge�ndert, aber nicht erneut an die Knoten gemeldet
+//            delete msg;
+//        } else {
+//            errpos = ef->getPos();
+//            BusPort *port = (BusPort*) (getParentModule()->getSubmodule(
+//                    "busPort"));
+//            port->forward_to_all(msg);
+//        }
     } else {
         delete msg;
     }
 }
 
 void CanBusApp::handleDataFrame(cMessage *msg) {
-    ArbMsg *self = new ArbMsg("idle");
     CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
-    self->setId(df->getCanID());
     int length = df->getLength();
     double nextidle;
-    if (ack) {
-        nextidle = (length - 11) / (double) bandwidth; //Bus guckt zum ACK-Slot nach Best�tigung
-    } else {
-        nextidle = length / (double) bandwidth;
-    }
-    //Der naechste Idle-Zustand ist eigentlich die (berechnete Zeit - 1), aber hier ist wieder die Sicherheits-Bitzeit mit verrechnet
-    scheduleAt(simTime() + nextidle, self);
+//    if (ack) {
+//        nextidle = (length - 11) / (double) bandwidth; //Bus guckt zum ACK-Slot nach Best�tigung
+//    } else {
+    nextidle = length / (double) bandwidth;
+//    }
+    //TODO Der naechste Idle-Zustand ist eigentlich die (berechnete Zeit - 1), aber hier ist wieder die Sicherheits-Bitzeit mit verrechnet; Ist das so?
+    scheduleAt(simTime() + nextidle, df);
     ack_rcvd = false;
     numSent++;
     BusPort *port = (BusPort*) (getParentModule()->getSubmodule("busPort"));
-    port->forward_to_all(msg);
+    port->forward_to_all(msg->dup());
 }
 
-void CanBusApp::registerForArbitration(int id, cModule *node, simtime_t signInTime, bool rtr){
+void CanBusApp::registerForArbitration(int id, cModule *node,
+        simtime_t signInTime, bool rtr) {
     Enter_Method_Silent();
     ids.push_back(new CanID(id, node, signInTime, rtr));
 
     if (idle) {
         cMessage *self = new cMessage("idle_signin");
         ack_rcvd = true;
-        scheduleAt(simTime() + (1 / (double) bandwidth), self);
+        scheduleAt(simTime() + (1 / (double) bandwidth), self); //TODO was hat das mit dieser +1 auf sich?
         idle = false;
         busytimestamp = simTime();
         char buf[64];
@@ -262,7 +260,7 @@ void CanBusApp::registerForArbitration(int id, cModule *node, simtime_t signInTi
     }
 }
 
-void CanBusApp::checkoutFromArbitration(int id){
+void CanBusApp::checkoutFromArbitration(int id) {
     Enter_Method_Silent();
     for (list<CanID*>::iterator it = ids.begin(); it != ids.end(); ++it) {
         CanID* tmp = *it;

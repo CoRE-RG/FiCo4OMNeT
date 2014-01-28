@@ -15,35 +15,45 @@
 
 #include "CanPortOutput.h"
 
-CanPortOutput::CanPortOutput() {
-    // TODO Auto-generated constructor stub
-
-}
-
-CanPortOutput::~CanPortOutput() {
-    // TODO Auto-generated destructor stub
+void CanPortOutput::handleReceivedErrorFrame() {
+    cancelEvent(scheduledErrorFrame);
+//    scheduledErrorFrame = NULL; brauch ich nicht imho
+    // frame muss neu gescheduled werden
 }
 
 void CanPortOutput::initialize() {
+    bandwidth = getParentModule()->getParentModule()->par("bandwidth");
     errors = getParentModule()->getParentModule()->par("errors");
     errorperc = getParentModule()->getParentModule()->par("errorperc");
+
+    scheduledErrorFrame = new ErrorFrame();
 }
 
 void CanPortOutput::handleMessage(cMessage *msg) {
-    send(msg, "out");
-    if (errors) {
-        int senderr = intuniform(0, 99);
-        if (senderr < errorperc) {
-            CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
-            ErrorFrame *errself = new ErrorFrame("senderror");
-            int pos = intuniform(0, df->getLength() - 12); //Position zwischen 0 - L�nge des Frames (abz�glich ((EOF und ACK-Delimiter)+1))
-            errself->setKind(intuniform(0, 1)); //0: Bit-Error, 1: Form-Error
-//            errself->setNode(vectorid);
-            errself->setId(df->getCanID());
-            if (pos > 0)
-                pos--;  //wegen der verschobenen Sendezeiten
-            errself->setPos(pos);
-            send(errself, "out");
+    if (msg->isSelfMessage()) {
+
+    } else {
+        send(msg, "out");
+        std::string msgClass = msg->getClassName();
+        if (errors && (msgClass.compare("CanDataFrame") == 0)) {
+            int senderr = intuniform(0, 99);
+            if (senderr < errorperc) {
+                CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
+                ErrorFrame *errself = new ErrorFrame("senderror");
+                int pos = intuniform(0, df->getLength() - 12); //Position zwischen 0 - L�nge des Frames (abz�glich ((EOF und ACK-Delimiter)+1))
+                errself->setKind(intuniform(0, 1)); //0: Bit-Error, 1: Form-Error
+                errself->setCanID(df->getCanID());
+                if (pos > 0)
+                    pos--;  //wegen der verschobenen Sendezeiten
+                errself->setPos(pos);
+                scheduledErrorFrame = errself;
+                scheduleAt((simTime() + calculateScheduleTiming(pos)),
+                        scheduledErrorFrame);
+            }
         }
     }
+}
+
+double CanPortOutput::calculateScheduleTiming(int length) {
+    return ((double) length) / bandwidth;
 }

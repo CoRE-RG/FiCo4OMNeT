@@ -22,8 +22,10 @@
 
 class CanPortOutput : public cSimpleModule{
 public:
-    CanPortOutput();
-    virtual ~CanPortOutput();
+    /**
+     * @brief Handles received error frames so that scheduled error events can be canceled.
+     */
+    virtual void handleReceivedErrorFrame();
 
 protected:
     /**
@@ -40,6 +42,11 @@ protected:
 
 private:
     /**
+     * @brief Valid values are between 10000 and 1000000. Initialized from ned-attribute of CAN-Bus.
+     */
+    int bandwidth;
+
+    /**
      * true if errors are activated. Initialized from ned-attribute of CAN-Node
      */
     bool errors;
@@ -49,6 +56,16 @@ private:
     *
     */
     int errorperc;
+
+    /**
+     * @brief The currently scheduled error frame.
+     */
+    ErrorFrame *scheduledErrorFrame;
+
+    /**
+     * @brief Calculates when the frame is ready to be forwarded based on the number of bits.
+     */
+    virtual double calculateScheduleTiming(int length);
 };
 Define_Module(CanPortOutput);
 #endif /* CANPORTOUTPUT_H_ */

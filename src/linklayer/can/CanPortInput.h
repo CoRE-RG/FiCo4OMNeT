@@ -20,10 +20,11 @@
 #include <string.h>
 #include "candataframe_m.h"
 #include "err_m.h"
+#include "CanPortOutput.h"
 
 using namespace std;
 
-class CanPortInput : public cSimpleModule{
+class CanPortInput: public cSimpleModule {
 protected:
     /**
      *
@@ -46,7 +47,12 @@ private:
     /**
      * @brief Vector with IDs of relevant incoming remote frames
      */
-    vector<int> incomingRemoteFrameIDs;
+    vector<int> outgoingDataFrameIDs;
+
+    /**
+     * @brief Vector with IDs of outgoing remote frames
+     */
+    vector<int> outgoingRemoteFrameIDs;
 
     /**
      * @brief Valid values are between 10000 and 1000000. Initialized from ned-attribute of CAN-Bus.
@@ -59,10 +65,20 @@ private:
     bool errors;
 
     /**
-    * if errors = true then this is the amount of errors appearing on the node in percent. Initialized from ned-attribute of CAN-Node
-    *
-    */
+     * if errors = true then this is the amount of errors appearing on the node in percent. Initialized from ned-attribute of CAN-Node
+     *
+     */
     int errorperc;
+
+    /**
+     * @brief Currently scheduled Data Frame
+     */
+    CanDataFrame *scheduledDataFrame;
+
+    /**
+     * @brief Currently scheduled Error Frame
+     */
+    ErrorFrame *scheduledErrorFrame;
 
     /**
      * @brief Incoming Data frame is scheduled until receiving is completed.
@@ -80,6 +96,21 @@ private:
     virtual bool checkExistence(CanDataFrame *df);
 
     /**
+     * @brief Checks whether the frame with the corresponding ID is sent by this node.
+     */
+    virtual bool checkOutgoingDataFrames(int id);
+
+    /**
+     * @brief Checks whether the frame with the corresponding ID is sent by this node.
+     */
+    virtual bool checkOutgoingRemoteFrames(int id);
+
+    /**
+     * @brief Checks whether the frame is listed in the relevant incoming frames.
+     */
+    virtual bool checkIncomingDataFrames(int id);
+
+    /**
      * @brief Calculates when the frame is ready to be forwarded based on the number of bits.
      */
     virtual double calculateScheduleTiming(int length);
@@ -92,7 +123,13 @@ private:
     /**
      * @brief Sends the error frame to the output gate
      */
-    virtual void forwardErrorFrame(ErrorFrame *ef);
+    virtual void forwardOwnErrorFrame(ErrorFrame *ef);
+
+    /**
+     * @brief
+     */
+    virtual void handleExternErrorFrame(ErrorFrame *ef);
 };
-Define_Module(CanPortInput);
+Define_Module(CanPortInput)
+;
 #endif /* CANPORTINPUT_H_ */

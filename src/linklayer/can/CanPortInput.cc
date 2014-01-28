@@ -22,11 +22,17 @@ void CanPortInput::initialize() {
     incomingDataFrameIDs = idIncomingFramesTokenizer.asIntVector();
     cStringTokenizer idIncomingRemoteFramesTokenizer(
             getParentModule()->getParentModule()->par("idDataFrames"), ",");
-    incomingRemoteFrameIDs = idIncomingRemoteFramesTokenizer.asIntVector();
+    outgoingDataFrameIDs = idIncomingRemoteFramesTokenizer.asIntVector();
+    cStringTokenizer idOutgoingRemoteFramesTokenizer(
+            getParentModule()->getParentModule()->par("idRemoteFrames"), ",");
+    outgoingRemoteFrameIDs = idIncomingRemoteFramesTokenizer.asIntVector();
 
     bandwidth = getParentModule()->getParentModule()->par("bandwidth");
     errors = getParentModule()->getParentModule()->par("errors");
     errorperc = getParentModule()->getParentModule()->par("errorperc");
+
+    scheduledDataFrame = new CanDataFrame();
+    scheduledErrorFrame = new ErrorFrame();
 
     //TODO stats
 //    messagestats.push_back(new Stats(id)); //Statistiken f�r diese Nachricht erstellen
@@ -38,7 +44,7 @@ void CanPortInput::handleMessage(cMessage *msg) {
     if (msg->isSelfMessage()) {
         if (msgClass.compare("ErrorFrame") == 0) {
             ErrorFrame *ef = check_and_cast<ErrorFrame *>(msg);
-            forwardErrorFrame(ef);
+            forwardOwnErrorFrame(ef);
         } else {
             CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
             forwardDataFrame(df);
@@ -48,27 +54,12 @@ void CanPortInput::handleMessage(cMessage *msg) {
         int rcverr = intuniform(0, 99);
         if (errors && (rcverr < errorperc)) {
             handleError(df);
-//            ErrorFrame *errorMsg = new ErrorFrame("senderror");
-//            int pos = intuniform(0, df->getLength() - 12); //Position zwischen 0 - L�nge des Frames (abz�glich ((EOF und ACK-Delimiter)+1))
-//            errorMsg->setKind(intuniform(0, 1)); //0: Bit-Error, 1: Form-Error
-//            //            errself->setNode(vectorid);
-//            errorMsg->setId(df->getCanID());
-//            if (pos > 0)
-//                pos--;  //wegen der verschobenen Sendezeiten
-//            errorMsg->setPos(pos);
-//            //TODO ERROR MSG SCHEDULEN
-//
-//            cModule* portOutput = getParentModule()->getSubmodule(
-//                    "canPortOutput");
-//            sendDirect(errorMsg, portOutput, "directIn");
         } else {
             receiveMessage(df);
-//            if (!forwardMessage(df)) {
-//                EV<<"Message received but not relevant.\n";
-//            } else {
-//                EV<<"Message received and forwarded.\n";
-//            }
         }
+    } else if (msgClass.compare("ErrorFrame") == 0) {
+        ErrorFrame *ef = check_and_cast<ErrorFrame *>(msg);
+        handleExternErrorFrame(ef);
     }
     delete msg;
 }
@@ -76,7 +67,9 @@ void CanPortInput::handleMessage(cMessage *msg) {
 void CanPortInput::receiveMessage(CanDataFrame *df) {
     int frameLength = df->getLength();
     if (checkExistence(df)) {
-        scheduleAt((simTime() + calculateScheduleTiming(frameLength)), df->dup());
+        scheduledDataFrame = df->dup();
+        scheduleAt((simTime() + calculateScheduleTiming(frameLength)),
+                scheduledDataFrame);
     }
 }
 
@@ -84,30 +77,48 @@ void CanPortInput::handleError(CanDataFrame *df) {
     ErrorFrame *errorMsg = new ErrorFrame("senderror");
     int pos = intuniform(0, df->getLength() - 12); //Position zwischen 0 - L�nge des Frames (abz�glich ((EOF und ACK-Delimiter)+1))
     errorMsg->setKind(intuniform(0, 1)); //0: Bit-Error, 1: Form-Error
-    //            errself->setNode(vectorid);
-    errorMsg->setId(df->getCanID());
+    errorMsg->setCanID(df->getCanID());
     if (pos > 0)
         pos--;  //wegen der verschobenen Sendezeiten
     errorMsg->setPos(pos);
-    scheduleAt((simTime() + calculateScheduleTiming(pos)), errorMsg->dup());
-//    cModule* portOutput = getParentModule()->getSubmodule("canPortOutput");
-//    sendDirect(errorMsg, portOutput, "directIn");
+    scheduledErrorFrame = errorMsg;
+    scheduleAt((simTime() + calculateScheduleTiming(pos)), scheduledErrorFrame);
+//    scheduleAt((simTime() + calculateScheduleTiming(pos)), errorMsg->dup());
 }
 
 bool CanPortInput::checkExistence(CanDataFrame *df) {
     if (df->getRtr()) {
-        for (std::vector<int>::iterator it = incomingRemoteFrameIDs.begin();
-                it != incomingRemoteFrameIDs.end(); ++it) {
-            if (*it == df->getCanID()) {
-                return true;
-            }
-        }
+        return checkOutgoingDataFrames(df->getCanID());
     } else {
-        for (std::vector<int>::iterator it = incomingDataFrameIDs.begin();
-                it != incomingDataFrameIDs.end(); ++it) {
-            if (*it == df->getCanID()) {
-                return true;
-            }
+        return checkIncomingDataFrames(df->getCanID());
+    }
+}
+
+bool CanPortInput::checkOutgoingDataFrames(int id) {
+    for (std::vector<int>::iterator it = outgoingDataFrameIDs.begin();
+            it != outgoingDataFrameIDs.end(); ++it) {
+        if (*it == id) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool CanPortInput::checkOutgoingRemoteFrames(int id) {
+    for (std::vector<int>::iterator it = outgoingRemoteFrameIDs.begin();
+            it != outgoingRemoteFrameIDs.end(); ++it) {
+        if (*it == id) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool CanPortInput::checkIncomingDataFrames(int id) {
+    for (std::vector<int>::iterator it = incomingDataFrameIDs.begin();
+            it != incomingDataFrameIDs.end(); ++it) {
+        if (*it == id) {
+            return true;
         }
     }
     return false;
@@ -119,8 +130,8 @@ double CanPortInput::calculateScheduleTiming(int length) {
 
 void CanPortInput::forwardDataFrame(CanDataFrame *df) {
     if (df->getRtr()) {
-        for (std::vector<int>::iterator it = incomingRemoteFrameIDs.begin();
-                it != incomingRemoteFrameIDs.end(); ++it) {
+        for (std::vector<int>::iterator it = outgoingDataFrameIDs.begin();
+                it != outgoingDataFrameIDs.end(); ++it) {
             if (*it == df->getCanID()) {
                 cModule* sourceApp =
                         getParentModule()->getParentModule()->getSubmodule(
@@ -140,8 +151,17 @@ void CanPortInput::forwardDataFrame(CanDataFrame *df) {
     }
 }
 
-void CanPortInput::forwardErrorFrame(ErrorFrame *ef) {
-    cModule* portOutput =
-            getParentModule()->getSubmodule("canPortOutput");
+void CanPortInput::forwardOwnErrorFrame(ErrorFrame *ef) {
+    cModule* portOutput = getParentModule()->getSubmodule("canPortOutput");
     sendDirect(ef, portOutput, "directIn");
+}
+
+void CanPortInput::handleExternErrorFrame(ErrorFrame *ef) {
+    if (checkOutgoingDataFrames(ef->getCanID()) || checkOutgoingRemoteFrames(ef->getCanID())) {
+        CanPortOutput* portOutput = (CanPortOutput*)getParentModule()->getSubmodule("canPortOutput");
+        portOutput->handleReceivedErrorFrame();
+        // dieser knoten ist sender; ef an output; da evtl. geschedulte ef löschen & neue Arbitrierung
+    }
+    cancelEvent(scheduledDataFrame);
+    cancelEvent(scheduledErrorFrame);
 }

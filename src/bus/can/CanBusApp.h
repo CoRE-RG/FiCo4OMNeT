@@ -176,6 +176,11 @@ private:
      */
     list<CanID*> ids; //Die Nachrichten-IDs der Knoten, die senden wollen
 
+    /**
+     * Vector with CanIDs which are currently scheduled for arbitration and will be deleted after transmission.
+     */
+    vector<list<CanID*>::iterator> eraseids;
+
     //Statistiken:
     /**
      * number of sent messages. For statistics-collection of the bus.
@@ -211,6 +216,11 @@ private:
      *
      */
     virtual void grantSendingPermission();
+
+    /**
+     *
+     */
+    virtual void sendingCompleted();
 
     /**
      * @brief Is called when an error frame is received.
