@@ -88,7 +88,7 @@ private:
     /**
      * @brief
      */
-    virtual void handleError(CanDataFrame *df);
+    virtual void generateReceiveError(CanDataFrame *df);
 
     /**
      * @brief Checks whether the received frame is relevant for this node.

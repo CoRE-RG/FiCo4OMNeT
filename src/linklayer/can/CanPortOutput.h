@@ -66,6 +66,7 @@ private:
      * @brief Calculates when the frame is ready to be forwarded based on the number of bits.
      */
     virtual double calculateScheduleTiming(int length);
+
 };
 Define_Module(CanPortOutput);
 #endif /* CANPORTOUTPUT_H_ */

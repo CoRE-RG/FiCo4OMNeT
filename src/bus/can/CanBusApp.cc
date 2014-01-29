@@ -21,6 +21,7 @@ void CanBusApp::initialize() {
     payload = false;
     errors = true;
     ack = false;
+    scheduledDataFrame = new CanDataFrame();
 
     payload = getParentModule()->par("payload");
     errors = getParentModule()->par("errors");
@@ -42,6 +43,7 @@ void CanBusApp::finish() {
 }
 
 void CanBusApp::handleMessage(cMessage *msg) {
+    take(msg);
     std::string msgClass = msg->getClassName();
     if (msg->isSelfMessage()) { //Bus ist wieder im Idle-Zustand
 //        BusPort *port = (BusPort*) (getParentModule()->getSubmodule("busPort"));
@@ -101,18 +103,12 @@ void CanBusApp::handleMessage(cMessage *msg) {
 //                ids.erase(eraseids.at(it));
 //            }
 //            port->sendMsgToNode(sp, ef->getNode());
-        } else if(msgClass.compare("ErrorFrame") == 0) {
-
+        } else if (msgClass.compare("ErrorFrame") == 0) {
+            scheduledDataFrame = new CanDataFrame();
             errored = false;
             eraseids.clear();
         }
         grantSendingPermission();
-
-//        if ((!errors || errorcount == 0) && ((ack && ack_rcvd) || !ack) //TODO äh ja soll das so? brauch ich das? ich glaube (hoffe) nicht
-//                && stateok) { //Auswahl der nächsten zu sendenden Nachricht
-//            grantSendingPermission();
-//        }
-
         ack_rcvd = true;
 
     } else if (msgClass.compare("CanDataFrame") == 0) { // externe Nachricht
@@ -167,9 +163,9 @@ void CanBusApp::grantSendingPermission() {
         if (id->getId() == currentSendingID) {
             if (id->getRtr() == false) { //Data-Frame
 //                if (sendingNode != id->getNode()) { //bei dem ursprünglich gefundenen node handelt es sich um einen remote frame
-                    sendingNode = (OutputBuffer*) id->getNode(); //der Node, der einen Data frame senden möcte wird zum senden ausgewählt
-                    currsit = id->getSignInTime();
-                    sendcount++;
+                sendingNode = (OutputBuffer*) id->getNode(); //der Node, der einen Data frame senden möcte wird zum senden ausgewählt
+                currsit = id->getSignInTime();
+                sendcount++;
 //                }
             }
             eraseids.push_back(it);
@@ -202,17 +198,15 @@ void CanBusApp::sendingCompleted() {
         ids.erase(eraseids.at(it));
     }
     eraseids.clear();
+    errored = false;
+    scheduledDataFrame = new CanDataFrame();
 }
 
 void CanBusApp::handleDataFrame(cMessage *msg) {
     CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
     int length = df->getLength();
     double nextidle;
-//    if (ack) {
-//        nextidle = (length - 11) / (double) bandwidth; //Bus guckt zum ACK-Slot nach Best�tigung
-//    } else {
     nextidle = length / (double) bandwidth;
-//    }
     //TODO Der naechste Idle-Zustand ist eigentlich die (berechnete Zeit - 1), aber hier ist wieder die Sicherheits-Bitzeit mit verrechnet; Ist das so?
     scheduledDataFrame = df->dup();
     scheduleAt(simTime() + nextidle, scheduledDataFrame);
@@ -222,11 +216,13 @@ void CanBusApp::handleDataFrame(cMessage *msg) {
     port->forward_to_all(msg->dup());
 }
 
-void CanBusApp::handleErrorFrame(cMessage *msg) { // ich glaube das ganze hier muss komplett anders implementiert werden
-    if (!errored) {
+void CanBusApp::handleErrorFrame(cMessage *msg) {
+    if (scheduledDataFrame->isScheduled()) {
         cancelEvent(scheduledDataFrame);
-        delete scheduledDataFrame;
-        scheduledDataFrame = new CanDataFrame();
+    }
+    if (!errored) {
+//        delete scheduledDataFrame;
+//        scheduledDataFrame = new CanDataFrame();
         ErrorFrame *ef = check_and_cast<ErrorFrame *>(msg);
         scheduleAt(simTime() + (12 / (double) bandwidth), ef->dup()); //12 - maximale L�nge eines Error-Frames
         errorcount++;
@@ -239,7 +235,8 @@ void CanBusApp::handleErrorFrame(cMessage *msg) { // ich glaube das ganze hier m
 
 void CanBusApp::registerForArbitration(int id, cModule *node,
         simtime_t signInTime, bool rtr) {
-    Enter_Method_Silent();
+    Enter_Method_Silent
+    ();
     ids.push_back(new CanID(id, node, signInTime, rtr));
 
     if (idle) {
@@ -256,7 +253,8 @@ void CanBusApp::registerForArbitration(int id, cModule *node,
 }
 
 void CanBusApp::checkoutFromArbitration(int id) {
-    Enter_Method_Silent();
+    Enter_Method_Silent
+    ();
     for (list<CanID*>::iterator it = ids.begin(); it != ids.end(); ++it) {
         CanID* tmp = *it;
         if (tmp->getId() == id) {

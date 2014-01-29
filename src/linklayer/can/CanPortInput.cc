@@ -39,23 +39,28 @@ void CanPortInput::initialize() {
 }
 
 void CanPortInput::handleMessage(cMessage *msg) {
-//    take(msg);
     std::string msgClass = msg->getClassName();
     if (msg->isSelfMessage()) {
         if (msgClass.compare("ErrorFrame") == 0) {
             ErrorFrame *ef = check_and_cast<ErrorFrame *>(msg);
             forwardOwnErrorFrame(ef);
+            scheduledErrorFrame = new ErrorFrame();
         } else {
             CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
             forwardDataFrame(df);
+            scheduledDataFrame = new CanDataFrame();
         }
     } else if (msgClass.compare("CanDataFrame") == 0) {
         CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
-        int rcverr = intuniform(0, 99);
-        if (errors && (rcverr < errorperc)) {
-            handleError(df);
+        if (checkExistence(df)) {
+            int rcverr = intuniform(0, 99);
+            if (errors && (rcverr < errorperc)) {
+                generateReceiveError(df);
+            } else {
+                receiveMessage(df);
+            }
         } else {
-            receiveMessage(df);
+            scheduledDataFrame = new CanDataFrame();
         }
     } else if (msgClass.compare("ErrorFrame") == 0) {
         ErrorFrame *ef = check_and_cast<ErrorFrame *>(msg);
@@ -66,14 +71,16 @@ void CanPortInput::handleMessage(cMessage *msg) {
 
 void CanPortInput::receiveMessage(CanDataFrame *df) {
     int frameLength = df->getLength();
-    if (checkExistence(df)) {
-        scheduledDataFrame = df->dup();
-        scheduleAt((simTime() + calculateScheduleTiming(frameLength)),
-                scheduledDataFrame);
-    }
+    CanDataFrame *tmp = scheduledDataFrame;
+    scheduledDataFrame = df->dup();
+    cancelEvent(tmp);
+    delete tmp;
+    scheduleAt((simTime() + calculateScheduleTiming(frameLength)),
+            scheduledDataFrame);
+
 }
 
-void CanPortInput::handleError(CanDataFrame *df) {
+void CanPortInput::generateReceiveError(CanDataFrame *df) {
     ErrorFrame *errorMsg = new ErrorFrame("rcverror");
     int pos = intuniform(0, df->getLength() - 12); //Position zwischen 0 - L�nge des Frames (abz�glich ((EOF und ACK-Delimiter)+1))
     errorMsg->setKind(intuniform(0, 1)); //0: Bit-Error, 1: Form-Error
@@ -81,7 +88,10 @@ void CanPortInput::handleError(CanDataFrame *df) {
     if (pos > 0)
         pos--;  //wegen der verschobenen Sendezeiten
     errorMsg->setPos(pos);
+    ErrorFrame *tmp = scheduledErrorFrame;
     scheduledErrorFrame = errorMsg;
+    cancelEvent(tmp);
+    delete tmp;
     scheduleAt((simTime() + calculateScheduleTiming(pos)), scheduledErrorFrame);
 //    scheduleAt((simTime() + calculateScheduleTiming(pos)), errorMsg->dup());
 }
@@ -162,10 +172,14 @@ void CanPortInput::handleExternErrorFrame(ErrorFrame *ef) {
         portOutput->handleReceivedErrorFrame();
         // dieser knoten ist sender; ef an output; da evtl. geschedulte ef löschen & neue Arbitrierung
     }
-    cancelEvent(scheduledDataFrame);
-    cancelEvent(scheduledErrorFrame);
-    delete scheduledDataFrame;
-    delete scheduledErrorFrame;
-    scheduledDataFrame = new CanDataFrame();
-    scheduledErrorFrame = new ErrorFrame();
+    if (scheduledDataFrame->isScheduled() && (ef->getCanID() == scheduledDataFrame->getCanID())) {
+        cancelEvent(scheduledDataFrame);
+    }
+    if (scheduledErrorFrame->isScheduled() && ef->getCanID() == scheduledErrorFrame->getCanID()) {
+        cancelEvent(scheduledErrorFrame);
+    }
+//    delete scheduledDataFrame;
+//    delete scheduledErrorFrame;
+//    scheduledDataFrame = new CanDataFrame();
+//    scheduledErrorFrame = new ErrorFrame();
 }

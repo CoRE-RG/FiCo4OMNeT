@@ -16,9 +16,11 @@
 #include "CanPortOutput.h"
 
 void CanPortOutput::handleReceivedErrorFrame() {
-    cancelEvent(scheduledErrorFrame);
-    delete scheduledErrorFrame;
-    scheduledErrorFrame = new ErrorFrame();
+    if (scheduledErrorFrame->isScheduled()) {
+        cancelEvent(scheduledErrorFrame);
+    }
+//    delete scheduledErrorFrame;
+//    scheduledErrorFrame = new ErrorFrame();
 }
 
 void CanPortOutput::initialize() {
@@ -46,7 +48,10 @@ void CanPortOutput::handleMessage(cMessage *msg) {
                 if (pos > 0)
                     pos--;  //wegen der verschobenen Sendezeiten
                 errself->setPos(pos);
+                ErrorFrame *tmp = scheduledErrorFrame;
                 scheduledErrorFrame = errself;
+                cancelEvent(tmp);
+                delete tmp;
                 scheduleAt((simTime() + calculateScheduleTiming(pos)),
                         scheduledErrorFrame);
             }
