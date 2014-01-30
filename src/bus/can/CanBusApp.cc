@@ -43,7 +43,7 @@ void CanBusApp::finish() {
 }
 
 void CanBusApp::handleMessage(cMessage *msg) {
-    take(msg);
+//    take(msg);
     std::string msgClass = msg->getClassName();
     if (msg->isSelfMessage()) { //Bus ist wieder im Idle-Zustand
 //        BusPort *port = (BusPort*) (getParentModule()->getSubmodule("busPort"));
@@ -64,7 +64,7 @@ void CanBusApp::handleMessage(cMessage *msg) {
 //                    stateok = true;
 //                }
             sendingCompleted();
-
+            delete msg;
 //            } else {
 //                errorcount--;
 //            }
@@ -104,19 +104,25 @@ void CanBusApp::handleMessage(cMessage *msg) {
 //            }
 //            port->sendMsgToNode(sp, ef->getNode());
         } else if (msgClass.compare("ErrorFrame") == 0) {
-            scheduledDataFrame = new CanDataFrame();
+            if (scheduledDataFrame != NULL) {
+                cancelEvent(scheduledDataFrame);
+            }
+            delete scheduledDataFrame;
+            scheduledDataFrame = NULL;
             errored = false;
             eraseids.clear();
+            delete msg;
+        } else if (msgClass.compare("cMessage") == 0) {
+            delete msg;
         }
         grantSendingPermission();
-        ack_rcvd = true;
-
     } else if (msgClass.compare("CanDataFrame") == 0) { // externe Nachricht
         handleDataFrame(msg);
+        delete msg;
     } else if (msgClass.compare("ErrorFrame") == 0) {
         handleErrorFrame(msg);
     }
-    delete msg;
+//    delete msg;
 }
 
 void CanBusApp::checkAcknowledgementReception(ArbMsg *am) {
@@ -199,37 +205,46 @@ void CanBusApp::sendingCompleted() {
     }
     eraseids.clear();
     errored = false;
-    scheduledDataFrame = new CanDataFrame();
+    if (scheduledDataFrame != NULL) {
+        cancelEvent(scheduledDataFrame);
+    }
+//    delete (scheduledDataFrame);
+    scheduledDataFrame = NULL;
 }
 
 void CanBusApp::handleDataFrame(cMessage *msg) {
     CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
+    EV<<"dataframe mit canid: " << df->getCanID() << " empfangen \n";
     int length = df->getLength();
     double nextidle;
     nextidle = length / (double) bandwidth;
     //TODO Der naechste Idle-Zustand ist eigentlich die (berechnete Zeit - 1), aber hier ist wieder die Sicherheits-Bitzeit mit verrechnet; Ist das so?
+    if (scheduledDataFrame != NULL) {
+        cancelEvent(scheduledDataFrame);
+    }
+    delete(scheduledDataFrame);
     scheduledDataFrame = df->dup();
     scheduleAt(simTime() + nextidle, scheduledDataFrame);
-    ack_rcvd = false;
     numSent++;
     BusPort *port = (BusPort*) (getParentModule()->getSubmodule("busPort"));
     port->forward_to_all(msg->dup());
 }
 
 void CanBusApp::handleErrorFrame(cMessage *msg) {
-    if (scheduledDataFrame->isScheduled()) {
+    if (scheduledDataFrame != NULL) {
         cancelEvent(scheduledDataFrame);
     }
     if (!errored) {
-//        delete scheduledDataFrame;
-//        scheduledDataFrame = new CanDataFrame();
         ErrorFrame *ef = check_and_cast<ErrorFrame *>(msg);
-        scheduleAt(simTime() + (12 / (double) bandwidth), ef->dup()); //12 - maximale L�nge eines Error-Frames
+        EV<<"errorframe mit canid: " << ef->getCanID() << " empfangen \n";
+        scheduleAt(simTime() + (12 / (double) bandwidth), ef); //12 - maximale L�nge eines Error-Frames
         errorcount++;
         numErr++;
         errored = true;
         BusPort *port = (BusPort*) (getParentModule()->getSubmodule("busPort"));
         port->forward_to_all(msg->dup());
+    } else {
+        delete msg; //TODO herausfinden warum ich das brauche. wann kommt es vor, dass ich zur gleichen nachricht mehrere error frames bekomme.
     }
 }
 
@@ -241,7 +256,6 @@ void CanBusApp::registerForArbitration(int id, cModule *node,
 
     if (idle) {
         cMessage *self = new cMessage("idle_signin");
-        ack_rcvd = true;
         scheduleAt(simTime() + (1 / (double) bandwidth), self); //TODO was hat das mit dieser +1 auf sich?
         idle = false;
         busytimestamp = simTime();

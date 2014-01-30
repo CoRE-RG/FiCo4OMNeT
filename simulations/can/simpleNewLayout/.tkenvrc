@@ -1,7 +1,8 @@
 # Partial Tkenv config file -- see $HOME/.tkenvrc as well
 inspector "SimpleNewLayout.node[0].canNodePort" "CanNodePort" "2" "607x337+0+714:normal"
 inspector "SimpleNewLayout.node[1]" "CanNode" "2" "469x341+1181+24:normal"
-inspector "SimpleNewLayout" "SimpleNewLayout" "2" "567x337+-1+24:normal"
+inspector "SimpleNewLayout.bus.canBusApp" "CanBusApp" "1" "510x314+283+428:normal"
+inspector "SimpleNewLayout" "SimpleNewLayout" "2" "567x337+-1+28:normal"
 inspector "SimpleNewLayout.node[0]" "CanNode" "2" "607x337+566+24:normal"
 inspector "SimpleNewLayout.node[1].canNodePort" "CanNodePort" "2" "607x337+0+390:normal"
 inspector "NewLayout.bus" "CanBus" "2" "565x341+25+42:normal"

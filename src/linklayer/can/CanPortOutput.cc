@@ -16,7 +16,10 @@
 #include "CanPortOutput.h"
 
 void CanPortOutput::handleReceivedErrorFrame() {
+    EV<< getParentModule()->getParentModule()->getId() << ": error frame wird gedescheduled\n";
+    errorReceived = true;
     if (scheduledErrorFrame->isScheduled()) {
+        EV<<"hinfort mit dir du schuft\n";
         cancelEvent(scheduledErrorFrame);
     }
 //    delete scheduledErrorFrame;
@@ -33,7 +36,9 @@ void CanPortOutput::initialize() {
 
 void CanPortOutput::handleMessage(cMessage *msg) {
     if (msg->isSelfMessage()) {
-        send(msg->dup(), "out");
+        if (!errorReceived) {
+            send(msg->dup(), "out");
+        }
     } else {
         send(msg, "out");
         std::string msgClass = msg->getClassName();
@@ -48,12 +53,15 @@ void CanPortOutput::handleMessage(cMessage *msg) {
                 if (pos > 0)
                     pos--;  //wegen der verschobenen Sendezeiten
                 errself->setPos(pos);
-                ErrorFrame *tmp = scheduledErrorFrame;
+//                ErrorFrame *tmp = scheduledErrorFrame;
+                cancelEvent(scheduledErrorFrame);
+                delete(scheduledErrorFrame);
                 scheduledErrorFrame = errself;
-                cancelEvent(tmp);
-                delete tmp;
+//                cancelEvent(tmp);
+//                dropAndDelete(tmp);
                 scheduleAt((simTime() + calculateScheduleTiming(pos)),
                         scheduledErrorFrame);
+                errorReceived = false;
             }
         }
     }

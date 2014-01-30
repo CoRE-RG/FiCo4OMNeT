@@ -62,6 +62,8 @@ private:
      */
     ErrorFrame *scheduledErrorFrame;
 
+    bool errorReceived;
+
     /**
      * @brief Calculates when the frame is ready to be forwarded based on the number of bits.
      */

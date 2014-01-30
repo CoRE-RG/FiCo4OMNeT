@@ -31,10 +31,12 @@ void CanPortInput::initialize() {
     errors = getParentModule()->getParentModule()->par("errors");
     errorperc = getParentModule()->getParentModule()->par("errorperc");
 
-    scheduledDataFrame = new CanDataFrame();
-    scheduledErrorFrame = new ErrorFrame();
+    scheduledDataFrame = NULL;
+    scheduledErrorFrame = NULL;
+//    scheduledDataFrame = new CanDataFrame();
+//    scheduledErrorFrame = new ErrorFrame();
 
-    //TODO stats
+//TODO stats
 //    messagestats.push_back(new Stats(id)); //Statistiken f�r diese Nachricht erstellen
 }
 
@@ -44,11 +46,19 @@ void CanPortInput::handleMessage(cMessage *msg) {
         if (msgClass.compare("ErrorFrame") == 0) {
             ErrorFrame *ef = check_and_cast<ErrorFrame *>(msg);
             forwardOwnErrorFrame(ef);
-            scheduledErrorFrame = new ErrorFrame();
-        } else {
+            if (scheduledErrorFrame != NULL) {
+                cancelEvent(scheduledErrorFrame);
+            }
+            delete(scheduledErrorFrame);
+            scheduledErrorFrame = NULL;
+        } else if(msgClass.compare("CanDataFrame") == 0){
             CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
             forwardDataFrame(df);
-            scheduledDataFrame = new CanDataFrame();
+            if (scheduledDataFrame != NULL) {
+                cancelEvent(scheduledDataFrame);
+            }
+            delete(scheduledDataFrame);
+            scheduledDataFrame = NULL;
         }
     } else if (msgClass.compare("CanDataFrame") == 0) {
         CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
@@ -60,21 +70,31 @@ void CanPortInput::handleMessage(cMessage *msg) {
                 receiveMessage(df);
             }
         } else {
-            scheduledDataFrame = new CanDataFrame();
+            if (scheduledDataFrame != NULL) {
+                cancelEvent(scheduledDataFrame);
+            }
+            dropAndDelete(scheduledDataFrame);
+            scheduledDataFrame = NULL;
         }
+        delete msg;
     } else if (msgClass.compare("ErrorFrame") == 0) {
         ErrorFrame *ef = check_and_cast<ErrorFrame *>(msg);
         handleExternErrorFrame(ef);
+        delete msg;
     }
-    delete msg;
+//    delete msg;
 }
 
 void CanPortInput::receiveMessage(CanDataFrame *df) {
     int frameLength = df->getLength();
-    CanDataFrame *tmp = scheduledDataFrame;
+//    CanDataFrame *tmp = scheduledDataFrame;
+    if (scheduledDataFrame != NULL) {
+        cancelEvent(scheduledDataFrame);
+    }
+    delete(scheduledDataFrame);
     scheduledDataFrame = df->dup();
-    cancelEvent(tmp);
-    delete tmp;
+//    cancelEvent(tmp);
+//    delete tmp;
     scheduleAt((simTime() + calculateScheduleTiming(frameLength)),
             scheduledDataFrame);
 
@@ -88,10 +108,14 @@ void CanPortInput::generateReceiveError(CanDataFrame *df) {
     if (pos > 0)
         pos--;  //wegen der verschobenen Sendezeiten
     errorMsg->setPos(pos);
-    ErrorFrame *tmp = scheduledErrorFrame;
+//    ErrorFrame *tmp = scheduledErrorFrame;
+    if (scheduledErrorFrame != NULL) {
+        cancelEvent(scheduledErrorFrame);
+    }
+    delete(scheduledErrorFrame);
     scheduledErrorFrame = errorMsg;
-    cancelEvent(tmp);
-    delete tmp;
+//    cancelEvent(tmp);
+//    delete tmp;
     scheduleAt((simTime() + calculateScheduleTiming(pos)), scheduledErrorFrame);
 //    scheduleAt((simTime() + calculateScheduleTiming(pos)), errorMsg->dup());
 }
@@ -167,15 +191,17 @@ void CanPortInput::forwardOwnErrorFrame(ErrorFrame *ef) {
 }
 
 void CanPortInput::handleExternErrorFrame(ErrorFrame *ef) {
-    if (checkOutgoingDataFrames(ef->getCanID()) || checkOutgoingRemoteFrames(ef->getCanID())) {
+    if (checkOutgoingDataFrames(ef->getCanID())
+            || checkOutgoingRemoteFrames(ef->getCanID())) {
+        EV<<"error frame im output soll gelöscht werden\n";
         CanPortOutput* portOutput = (CanPortOutput*)getParentModule()->getSubmodule("canPortOutput");
         portOutput->handleReceivedErrorFrame();
         // dieser knoten ist sender; ef an output; da evtl. geschedulte ef löschen & neue Arbitrierung
     }
-    if (scheduledDataFrame->isScheduled() && (ef->getCanID() == scheduledDataFrame->getCanID())) {
+    if (scheduledDataFrame != NULL && scheduledDataFrame->isScheduled() && (ef->getCanID() == scheduledDataFrame->getCanID())) {
         cancelEvent(scheduledDataFrame);
     }
-    if (scheduledErrorFrame->isScheduled() && ef->getCanID() == scheduledErrorFrame->getCanID()) {
+    if (scheduledErrorFrame != NULL && scheduledErrorFrame->isScheduled() && ef->getCanID() == scheduledErrorFrame->getCanID()) {
         cancelEvent(scheduledErrorFrame);
     }
 //    delete scheduledDataFrame;
