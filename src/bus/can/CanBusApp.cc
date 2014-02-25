@@ -181,7 +181,8 @@ void CanBusApp::handleErrorFrame(cMessage *msg) {
         EV<<"errorframe mit canid: " << ef->getCanID() << " empfangen \n";
         simtime_t tmp = simTime() + (12 / (double) bandwidth);
         EV<< "Scheduled um : " + tmp.str() + "\n";
-        scheduleAt(simTime() + (12 / (double) bandwidth), ef); //12 - maximale L�nge eines Error-Frames
+        ErrorFrame *ef2 = new ErrorFrame();
+        scheduleAt(simTime() + (12 / (double) bandwidth), ef2); //12 - maximale L�nge eines Error-Frames
         numErr++;
         errored = true;
         BusPort *port = (BusPort*) (getParentModule()->getSubmodule("busPort"));
