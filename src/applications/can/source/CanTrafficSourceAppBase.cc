@@ -17,6 +17,7 @@
 
 void CanTrafficSourceAppBase::initialize() {
     canVersion = getParentModule()->par("version").stdstringValue();
+//    initializeStatisticValues();
     initialDataFrameCreation();
     initialRemoteFrameCreation();
 }

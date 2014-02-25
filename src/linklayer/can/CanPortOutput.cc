@@ -19,11 +19,8 @@ void CanPortOutput::handleReceivedErrorFrame() {
     EV<< getParentModule()->getParentModule()->getId() << ": error frame wird gedescheduled\n";
     errorReceived = true;
     if (scheduledErrorFrame->isScheduled()) {
-        EV<<"hinfort mit dir du schuft\n";
         cancelEvent(scheduledErrorFrame);
     }
-//    delete scheduledErrorFrame;
-//    scheduledErrorFrame = new ErrorFrame();
 }
 
 void CanPortOutput::initialize() {
@@ -32,16 +29,47 @@ void CanPortOutput::initialize() {
     errorperc = getParentModule()->getParentModule()->par("errorperc");
 
     scheduledErrorFrame = new ErrorFrame();
+
+    initializeStatisticValues();
+}
+
+void CanPortOutput::finish(){
+//    collectStats();
+}
+
+void CanPortOutput::initializeStatisticValues(){
+    sentDFSignal = registerSignal("sentDF");
+    sentEFSignal = registerSignal("sentEF");
+    sendErrorsSignal = registerSignal("sendError");
+    receiveErrorsSignal = registerSignal("receiveError");
+//    dataFramesSent = 0;
+//    errorFramesSent = 0;
+//    WATCH(dataFramesSent);
+//    WATCH(errorFramesSent);
+}
+
+void CanPortOutput::collectStats(){
+//    recordScalar("#sentDF", dataFramesSent);
+//    recordScalar("#sentEF", errorFramesSent);
 }
 
 void CanPortOutput::handleMessage(cMessage *msg) {
-    if (msg->isSelfMessage()) {
+    std::string msgClass = msg->getClassName();
+    if (msgClass.compare("ErrorFrame") == 0) {
         if (!errorReceived) {
-            send(msg->dup(), "out");
+            ErrorFrame *ef = check_and_cast<ErrorFrame *>(msg);
+            emit(sentEFSignal, ef);
+//            send(msg->dup(), "out");
+            if (ef->getKind() < 2) {
+                emit(sendErrorsSignal, ef);
+            } else {
+                emit(receiveErrorsSignal, ef);
+            }
+            send(msg, "out");
         }
     } else {
+        emit(sentDFSignal, msg);
         send(msg, "out");
-        std::string msgClass = msg->getClassName();
         if (errors && (msgClass.compare("CanDataFrame") == 0)) {
             int senderr = intuniform(0, 99);
             if (senderr < errorperc) {
@@ -53,12 +81,9 @@ void CanPortOutput::handleMessage(cMessage *msg) {
                 if (pos > 0)
                     pos--;  //wegen der verschobenen Sendezeiten
                 errself->setPos(pos);
-//                ErrorFrame *tmp = scheduledErrorFrame;
                 cancelEvent(scheduledErrorFrame);
                 delete(scheduledErrorFrame);
                 scheduledErrorFrame = errself;
-//                cancelEvent(tmp);
-//                dropAndDelete(tmp);
                 scheduleAt((simTime() + calculateScheduleTiming(pos)),
                         scheduledErrorFrame);
                 errorReceived = false;

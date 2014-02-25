@@ -20,7 +20,7 @@
 #include "err_m.h"
 #include "candataframe_m.h"
 
-class CanPortOutput : public cSimpleModule{
+class CanPortOutput: public cSimpleModule {
 public:
     /**
      * @brief Handles received error frames so that scheduled error events can be canceled.
@@ -33,6 +33,8 @@ protected:
      */
     virtual void initialize();
 
+    virtual void finish();
+
     /**
      * @brief Handles all received messages
      *
@@ -41,6 +43,37 @@ protected:
     virtual void handleMessage(cMessage *msg);
 
 private:
+
+    /**
+     *
+     */
+    simsignal_t sentDFSignal;
+
+    /**
+     *
+     */
+    simsignal_t sentEFSignal;
+
+    /**
+     *
+     */
+    simsignal_t receiveErrorsSignal;
+
+    /**
+     *
+     */
+    simsignal_t sendErrorsSignal;
+
+    /**
+     * @brief Number of data frames sent by this node.
+     */
+    int dataFramesSent;
+
+    /**
+     * @brief Number of data frames sent by this node.
+     */
+    int errorFramesSent;
+
     /**
      * @brief Valid values are between 10000 and 1000000. Initialized from ned-attribute of CAN-Bus.
      */
@@ -52,9 +85,9 @@ private:
     bool errors;
 
     /**
-    * if errors = true then this is the amount of errors appearing on the node in percent. Initialized from ned-attribute of CAN-Node
-    *
-    */
+     * if errors = true then this is the amount of errors appearing on the node in percent. Initialized from ned-attribute of CAN-Node
+     *
+     */
     int errorperc;
 
     /**
@@ -63,6 +96,16 @@ private:
     ErrorFrame *scheduledErrorFrame;
 
     bool errorReceived;
+
+    /**
+     * @brief Initializes the values needed for the stats collection.
+     */
+    virtual void initializeStatisticValues();
+
+    /**
+     * @brief Generates the values for the statistics
+     */
+    virtual void collectStats();
 
     /**
      * @brief Calculates when the frame is ready to be forwarded based on the number of bits.

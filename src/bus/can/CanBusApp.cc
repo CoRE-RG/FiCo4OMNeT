@@ -43,66 +43,11 @@ void CanBusApp::finish() {
 }
 
 void CanBusApp::handleMessage(cMessage *msg) {
-//    take(msg);
     std::string msgClass = msg->getClassName();
     if (msg->isSelfMessage()) { //Bus ist wieder im Idle-Zustand
-//        BusPort *port = (BusPort*) (getParentModule()->getSubmodule("busPort"));
-//        string name = msg->getName();
-//
-//        if (name.compare("idle") == 0) { //Wenn zuvor eine Nachricht gesendet wurde
         if (msgClass.compare("CanDataFrame") == 0) { //Wenn zuvor eine Nachricht gesendet wurde
-
-//            if (errorcount == 0 || !errors) {
-//                ArbMsg *am = check_and_cast<ArbMsg *>(msg);
-//
-//                if (ack) {
-//                    checkAcknowledgementReception(am);
-//                } else {
-//                    OutputBuffer* controller = check_and_cast<OutputBuffer*>(
-//                            sendingNode);
-//                    controller->sendingCompleted(currentSendingID);
-//                    stateok = true;
-//                }
             sendingCompleted();
             delete msg;
-//            } else {
-//                errorcount--;
-//            }
-//        } else if (name.compare("SendingComplete") == 0) {
-//            ArbMsg *am = check_and_cast<ArbMsg *>(msg);
-//            AckMsg *newam = new AckMsg("SendingComplete");
-//            newam->setId(am->getId());
-//            stateok = true;
-//            port->sendMsgToNode(newam, am->getNode());
-//
-//        } else if (name.compare("ErrResend") == 0) {
-//            ArbMsg *ef = check_and_cast<ArbMsg *>(msg);
-//            ArbMsg *sp = new ArbMsg("ErrResendCompl");
-//            sp->setRemotesent(true);
-//            sp->setId(ef->getId());
-//            sp->setNode(ef->getNode());
-//            scheduleAt(simTime() + (errpos / (double) bandwidth), sp);
-//            errored = false;
-//            stateok = false;
-//            errpos = INT_MAX;
-//
-//        } else if (name.compare("ErrResendCompl") == 0) {
-//            ArbMsg *ef = check_and_cast<ArbMsg *>(msg);
-//            ArbMsg *sp = new ArbMsg("SendingPermission");
-//            sp->setSignInTime(currsit);
-//            sp->setRemotesent(true);
-//            sp->setId(ef->getId());
-//            vector<list<CanID*>::iterator> eraseids;
-//            for (list<CanID*>::iterator it = ids.begin(); it != ids.end(); ++it) {
-//                CanID *id = *it;
-//                if (id->getId() == ef->getId()) {
-//                    eraseids.push_back(it);
-//                }
-//            }
-//            for (unsigned int it = 0; it != eraseids.size(); it++) {
-//                ids.erase(eraseids.at(it));
-//            }
-//            port->sendMsgToNode(sp, ef->getNode());
         } else if (msgClass.compare("ErrorFrame") == 0) {
             if (scheduledDataFrame != NULL) {
                 cancelEvent(scheduledDataFrame);
@@ -122,7 +67,6 @@ void CanBusApp::handleMessage(cMessage *msg) {
     } else if (msgClass.compare("ErrorFrame") == 0) {
         handleErrorFrame(msg);
     }
-//    delete msg;
 }
 
 void CanBusApp::checkAcknowledgementReception(ArbMsg *am) {
@@ -168,18 +112,16 @@ void CanBusApp::grantSendingPermission() {
         CanID *id = *it;
         if (id->getId() == currentSendingID) {
             if (id->getRtr() == false) { //Data-Frame
-//                if (sendingNode != id->getNode()) { //bei dem ursprünglich gefundenen node handelt es sich um einen remote frame
                 sendingNode = (OutputBuffer*) id->getNode(); //der Node, der einen Data frame senden möcte wird zum senden ausgewählt
                 currsit = id->getSignInTime();
                 sendcount++;
-//                }
             }
             eraseids.push_back(it);
         }
     }
     if (sendcount > 1) {
-        EV<< "Mehr als ein Knoten will mit der selben ID senden\n";
-        EV<< "Da dies zu fortlaufenden Bit-Fehlern durch die versendenden Knoten fuehrt, wird die Simulation angehalten\n";
+        EV<< "More than one node sends with the same ID.\n";
+        EV<< "This behavior is not allowed. Hence the simulation is stopped.\n";
         endSimulation();
     }
     if (sendingNode != NULL) {
@@ -237,8 +179,9 @@ void CanBusApp::handleErrorFrame(cMessage *msg) {
     if (!errored) {
         ErrorFrame *ef = check_and_cast<ErrorFrame *>(msg);
         EV<<"errorframe mit canid: " << ef->getCanID() << " empfangen \n";
+        simtime_t tmp = simTime() + (12 / (double) bandwidth);
+        EV<< "Scheduled um : " + tmp.str() + "\n";
         scheduleAt(simTime() + (12 / (double) bandwidth), ef); //12 - maximale L�nge eines Error-Frames
-        errorcount++;
         numErr++;
         errored = true;
         BusPort *port = (BusPort*) (getParentModule()->getSubmodule("busPort"));

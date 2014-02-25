@@ -17,8 +17,19 @@ package busmodel.linklayer.can;
 
 simple CanPortOutput
 {
+    parameters:
+        @signal[sentDF](type=CanDataFrame);
+        @signal[sentEF](type=ErrorFrame);
+        @signal[receiveError](type=ErrorFrame);
+        @signal[sendError](type=ErrorFrame);
+
+        @statistic[sentDF](title="sent data frames"; source=sentDF; record=count; interpolationmode=none);
+        @statistic[sentEF](title="sent error frames"; source=sentEF; record=count; interpolationmode=none);
+        @statistic[receiveError](title="receive errors"; source=receiveError; record=count; interpolationmode=none);
+        @statistic[sendError](title="sent errors"; source=sendError; record=count; interpolationmode=none);
+
     gates:
         output out @loose;
         input in @loose;
-		input directIn @directIn;
+        input directIn @directIn;
 }

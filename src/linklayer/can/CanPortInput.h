@@ -31,6 +31,8 @@ protected:
      */
     virtual void initialize();
 
+    virtual void finish();
+
     /**
      * @brief Handles all received messages
      *
@@ -39,13 +41,24 @@ protected:
     virtual void handleMessage(cMessage *msg);
 
 private:
+
     /**
-     * @brief Vector with IDs of relevant incoming data frames
+     *
+     */
+    simsignal_t rcvdDFSignal;
+
+    /**
+     * @brief Number of useful data frames received by this node.
+     */
+    int dataFramesReceived;
+
+    /**
+     * @brief Vector with IDs of useful incoming data frames
      */
     vector<int> incomingDataFrameIDs;
 
     /**
-     * @brief Vector with IDs of relevant incoming remote frames
+     * @brief Vector with IDs of useful incoming remote frames
      */
     vector<int> outgoingDataFrameIDs;
 

@@ -80,6 +80,16 @@ private:
     vector<CanDataFrame*> outgoingRemoteFrames;
 
     /**
+     * @brief Initializes the values needed for the stats collection.
+     */
+//    virtual void initializeStatisticValues();
+
+    /**
+     * @brief Generates the values for the statistics
+     */
+//    virtual void collectStats();
+
+    /**
      * @brief Creates a data frame which will be queued in the buffer.
      */
     void initialRemoteFrameCreation();
@@ -114,5 +124,6 @@ private:
      */
     void dataFrameTransmission(CanDataFrame *df);
 };
-Define_Module(CanTrafficSourceAppBase);
+Define_Module(CanTrafficSourceAppBase)
+;
 #endif /* CANTRAFFICSOURCEAPPBASE_H_ */

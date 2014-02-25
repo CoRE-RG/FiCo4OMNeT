@@ -150,7 +150,7 @@ $O/$(TARGET): $(OBJS)  $(wildcard $(EXTRA_OBJS)) Makefile
 $O/%.o: %.cc $(COPTS_FILE)
 	@$(MKPATH) $(dir $@)
 	$(qecho) "$<"
-	$(Q)$(CXX) -c $(COPTS) -o $@ $<
+	$(Q)$(CXX) -c $(CXXFLAGS) $(COPTS) -o $@ $<
 
 %_m.cc %_m.h: %.msg
 	$(qecho) MSGC: $<
