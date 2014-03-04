@@ -3,6 +3,8 @@
 void CanBusApp::initialize() {
     rcvdDFSignal = registerSignal("receivedDF");
     rcvdEFSignal = registerSignal("receivedEF");
+    numSent = 0;
+    numErr = 0;
 
     busytime = 0.0;
     busytimestamp = 0.0;

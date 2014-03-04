@@ -186,14 +186,13 @@ void CanPortInput::forwardOwnErrorFrame(ErrorFrame *ef) {
 }
 
 void CanPortInput::handleExternErrorFrame(ErrorFrame *ef) {
-    if ((checkOutgoingDataFrames(ef->getCanID())
-            || checkOutgoingRemoteFrames(ef->getCanID()))) {
-        CanPortOutput* portOutput = (CanPortOutput*)getParentModule()->getSubmodule("canPortOutput");
+    CanPortOutput* portOutput =
+            (CanPortOutput*) getParentModule()->getSubmodule("canPortOutput");
+    portOutput->sendingCompleted();
+    if ((checkOutgoingDataFrames(ef->getCanID()) || checkOutgoingRemoteFrames(ef->getCanID()))) {
         if (ef->getKind() > 2) {
             EV<<"error frame im output soll gelöscht werden\n";
             portOutput->handleReceivedErrorFrame();
-        } else {
-            portOutput->sendingCompleted();
         }
         // dieser knoten ist sender; ef an output; da evtl. geschedulte ef löschen & neue Arbitrierung
     }
