@@ -16,10 +16,12 @@
 #include "CanPortOutput.h"
 
 void CanPortOutput::handleReceivedErrorFrame() {
-    EV<< getParentModule()->getParentModule()->getId() << ": error frame wird gedescheduled\n";
     errorReceived = true;
-    if (scheduledErrorFrame->isScheduled()) {
+    if (scheduledErrorFrame != NULL && scheduledErrorFrame->isScheduled()) {
+        EV<< getParentModule()->getParentModule()->getId() << ": error frame wird gedescheduled\n";
         cancelEvent(scheduledErrorFrame);
+        delete scheduledErrorFrame;
+        scheduledErrorFrame = NULL;
     }
 }
 
@@ -59,15 +61,20 @@ void CanPortOutput::handleMessage(cMessage *msg) {
         if (!errorReceived) {
             ErrorFrame *ef = check_and_cast<ErrorFrame *>(msg);
             emit(sentEFSignal, ef);
-//            send(msg->dup(), "out");
             if (ef->getKind() < 2) {
                 emit(sendErrorsSignal, ef);
             } else {
                 emit(receiveErrorsSignal, ef);
             }
+            colorError();
             send(msg, "out");
+            scheduledErrorFrame = NULL;
+        } else {
+            delete msg;
         }
     } else {
+        colorBusy();
+        errorReceived = false;
         emit(sentDFSignal, msg);
         send(msg, "out");
         if (errors && (msgClass.compare("CanDataFrame") == 0)) {
@@ -81,12 +88,13 @@ void CanPortOutput::handleMessage(cMessage *msg) {
                 if (pos > 0)
                     pos--;  //wegen der verschobenen Sendezeiten
                 errself->setPos(pos);
-                cancelEvent(scheduledErrorFrame);
-                delete(scheduledErrorFrame);
+                if (scheduledErrorFrame != NULL && scheduledErrorFrame->isScheduled()) {
+                    cancelEvent(scheduledErrorFrame);
+                    delete(scheduledErrorFrame);
+                }
                 scheduledErrorFrame = errself;
                 scheduleAt((simTime() + calculateScheduleTiming(pos)),
                         scheduledErrorFrame);
-                errorReceived = false;
             }
         }
     }
@@ -94,4 +102,32 @@ void CanPortOutput::handleMessage(cMessage *msg) {
 
 double CanPortOutput::calculateScheduleTiming(int length) {
     return ((double) length) / bandwidth;
+}
+
+void CanPortOutput::sendingCompleted(){
+    colorIdle();
+}
+
+void CanPortOutput::colorBusy(){
+    getParentModule()->getParentModule()->getDisplayString().setTagArg("i", 1, "yellow");
+    getParentModule()->getParentModule()->gate("gate$i")->getDisplayString().setTagArg("ls", 0, "yellow");
+    getParentModule()->getParentModule()->gate("gate$i")->getDisplayString().setTagArg("ls", 1, "3");
+    getParentModule()->getParentModule()->gate("gate$i")->getPreviousGate()->getDisplayString().setTagArg("ls", 0, "yellow");
+    getParentModule()->getParentModule()->gate("gate$i")->getPreviousGate()->getDisplayString().setTagArg("ls", 1, "3");
+}
+
+void CanPortOutput::colorIdle(){
+    getParentModule()->getParentModule()->getDisplayString().setTagArg("i", 1, "");
+    getParentModule()->getParentModule()->gate("gate$i")->getDisplayString().setTagArg("ls", 0, "black");
+    getParentModule()->getParentModule()->gate("gate$i")->getDisplayString().setTagArg("ls", 1, "1");
+    getParentModule()->getParentModule()->gate("gate$i")->getPreviousGate()->getDisplayString().setTagArg("ls", 0, "black");
+    getParentModule()->getParentModule()->gate("gate$i")->getPreviousGate()->getDisplayString().setTagArg("ls", 1, "1");
+}
+
+void CanPortOutput::colorError(){
+    getParentModule()->getParentModule()->getDisplayString().setTagArg("i", 1, "red");
+    getParentModule()->getParentModule()->gate("gate$i")->getDisplayString().setTagArg("ls", 0, "red");
+    getParentModule()->getParentModule()->gate("gate$i")->getDisplayString().setTagArg("ls", 1, "3");
+    getParentModule()->getParentModule()->gate("gate$i")->getPreviousGate()->getDisplayString().setTagArg("ls", 0, "red");
+    getParentModule()->getParentModule()->gate("gate$i")->getPreviousGate()->getDisplayString().setTagArg("ls", 1, "3");
 }

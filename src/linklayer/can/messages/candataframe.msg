@@ -2,7 +2,7 @@
 // Represents a data-frame
 //
 // contains information about the sending node, data etc.
-message CanDataFrame{
+packet CanDataFrame{
 	string node;		// related node
 	int canID;				// ID of the message
     int length;			// length of the message in bit

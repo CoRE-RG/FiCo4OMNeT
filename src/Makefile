@@ -225,6 +225,7 @@ $O/buffer/can/OutputBuffer.o: buffer/can/OutputBuffer.cc \
 	bus/BusPort.h \
 	bus/can/CanBusApp.h \
 	bus/can/CanID.h \
+	linklayer/can/CanPortOutput.h \
 	linklayer/can/messages/ack_m.h \
 	linklayer/can/messages/arb_m.h \
 	linklayer/can/messages/candataframe_m.h \
@@ -236,6 +237,7 @@ $O/bus/BusPort.o: bus/BusPort.cc \
 	bus/BusPort.h \
 	bus/can/CanBusApp.h \
 	bus/can/CanID.h \
+	linklayer/can/CanPortOutput.h \
 	linklayer/can/messages/ack_m.h \
 	linklayer/can/messages/arb_m.h \
 	linklayer/can/messages/candataframe_m.h \
@@ -247,6 +249,7 @@ $O/bus/can/CanBusApp.o: bus/can/CanBusApp.cc \
 	bus/BusPort.h \
 	bus/can/CanBusApp.h \
 	bus/can/CanID.h \
+	linklayer/can/CanPortOutput.h \
 	linklayer/can/messages/ack_m.h \
 	linklayer/can/messages/arb_m.h \
 	linklayer/can/messages/candataframe_m.h \

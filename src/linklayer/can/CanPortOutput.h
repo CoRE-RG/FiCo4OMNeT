@@ -27,6 +27,10 @@ public:
      */
     virtual void handleReceivedErrorFrame();
 
+    /**
+     *
+     */
+    virtual void sendingCompleted();
 protected:
     /**
      * @brief Initialization of the module.
@@ -111,6 +115,21 @@ private:
      * @brief Calculates when the frame is ready to be forwarded based on the number of bits.
      */
     virtual double calculateScheduleTiming(int length);
+
+    /**
+     *
+     */
+    virtual void colorBusy();
+
+    /**
+     *
+     */
+    virtual void colorIdle();
+
+    /**
+     *
+     */
+    virtual void colorError();
 
 };
 Define_Module(CanPortOutput);

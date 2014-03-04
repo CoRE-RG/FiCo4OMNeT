@@ -22,6 +22,7 @@
 #include "Buffer.h"
 #include "CanBusApp.h"
 #include "CanTrafficSourceAppBase.h"
+#include "CanPortOutput.h"
 
 using namespace std;
 

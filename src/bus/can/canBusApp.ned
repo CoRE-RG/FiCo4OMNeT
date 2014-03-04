@@ -19,6 +19,12 @@ simple CanBusApp
 {
     parameters:
     	@display("i=block/app");
+    	
+        @signal[receivedDF](type=CanDataFrame);
+        @signal[receivedEF](type=ErrorFrame);
+        
+        @statistic[receivedDF](title="data frames received"; source=receivedDF; record=count; interpolationmode=none);
+        @statistic[receivedEF](title="error frames received"; source=receivedEF; record=count; interpolationmode=none);
     gates:
         input frameIn @directIn;
 }

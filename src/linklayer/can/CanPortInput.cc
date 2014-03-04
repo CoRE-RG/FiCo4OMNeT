@@ -33,12 +33,8 @@ void CanPortInput::initialize() {
 
     scheduledDataFrame = NULL;
     scheduledErrorFrame = NULL;
-//    scheduledDataFrame = new CanDataFrame();
-//    scheduledErrorFrame = new ErrorFrame();
 
-//TODO stats
     rcvdDFSignal = registerSignal("receivedDF");
-//    dataFramesReceived = 0;
 
 //    messagestats.push_back(new Stats(id)); //Statistiken f�r diese Nachricht erstellen
 }
@@ -62,7 +58,6 @@ void CanPortInput::handleMessage(cMessage *msg) {
             CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
             emit(rcvdDFSignal,df);
             forwardDataFrame(df);
-//            dataFramesReceived++;
             if (scheduledDataFrame != NULL) {
                 cancelEvent(scheduledDataFrame);
             }
@@ -102,7 +97,6 @@ void CanPortInput::receiveMessage(CanDataFrame *df) {
     scheduledDataFrame = df->dup();
     scheduleAt((simTime() + calculateScheduleTiming(frameLength)),
             scheduledDataFrame);
-
 }
 
 void CanPortInput::generateReceiveError(CanDataFrame *df) {
@@ -192,11 +186,15 @@ void CanPortInput::forwardOwnErrorFrame(ErrorFrame *ef) {
 }
 
 void CanPortInput::handleExternErrorFrame(ErrorFrame *ef) {
-    if (checkOutgoingDataFrames(ef->getCanID())
-            || checkOutgoingRemoteFrames(ef->getCanID())) {
-        EV<<"error frame im output soll gelöscht werden\n";
+    if ((checkOutgoingDataFrames(ef->getCanID())
+            || checkOutgoingRemoteFrames(ef->getCanID()))) {
         CanPortOutput* portOutput = (CanPortOutput*)getParentModule()->getSubmodule("canPortOutput");
-        portOutput->handleReceivedErrorFrame();
+        if (ef->getKind() > 2) {
+            EV<<"error frame im output soll gelöscht werden\n";
+            portOutput->handleReceivedErrorFrame();
+        } else {
+            portOutput->sendingCompleted();
+        }
         // dieser knoten ist sender; ef an output; da evtl. geschedulte ef löschen & neue Arbitrierung
     }
     if (scheduledDataFrame != NULL && scheduledDataFrame->isScheduled() && (ef->getCanID() == scheduledDataFrame->getCanID())) {

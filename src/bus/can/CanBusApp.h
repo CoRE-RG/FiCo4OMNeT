@@ -105,6 +105,17 @@ protected:
 
 
 private:
+
+    /**
+     *
+     */
+    simsignal_t rcvdDFSignal;
+
+    /**
+     *
+     */
+    simsignal_t rcvdEFSignal;
+
     /**
      * amount of time that the bus was in busy-state
      *
@@ -240,6 +251,19 @@ private:
      *
      */
     virtual void handleErrorFrame(cMessage *msg);
+
+    /**
+     *
+     */
+    virtual void colorBusy();
+    /**
+     *
+     */
+    virtual void colorIdle();
+    /**
+     *
+     */
+    virtual void colorError();
 };
 
 Define_Module(CanBusApp);

@@ -1,10 +1,8 @@
 #include "CanBusApp.h"
 
 void CanBusApp::initialize() {
-    numSent = 0;
-    numErr = 0;
-    WATCH(numSent);
-    WATCH(numErr);
+    rcvdDFSignal = registerSignal("receivedDF");
+    rcvdEFSignal = registerSignal("receivedEF");
 
     busytime = 0.0;
     busytimestamp = 0.0;
@@ -47,8 +45,8 @@ void CanBusApp::handleMessage(cMessage *msg) {
     if (msg->isSelfMessage()) { //Bus ist wieder im Idle-Zustand
         if (msgClass.compare("CanDataFrame") == 0) { //Wenn zuvor eine Nachricht gesendet wurde
             sendingCompleted();
-            delete msg;
         } else if (msgClass.compare("ErrorFrame") == 0) {
+            colorIdle();
             if (scheduledDataFrame != NULL) {
                 cancelEvent(scheduledDataFrame);
             }
@@ -56,17 +54,17 @@ void CanBusApp::handleMessage(cMessage *msg) {
             scheduledDataFrame = NULL;
             errored = false;
             eraseids.clear();
-            delete msg;
-        } else if (msgClass.compare("cMessage") == 0) {
-            delete msg;
         }
         grantSendingPermission();
     } else if (msgClass.compare("CanDataFrame") == 0) { // externe Nachricht
+        colorBusy();
         handleDataFrame(msg);
-        delete msg;
     } else if (msgClass.compare("ErrorFrame") == 0) {
+        colorError();
         handleErrorFrame(msg);
     }
+
+    delete msg;
 }
 
 void CanBusApp::checkAcknowledgementReception(ArbMsg *am) {
@@ -140,6 +138,7 @@ void CanBusApp::grantSendingPermission() {
 }
 
 void CanBusApp::sendingCompleted() {
+    colorIdle();
     OutputBuffer* controller = check_and_cast<OutputBuffer*>(sendingNode);
     controller->sendingCompleted(currentSendingID);
     for (unsigned int it = 0; it != eraseids.size(); it++) {
@@ -150,7 +149,6 @@ void CanBusApp::sendingCompleted() {
     if (scheduledDataFrame != NULL) {
         cancelEvent(scheduledDataFrame);
     }
-//    delete (scheduledDataFrame);
     scheduledDataFrame = NULL;
 }
 
@@ -167,6 +165,7 @@ void CanBusApp::handleDataFrame(cMessage *msg) {
     delete(scheduledDataFrame);
     scheduledDataFrame = df->dup();
     scheduleAt(simTime() + nextidle, scheduledDataFrame);
+    emit(rcvdDFSignal,df);
     numSent++;
     BusPort *port = (BusPort*) (getParentModule()->getSubmodule("busPort"));
     port->forward_to_all(msg->dup());
@@ -177,18 +176,15 @@ void CanBusApp::handleErrorFrame(cMessage *msg) {
         cancelEvent(scheduledDataFrame);
     }
     if (!errored) {
-        ErrorFrame *ef = check_and_cast<ErrorFrame *>(msg);
-        EV<<"errorframe mit canid: " << ef->getCanID() << " empfangen \n";
         simtime_t tmp = simTime() + (12 / (double) bandwidth);
-        EV<< "Scheduled um : " + tmp.str() + "\n";
+//        EV<< "Scheduled um : " + tmp.str() + "\n";
         ErrorFrame *ef2 = new ErrorFrame();
         scheduleAt(simTime() + (12 / (double) bandwidth), ef2); //12 - maximale L�nge eines Error-Frames
+        emit(rcvdEFSignal, ef2);
         numErr++;
         errored = true;
         BusPort *port = (BusPort*) (getParentModule()->getSubmodule("busPort"));
         port->forward_to_all(msg->dup());
-    } else {
-        delete msg; //TODO herausfinden warum ich das brauche. wann kommt es vor, dass ich zur gleichen nachricht mehrere error frames bekomme.
     }
 }
 
@@ -219,5 +215,38 @@ void CanBusApp::checkoutFromArbitration(int id) {
             ids.remove(tmp);
         }
         break;
+    }
+}
+
+void CanBusApp::colorBusy(){
+    int nodecount = getParentModule()->par("nodecount");
+    for (int gateIndex = 0; gateIndex < nodecount; gateIndex++) {
+        getParentModule()->gate("gate$i", gateIndex)->getDisplayString().setTagArg("ls", 0, "yellow");
+        getParentModule()->gate("gate$i", gateIndex)->getDisplayString().setTagArg("ls", 1, "3");
+
+        getParentModule()->gate("gate$o", gateIndex)->getDisplayString().setTagArg("ls", 0, "yellow");
+        getParentModule()->gate("gate$o", gateIndex)->getDisplayString().setTagArg("ls", 1, "3");
+    }
+}
+
+void CanBusApp::colorIdle(){
+    int nodecount = getParentModule()->par("nodecount");
+    for (int gateIndex = 0; gateIndex < nodecount; gateIndex++) {
+        getParentModule()->gate("gate$i", gateIndex)->getDisplayString().setTagArg("ls", 0, "black");
+        getParentModule()->gate("gate$i", gateIndex)->getDisplayString().setTagArg("ls", 1, "1");
+
+        getParentModule()->gate("gate$o", gateIndex)->getDisplayString().setTagArg("ls", 0, "black");
+        getParentModule()->gate("gate$o", gateIndex)->getDisplayString().setTagArg("ls", 1, "1");
+    }
+}
+
+void CanBusApp::colorError(){
+    int nodecount = getParentModule()->par("nodecount");
+    for (int gateIndex = 0; gateIndex < nodecount; gateIndex++) {
+        getParentModule()->gate("gate$i", gateIndex)->getDisplayString().setTagArg("ls", 0, "red");
+        getParentModule()->gate("gate$i", gateIndex)->getDisplayString().setTagArg("ls", 1, "3");
+
+        getParentModule()->gate("gate$o", gateIndex)->getDisplayString().setTagArg("ls", 0, "red");
+        getParentModule()->gate("gate$o", gateIndex)->getDisplayString().setTagArg("ls", 1, "3");
     }
 }
