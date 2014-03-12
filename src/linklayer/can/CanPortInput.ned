@@ -18,9 +18,11 @@ package busmodel.linklayer.can;
 simple CanPortInput
 {
     parameters:
-        @signal[receivedDF](type=CanDataFrame);
+        @signal[receivedCompleteDF](type=CanDataFrame);
+        @signal[receivedCompleteRF](type=CanDataFrame);
         
-        @statistic[receivedDF](title="data frames received"; source=receivedDF; record=count; interpolationmode=none);
+        @statistic[receivedCompleteDF](title="complete data frames received"; source=receivedCompleteDF; record=count; interpolationmode=none);
+        @statistic[receivedCompleteRF](title="complete remote frames received"; source=receivedCompleteRF; record=count; interpolationmode=none);
         
     gates:
         output out @loose;

@@ -43,9 +43,14 @@ protected:
 private:
 
     /**
-     *
+     * @brief Simsignal for received data frames.
      */
     simsignal_t rcvdDFSignal;
+
+    /**
+     * @brief Simsignal for received remote frames.
+     */
+    simsignal_t rcvdRFSignal;
 
     /**
      * @brief Number of useful data frames received by this node.

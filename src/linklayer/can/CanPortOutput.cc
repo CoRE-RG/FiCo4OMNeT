@@ -41,7 +41,7 @@ void CanPortOutput::finish(){
 
 void CanPortOutput::initializeStatisticValues(){
     sentDFSignal = registerSignal("sentDF");
-    sentEFSignal = registerSignal("sentEF");
+    sentRFSignal = registerSignal("sentRF");
     sendErrorsSignal = registerSignal("sendError");
     receiveErrorsSignal = registerSignal("receiveError");
 //    dataFramesSent = 0;
@@ -60,8 +60,7 @@ void CanPortOutput::handleMessage(cMessage *msg) {
     if (msgClass.compare("ErrorFrame") == 0) {
         if (!errorReceived) {
             ErrorFrame *ef = check_and_cast<ErrorFrame *>(msg);
-            emit(sentEFSignal, ef);
-            if (ef->getKind() < 2) {
+            if (ef->getKind() < 2) { //TODO magic number
                 emit(sendErrorsSignal, ef);
             } else {
                 emit(receiveErrorsSignal, ef);
@@ -73,14 +72,18 @@ void CanPortOutput::handleMessage(cMessage *msg) {
             delete msg;
         }
     } else {
+        CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
         colorBusy();
         errorReceived = false;
-        emit(sentDFSignal, msg);
-        send(msg, "out");
+        if (df->getRtr()) {
+            emit(sentRFSignal, df);
+        } else {
+            emit(sentDFSignal, df);
+        }
+        send(df, "out");
         if (errors && (msgClass.compare("CanDataFrame") == 0)) {
             int senderr = intuniform(0, 99);
             if (senderr < errorperc) {
-                CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
                 ErrorFrame *errself = new ErrorFrame("senderror");
                 int pos = intuniform(0, df->getLength() - 12); //Position zwischen 0 - L�nge des Frames (abz�glich ((EOF und ACK-Delimiter)+1))
                 errself->setKind(intuniform(0, 1)); //0: Bit-Error, 1: Form-Error

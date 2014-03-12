@@ -13,7 +13,7 @@ inspector "SimpleNewLayout.node[0].canNodePort.canPortOutput.receiveError" "Erro
 inspector "NewLayout" "NewLayout" "2" "460x337+1193+47:normal"
 inspector "NewLayout.node[0].canNodePort" "CanNodePort" "2" "565x341+182+182:normal"
 inspector "NewLayout.node[1]" "CanNode" "2" "565x341+25+43:normal"
-inspector "NewLayout.bus.canBusApp" "canBusApp" "1" "468x314+954+709:normal"
 inspector "NewLayout.bus.canBusApp" "CanBusApp" "1" "532x314+95+179:normal"
+inspector "NewLayout.bus.canBusApp" "canBusApp" "1" "468x314+954+709:normal"
 inspector "Canbus" "Canbus" "2" "607x337+1920+24:normal"
 

@@ -21,8 +21,6 @@
 #include <omnetpp.h>
 #include <limits>
 #include "candataframe_m.h"
-#include "arb_m.h"
-#include "ack_m.h"
 #include "err_m.h"
 #include "BusPort.h"
 #include "CanID.h"
@@ -42,7 +40,8 @@ public:
     /**
      *
      */
-    virtual void registerForArbitration(int id, cModule *node, simtime_t signInTime, bool rtr);
+    virtual void registerForArbitration(int id, cModule *node,
+            simtime_t signInTime, bool rtr);
 
     /**
      * @brief The request for frame with the corresponding ID will be checked out.
@@ -103,13 +102,17 @@ protected:
      */
     virtual void handleMessage(cMessage *msg);
 
-
 private:
 
     /**
      *
      */
     simsignal_t rcvdDFSignal;
+
+    /**
+     *
+     */
+    simsignal_t rcvdRFSignal;
 
     /**
      *
@@ -194,15 +197,22 @@ private:
 
     //Statistiken:
     /**
-     * number of sent messages. For statistics-collection of the bus.
+     * number of sent data frames. For statistics-collection of the bus.
      *
      */
-    long numSent;   //Anzahl an verschickten Nachrichten (also alle Nachrichten)
+    long numDataFrames;
+
+    /**
+     * number of sent remote frames. For statistics-collection of the bus.
+     *
+     */
+    long numRemoteFrames;
+
     /**
      * number of errors that occurred. For statistics-collection of the bus.
      *
      */
-    long numErr;    //Anzahl an aufgetretenen Fehlern
+    long numErrorFrames;
 
     /**
      * @brief ID of the message which is currently transmitted.
@@ -224,7 +234,7 @@ private:
      *
      *
      */
-    virtual void checkAcknowledgementReception(ArbMsg *am);
+//    virtual void checkAcknowledgementReception(ArbMsg *am);
 
     /**
      * @brief Sending permission for the frame with the highest priority is sent to the according node or the bus state is set to idle.
@@ -266,6 +276,7 @@ private:
     virtual void colorError();
 };
 
-Define_Module(CanBusApp);
+Define_Module(CanBusApp)
+;
 
 #endif /* CANBUSAPP_H_ */

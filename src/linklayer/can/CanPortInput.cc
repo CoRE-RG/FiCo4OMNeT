@@ -34,12 +34,13 @@ void CanPortInput::initialize() {
     scheduledDataFrame = NULL;
     scheduledErrorFrame = NULL;
 
-    rcvdDFSignal = registerSignal("receivedDF");
+    rcvdDFSignal = registerSignal("receivedCompleteDF");
+    rcvdRFSignal = registerSignal("receivedCompleteRF");
 
 //    messagestats.push_back(new Stats(id)); //Statistiken f�r diese Nachricht erstellen
 }
 
-void CanPortInput::finish(){
+void CanPortInput::finish() {
 //    recordScalar("#receivedDF", dataFramesReceived);
 }
 
@@ -52,16 +53,15 @@ void CanPortInput::handleMessage(cMessage *msg) {
             if (scheduledErrorFrame != NULL) {
                 cancelEvent(scheduledErrorFrame);
             }
-            delete(scheduledErrorFrame);
+            delete (scheduledErrorFrame);
             scheduledErrorFrame = NULL;
-        } else if(msgClass.compare("CanDataFrame") == 0){
+        } else if (msgClass.compare("CanDataFrame") == 0) {
             CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
-            emit(rcvdDFSignal,df);
             forwardDataFrame(df);
             if (scheduledDataFrame != NULL) {
                 cancelEvent(scheduledDataFrame);
             }
-            delete(scheduledDataFrame);
+            delete (scheduledDataFrame);
             scheduledDataFrame = NULL;
         }
     } else if (msgClass.compare("CanDataFrame") == 0) {
@@ -93,7 +93,7 @@ void CanPortInput::receiveMessage(CanDataFrame *df) {
     if (scheduledDataFrame != NULL) {
         cancelEvent(scheduledDataFrame);
     }
-    delete(scheduledDataFrame);
+    delete (scheduledDataFrame);
     scheduledDataFrame = df->dup();
     scheduleAt((simTime() + calculateScheduleTiming(frameLength)),
             scheduledDataFrame);
@@ -102,7 +102,7 @@ void CanPortInput::receiveMessage(CanDataFrame *df) {
 void CanPortInput::generateReceiveError(CanDataFrame *df) {
     ErrorFrame *errorMsg = new ErrorFrame("receiveError");
     int pos = intuniform(0, df->getLength() - 12); //Position zwischen 0 - L�nge des Frames (abz�glich ((EOF und ACK-Delimiter)+1))
-    errorMsg->setKind(intuniform(2,3));      //2: CRC-Fehler, 3: Bit-Stuffing-Fehler
+    errorMsg->setKind(intuniform(2, 3)); //2: CRC-Fehler, 3: Bit-Stuffing-Fehler
     errorMsg->setCanID(df->getCanID());
     if (pos > 0)
         pos--;  //wegen der verschobenen Sendezeiten
@@ -110,7 +110,7 @@ void CanPortInput::generateReceiveError(CanDataFrame *df) {
     if (scheduledErrorFrame != NULL) {
         cancelEvent(scheduledErrorFrame);
     }
-    delete(scheduledErrorFrame);
+    delete (scheduledErrorFrame);
     scheduledErrorFrame = errorMsg;
     scheduleAt((simTime() + calculateScheduleTiming(pos)), scheduledErrorFrame);
 }
@@ -162,6 +162,7 @@ void CanPortInput::forwardDataFrame(CanDataFrame *df) {
         for (std::vector<int>::iterator it = outgoingDataFrameIDs.begin();
                 it != outgoingDataFrameIDs.end(); ++it) {
             if (*it == df->getCanID()) {
+                emit(rcvdRFSignal, df);
                 cModule* sourceApp =
                         getParentModule()->getParentModule()->getSubmodule(
                                 "sourceApp");
@@ -173,6 +174,7 @@ void CanPortInput::forwardDataFrame(CanDataFrame *df) {
         for (std::vector<int>::iterator it = incomingDataFrameIDs.begin();
                 it != incomingDataFrameIDs.end(); ++it) {
             if (*it == df->getCanID()) {
+                emit(rcvdDFSignal, df);
                 send(df->dup(), "out");
                 break;
             }
@@ -189,17 +191,20 @@ void CanPortInput::handleExternErrorFrame(ErrorFrame *ef) {
     CanPortOutput* portOutput =
             (CanPortOutput*) getParentModule()->getSubmodule("canPortOutput");
     portOutput->sendingCompleted();
-    if ((checkOutgoingDataFrames(ef->getCanID()) || checkOutgoingRemoteFrames(ef->getCanID()))) {
+    if ((checkOutgoingDataFrames(ef->getCanID())
+            || checkOutgoingRemoteFrames(ef->getCanID()))) {
         if (ef->getKind() > 2) {
             EV<<"error frame im output soll gelöscht werden\n";
             portOutput->handleReceivedErrorFrame();
         }
         // dieser knoten ist sender; ef an output; da evtl. geschedulte ef löschen & neue Arbitrierung
     }
-    if (scheduledDataFrame != NULL && scheduledDataFrame->isScheduled() && (ef->getCanID() == scheduledDataFrame->getCanID())) {
+    if (scheduledDataFrame != NULL && scheduledDataFrame->isScheduled()
+            && (ef->getCanID() == scheduledDataFrame->getCanID())) {
         cancelEvent(scheduledDataFrame);
     }
-    if (scheduledErrorFrame != NULL && scheduledErrorFrame->isScheduled() && ef->getCanID() == scheduledErrorFrame->getCanID()) {
+    if (scheduledErrorFrame != NULL && scheduledErrorFrame->isScheduled()
+            && ef->getCanID() == scheduledErrorFrame->getCanID()) {
         cancelEvent(scheduledErrorFrame);
     }
 }

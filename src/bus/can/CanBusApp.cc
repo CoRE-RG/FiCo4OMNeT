@@ -1,10 +1,14 @@
 #include "CanBusApp.h"
 
+static int lala = 0;
+
 void CanBusApp::initialize() {
     rcvdDFSignal = registerSignal("receivedDF");
+    rcvdRFSignal = registerSignal("receivedRF");
     rcvdEFSignal = registerSignal("receivedEF");
-    numSent = 0;
-    numErr = 0;
+    numDataFrames = 0;
+    numRemoteFrames = 0;
+    numErrorFrames = 0;
 
     busytime = 0.0;
     busytimestamp = 0.0;
@@ -36,9 +40,10 @@ void CanBusApp::finish() {
     }
     recordScalar("#Simulated_Time", simTime());
     recordScalar("%Busload", busload);
-    recordScalar("#Data-Frames", numSent);
-    recordScalar("#Errors", numErr);
-    double errpercentage = (numErr / (double) numSent) * 100;
+//    recordScalar("#Data-Frames", numDataFrames);
+//    recordScalar("#Remote-Frames", numRemoteFrames);
+//    recordScalar("#Errors", numErrorFrames);
+    double errpercentage = (numErrorFrames / (double) (numDataFrames + numRemoteFrames)) * 100;
     recordScalar("%Errors", errpercentage);
 }
 
@@ -69,30 +74,30 @@ void CanBusApp::handleMessage(cMessage *msg) {
     delete msg;
 }
 
-void CanBusApp::checkAcknowledgementReception(ArbMsg *am) {
-    if (ack_rcvd) {
-        EV<< "Nachricht bestaetigt" << endl;
-        ArbMsg *newam = new ArbMsg("SendingComplete");
-        newam->setNode(am->getNode());
-        newam->setId(am->getId());
-        scheduleAt(simTime() + (11 / (double) bandwidth),
-                newam);
-        stateok = false;
-    } else {
-        EV << "Nachricht nicht bestaetigt" << endl;
-        AckMsg *newam = new AckMsg("SendingFailed");
-        newam->setAck(false);
-        newam->setId(am->getId());
-        BusPort *port = (BusPort*) (getParentModule()->getSubmodule("busPort"));
-        port->sendMsgToNode(newam, am->getNode());
-        ArbMsg *sp = new ArbMsg("SendingPermission");
-        sp->setSignInTime(currsit);
-        sp->setId(am->getId());
-        sp->setRemotesent(true);
-        port->sendMsgToNode(sp, am->getNode());
-    }
-    delete am;
-}
+//void CanBusApp::checkAcknowledgementReception(ArbMsg *am) {
+//    if (ack_rcvd) {
+//        EV<< "Nachricht bestaetigt" << endl;
+//        ArbMsg *newam = new ArbMsg("SendingComplete");
+//        newam->setNode(am->getNode());
+//        newam->setId(am->getId());
+//        scheduleAt(simTime() + (11 / (double) bandwidth),
+//                newam);
+//        stateok = false;
+//    } else {
+//        EV << "Nachricht nicht bestaetigt" << endl;
+//        AckMsg *newam = new AckMsg("SendingFailed");
+//        newam->setAck(false);
+//        newam->setId(am->getId());
+//        BusPort *port = (BusPort*) (getParentModule()->getSubmodule("busPort"));
+//        port->sendMsgToNode(newam, am->getNode());
+//        ArbMsg *sp = new ArbMsg("SendingPermission");
+//        sp->setSignInTime(currsit);
+//        sp->setId(am->getId());
+//        sp->setRemotesent(true);
+//        port->sendMsgToNode(sp, am->getNode());
+//    }
+//    delete am;
+//}
 
 void CanBusApp::grantSendingPermission() {
     currentSendingID = INT_MAX;
@@ -167,8 +172,13 @@ void CanBusApp::handleDataFrame(cMessage *msg) {
     delete(scheduledDataFrame);
     scheduledDataFrame = df->dup();
     scheduleAt(simTime() + nextidle, scheduledDataFrame);
-    emit(rcvdDFSignal,df);
-    numSent++;
+    if (df->getRtr()) {
+        emit(rcvdRFSignal,df);
+        numRemoteFrames++;
+    } else {
+        emit(rcvdDFSignal,df);
+        numDataFrames++;
+    }
     BusPort *port = (BusPort*) (getParentModule()->getSubmodule("busPort"));
     port->forward_to_all(msg->dup());
 }
@@ -178,13 +188,15 @@ void CanBusApp::handleErrorFrame(cMessage *msg) {
         cancelEvent(scheduledDataFrame);
     }
     if (!errored) {
+        numErrorFrames++;
         ErrorFrame *ef2 = new ErrorFrame();
         scheduleAt(simTime() + (12 / (double) bandwidth), ef2); //12 - maximale L�nge eines Error-Frames
         emit(rcvdEFSignal, ef2);
-        numErr++;
         errored = true;
         BusPort *port = (BusPort*) (getParentModule()->getSubmodule("busPort"));
         port->forward_to_all(msg->dup());
+    } else {
+        EV<<"es ist passiert: "<< ++lala <<"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n";
     }
 }
 

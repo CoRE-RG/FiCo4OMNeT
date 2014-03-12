@@ -49,34 +49,24 @@ protected:
 private:
 
     /**
-     *
+     * @brief Simsignal for sent data frames.
      */
     simsignal_t sentDFSignal;
 
     /**
-     *
+     * @brief Simsignal for sent remote frames.
      */
-    simsignal_t sentEFSignal;
+    simsignal_t sentRFSignal;
 
     /**
-     *
+     * @brief Simsignal for receive errors.
      */
     simsignal_t receiveErrorsSignal;
 
     /**
-     *
+     * @brief Simsignal for send errors.
      */
     simsignal_t sendErrorsSignal;
-
-    /**
-     * @brief Number of data frames sent by this node.
-     */
-    int dataFramesSent;
-
-    /**
-     * @brief Number of data frames sent by this node.
-     */
-    int errorFramesSent;
 
     /**
      * @brief Valid values are between 10000 and 1000000. Initialized from ned-attribute of CAN-Bus.
