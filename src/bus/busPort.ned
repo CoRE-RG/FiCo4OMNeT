@@ -21,4 +21,5 @@ simple BusPort
         @display("bgb=300,158");
     gates:
         inout phygate[];
+        inout innerGate;
 }

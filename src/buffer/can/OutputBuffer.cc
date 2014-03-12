@@ -27,17 +27,17 @@ void OutputBuffer::putFrame(CanDataFrame* frame) {
 }
 
 void OutputBuffer::registerForArbitration(int id, bool rtr) {
-    CanBusApp *canBusApp =
-            (CanBusApp*) (getParentModule()->getParentModule()->getSubmodule(
-                    "bus")->getSubmodule("canBusApp"));
-    canBusApp->registerForArbitration(id, this, simTime(), rtr);
+    CanBusLogic *canBusLogic =
+            (CanBusLogic*) (getParentModule()->getParentModule()->getSubmodule(
+                    "bus")->getSubmodule("canBusLogic"));
+    canBusLogic->registerForArbitration(id, this, simTime(), rtr);
 }
 
 void OutputBuffer::checkoutFromArbitration(int id) {
-    CanBusApp *canBusApp =
-            (CanBusApp*) (getParentModule()->getParentModule()->getSubmodule(
-                    "bus")->getSubmodule("canBusApp"));
-    canBusApp->checkoutFromArbitration(id);
+    CanBusLogic *canBusLogic =
+            (CanBusLogic*) (getParentModule()->getParentModule()->getSubmodule(
+                    "bus")->getSubmodule("canBusLogic"));
+    canBusLogic->checkoutFromArbitration(id);
 }
 
 void OutputBuffer::receiveSendingPermission(int id) {

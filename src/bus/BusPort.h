@@ -17,7 +17,7 @@
 #define BUSPORT_H_
 
 #include <omnetpp.h>
-#include "CanBusApp.h"
+//#include "CanBusLogic.h"
 
 using namespace std;
 

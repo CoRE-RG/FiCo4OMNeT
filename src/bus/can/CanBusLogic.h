@@ -13,8 +13,8 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef CANBUSAPP_H_
-#define CANBUSAPP_H_
+#ifndef CANBUSLOGIC_H_
+#define CANBUSLOGIC_H_
 
 #include <stdio.h>
 #include <string.h>
@@ -35,7 +35,7 @@ using namespace std;
  * It is also forwarding all incoming data-frames and error-frames to all participating nodes.
  *
  */
-class CanBusApp: public cSimpleModule {
+class CanBusLogic: public cSimpleModule {
 public:
     /**
      *
@@ -276,7 +276,7 @@ private:
     virtual void colorError();
 };
 
-Define_Module(CanBusApp)
+Define_Module(CanBusLogic)
 ;
 
 #endif /* CANBUSAPP_H_ */

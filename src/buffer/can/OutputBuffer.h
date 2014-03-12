@@ -20,7 +20,7 @@
 #include <string.h>
 #include <omnetpp.h>
 #include "Buffer.h"
-#include "CanBusApp.h"
+#include "CanBusLogic.h"
 #include "CanTrafficSourceAppBase.h"
 #include "CanPortOutput.h"
 

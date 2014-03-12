@@ -6,7 +6,7 @@ package busmodel.bus.can;
 //
 
 import busmodel.bus.BusPort;
-import busmodel.bus.can.CanBusApp;
+import busmodel.bus.can.CanBusLogic;
 
 module CanBus
 {
@@ -27,11 +27,12 @@ module CanBus
             gates:
                 phygate[nodecount];
         }
-        canBusApp: CanBusApp {
+        canBusLogic: CanBusLogic {
             @display("p=52,74");                
         }
 
     connections allowunconnected:
+        busPort.innerGate <--> canBusLogic.gate;
         for i=0..nodecount-1 {
             busPort.phygate[i] <--> gate[i];
         }

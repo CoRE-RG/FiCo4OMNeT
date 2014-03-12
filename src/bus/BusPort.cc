@@ -16,8 +16,13 @@
 #include "BusPort.h"
 
 void BusPort::handleMessage(cMessage *msg) {
-    CanBusApp *canbus = (CanBusApp*) (getParentModule()->getSubmodule("canBusApp"));
-    sendDirect(msg,canbus->gate("frameIn"));
+//    CanBusLogic *canbus = (CanBusLogic*) (getParentModule()->getSubmodule("canBusApp"));
+//    sendDirect(msg,canbus->gate("frameIn"));
+    if (msg->arrivedOn("innerGate$i")) {
+        forward_to_all(msg);
+    } else {
+        send(msg,"innerGate$o");
+    }
 }
 
 void BusPort::forward_to_all(cMessage *msg) {

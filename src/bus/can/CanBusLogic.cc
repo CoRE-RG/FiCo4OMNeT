@@ -1,8 +1,8 @@
-#include "CanBusApp.h"
+#include "CanBusLogic.h"
 
 static int lala = 0;
 
-void CanBusApp::initialize() {
+void CanBusLogic::initialize() {
     rcvdDFSignal = registerSignal("receivedDF");
     rcvdRFSignal = registerSignal("receivedRF");
     rcvdEFSignal = registerSignal("receivedEF");
@@ -33,21 +33,18 @@ void CanBusApp::initialize() {
     bandwidth = getParentModule()->par("bandwidth");
 }
 
-void CanBusApp::finish() {
+void CanBusLogic::finish() {
     simtime_t busload = (busytime / simTime()) * 100;
     if (busload == 0.0 && !idle) {
         busload = 100.0;
     }
     recordScalar("#Simulated_Time", simTime());
     recordScalar("%Busload", busload);
-//    recordScalar("#Data-Frames", numDataFrames);
-//    recordScalar("#Remote-Frames", numRemoteFrames);
-//    recordScalar("#Errors", numErrorFrames);
     double errpercentage = (numErrorFrames / (double) (numDataFrames + numRemoteFrames)) * 100;
     recordScalar("%Errors", errpercentage);
 }
 
-void CanBusApp::handleMessage(cMessage *msg) {
+void CanBusLogic::handleMessage(cMessage *msg) {
     std::string msgClass = msg->getClassName();
     if (msg->isSelfMessage()) { //Bus ist wieder im Idle-Zustand
         if (msgClass.compare("CanDataFrame") == 0) { //Wenn zuvor eine Nachricht gesendet wurde
@@ -74,7 +71,7 @@ void CanBusApp::handleMessage(cMessage *msg) {
     delete msg;
 }
 
-//void CanBusApp::checkAcknowledgementReception(ArbMsg *am) {
+//void CanBusLogic::checkAcknowledgementReception(ArbMsg *am) {
 //    if (ack_rcvd) {
 //        EV<< "Nachricht bestaetigt" << endl;
 //        ArbMsg *newam = new ArbMsg("SendingComplete");
@@ -99,7 +96,7 @@ void CanBusApp::handleMessage(cMessage *msg) {
 //    delete am;
 //}
 
-void CanBusApp::grantSendingPermission() {
+void CanBusLogic::grantSendingPermission() {
     currentSendingID = INT_MAX;
     sendingNode = NULL;
 
@@ -144,7 +141,7 @@ void CanBusApp::grantSendingPermission() {
     }
 }
 
-void CanBusApp::sendingCompleted() {
+void CanBusLogic::sendingCompleted() {
     colorIdle();
     OutputBuffer* controller = check_and_cast<OutputBuffer*>(sendingNode);
     controller->sendingCompleted(currentSendingID);
@@ -159,7 +156,7 @@ void CanBusApp::sendingCompleted() {
     scheduledDataFrame = NULL;
 }
 
-void CanBusApp::handleDataFrame(cMessage *msg) {
+void CanBusLogic::handleDataFrame(cMessage *msg) {
     CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
     EV<<"dataframe mit canid: " << df->getCanID() << " empfangen \n";
     int length = df->getLength();
@@ -179,11 +176,10 @@ void CanBusApp::handleDataFrame(cMessage *msg) {
         emit(rcvdDFSignal,df);
         numDataFrames++;
     }
-    BusPort *port = (BusPort*) (getParentModule()->getSubmodule("busPort"));
-    port->forward_to_all(msg->dup());
+    send(msg->dup(),"gate$o");
 }
 
-void CanBusApp::handleErrorFrame(cMessage *msg) {
+void CanBusLogic::handleErrorFrame(cMessage *msg) {
     if (scheduledDataFrame != NULL) {
         cancelEvent(scheduledDataFrame);
     }
@@ -193,14 +189,11 @@ void CanBusApp::handleErrorFrame(cMessage *msg) {
         scheduleAt(simTime() + (12 / (double) bandwidth), ef2); //12 - maximale L�nge eines Error-Frames
         emit(rcvdEFSignal, ef2);
         errored = true;
-        BusPort *port = (BusPort*) (getParentModule()->getSubmodule("busPort"));
-        port->forward_to_all(msg->dup());
-    } else {
-        EV<<"es ist passiert: "<< ++lala <<"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n";
+        send(msg->dup(),"gate$o");
     }
 }
 
-void CanBusApp::registerForArbitration(int id, cModule *node,
+void CanBusLogic::registerForArbitration(int id, cModule *node,
         simtime_t signInTime, bool rtr) {
     Enter_Method_Silent
     ();
@@ -218,7 +211,7 @@ void CanBusApp::registerForArbitration(int id, cModule *node,
     }
 }
 
-void CanBusApp::checkoutFromArbitration(int id) {
+void CanBusLogic::checkoutFromArbitration(int id) {
     Enter_Method_Silent
     ();
     for (list<CanID*>::iterator it = ids.begin(); it != ids.end(); ++it) {
@@ -230,7 +223,7 @@ void CanBusApp::checkoutFromArbitration(int id) {
     }
 }
 
-void CanBusApp::colorBusy(){
+void CanBusLogic::colorBusy(){
     int nodecount = getParentModule()->par("nodecount");
     for (int gateIndex = 0; gateIndex < nodecount; gateIndex++) {
         getParentModule()->gate("gate$i", gateIndex)->getDisplayString().setTagArg("ls", 0, "yellow");
@@ -241,7 +234,7 @@ void CanBusApp::colorBusy(){
     }
 }
 
-void CanBusApp::colorIdle(){
+void CanBusLogic::colorIdle(){
     int nodecount = getParentModule()->par("nodecount");
     for (int gateIndex = 0; gateIndex < nodecount; gateIndex++) {
         getParentModule()->gate("gate$i", gateIndex)->getDisplayString().setTagArg("ls", 0, "black");
@@ -252,7 +245,7 @@ void CanBusApp::colorIdle(){
     }
 }
 
-void CanBusApp::colorError(){
+void CanBusLogic::colorError(){
     int nodecount = getParentModule()->par("nodecount");
     for (int gateIndex = 0; gateIndex < nodecount; gateIndex++) {
         getParentModule()->gate("gate$i", gateIndex)->getDisplayString().setTagArg("ls", 0, "red");

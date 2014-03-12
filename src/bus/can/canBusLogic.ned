@@ -15,7 +15,7 @@
 
 package busmodel.bus.can;
 
-simple CanBusApp
+simple CanBusLogic
 {
     parameters:
     	@display("i=block/app");
@@ -28,5 +28,5 @@ simple CanBusApp
         @statistic[receivedRF](title="remote frames received"; source=receivedRF; record=count; interpolationmode=none);
         @statistic[receivedEF](title="error frames received"; source=receivedEF; record=count; interpolationmode=none);
     gates:
-        input frameIn @directIn;
+        inout gate;
 }
