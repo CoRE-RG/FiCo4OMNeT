@@ -17,6 +17,8 @@
 
 void CanTrafficSourceAppBase::initialize() {
     canVersion = getParentModule()->par("version").stdstringValue();
+    bitStuffingMethod = getParentModule()->par("bitStuffingMethod");
+    bitStuffingPercentage = getParentModule()->par("bitStuffingPercentage");
 //    initializeStatisticValues();
     initialDataFrameCreation();
     initialRemoteFrameCreation();
@@ -104,31 +106,30 @@ int CanTrafficSourceAppBase::checkAndReturnID(int id) {
 }
 
 int CanTrafficSourceAppBase::calculateLength(int dataLength) {
-    int frameLength = 0;
+    int arbFieldLength = 0;
     if (canVersion.compare("2.0B") == 0) {
-        frameLength += ARBITRATIONFIELD29BIT;
+        arbFieldLength += ARBITRATIONFIELD29BIT;
     }
-    return frameLength + DATAFRAMEOVERHEAD + (dataLength << 3); //TODO + StuffingBits
+    return (arbFieldLength + DATAFRAMECONTROLBITS + (dataLength * 8) + calculateStuffingBits(dataLength, arbFieldLength));
 }
 
-//int CanTrafficSourceAppBase::calculateStuffingBits(CanDataFrame *df){
-//    switch(bitStuffingMethod){
-//        //no bitstuffing:
-//        case 0: return 0;
-//        //worst case:
-//        case 1: length = 47 + idlength + (datalength<<3) + (29+ idlength + (datalength<<3))/4 + 1;  //Der hintere Teil steht fuer die Stopfbits
-//        break;
-//        //Fuer eine prozentuale Verteilung:
-//        case 2: length = 47 + idlength + (datalength<<3) + (((29+ idlength + (datalength<<3))/4 + 1) * ((double)percentage/100));
-//        break;
-//        case 3: length = 47 + idlength + (datalength<<3) + binstuffbits();
-//        break;
-//        case 4: length = 0;
-//        break;
-//        default: length = 0;
-//        break;
-//    }
-//}
+int CanTrafficSourceAppBase::calculateStuffingBits(int dataLength, int arbFieldLength){
+    switch(bitStuffingMethod){
+        //no bitstuffing:
+        case 0: return 0;
+        //worst case:
+        case 1: return ((CONTROLBITSFORBITSTUFFING + arbFieldLength + (dataLength * 8) - 1) / 4);  //Der hintere Teil steht fuer die Stopfbits
+        break;
+        //percentage:
+        case 2: return (((CONTROLBITSFORBITSTUFFING + arbFieldLength + (dataLength * 8) - 1) / 4) * ((double)bitStuffingPercentage/100));
+        break;
+        //original:
+        case 3: return 0; //TODO implement original bit stuffing
+        break;
+        default: return 0;
+        break;
+    }
+}
 
 void CanTrafficSourceAppBase::dataFrameTransmission(CanDataFrame *df) {
     CanDataFrame *outgoingFrame;

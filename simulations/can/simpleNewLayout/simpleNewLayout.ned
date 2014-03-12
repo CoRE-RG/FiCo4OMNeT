@@ -11,7 +11,6 @@ network SimpleNewLayout
 	@display("bgb=550,350,white");
     submodules:
         bus: CanBus {
-            @display("i=abstract/bus");
         }
         node[bus.nodecount]: CanNode;
     connections:

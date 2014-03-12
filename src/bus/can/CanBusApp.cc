@@ -178,8 +178,6 @@ void CanBusApp::handleErrorFrame(cMessage *msg) {
         cancelEvent(scheduledDataFrame);
     }
     if (!errored) {
-        simtime_t tmp = simTime() + (12 / (double) bandwidth);
-//        EV<< "Scheduled um : " + tmp.str() + "\n";
         ErrorFrame *ef2 = new ErrorFrame();
         scheduleAt(simTime() + (12 / (double) bandwidth), ef2); //12 - maximale L�nge eines Error-Frames
         emit(rcvdEFSignal, ef2);

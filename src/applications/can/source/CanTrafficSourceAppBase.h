@@ -48,12 +48,17 @@ private:
      * identifier extension bit, reserved bit, data length code, CRC, CRC-delimiter, ACK-slot,
      * ACK-delimiter, end of frame and inter frame space.
      */
-    static const int DATAFRAMEOVERHEAD = 47;
+    static const int DATAFRAMECONTROLBITS = 47;
 
     /**
      * @brief Additional bit needed for the 29 bit ID.
      */
     static const int ARBITRATIONFIELD29BIT = 20;
+
+    /**
+     * @brief Number of control bits which are used in bit-stuffing. Just 34 of the 47 are subject to bit-stuffing.
+     */
+    static const int CONTROLBITSFORBITSTUFFING = 34;
 
     /**
      * @brief Maximum ID value for Version 2.0A.
@@ -70,6 +75,16 @@ private:
     string canVersion;
 
     /**
+     * @brief Method which is used to simulate the bitstuffing: 0 = no bitstuffing, 1 = worst case, 2 = percentage, 3 = original
+     */
+    int bitStuffingMethod;
+
+    /**
+     * @brief Value for the percentage distribution for bit stuffing
+     */
+    int bitStuffingPercentage;
+
+    /**
      *
      */
     int currentFrameID;
@@ -78,16 +93,6 @@ private:
      * @brief Collection including all
      */
     vector<CanDataFrame*> outgoingRemoteFrames;
-
-    /**
-     * @brief Initializes the values needed for the stats collection.
-     */
-//    virtual void initializeStatisticValues();
-
-    /**
-     * @brief Generates the values for the statistics
-     */
-//    virtual void collectStats();
 
     /**
      * @brief Creates a data frame which will be queued in the buffer.
@@ -117,7 +122,7 @@ private:
     /**
      * @brief Calculates the additional bits needed for the chosen bitstuffing method.
      */
-    int calculateStuffingBits(CanDataFrame *df);
+    int calculateStuffingBits(int dataLength, int arbFieldLength);
 
     /**
      * @brief Transmits the data frame to the connected output buffer.
