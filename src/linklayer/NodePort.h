@@ -22,6 +22,13 @@
 
 using namespace std;
 
+/**
+ * @brief The NodePort represents the connection between the bus and the in- and output ports.
+ *
+ * @ingroup Port
+ *
+ * @author Stefan Buschmann
+ */
 class NodePort : public cSimpleModule {
 
 protected:

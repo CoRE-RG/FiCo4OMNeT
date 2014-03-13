@@ -29,16 +29,17 @@
 
 using namespace std;
 /**
- * @brief Represents the central node of a CAN-Network, the bus
+ * @brief Represents the logic of the bus. It handles the arbitration for the network and provides several statistic values.
  *
- * The bus is giving the sending permission for particular messages to the respective nodes.
- * It is also forwarding all incoming data-frames and error-frames to all participating nodes.
  *
+ * @ingroup Bus
+ *
+ * @author Stefan Buschmann
  */
 class CanBusLogic: public cSimpleModule {
 public:
     /**
-     *
+     * @brief Registers the frame of the node for the arbitration.
      */
     virtual void registerForArbitration(int id, cModule *node,
             simtime_t signInTime, bool rtr);
@@ -105,17 +106,17 @@ protected:
 private:
 
     /**
-     *
+     * @brief Signal for received data frames.
      */
     simsignal_t rcvdDFSignal;
 
     /**
-     *
+     * @brief Signal for received remote frames.
      */
     simsignal_t rcvdRFSignal;
 
     /**
-     *
+     * @brief Signal for received error frames.
      */
     simsignal_t rcvdEFSignal;
 
@@ -238,13 +239,11 @@ private:
 
     /**
      * @brief Sending permission for the frame with the highest priority is sent to the according node or the bus state is set to idle.
-     *
-     *
      */
     virtual void grantSendingPermission();
 
     /**
-     *
+     * @brief Is called when the transmission of a frame is completed.
      */
     virtual void sendingCompleted();
 
@@ -263,15 +262,15 @@ private:
     virtual void handleErrorFrame(cMessage *msg);
 
     /**
-     *
+     * @brief Colors the connections of the bus to represent it is busy.
      */
     virtual void colorBusy();
     /**
-     *
+     * @brief Colors the connections of the bus to represent it is idle.
      */
     virtual void colorIdle();
     /**
-     *
+     * @brief Colors the connections of the bus to represent a transmission of an error frame.
      */
     virtual void colorError();
 };

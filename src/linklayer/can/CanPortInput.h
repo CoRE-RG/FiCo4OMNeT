@@ -24,6 +24,13 @@
 
 using namespace std;
 
+/**
+ * @brief Received messages are initially handled in this module.
+ *
+ * @ingroup Port
+ *
+ * @author Stefan Buschmann
+ */
 class CanPortInput: public cSimpleModule {
 protected:
     /**

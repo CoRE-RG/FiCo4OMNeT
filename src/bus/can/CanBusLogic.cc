@@ -40,7 +40,8 @@ void CanBusLogic::finish() {
     }
     recordScalar("#Simulated_Time", simTime());
     recordScalar("%Busload", busload);
-    double errpercentage = (numErrorFrames / (double) (numDataFrames + numRemoteFrames)) * 100;
+    double errpercentage = (numErrorFrames
+            / (double) (numDataFrames + numRemoteFrames)) * 100;
     recordScalar("%Errors", errpercentage);
 }
 
@@ -166,17 +167,17 @@ void CanBusLogic::handleDataFrame(cMessage *msg) {
     if (scheduledDataFrame != NULL) {
         cancelEvent(scheduledDataFrame);
     }
-    delete(scheduledDataFrame);
+    delete (scheduledDataFrame);
     scheduledDataFrame = df->dup();
     scheduleAt(simTime() + nextidle, scheduledDataFrame);
     if (df->getRtr()) {
-        emit(rcvdRFSignal,df);
+        emit(rcvdRFSignal, df);
         numRemoteFrames++;
     } else {
-        emit(rcvdDFSignal,df);
+        emit(rcvdDFSignal, df);
         numDataFrames++;
     }
-    send(msg->dup(),"gate$o");
+    send(msg->dup(), "gate$o");
 }
 
 void CanBusLogic::handleErrorFrame(cMessage *msg) {
@@ -189,7 +190,7 @@ void CanBusLogic::handleErrorFrame(cMessage *msg) {
         scheduleAt(simTime() + (12 / (double) bandwidth), ef2); //12 - maximale L�nge eines Error-Frames
         emit(rcvdEFSignal, ef2);
         errored = true;
-        send(msg->dup(),"gate$o");
+        send(msg->dup(), "gate$o");
     }
 }
 
@@ -223,35 +224,57 @@ void CanBusLogic::checkoutFromArbitration(int id) {
     }
 }
 
-void CanBusLogic::colorBusy(){
-    int nodecount = getParentModule()->par("nodecount");
-    for (int gateIndex = 0; gateIndex < nodecount; gateIndex++) {
+void CanBusLogic::colorBusy() {
+    for (int gateIndex = 0;
+            gateIndex < getParentModule()->gate("gate$o", 0)->getVectorSize();
+            gateIndex++) {
         getParentModule()->gate("gate$i", gateIndex)->getDisplayString().setTagArg("ls", 0, "yellow");
         getParentModule()->gate("gate$i", gateIndex)->getDisplayString().setTagArg("ls", 1, "3");
 
         getParentModule()->gate("gate$o", gateIndex)->getDisplayString().setTagArg("ls", 0, "yellow");
         getParentModule()->gate("gate$o", gateIndex)->getDisplayString().setTagArg("ls", 1, "3");
+
+
+//        getParentModule()->gate("gate$i", gateIndex)->findIncomingTransmissionChannel()->getDisplayString().setTagArg(
+//                "ls", 0, "yellow");
+//        getParentModule()->gate("gate$i", gateIndex)->findIncomingTransmissionChannel()->getDisplayString().setTagArg(
+//                "ls", 1, "3");
+//
+//        getParentModule()->gate("gate$o", gateIndex)->getTransmissionChannel()->getDisplayString().setTagArg(
+//                "ls", 0, "yellow");
+//        getParentModule()->gate("gate$o", gateIndex)->getTransmissionChannel()->getDisplayString().setTagArg(
+//                "ls", 1, "3");
     }
 }
 
-void CanBusLogic::colorIdle(){
-    int nodecount = getParentModule()->par("nodecount");
-    for (int gateIndex = 0; gateIndex < nodecount; gateIndex++) {
-        getParentModule()->gate("gate$i", gateIndex)->getDisplayString().setTagArg("ls", 0, "black");
-        getParentModule()->gate("gate$i", gateIndex)->getDisplayString().setTagArg("ls", 1, "1");
+void CanBusLogic::colorIdle() {
+    for (int gateIndex = 0;
+            gateIndex < getParentModule()->gate("gate$o", 0)->getVectorSize();
+            gateIndex++) {
+        getParentModule()->gate("gate$i", gateIndex)->getDisplayString().setTagArg(
+                "ls", 0, "black");
+        getParentModule()->gate("gate$i", gateIndex)->getDisplayString().setTagArg(
+                "ls", 1, "1");
 
-        getParentModule()->gate("gate$o", gateIndex)->getDisplayString().setTagArg("ls", 0, "black");
-        getParentModule()->gate("gate$o", gateIndex)->getDisplayString().setTagArg("ls", 1, "1");
+        getParentModule()->gate("gate$o", gateIndex)->getDisplayString().setTagArg(
+                "ls", 0, "black");
+        getParentModule()->gate("gate$o", gateIndex)->getDisplayString().setTagArg(
+                "ls", 1, "1");
     }
 }
 
-void CanBusLogic::colorError(){
-    int nodecount = getParentModule()->par("nodecount");
-    for (int gateIndex = 0; gateIndex < nodecount; gateIndex++) {
-        getParentModule()->gate("gate$i", gateIndex)->getDisplayString().setTagArg("ls", 0, "red");
-        getParentModule()->gate("gate$i", gateIndex)->getDisplayString().setTagArg("ls", 1, "3");
+void CanBusLogic::colorError() {
+    for (int gateIndex = 0;
+            gateIndex < getParentModule()->gate("gate$o", 0)->getVectorSize();
+            gateIndex++) {
+        getParentModule()->gate("gate$i", gateIndex)->getDisplayString().setTagArg(
+                "ls", 0, "red");
+        getParentModule()->gate("gate$i", gateIndex)->getDisplayString().setTagArg(
+                "ls", 1, "3");
 
-        getParentModule()->gate("gate$o", gateIndex)->getDisplayString().setTagArg("ls", 0, "red");
-        getParentModule()->gate("gate$o", gateIndex)->getDisplayString().setTagArg("ls", 1, "3");
+        getParentModule()->gate("gate$o", gateIndex)->getDisplayString().setTagArg(
+                "ls", 0, "red");
+        getParentModule()->gate("gate$o", gateIndex)->getDisplayString().setTagArg(
+                "ls", 1, "3");
     }
 }

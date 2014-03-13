@@ -23,8 +23,13 @@
 
 using namespace std;
 
-//class Buffer;
-
+/**
+ * @brief Traffic sink application used to handle incomming messages.
+ *
+ * @ingroup Applications
+ *
+ * @author Stefan Buschmann
+ */
 class CanTrafficSinkAppBase : public cSimpleModule{
 
 protected:

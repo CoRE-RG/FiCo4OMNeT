@@ -17,11 +17,16 @@
 #define INPUTBUFFER_H_
 
 #include <omnetpp.h>
-#include "Buffer.h"
+#include "CanBuffer.h"
 
-//using namespace std;
-
-class InputBuffer :public Buffer{
+/**
+ * @brief This buffer holds messages which were received by this node.
+ *
+ * @ingroup Buffer
+ *
+ * @author Stefan Buschmann
+ */
+class InputBuffer :public CanBuffer{
 
 public:
     /**

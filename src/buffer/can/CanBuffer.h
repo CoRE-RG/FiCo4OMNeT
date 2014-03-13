@@ -1,5 +1,5 @@
-#ifndef BUFFER_H_
-#define BUFFER_H_
+#ifndef CANBUFFER_H_
+#define CANBUFFER_H_
 
 #include <stdio.h>
 #include <string.h>
@@ -18,10 +18,14 @@
 
 using namespace std;
 
-//class CanTrafficSinkApp;
-//class CanTrafficSourceApp;
-
-class Buffer : public cSimpleModule {
+/**
+ * @brief Base class for the input and output buffer for CAN nodes.
+ *
+ * @ingroup Buffer
+ *
+ * @author Stefan Buschmann
+ */
+class CanBuffer : public cSimpleModule {
 public:
     /**
      * @brief This method registers the gate for the reception of the messages.

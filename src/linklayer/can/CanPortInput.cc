@@ -48,7 +48,7 @@ void CanPortInput::handleMessage(cMessage *msg) {
     std::string msgClass = msg->getClassName();
     if (msg->isSelfMessage()) {
         if (msgClass.compare("ErrorFrame") == 0) {
-            ErrorFrame *ef = check_and_cast<ErrorFrame *>(msg);
+            ErrorFrame *ef = dynamic_cast<ErrorFrame *>(msg);
             forwardOwnErrorFrame(ef);
             if (scheduledErrorFrame != NULL) {
                 cancelEvent(scheduledErrorFrame);

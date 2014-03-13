@@ -17,8 +17,6 @@
 
 void NodePort::handleMessage(cMessage *msg) {
     if (msg->arrivedOn("phygate$i")) {
-//        canNodeApp *cannode = (canNodeApp*) (getParentModule()->getSubmodule("canNodeApp"));
-    //    sendDirect(msg,cannode->gate("frameIn"));
         send(msg, "upperLayerOut");
     } else {
         send(msg, "phygate$o");

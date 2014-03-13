@@ -21,6 +21,15 @@
 
 using namespace std;
 
+/**
+ * @brief Represents the connection between the bus and all connected nodes.
+ * It forwards received frames to the bus logic and outgoing frames are forwarded to all connected nodes.
+ *
+ *
+ * @ingroup Bus
+ *
+ * @author Stefan Buschmann
+ */
 class BusPort : public cSimpleModule {
 
     protected:

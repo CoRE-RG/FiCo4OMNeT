@@ -15,9 +15,9 @@
 
 package busmodel.buffer.can;
 
-import busmodel.buffer.can.Buffer;
+import busmodel.buffer.can.CanBuffer;
 
-simple OutputBuffer like Buffer
+simple OutputBuffer like CanBuffer
 {
         parameters:
         @display("i=block/buffer");

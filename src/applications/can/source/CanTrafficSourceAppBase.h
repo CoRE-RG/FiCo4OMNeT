@@ -18,13 +18,18 @@
 
 #include <omnetpp.h>
 #include <string.h>
-#include "Buffer.h"
+#include "CanBuffer.h"
 #include "candataframe_m.h"
 
 using namespace std;
 
-//class Buffer;
-
+/**
+ * @brief Traffic source application used to generate outgoing messages.
+ *
+ * @ingroup Applications
+ *
+ * @author Stefan Buschmann
+ */
 class CanTrafficSourceAppBase: public cSimpleModule {
 
 protected:

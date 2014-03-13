@@ -20,6 +20,13 @@
 #include "err_m.h"
 #include "candataframe_m.h"
 
+/**
+ * @brief Outgoing messages are handled in this module.
+ *
+ * @ingroup Port
+ *
+ * @author Stefan Buschmann
+ */
 class CanPortOutput: public cSimpleModule {
 public:
     /**
@@ -28,7 +35,7 @@ public:
     virtual void handleReceivedErrorFrame();
 
     /**
-     *
+     * @brief Is called when the transmission of a frame is completed.
      */
     virtual void sendingCompleted();
 protected:
@@ -107,17 +114,17 @@ private:
     virtual double calculateScheduleTiming(int length);
 
     /**
-     *
+     * @brief Colors the connection to the bus to represent it is busy.
      */
     virtual void colorBusy();
 
     /**
-     *
+     * @brief Colors the connection to the bus to represent it is idle.
      */
     virtual void colorIdle();
 
     /**
-     *
+     * @brief Colors the connections to the bus to represent a transmission of an error frame.
      */
     virtual void colorError();
 

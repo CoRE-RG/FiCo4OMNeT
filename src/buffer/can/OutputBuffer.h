@@ -19,14 +19,21 @@
 #include <stdio.h>
 #include <string.h>
 #include <omnetpp.h>
-#include "Buffer.h"
+#include "CanBuffer.h"
 #include "CanBusLogic.h"
 #include "CanTrafficSourceAppBase.h"
 #include "CanPortOutput.h"
 
 using namespace std;
 
-class OutputBuffer: public Buffer {
+/**
+ * @brief This buffer holds messages which will be sent to the bus.
+ *
+ * @ingroup Buffer
+ *
+ * @author Stefan Buschmann
+ */
+class OutputBuffer: public CanBuffer {
 
 public:
     virtual void receiveSendingPermission(int id);
