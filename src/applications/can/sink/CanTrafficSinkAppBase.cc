@@ -16,14 +16,12 @@
 #include "CanTrafficSinkAppBase.h"
 
 void CanTrafficSinkAppBase::initialize() {
-    //TODO init statistics
     idle = true;
     currentFrameID = 0;
     bufferMessageCounter = 0;
 }
 
 void CanTrafficSinkAppBase::handleMessage(cMessage *msg) {
-    //TODO statistics
     std::string msgClass = msg->getClassName();
     if (msg->arrivedOn("controllerIn")) {
         bufferMessageCounter++;

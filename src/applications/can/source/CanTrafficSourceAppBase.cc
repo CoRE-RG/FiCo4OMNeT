@@ -19,7 +19,6 @@ void CanTrafficSourceAppBase::initialize() {
     canVersion = getParentModule()->par("version").stdstringValue();
     bitStuffingMethod = getParentModule()->par("bitStuffingMethod");
     bitStuffingPercentage = getParentModule()->par("bitStuffingPercentage");
-//    initializeStatisticValues();
     initialDataFrameCreation();
     initialRemoteFrameCreation();
 }
@@ -29,7 +28,7 @@ void CanTrafficSourceAppBase::handleMessage(cMessage *msg) {
     dataFrameTransmission(df);
 }
 
-void CanTrafficSourceAppBase::initialRemoteFrameCreation() { //TODO was, wenn keine frames vorhanden?
+void CanTrafficSourceAppBase::initialRemoteFrameCreation() {
 
     if (getParentModule()->par("idRemoteFrames").stdstringValue() != "0") {
         cStringTokenizer remoteFrameIDsTokenizer(
@@ -54,14 +53,13 @@ void CanTrafficSourceAppBase::initialRemoteFrameCreation() { //TODO was, wenn ke
             if (can_msg->getPeriod() == 0) {
                 EV<<"Remote frame with ID "<< can_msg->getCanID() << " has no period. Hence it will be ignored.\n";
             } else {
-                outgoingRemoteFrames.push_back(can_msg); // TODO brauch ich das? ich glaube nicht
                 scheduleAt(simTime() + (can_msg->getPeriod() / 1000.), can_msg);
             }
         }
     }
 }
 
-void CanTrafficSourceAppBase::initialDataFrameCreation() { //TODO was, wenn keine frames vorhanden?
+void CanTrafficSourceAppBase::initialDataFrameCreation() {
     if (getParentModule()->par("idDataFrames").stdstringValue() != "0") {
         cStringTokenizer dataFrameIDsTokenizer(
                 getParentModule()->par("idDataFrames"), ",");
@@ -82,7 +80,7 @@ void CanTrafficSourceAppBase::initialDataFrameCreation() { //TODO was, wenn kein
                             atoi(dataLengthDataFramesTokenizer.nextToken())));
             can_msg->setPeriod(
                     atoi(dataFramesPeriodicityTokenizer.nextToken()));
-            outgoingDataFrames.push_back(can_msg); // TODO brauch ich das? ich glaube schon
+            outgoingDataFrames.push_back(can_msg);
             if (can_msg->getPeriod() != 0) {
                 scheduleAt(simTime() + (can_msg->getPeriod() / 1000.), can_msg);
             }
@@ -91,12 +89,12 @@ void CanTrafficSourceAppBase::initialDataFrameCreation() { //TODO was, wenn kein
 }
 
 int CanTrafficSourceAppBase::checkAndReturnID(int id) {
-    if (canVersion.compare("2.0A") == 0) {           //2.0A
+    if (canVersion.compare("2.0A") == 0) {
         if (id < 0 || id > VERSIONAMAX) {
             EV<< "ID " << id << " not valid." << endl;
             endSimulation();
         }
-    } else {                                    //2.0B
+    } else {
         if(id < 0 || id > VERSIONBMAX) {
             EV << "ID " << id << " not valid." << endl;
             endSimulation();

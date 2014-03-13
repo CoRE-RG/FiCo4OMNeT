@@ -57,7 +57,7 @@ private:
     bool idle;
 
     /**
-     *
+     * @brief The CAN-ID of the message which is currently processed.
      */
     int currentFrameID;
 

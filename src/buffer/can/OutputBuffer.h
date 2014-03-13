@@ -36,8 +36,14 @@ using namespace std;
 class OutputBuffer: public CanBuffer {
 
 public:
+    /**
+     * @brief Is called by the bus logic to permit the frame transmission.
+     */
     virtual void receiveSendingPermission(int id);
 
+    /**
+     * @brief Is called when the frame transmission is completed.
+     */
     virtual void sendingCompleted(int id);
 
     /**
@@ -49,8 +55,14 @@ public:
     virtual void putFrame(CanDataFrame* frame);
 
 protected:
+    /**
+     * @brief This method registers a frame at the bus for arbitration.
+     */
     virtual void registerForArbitration(int id, bool rtr);
 
+    /**
+     * @brief Unregister from arbitration at the bus.
+     */
     virtual void checkoutFromArbitration(int id);
 };
 Define_Module(OutputBuffer);

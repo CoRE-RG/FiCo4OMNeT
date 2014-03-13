@@ -90,16 +90,6 @@ private:
     int bitStuffingPercentage;
 
     /**
-     *
-     */
-    int currentFrameID;
-
-    /**
-     * @brief Collection including all
-     */
-    vector<CanDataFrame*> outgoingRemoteFrames;
-
-    /**
      * @brief Creates a data frame which will be queued in the buffer.
      */
     void initialRemoteFrameCreation();
@@ -115,7 +105,7 @@ private:
     void initialDataFrameCreation();
 
     /**
-     *
+     * @brief Checks whether the CAN-ID matches the restrictions of the CAN version.
      */
     int checkAndReturnID(int id);
 

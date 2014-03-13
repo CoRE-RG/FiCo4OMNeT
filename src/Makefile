@@ -30,6 +30,7 @@ INCLUDE_PATH = \
     -Ilinklayer/can \
     -Ilinklayer/can/messages \
     -Ilinklayer/flexray \
+    -Ilinklayer/flexray/messages \
     -Inodes \
     -Inodes/can \
     -Inodes/flexray \
@@ -54,39 +55,36 @@ OBJS = \
     $O/applications/can/sink/CanTrafficSinkAppBase.o \
     $O/applications/can/source/CanTrafficSourceAppBase.o \
     $O/applications/flexray/FRApp.o \
-    $O/buffer/can/Buffer.o \
-    $O/buffer/can/OutputBuffer.o \
+    $O/buffer/Buffer.o \
+    $O/buffer/can/CanBuffer.o \
     $O/buffer/can/InputBuffer.o \
+    $O/buffer/can/OutputBuffer.o \
     $O/bus/BusPort.o \
+    $O/bus/can/CanBusLogic.o \
     $O/bus/can/CanID.o \
-    $O/bus/can/CanBusApp.o \
     $O/bus/flexray/FRTopologyPort.o \
     $O/linklayer/NodePort.o \
     $O/linklayer/can/CanPortInput.o \
     $O/linklayer/can/CanPortOutput.o \
     $O/linklayer/flexray/FRPort.o \
+    $O/linklayer/flexray/FRPortInput.o \
+    $O/linklayer/flexray/FRPortOutput.o \
     $O/nodes/can/CanNodeApp.o \
-    $O/nodes/can/Stats.o \
     $O/nodes/can/MOB.o \
+    $O/nodes/can/Stats.o \
     $O/scheduler/flexray/FRScheduler.o \
     $O/scheduler/flexray/SchedulerEvent.o \
     $O/synchronisation/flexray/FRSync.o \
-    $O/linklayer/can/messages/arb_m.o \
-    $O/linklayer/can/messages/err_m.o \
-    $O/linklayer/can/messages/dataframe_m.o \
-    $O/linklayer/can/messages/ack_m.o \
     $O/linklayer/can/messages/candataframe_m.o \
+    $O/linklayer/can/messages/err_m.o \
     $O/linklayer/flexray/FRFrame_m.o \
     $O/scheduler/flexray/SchedulerMessage_m.o \
     $O/scheduler/flexray/SchedulerMessageEvents_m.o
 
 # Message files
 MSGFILES = \
-    linklayer/can/messages/arb.msg \
-    linklayer/can/messages/err.msg \
-    linklayer/can/messages/dataframe.msg \
-    linklayer/can/messages/ack.msg \
     linklayer/can/messages/candataframe.msg \
+    linklayer/can/messages/err.msg \
     linklayer/flexray/FRFrame.msg \
     scheduler/flexray/SchedulerMessage.msg \
     scheduler/flexray/SchedulerMessageEvents.msg
@@ -150,7 +148,7 @@ $O/$(TARGET): $(OBJS)  $(wildcard $(EXTRA_OBJS)) Makefile
 $O/%.o: %.cc $(COPTS_FILE)
 	@$(MKPATH) $(dir $@)
 	$(qecho) "$<"
-	$(Q)$(CXX) -c $(CXXFLAGS) $(COPTS) -o $@ $<
+	$(Q)$(CXX) -c $(COPTS) -o $@ $<
 
 %_m.cc %_m.h: %.msg
 	$(qecho) MSGC: $<
@@ -177,6 +175,7 @@ clean:
 	$(Q)-rm -f linklayer/can/*_m.cc linklayer/can/*_m.h
 	$(Q)-rm -f linklayer/can/messages/*_m.cc linklayer/can/messages/*_m.h
 	$(Q)-rm -f linklayer/flexray/*_m.cc linklayer/flexray/*_m.h
+	$(Q)-rm -f linklayer/flexray/messages/*_m.cc linklayer/flexray/messages/*_m.h
 	$(Q)-rm -f nodes/*_m.cc nodes/*_m.h
 	$(Q)-rm -f nodes/can/*_m.cc nodes/can/*_m.h
 	$(Q)-rm -f nodes/flexray/*_m.cc nodes/flexray/*_m.h
@@ -190,17 +189,17 @@ cleanall: clean
 
 depend:
 	$(qecho) Creating dependencies...
-	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cc applications/*.cc applications/can/*.cc applications/can/sink/*.cc applications/can/source/*.cc applications/flexray/*.cc buffer/*.cc buffer/can/*.cc bus/*.cc bus/can/*.cc bus/flexray/*.cc linklayer/*.cc linklayer/can/*.cc linklayer/can/messages/*.cc linklayer/flexray/*.cc nodes/*.cc nodes/can/*.cc nodes/flexray/*.cc scheduler/*.cc scheduler/flexray/*.cc synchronisation/*.cc synchronisation/flexray/*.cc
+	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cc applications/*.cc applications/can/*.cc applications/can/sink/*.cc applications/can/source/*.cc applications/flexray/*.cc buffer/*.cc buffer/can/*.cc bus/*.cc bus/can/*.cc bus/flexray/*.cc linklayer/*.cc linklayer/can/*.cc linklayer/can/messages/*.cc linklayer/flexray/*.cc linklayer/flexray/messages/*.cc nodes/*.cc nodes/can/*.cc nodes/flexray/*.cc scheduler/*.cc scheduler/flexray/*.cc synchronisation/*.cc synchronisation/flexray/*.cc
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
 $O/applications/can/sink/CanTrafficSinkAppBase.o: applications/can/sink/CanTrafficSinkAppBase.cc \
 	applications/can/sink/CanTrafficSinkAppBase.h \
-	buffer/can/Buffer.h \
+	buffer/can/CanBuffer.h \
 	buffer/can/InputBuffer.h \
 	linklayer/can/messages/candataframe_m.h
 $O/applications/can/source/CanTrafficSourceAppBase.o: applications/can/source/CanTrafficSourceAppBase.cc \
 	applications/can/source/CanTrafficSourceAppBase.h \
-	buffer/can/Buffer.h \
+	buffer/can/CanBuffer.h \
 	linklayer/can/messages/candataframe_m.h
 $O/applications/flexray/FRApp.o: applications/flexray/FRApp.cc \
 	applications/flexray/FRApp.h \
@@ -211,47 +210,35 @@ $O/applications/flexray/FRApp.o: applications/flexray/FRApp.cc \
 	scheduler/flexray/SchedulerMessageEvents_m.h \
 	scheduler/flexray/SchedulerMessage_m.h \
 	synchronisation/flexray/FRSync.h
-$O/buffer/can/Buffer.o: buffer/can/Buffer.cc \
-	buffer/can/Buffer.h \
+$O/buffer/Buffer.o: buffer/Buffer.cc \
+	buffer/Buffer.h
+$O/buffer/can/CanBuffer.o: buffer/can/CanBuffer.cc \
+	buffer/can/CanBuffer.h \
 	linklayer/can/messages/candataframe_m.h
 $O/buffer/can/InputBuffer.o: buffer/can/InputBuffer.cc \
-	buffer/can/Buffer.h \
+	buffer/can/CanBuffer.h \
 	buffer/can/InputBuffer.h \
 	linklayer/can/messages/candataframe_m.h
 $O/buffer/can/OutputBuffer.o: buffer/can/OutputBuffer.cc \
 	applications/can/source/CanTrafficSourceAppBase.h \
-	buffer/can/Buffer.h \
+	buffer/can/CanBuffer.h \
 	buffer/can/OutputBuffer.h \
 	bus/BusPort.h \
-	bus/can/CanBusApp.h \
+	bus/can/CanBusLogic.h \
 	bus/can/CanID.h \
 	linklayer/can/CanPortOutput.h \
-	linklayer/can/messages/ack_m.h \
-	linklayer/can/messages/arb_m.h \
 	linklayer/can/messages/candataframe_m.h \
 	linklayer/can/messages/err_m.h
 $O/bus/BusPort.o: bus/BusPort.cc \
+	bus/BusPort.h
+$O/bus/can/CanBusLogic.o: bus/can/CanBusLogic.cc \
 	applications/can/source/CanTrafficSourceAppBase.h \
-	buffer/can/Buffer.h \
+	buffer/can/CanBuffer.h \
 	buffer/can/OutputBuffer.h \
 	bus/BusPort.h \
-	bus/can/CanBusApp.h \
+	bus/can/CanBusLogic.h \
 	bus/can/CanID.h \
 	linklayer/can/CanPortOutput.h \
-	linklayer/can/messages/ack_m.h \
-	linklayer/can/messages/arb_m.h \
-	linklayer/can/messages/candataframe_m.h \
-	linklayer/can/messages/err_m.h
-$O/bus/can/CanBusApp.o: bus/can/CanBusApp.cc \
-	applications/can/source/CanTrafficSourceAppBase.h \
-	buffer/can/Buffer.h \
-	buffer/can/OutputBuffer.h \
-	bus/BusPort.h \
-	bus/can/CanBusApp.h \
-	bus/can/CanID.h \
-	linklayer/can/CanPortOutput.h \
-	linklayer/can/messages/ack_m.h \
-	linklayer/can/messages/arb_m.h \
 	linklayer/can/messages/candataframe_m.h \
 	linklayer/can/messages/err_m.h
 $O/bus/can/CanID.o: bus/can/CanID.cc \
@@ -270,14 +257,8 @@ $O/linklayer/can/CanPortOutput.o: linklayer/can/CanPortOutput.cc \
 	linklayer/can/CanPortOutput.h \
 	linklayer/can/messages/candataframe_m.h \
 	linklayer/can/messages/err_m.h
-$O/linklayer/can/messages/ack_m.o: linklayer/can/messages/ack_m.cc \
-	linklayer/can/messages/ack_m.h
-$O/linklayer/can/messages/arb_m.o: linklayer/can/messages/arb_m.cc \
-	linklayer/can/messages/arb_m.h
 $O/linklayer/can/messages/candataframe_m.o: linklayer/can/messages/candataframe_m.cc \
 	linklayer/can/messages/candataframe_m.h
-$O/linklayer/can/messages/dataframe_m.o: linklayer/can/messages/dataframe_m.cc \
-	linklayer/can/messages/dataframe_m.h
 $O/linklayer/can/messages/err_m.o: linklayer/can/messages/err_m.cc \
 	linklayer/can/messages/err_m.h
 $O/linklayer/flexray/FRFrame_m.o: linklayer/flexray/FRFrame_m.cc \
@@ -291,6 +272,10 @@ $O/linklayer/flexray/FRPort.o: linklayer/flexray/FRPort.cc \
 	scheduler/flexray/SchedulerMessageEvents_m.h \
 	scheduler/flexray/SchedulerMessage_m.h \
 	synchronisation/flexray/FRSync.h
+$O/linklayer/flexray/FRPortInput.o: linklayer/flexray/FRPortInput.cc \
+	linklayer/flexray/FRPortInput.h
+$O/linklayer/flexray/FRPortOutput.o: linklayer/flexray/FRPortOutput.cc \
+	linklayer/flexray/FRPortOutput.h
 $O/nodes/can/CanNodeApp.o: nodes/can/CanNodeApp.cc
 $O/nodes/can/MOB.o: nodes/can/MOB.cc \
 	nodes/can/MOB.h

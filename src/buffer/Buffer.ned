@@ -13,20 +13,21 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include "InputBuffer.h"
+package busmodel.buffer;
+moduleinterface Buffer
+{
+    parameters:
+        @display("i=block/buffer");
+        //Statistic of the amount of packets that were sent by the buffer
+        //@statistic[txPk](title="TX Packets"; record=count,vector);
+        //End-to-end latency
+        //@statistic[latency](title="End-to-end latency"; unit=s; record=stats,histogram,vector);
 
-void InputBuffer::putFrame(CanDataFrame* frame) {
-    if (MOB == true) {
-        if (getFrame(frame->getCanID()) != NULL) {
-            deleteFrame(frame->getCanID());
-        } else {
-            cModule *sinkApp = getParentModule()->getSubmodule("sinkApp");
-            sendDirect(new cMessage("Message in buffer"), sinkApp,
-                    "controllerIn");
-        }
-    } else {
-        cModule *sinkApp = getParentModule()->getSubmodule("sinkApp");
-        sendDirect(new cMessage("Message in buffer"), sinkApp, "controllerIn");
-    }
-    frames.push_back(frame);
+        //Comma seperated list of gates where the frames of the buffer are delivered
+        string destination_gates;
+    gates:
+        //The buffers Input
+        input in @loose;
+        //The buffers Output @warning CURRENTLY NOT USED!
+        output out @loose;
 }
