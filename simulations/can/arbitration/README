@@ -1,2 +1,0 @@
-This network configuration performs tests on the arbitration mechanism of the simulation.
-The message-IDs are chosen to create a kind of preemption of lower-priority messages by higher-priority ones.

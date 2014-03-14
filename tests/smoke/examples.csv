@@ -1,0 +1,2 @@
+# workingdir,                                                     args
+/examples/can/simpleNewLayout/,                                  -f omnetpp.ini -c General -r 0

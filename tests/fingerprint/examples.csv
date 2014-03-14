@@ -1,0 +1,3 @@
+#note that the fingerprints provided may not match your architecture. Thus the test may fail although everything is ok
+# workingdir,                                                     args,                                          simtimelimit,    fingerprint
+/examples/can/simpleNewLayout/,                                  -f omnetpp.ini -c General -r 0,                1s,              1ddc-6f5d

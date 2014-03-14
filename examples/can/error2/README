@@ -1,0 +1,4 @@
+Second of two error-configurations.
+One node acts as Sender, the other one as Receiver.
+
+In this configuration, the Sender has a rate of 50% of errors and the Receiver has no errors.

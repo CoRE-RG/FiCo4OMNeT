@@ -1,0 +1,5 @@
+# Partial Tkenv config file -- see $HOME/.tkenvrc as well
+inspector "Canbus.node[0]" "canNode" "2" "607x337+625+24:normal"
+inspector "Canbus" "Canbus" "2" "607x337+0+24:normal"
+inspector "Canbus.bus" "canBus" "2" "607x337+1259+24:normal"
+

@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <omnetpp.h>
+#include "Buffer.h"
 #include "candataframe_m.h"
 
 /**
@@ -25,7 +26,7 @@ using namespace std;
  *
  * @author Stefan Buschmann
  */
-class CanBuffer : public cSimpleModule {
+class CanBuffer : public Buffer {
 public:
     /**
      * @brief This method registers the gate for the reception of the messages.
@@ -46,7 +47,7 @@ public:
      * @param frame The DataFrame to put in the buffer.
      *
      */
-    virtual void putFrame(CanDataFrame* frame) = 0;
+    virtual void putFrame(CanDataFrame* frame);
 
     /**
      * @brief Deletes the frame with the corresponding id from the frames collection.

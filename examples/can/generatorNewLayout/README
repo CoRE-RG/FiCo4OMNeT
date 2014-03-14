@@ -1,0 +1,9 @@
+This example represents a network with 8 participating nodes.
+
+- AWS (controlling unit)
+- generator
+- motors (x,y,z,alpha,beta,gamma) - used for rotating the controlled device
+
+The AWS is frequently sending messages to all motors (every 5ms). Every 50ms, the motors will give a feedback to the AWS.
+Every full second, the AWS tries to ping every node (generator included) to check whether they are still alive.
+Every full second the generator tries to send a whole bunch of data consisting of 7 data-frames.

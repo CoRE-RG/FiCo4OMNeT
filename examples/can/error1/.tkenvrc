@@ -1,0 +1,7 @@
+# Partial Tkenv config file -- see $HOME/.tkenvrc as well
+inspector "Error1.bus.canBusApp" "canBusApp" "1" "460x314+263+138:normal"
+inspector "Error1.bus.busPort" "busPort" "1" "460x314+844+-4:normal"
+inspector "Error1" "Error1" "2" "607x337+851+422:normal"
+inspector "Error1.node[0].message" "DataFrame" "1" "460x314+724+44:normal"
+inspector "Error1.bus.canBusApp." "ID" "1" "460x314+606+202:normal"
+

@@ -1,17 +1,12 @@
 #
-# OMNeT++/OMNEST Makefile for BusModel
+# OMNeT++/OMNEST Makefile for libBusModel
 #
 # This file was generated with the command:
-#  opp_makemake -f --deep
+#  opp_makemake -f --deep --make-so
 #
 
 # Name of target to be created (-o option)
-TARGET = BusModel$(EXE_SUFFIX)
-
-# User interface (uncomment one) (-u option)
-USERIF_LIBS = $(ALL_ENV_LIBS) # that is, $(TKENV_LIBS) $(CMDENV_LIBS)
-#USERIF_LIBS = $(CMDENV_LIBS)
-#USERIF_LIBS = $(TKENV_LIBS)
+TARGET = libBusModel$(SHARED_LIB_SUFFIX)
 
 # C++ include paths (with -I)
 INCLUDE_PATH = \
@@ -69,8 +64,6 @@ OBJS = \
     $O/linklayer/flexray/FRPort.o \
     $O/linklayer/flexray/FRPortInput.o \
     $O/linklayer/flexray/FRPortOutput.o \
-    $O/nodes/can/CanNodeApp.o \
-    $O/nodes/can/MOB.o \
     $O/nodes/can/Stats.o \
     $O/scheduler/flexray/FRScheduler.o \
     $O/scheduler/flexray/SchedulerEvent.o \
@@ -111,7 +104,7 @@ include $(CONFIGFILE)
 
 # Simulation kernel and user interface libraries
 OMNETPP_LIB_SUBDIR = $(OMNETPP_LIB_DIR)/$(TOOLCHAIN_NAME)
-OMNETPP_LIBS = -L"$(OMNETPP_LIB_SUBDIR)" -L"$(OMNETPP_LIB_DIR)" -loppmain$D $(USERIF_LIBS) $(KERNEL_LIBS) $(SYS_LIBS)
+OMNETPP_LIBS = -L"$(OMNETPP_LIB_SUBDIR)" -L"$(OMNETPP_LIB_DIR)" -loppenvir$D $(KERNEL_LIBS) $(SYS_LIBS)
 
 COPTS = $(CFLAGS)  $(INCLUDE_PATH) -I$(OMNETPP_INCL_DIR)
 MSGCOPTS = $(INCLUDE_PATH)
@@ -138,8 +131,9 @@ all: $O/$(TARGET)
 
 $O/$(TARGET): $(OBJS)  $(wildcard $(EXTRA_OBJS)) Makefile
 	@$(MKPATH) $O
-	@echo Creating executable: $@
-	$(Q)$(CXX) $(LDFLAGS) -o $O/$(TARGET)  $(OBJS) $(EXTRA_OBJS) $(AS_NEEDED_OFF) $(WHOLE_ARCHIVE_ON) $(LIBS) $(WHOLE_ARCHIVE_OFF) $(OMNETPP_LIBS)
+	@echo Creating shared library: $@
+	$(Q)$(SHLIB_LD) -o $O/$(TARGET)  $(OBJS) $(EXTRA_OBJS) $(AS_NEEDED_OFF) $(WHOLE_ARCHIVE_ON) $(LIBS) $(WHOLE_ARCHIVE_OFF) $(OMNETPP_LIBS) $(LDFLAGS)
+	$(Q)$(SHLIB_POSTPROCESS) $O/$(TARGET)
 
 .PHONY: all clean cleanall depend msgheaders
 
@@ -148,7 +142,7 @@ $O/$(TARGET): $(OBJS)  $(wildcard $(EXTRA_OBJS)) Makefile
 $O/%.o: %.cc $(COPTS_FILE)
 	@$(MKPATH) $(dir $@)
 	$(qecho) "$<"
-	$(Q)$(CXX) -c $(COPTS) -o $@ $<
+	$(Q)$(CXX) -c $(CXXFLAGS) $(COPTS) -o $@ $<
 
 %_m.cc %_m.h: %.msg
 	$(qecho) MSGC: $<
@@ -194,11 +188,13 @@ depend:
 # DO NOT DELETE THIS LINE -- make depend depends on it.
 $O/applications/can/sink/CanTrafficSinkAppBase.o: applications/can/sink/CanTrafficSinkAppBase.cc \
 	applications/can/sink/CanTrafficSinkAppBase.h \
+	buffer/Buffer.h \
 	buffer/can/CanBuffer.h \
 	buffer/can/InputBuffer.h \
 	linklayer/can/messages/candataframe_m.h
 $O/applications/can/source/CanTrafficSourceAppBase.o: applications/can/source/CanTrafficSourceAppBase.cc \
 	applications/can/source/CanTrafficSourceAppBase.h \
+	buffer/Buffer.h \
 	buffer/can/CanBuffer.h \
 	linklayer/can/messages/candataframe_m.h
 $O/applications/flexray/FRApp.o: applications/flexray/FRApp.cc \
@@ -213,14 +209,17 @@ $O/applications/flexray/FRApp.o: applications/flexray/FRApp.cc \
 $O/buffer/Buffer.o: buffer/Buffer.cc \
 	buffer/Buffer.h
 $O/buffer/can/CanBuffer.o: buffer/can/CanBuffer.cc \
+	buffer/Buffer.h \
 	buffer/can/CanBuffer.h \
 	linklayer/can/messages/candataframe_m.h
 $O/buffer/can/InputBuffer.o: buffer/can/InputBuffer.cc \
+	buffer/Buffer.h \
 	buffer/can/CanBuffer.h \
 	buffer/can/InputBuffer.h \
 	linklayer/can/messages/candataframe_m.h
 $O/buffer/can/OutputBuffer.o: buffer/can/OutputBuffer.cc \
 	applications/can/source/CanTrafficSourceAppBase.h \
+	buffer/Buffer.h \
 	buffer/can/CanBuffer.h \
 	buffer/can/OutputBuffer.h \
 	bus/BusPort.h \
@@ -233,6 +232,7 @@ $O/bus/BusPort.o: bus/BusPort.cc \
 	bus/BusPort.h
 $O/bus/can/CanBusLogic.o: bus/can/CanBusLogic.cc \
 	applications/can/source/CanTrafficSourceAppBase.h \
+	buffer/Buffer.h \
 	buffer/can/CanBuffer.h \
 	buffer/can/OutputBuffer.h \
 	bus/BusPort.h \
@@ -246,8 +246,7 @@ $O/bus/can/CanID.o: bus/can/CanID.cc \
 $O/bus/flexray/FRTopologyPort.o: bus/flexray/FRTopologyPort.cc \
 	bus/flexray/FRTopologyPort.h
 $O/linklayer/NodePort.o: linklayer/NodePort.cc \
-	linklayer/NodePort.h \
-	nodes/can/CanNodeApp.h
+	linklayer/NodePort.h
 $O/linklayer/can/CanPortInput.o: linklayer/can/CanPortInput.cc \
 	linklayer/can/CanPortInput.h \
 	linklayer/can/CanPortOutput.h \
@@ -276,9 +275,6 @@ $O/linklayer/flexray/FRPortInput.o: linklayer/flexray/FRPortInput.cc \
 	linklayer/flexray/FRPortInput.h
 $O/linklayer/flexray/FRPortOutput.o: linklayer/flexray/FRPortOutput.cc \
 	linklayer/flexray/FRPortOutput.h
-$O/nodes/can/CanNodeApp.o: nodes/can/CanNodeApp.cc
-$O/nodes/can/MOB.o: nodes/can/MOB.cc \
-	nodes/can/MOB.h
 $O/nodes/can/Stats.o: nodes/can/Stats.cc \
 	nodes/can/Stats.h
 $O/scheduler/flexray/FRScheduler.o: scheduler/flexray/FRScheduler.cc \

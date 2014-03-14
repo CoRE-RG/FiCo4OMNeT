@@ -17,7 +17,6 @@
 #define NODEPORT_H_
 
 #include <omnetpp.h>
-#include "CanNodeApp.h"
 
 
 using namespace std;

@@ -1,0 +1,26 @@
+%description:
+Test Scheduler
+
+%file: package.ned
+package test.modul.scheduler;
+
+%inifile: test.ini
+[General]
+check-signals = true
+ned-path = .;../../../../src;../../../../../inet/src;../../lib/
+
+network = SchedulerTest
+
+sim-time-limit = 1s
+
+#[Cmdenv]
+cmdenv-event-banners=false
+cmdenv-express-mode=false
+
+#[Parameters]
+
+
+%contains: stdout
+REGISTRED: ACTION_TIME_EVENT: action_time:1000 NOW [simtime:0; ticks:0; total_ticks:0]
+EXECUTED: ACTION_TIME_EVENT: action_time:1000 NOW [simtime:0.00008; ticks:1000; total_ticks:1000]
+

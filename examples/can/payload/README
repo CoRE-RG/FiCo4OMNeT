@@ -1,0 +1,5 @@
+This network configuration performs tests payload transmission of the simulation.
+
+One node acts as a Sender, the other as the Receiver.
+
+The Receiver will read the data included in the messages sent by the Sender.

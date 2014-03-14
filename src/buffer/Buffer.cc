@@ -19,23 +19,27 @@ void Buffer::registerDestinationGate() { //TODO mal schauen ob das nötig ist
     }
 }
 
-cMessage* Buffer::getFrame(int id) {
-//    for (std::list<CanDataFrame*>::iterator it = frames.begin();
-//            it != frames.end(); ++it) {
-//        CanDataFrame* tmp = *it;
-//        int i = tmp->getCanID();
-//            if ((i == id)) {
-//            return tmp;
-//        }
-//    }
+cMessage* Buffer::getFrame(int objectId) {
+    for (std::list<cMessage*>::iterator it = frames.begin();
+            it != frames.end(); ++it) {
+        cMessage* tmp = *it;
+        int i = tmp->getId();
+            if ((i == objectId)) {
+            return tmp;
+        }
+    }
     return NULL;
 }
 
-void Buffer::deleteFrame(int id) {
+void Buffer::putFrame(cMessage* frame){
+    frames.push_back(frame);
+}
+
+void Buffer::deleteFrame(int objectId) {
     Enter_Method_Silent();
-//    CanDataFrame *tmp = getFrame(id);
-//    frames.remove(tmp);
-//    delete tmp;
+    cMessage *tmp = getFrame(objectId);
+    frames.remove(tmp);
+    delete tmp;
 }
 
 void Buffer::deliverFrame(int id) {

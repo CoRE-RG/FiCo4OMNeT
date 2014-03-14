@@ -33,6 +33,10 @@ CanDataFrame* CanBuffer::getFrame(int id) {
     return NULL;
 }
 
+void CanBuffer::putFrame(CanDataFrame* frame){
+    frames.push_back(frame);
+}
+
 void CanBuffer::deleteFrame(int id) {
     Enter_Method_Silent();
     CanDataFrame *tmp = getFrame(id);

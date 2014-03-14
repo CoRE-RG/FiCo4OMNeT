@@ -33,12 +33,12 @@ public:
     cMessage* getFrame(int id);
 
     /**
-     * @brief Puts the frame into the collection and informs the connected gates about the receiption.
+     * @brief Puts the frame into the collection and informs the connected gates about the reception.
      *
      * @param frame The DataFrame to put in the buffer.
      *
      */
-    virtual void putFrame(cMessage* frame) = 0;
+    virtual void putFrame(cMessage* frame);
 
     /**
      * @brief Deletes the frame with the corresponding id from the frames collection.
