@@ -13,29 +13,15 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef INPUTBUFFER_H_
-#define INPUTBUFFER_H_
+//namespace std;
 
-#include <omnetpp.h>
-#include "CanBuffer.h"
-
-/**
- * @brief This buffer holds messages which were received by this node.
- *
- * @ingroup Buffer
- *
- * @author Stefan Buschmann
- */
-class InputBuffer :public CanBuffer{
-
-public:
-    /**
-     * @brief Puts the frame into the collection and informs the connected gates about the receiption.
-     *
-     * @param frame The DataFrame to put in the buffer.
-     *
-     */
-    virtual void putFrame(cMessage* msg);
-};
-Define_Module(InputBuffer);
-#endif /* INPUTBUFFER_H_ */
+packet FRFrame {
+    // Set FlexRay Protocol Pitlength
+    byteLength = 8;
+    int frameID;
+    int cycleNumber;
+    //TODO: size umstellen auf bitlength
+    int size;
+    int channel;
+    bool syncFrameIndicator;
+}

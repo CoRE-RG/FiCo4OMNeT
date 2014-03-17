@@ -52,7 +52,7 @@ public:
      * @param frame The DataFrame to put in the buffer.
      *
      */
-    virtual void putFrame(CanDataFrame* frame);
+    virtual void putFrame(cMessage* msg);
 
 protected:
     /**

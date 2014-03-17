@@ -15,7 +15,8 @@
 
 #include "OutputBuffer.h"
 
-void OutputBuffer::putFrame(CanDataFrame* frame) {
+void OutputBuffer::putFrame(cMessage* msg) {
+    CanDataFrame *frame = dynamic_cast<CanDataFrame *>(msg);
     if (MOB == true) {
         if (getFrame(frame->getCanID()) != NULL) {
             deleteFrame(frame->getCanID());

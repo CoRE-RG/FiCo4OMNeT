@@ -194,7 +194,6 @@ void CanPortInput::handleExternErrorFrame(ErrorFrame *ef) {
     if ((checkOutgoingDataFrames(ef->getCanID())
             || checkOutgoingRemoteFrames(ef->getCanID()))) {
         if (ef->getKind() > 2) {
-            EV<<"error frame im output soll gelöscht werden\n";
             portOutput->handleReceivedErrorFrame();
         }
         // dieser knoten ist sender; ef an output; da evtl. geschedulte ef löschen & neue Arbitrierung

@@ -4,13 +4,6 @@ void CanBuffer::initialize(){
     MOB = par("MOB");
 }
 
-void CanBuffer::handleMessage(cMessage *msg) {
-    if (msg->arrivedOn("in")) {
-        CanDataFrame *frame = check_and_cast<CanDataFrame *>(msg);
-        putFrame(frame);
-    }
-}
-
 void CanBuffer::registerDestinationGate() {
     cStringTokenizer destinationGatesTokenizer(
             getParentModule()->par("destinationGates"), ",");
@@ -33,7 +26,8 @@ CanDataFrame* CanBuffer::getFrame(int id) {
     return NULL;
 }
 
-void CanBuffer::putFrame(CanDataFrame* frame){
+void CanBuffer::putFrame(cMessage* msg){
+    CanDataFrame *frame = check_and_cast<CanDataFrame *>(msg);
     frames.push_back(frame);
 }
 

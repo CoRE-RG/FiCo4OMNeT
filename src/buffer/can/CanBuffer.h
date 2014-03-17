@@ -44,10 +44,10 @@ public:
     /**
      * @brief Puts the frame into the collection and informs the connected gates about the receiption.
      *
-     * @param frame The DataFrame to put in the buffer.
+     * @param msg The DataFrame to put in the buffer.
      *
      */
-    virtual void putFrame(CanDataFrame* frame);
+    virtual void putFrame(cMessage* msg);
 
     /**
      * @brief Deletes the frame with the corresponding id from the frames collection.
@@ -95,7 +95,7 @@ protected:
      *
      * @param msg The incoming message
      */
-    virtual void handleMessage(cMessage *msg);
+//    virtual void handleMessage(cMessage *msg);
 
     /**
      * @brief If true frames with the same ID will be overwritten.

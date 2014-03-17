@@ -1,7 +1,5 @@
 #include "CanBusLogic.h"
 
-static int lala = 0;
-
 void CanBusLogic::initialize() {
     rcvdDFSignal = registerSignal("receivedDF");
     rcvdRFSignal = registerSignal("receivedRF");

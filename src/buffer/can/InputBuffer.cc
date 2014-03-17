@@ -15,7 +15,8 @@
 
 #include "InputBuffer.h"
 
-void InputBuffer::putFrame(CanDataFrame* frame) {
+void InputBuffer::putFrame(cMessage* msg) {
+    CanDataFrame *frame = dynamic_cast<CanDataFrame *>(msg);
     if (MOB == true) {
         if (getFrame(frame->getCanID()) != NULL) {
             deleteFrame(frame->getCanID());
