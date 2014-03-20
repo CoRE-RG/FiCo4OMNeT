@@ -29,6 +29,9 @@ using namespace std;
 class FRApp : public cSimpleModule {
 
     public:
+    /**
+     * @brief Will be set by the FRScheduler so it can take a maximum of 1/4 of the dynamic segment.
+     */
         virtual void setMaxRandom(int max);
 
 	protected:

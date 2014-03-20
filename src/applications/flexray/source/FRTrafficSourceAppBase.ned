@@ -13,16 +13,15 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package busmodel.applications.can.source;
+package busmodel.applications.flexray.source;
 
 import busmodel.applications.ISourceApplication;
 
-simple CanTrafficSourceAppBase like ISourceApplication
+simple FRTrafficSourceAppBase like ISourceApplication
 {
     parameters:
-        @class(CanTrafficSourceAppBase);
+        @class(FRTrafficSourceAppBase);
         @display("i=block/source");
     gates:
-        output out @labels(DataFrame);
-        input remoteIn @directIn;
+        output out;
 }

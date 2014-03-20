@@ -14,7 +14,7 @@
 
 #include "FRPort.h"
 
-Define_Module(FRPort);
+//Define_Module(FRPort);
 
 void FRPort::handleMessage(cMessage *msg) {
 	take(msg);

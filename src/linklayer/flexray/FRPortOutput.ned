@@ -29,7 +29,8 @@ simple FRPortOutput
 //        @statistic[sendError](title="sent errors"; source=sendError; record=count; interpolationmode=none);
 
     gates:
-        output out @loose;
+        output outChA @loose;
+        output outChB @loose;
         input in @loose;
 //        input directIn @directIn;
 }

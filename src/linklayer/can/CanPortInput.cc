@@ -41,7 +41,7 @@ void CanPortInput::initialize() {
 }
 
 void CanPortInput::finish() {
-//    recordScalar("#receivedDF", dataFramesReceived);
+
 }
 
 void CanPortInput::handleMessage(cMessage *msg) {
@@ -160,7 +160,7 @@ double CanPortInput::calculateScheduleTiming(int length) {
 void CanPortInput::forwardDataFrame(CanDataFrame *df) {
     if (df->getRtr()) {
         for (std::vector<int>::iterator it = outgoingDataFrameIDs.begin();
-                it != outgoingDataFrameIDs.end(); ++it) {
+                it != outgoingDataFrameIDs.end(); ++it) { //TODO muss ich hier noch drauf überprüfen? eigentlich mache ich das glaube ich schon beim empfang des frames
             if (*it == df->getCanID()) {
                 emit(rcvdRFSignal, df);
                 cModule* sourceApp =
@@ -172,7 +172,7 @@ void CanPortInput::forwardDataFrame(CanDataFrame *df) {
         }
     } else {
         for (std::vector<int>::iterator it = incomingDataFrameIDs.begin();
-                it != incomingDataFrameIDs.end(); ++it) {
+                it != incomingDataFrameIDs.end(); ++it) { //TODO muss ich hier noch drauf überprüfen? eigentlich mache ich das glaube ich schon beim empfang des frames
             if (*it == df->getCanID()) {
                 emit(rcvdDFSignal, df);
                 send(df->dup(), "out");

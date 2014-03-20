@@ -17,14 +17,18 @@ package busmodel.nodes.flexray;
 
 import busmodel.scheduler.flexray.FRScheduler;
 import busmodel.applications.flexray.FRApp;
-import busmodel.linklayer.flexray.FRPort;
+import busmodel.applications.flexray.source.FRTrafficSourceAppBase;
+import busmodel.applications.flexray.sink.FRTrafficSinkAppBase;
+import busmodel.buffer.flexray.FROutputBuffer;
+import busmodel.buffer.flexray.FRInputBuffer;
+import busmodel.linklayer.flexray.FRNodePort;
 import busmodel.synchronisation.flexray.FRSync;
 
 module FRNode
 {
     parameters:
         int pChannels = default(2); //0 = A; 1 = B; 2 = A&B 
-        @display("bgb=299,224;i=device/device");
+        @display("bgb=353,272;i=device/device");
         @node;
 
     gates:
@@ -33,23 +37,45 @@ module FRNode
 
     submodules:
 
-        frPort: FRPort {
-            @display("p=155,155");
+        frNodePort: FRNodePort {
+            @display("p=155,180");
         }
 
         frScheduler: FRScheduler {
-            @display("p=155,90");
+            @display("p=304,109");
         }
 
         frApp: FRApp {
-            @display("p=75,51");
+            @display("p=33,31");
+        }
+
+        frSourceApp: FRTrafficSourceAppBase {
+            @display("p=102,31");
+        }
+
+        frSinkApp: FRTrafficSinkAppBase {
+            @display("p=212,31");
+        }
+
+        frOutputBuffer: FROutputBuffer {
+            @display("p=102,109");
+        }
+
+        frInputBuffer: FRInputBuffer {
+            @display("p=212,109");
         }
 
         frSync: FRSync {
-            @display("p=235,51");
+            @display("p=304,31");
         }
 
     connections allowunconnected:
-        channelA <--> frPort.phyChannelA if pChannels == 0 || pChannels == 2;
-        channelB <--> frPort.phyChannelB if pChannels == 1 || pChannels == 2;
+        frSourceApp.out --> frOutputBuffer.in;
+        frSinkApp.in <-- frInputBuffer.out;
+
+        frNodePort.upperLayerOut --> frInputBuffer.in;
+        frNodePort.upperLayerIn <-- frOutputBuffer.out;
+
+        channelA <--> frNodePort.phyChA if pChannels == 0 || pChannels == 2;
+        channelB <--> frNodePort.phyChB if pChannels == 1 || pChannels == 2;
 }

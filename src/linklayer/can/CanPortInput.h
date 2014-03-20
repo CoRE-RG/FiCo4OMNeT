@@ -34,7 +34,7 @@ using namespace std;
 class CanPortInput: public cSimpleModule {
 protected:
     /**
-     *
+     * @brief Initialization of several variables.
      */
     virtual void initialize();
 

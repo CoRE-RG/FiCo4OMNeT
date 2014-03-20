@@ -15,6 +15,8 @@
 
 package busmodel.applications.can.sink;
 
+import busmodel.applications.ISinkApplication;
+
 simple CanTrafficSinkAppBase like ISinkApplication
 {
     parameters:

@@ -16,7 +16,65 @@
 #ifndef FRPORTINPUT_H_
 #define FRPORTINPUT_H_
 
-class FRPortInput {
+#include <omnetpp.h>
+#include <string.h>
+#include "FRFrame_m.h"
+#include "FRScheduler.h"
+#include "FRSync.h"
+
+using namespace std;
+
+/**
+ * @brief Received messages are initially handled in this module.
+ *
+ * @ingroup Port
+ *
+ * @author Stefan Buschmann
+ */
+class FRPortInput: public cSimpleModule{
+protected:
+    /**
+     *
+     */
+    virtual void initialize();
+
+    /**
+     * @brief Handles all received messages
+     *
+     * @param msg the incoming message.
+     */
+    virtual void handleMessage(cMessage *msg);
+
+private:
+    /**
+     * @brief Valid values are between 10000 and 1000000. Initialized from ned-attribute of CAN-Bus.
+     */
+    int bandwidth;
+
+    /**
+     * @brief Handles the reception of a dynamic frame.
+     */
+    virtual void receiveDynamicFrame(FRFrame *frMsg);
+
+    /**
+     * @brief Handles the reception of a static frame.
+     */
+    virtual void receiveStaticFrame(FRFrame *frMsg);
+
+    /**
+     * @brief Incoming frame is scheduled until receiving is completed.
+     */
+    virtual void receiveMessage(FRFrame *msg);
+
+    /**
+     * @brief Calculates when the frame is ready to be forwarded based on the number of bits.
+     */
+    virtual double calculateScheduleTiming(int length);
+
+    /**
+     * @brief Sends the message to the output gate.
+     */
+    virtual void forwardFrame(FRFrame *msg);
 };
 
 #endif /* FRPORTINPUT_H_ */

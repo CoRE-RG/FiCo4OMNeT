@@ -61,8 +61,7 @@ void FRApp::handleMessage(cMessage *msg) {
 							event->getSyncFrameIndicator(), DYNAMIC_EVENT));
 		}
 		delete msg;
-	}
-	else{
+	} else {
 	    delete msg;
 	}
 }
@@ -82,7 +81,6 @@ FRFrame* FRApp::createFRFrame(int frameID, int cycleNumber, int channel,
 //        if (channel == 0) {
 //            std::cout << "ID" << msg->getFrameID() << "," << simTime() << "," << simTime()-lastcreate << endl;
 //            lastcreate = simTime();
-//
 //        }
     }
 	cPacket *payload = new cPacket();

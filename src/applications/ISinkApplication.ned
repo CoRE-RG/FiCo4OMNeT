@@ -13,16 +13,12 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package busmodel.applications.can.source;
+package busmodel.applications;
 
-import busmodel.applications.ISourceApplication;
-
-simple CanTrafficSourceAppBase like ISourceApplication
+moduleinterface ISinkApplication
 {
     parameters:
-        @class(CanTrafficSourceAppBase);
-        @display("i=block/source");
+        @display("i=block/sink");
     gates:
-        output out @labels(DataFrame);
-        input remoteIn @directIn;
+        input in;
 }

@@ -13,16 +13,29 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package busmodel.applications.can.source;
+#ifndef FRINPUTBUFFER_H_
+#define FRINPUTBUFFER_H_
 
-import busmodel.applications.ISourceApplication;
+#include <omnetpp.h>
+#include "FRBuffer.h"
 
-simple CanTrafficSourceAppBase like ISourceApplication
-{
-    parameters:
-        @class(CanTrafficSourceAppBase);
-        @display("i=block/source");
-    gates:
-        output out @labels(DataFrame);
-        input remoteIn @directIn;
-}
+/**
+ * @brief This buffer holds messages which were received by this node.
+ *
+ * @ingroup Buffer
+ *
+ * @author Stefan Buschmann
+ */
+class FRInputBuffer :public FRBuffer{
+
+public:
+    /**
+     * @brief Puts the frame into the collection and informs the connected gates about the receiption.
+     *
+     * @param frame The DataFrame to put in the buffer.
+     *
+     */
+    virtual void putFrame(cMessage* msg);
+};
+Define_Module(FRInputBuffer);
+#endif /* FRINPUTBUFFER_H_ */

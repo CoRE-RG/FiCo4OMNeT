@@ -26,5 +26,6 @@ simple FRPortInput
         
     gates:
         output out @loose;
-        input in @loose;
+        input inChA @loose;
+        input inChB @loose;
 }

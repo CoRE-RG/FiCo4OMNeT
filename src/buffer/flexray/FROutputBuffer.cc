@@ -13,16 +13,15 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package busmodel.applications.can.source;
+#include "FROutputBuffer.h"
 
-import busmodel.applications.ISourceApplication;
+void FROutputBuffer::putFrame(cMessage* msg) {
+    FRFrame *frame = dynamic_cast<FRFrame*>(msg);
+    frames.push_back(frame);
+}
 
-simple CanTrafficSourceAppBase like ISourceApplication
-{
-    parameters:
-        @class(CanTrafficSourceAppBase);
-        @display("i=block/source");
-    gates:
-        output out @labels(DataFrame);
-        input remoteIn @directIn;
+void FROutputBuffer::sendingCompleted(int id) {
+    Enter_Method_Silent
+    ();
+    deleteFrame(id);
 }

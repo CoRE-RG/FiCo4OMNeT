@@ -13,16 +13,15 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package busmodel.applications.can.source;
+package busmodel.applications.flexray.sink;
 
-import busmodel.applications.ISourceApplication;
+import busmodel.applications.ISinkApplication;
 
-simple CanTrafficSourceAppBase like ISourceApplication
+simple FRTrafficSinkAppBase like ISinkApplication
 {
     parameters:
-        @class(CanTrafficSourceAppBase);
-        @display("i=block/source");
+        @class(FRTrafficSinkAppBase);
+        @display("i=block/sink");
     gates:
-        output out @labels(DataFrame);
-        input remoteIn @directIn;
+        input in;
 }
