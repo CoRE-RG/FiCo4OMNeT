@@ -15,6 +15,12 @@
 
 package busmodel.bus.can;
 
+//
+// The arbitration is handeled in this module. If a node has a message it registers the Can ID at the CanBusLogic.
+// The bus logic grants the sending permission to the node with the lowest Can ID. Is the frame transmission 
+// completed, the next permission is again granted to the node with the highest priority. 
+//
+//
 simple CanBusLogic
 {
     parameters:

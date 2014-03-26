@@ -21,6 +21,13 @@ import busmodel.buffer.can.OutputBuffer;
 import busmodel.applications.can.source.CanTrafficSourceAppBase;
 import busmodel.applications.can.sink.CanTrafficSinkAppBase;
 
+//
+// Participants in the network. 
+//
+// Generates data, remote and error frames.
+//
+//
+//
 module CanNode
 {
     parameters:

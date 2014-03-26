@@ -15,6 +15,11 @@
 
 package busmodel.bus;
 
+//
+// The bus port simulates the physical connection between the clients and the bus.
+//
+// Incoming frames are distributed to all connected ndoes.
+//
 simple BusPort
 {
     parameters:

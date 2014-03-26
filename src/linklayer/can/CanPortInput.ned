@@ -15,6 +15,12 @@
 
 package busmodel.linklayer.can;
 
+//
+// This submodule is part of the node port module. Received frames are processed here. This includes the 
+// forwarding to the input buffer, the transmission of remote frames to the source app and the generation
+// of receive errors.
+//
+//
 simple CanPortInput
 {
     parameters:

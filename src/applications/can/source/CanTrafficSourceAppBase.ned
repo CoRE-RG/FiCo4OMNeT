@@ -16,7 +16,14 @@
 package busmodel.applications.can.source;
 
 import busmodel.applications.ISourceApplication;
-
+//
+// This module generates all data and remote frames for the node. Periodically sent messages
+// are scheduled and forwarded to the output buffer at the given time. A frame with a period 
+// of 0 is only forwarded when a remote frame from another node is received. All relevant parameters
+// for the frames are defined in the ini file. 
+// 
+//
+//
 simple CanTrafficSourceAppBase like ISourceApplication
 {
     parameters:

@@ -1,13 +1,13 @@
 package busmodel.bus.can;
 
-// Central unit of the CAN-Network
-//
-// Forwards data-frames and error-frames to all participating nodes of the network
-//
 
 import busmodel.bus.BusPort;
 import busmodel.bus.can.CanBusLogic;
 
+// Central unit of the CAN-Network
+//
+// Forwards data-frames and error-frames to all participating nodes of the network
+//
 module CanBus
 {
     parameters:
