@@ -1,4 +1,4 @@
-package busmodel.simulations.can.error1;
+package busmodel.examples.can.error1;
 
 import busmodel.bus.can.CanBus;
 import busmodel.nodes.can.CanNode;

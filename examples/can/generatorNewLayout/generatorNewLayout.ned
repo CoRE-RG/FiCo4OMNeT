@@ -1,4 +1,4 @@
-package busmodel.simulations.can.generatorNewLayout;
+package busmodel.examples.can.generatorNewLayout;
 
 import busmodel.bus.can.CanBus;
 import busmodel.nodes.can.CanNode;

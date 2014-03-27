@@ -1,4 +1,4 @@
-package busmodel.simulations.can.arbitration;
+package busmodel.examples.can.arbitration;
 
 import busmodel.bus.can.CanBus;
 import busmodel.nodes.can.CanNode;

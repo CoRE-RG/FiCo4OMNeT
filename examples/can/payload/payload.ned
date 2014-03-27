@@ -1,4 +1,4 @@
-package busmodel.simulations.can.payload;
+package busmodel.examples.can.payload;
 
 import busmodel.bus.can.CanBus;
 import busmodel.nodes.can.CanNode;

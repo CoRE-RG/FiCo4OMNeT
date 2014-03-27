@@ -1,4 +1,4 @@
-package busmodel.simulations.can.generator;
+package busmodel.examples.can.generator;
 
 import busmodel.bus.can.CanBus;
 import busmodel.nodes.can.CanNode;

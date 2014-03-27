@@ -13,7 +13,7 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package busmodel.simulations.flexray.syncnodes;
+package busmodel.examples.flexray.syncnodes;
 
 import busmodel.nodes.flexray.FRNode;
 import busmodel.bus.flexray.FRBus;

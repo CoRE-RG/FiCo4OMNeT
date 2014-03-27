@@ -1,3 +1,3 @@
-package busmodel.simulations;
+package busmodel.examples;
 
 @license(LGPL);
