@@ -20,22 +20,22 @@ Define_Module( FRScheduler);
 simsignal_t FRScheduler::newCycle = SIMSIGNAL_NULL;
 
 void FRScheduler::initialize() {
-    gCycleCountMax = par("gCycleCountMax");
+    gCycleCountMax = getParentModule()->par("gCycleCountMax");
     vCycleCounter = gCycleCountMax;
-    maxDriftChange = par("maxDriftChange").doubleValue(); //[]
-    maxDrift = par("maxDrift").doubleValue(); //[]
-    pdMicrotick = par("pdMicrotick").doubleValue(); //[ns]
-    gdMacrotick = par("gdMacrotick").doubleValue(); //[Âµs]
-    gdStaticSlot = par("gdStaticSlot"); //[MT]
-    gdMinislot = par("gdMinislot"); //[MT]
-    gdNIT = par("gdNIT"); //[MT]
-    gdSymbolWindow = par("gdSymbolWindow"); //[MT]
-    gNumberOfMinislots = par("gNumberOfMinislots");
-    gNumberOfStaticSlots = par("gNumberOfStaticSlots");
-    gdActionPointOffset = par("gdActionPointOffset"); //[MT]
-    gdMinislotActionPointOffset = par("gdMinislotActionPointOffset"); //[MT]
-    busSpeed = par("busSpeed").doubleValue();
-    syncFrame = par("syncFrame");
+    maxDriftChange = getParentModule()->par("maxDriftChange").doubleValue(); //[]
+    maxDrift = getParentModule()->par("maxDrift").doubleValue(); //[]
+    pdMicrotick = getParentModule()->par("pdMicrotick").doubleValue(); //[ns]
+    gdMacrotick = getParentModule()->par("gdMacrotick").doubleValue(); //[µs]
+    gdStaticSlot = getParentModule()->par("gdStaticSlot"); //[MT]
+    gdMinislot = getParentModule()->par("gdMinislot"); //[MT]
+    gdNIT = getParentModule()->par("gdNIT"); //[MT]
+    gdSymbolWindow = getParentModule()->par("gdSymbolWindow"); //[MT]
+    gNumberOfMinislots = getParentModule()->par("gNumberOfMinislots");
+    gNumberOfStaticSlots = getParentModule()->par("gNumberOfStaticSlots");
+    gdActionPointOffset = getParentModule()->par("gdActionPointOffset"); //[MT]
+    gdMinislotActionPointOffset = getParentModule()->par("gdMinislotActionPointOffset"); //[MT]
+    bandwidth = getParentModule()->par("bandwidth").doubleValue();
+    syncFrame = getParentModule()->par("syncFrame");
 
     currentTick = pdMicrotick;
     newCycle = registerSignal("newCycle");
@@ -48,7 +48,7 @@ void FRScheduler::initialize() {
 
     FRApp *frApp = (FRApp*) (getParentModule()->getSubmodule("frApp"));
     frApp->setMaxRandom(
-            (busSpeed * 1024 * 1024
+            (bandwidth * 1024 * 1024
                     * (gNumberOfMinislots * gdMinislot * gdMacrotick)) / 4);
 }
 
@@ -154,7 +154,7 @@ void FRScheduler::registerStaticSlots() {
 }
 
 void FRScheduler::registerDynamicSlots() {
-    const char *slots = par("dynamicSlotsChA");
+    const char *slots = getParentModule()->par("dynamicSlotsChA");
     int slot;
     int cycleNr;
     cStringTokenizer tokenizerChA(slots);
@@ -172,7 +172,7 @@ void FRScheduler::registerDynamicSlots() {
         registerEvent(event);
     }
 
-    slots = par("dynamicSlotsChB");
+    slots = getParentModule()->par("dynamicSlotsChB");
     cStringTokenizer tokenizerChB(slots);
     while (tokenizerChB.hasMoreTokens()) {
         slot = atoi(tokenizerChB.nextToken());
@@ -321,7 +321,7 @@ void FRScheduler::dynamicFrameReceived(int64 bitLength, unsigned int channel) {
     Enter_Method_Silent();
     int neededMinislots = ceil(
             ceil(
-                    ((double) bitLength / ((double) busSpeed * 1024 * 1024))
+                    ((double) bitLength / ((double) bandwidth * 1024 * 1024))
                             / gdMacrotick) / gdMinislot);
     EV << "needed minislots: " << neededMinislots << "\n";
     if (channel == 0) {

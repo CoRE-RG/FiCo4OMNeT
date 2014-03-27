@@ -42,7 +42,7 @@ void FRPortInput::receivedExternMessage(FRFrame *msg) {
             if (frMsg->getSyncFrameIndicator()) {
                 FRSync *frSync =
                         (FRSync*) (getParentModule()->getParentModule()->getSubmodule(
-                                "frSync")); //TODO in init
+                                "frSync")); //TODO in init. geht das?
                 frSync->storeDeviationValue(frMsg->getFrameID(),
                         frMsg->getCycleNumber() % 2, frMsg->getChannel(),
                         frScheduler->calculateDeviationValue(), true);

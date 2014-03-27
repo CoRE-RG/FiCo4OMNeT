@@ -15,3 +15,53 @@
 
 #include "FRPortOutput.h"
 
+void FRPortOutput::initialize() {
+    bandwidth = getParentModule()->getParentModule()->par("bandwidth");
+    initializeStatisticValues();
+}
+
+void FRPortOutput::finish() {
+//    collectStats();
+}
+
+void FRPortOutput::initializeStatisticValues() {
+//    sentDFSignal = registerSignal("sentDF");
+//    sentRFSignal = registerSignal("sentRF");
+}
+
+void FRPortOutput::handleMessage(cMessage *msg) {
+    FRFrame *frMsg = dynamic_cast<FRFrame *>(msg);
+    colorBusy();
+    //TODO stats
+    send(frMsg, "out");
+}
+
+void FRPortOutput::sendingCompleted() {
+    colorIdle();
+}
+
+void FRPortOutput::colorBusy() {
+    getParentModule()->getParentModule()->getDisplayString().setTagArg("i", 1,
+            "yellow");
+    getParentModule()->getParentModule()->gate("gate$i")->getDisplayString().setTagArg(
+            "ls", 0, "yellow");
+    getParentModule()->getParentModule()->gate("gate$i")->getDisplayString().setTagArg(
+            "ls", 1, "3");
+    getParentModule()->getParentModule()->gate("gate$i")->getPreviousGate()->getDisplayString().setTagArg(
+            "ls", 0, "yellow");
+    getParentModule()->getParentModule()->gate("gate$i")->getPreviousGate()->getDisplayString().setTagArg(
+            "ls", 1, "3");
+}
+
+void FRPortOutput::colorIdle() {
+    getParentModule()->getParentModule()->getDisplayString().setTagArg("i", 1,
+            "");
+    getParentModule()->getParentModule()->gate("gate$i")->getDisplayString().setTagArg(
+            "ls", 0, "black");
+    getParentModule()->getParentModule()->gate("gate$i")->getDisplayString().setTagArg(
+            "ls", 1, "1");
+    getParentModule()->getParentModule()->gate("gate$i")->getPreviousGate()->getDisplayString().setTagArg(
+            "ls", 0, "black");
+    getParentModule()->getParentModule()->gate("gate$i")->getPreviousGate()->getDisplayString().setTagArg(
+            "ls", 1, "1");
+}

@@ -17,14 +17,8 @@
 
 void FRInputBuffer::putFrame(cMessage* msg) {
     FRFrame *frame = dynamic_cast<FRFrame*>(msg);
-    if (MOB == true) {
-        if (getFrame(frame->getId()) != NULL) {
-            deleteFrame(frame->getId());
-        } else {
-            cModule *sinkApp = getParentModule()->getSubmodule("sinkApp");
-            sendDirect(new cMessage("Message in buffer"), sinkApp,
-                    "controllerIn");
-        }
+    if (getFrame(frame->getId()) != NULL) {
+        deleteFrame(frame->getId());
     } else {
         cModule *sinkApp = getParentModule()->getSubmodule("sinkApp");
         sendDirect(new cMessage("Message in buffer"), sinkApp, "controllerIn");

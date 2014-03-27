@@ -47,6 +47,10 @@ public:
      */
     virtual void putFrame(cMessage* msg);
 
+    /**
+     *
+     */
+    virtual void deliverFrame(int id);
 };
 Define_Module(FROutputBuffer);
 
