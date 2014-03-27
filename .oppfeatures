@@ -1,0 +1,66 @@
+<features cppSourceRoots="src">
+    <feature
+        id="CAN_common"
+        name="CAN Common"
+        description = "The common part of CAN implementation"
+        initiallyEnabled = "true"
+        requires = ""
+        labels = ""
+        nedPackages = "
+                       busmodel.applications.can
+                       busmodel.buffer.can
+                       busmodel.bus.can
+                       busmodel.linklayer.can
+                       busmodel.nodes.can
+                      "
+        extraSourceFolders = ""
+        compileFlags = "-DWITH_CAN_COMMON"
+        linkerFlags = ""
+        />
+    <feature
+        id="CAN_examples"
+        name="CAN examples"
+        description = "Examples for the CAN implementation"
+        initiallyEnabled = "true"
+        requires = "CAN_common"
+        labels = ""
+        nedPackages = "
+                       busmodel.examples.can
+                      "
+        extraSourceFolders = ""
+        linkerFlags = ""
+        />
+    <feature
+        id="FR_common"
+        name="FlexRay Common"
+        description = "The common part of FlexRay implementation"
+        initiallyEnabled = "true"
+        requires = ""
+        labels = ""
+        nedPackages = "
+                       busmodel.applications.flexray
+                       busmodel.buffer.flexray
+                       busmodel.bus.flexray
+                       busmodel.linklayer.flexray
+                       busmodel.nodes.flexray
+                       busmodel.scheduler.flexray
+                       busmodel.synchronisation.flexray
+                      "
+        extraSourceFolders = ""
+        compileFlags = "-DWITH_FR_COMMON"
+        linkerFlags = ""
+        />
+    <feature
+        id="FR_examples"
+        name="FlexRay examples"
+        description = "Examples for the FlexRay implementation"
+        initiallyEnabled = "true"
+        requires = "FR_common"
+        labels = ""
+        nedPackages = "
+                       busmodel.examples.flexray
+                      "
+        extraSourceFolders = ""
+        linkerFlags = ""
+        />
+</features>
