@@ -1,7 +1,0 @@
-# Partial Tkenv config file -- see $HOME/.tkenvrc as well
-inspector "NewLayout" "NewLayout" "2" "460x337+1419+35:normal"
-inspector "NewLayout.bus.canBusApp" "canBusApp" "1" "468x314+954+709:normal"
-inspector "Canbus" "Canbus" "2" "607x337+1920+24:normal"
-inspector "NewLayout.bus" "canBus" "2" "607x337+-8+-4:normal"
-inspector "NewLayout.node[0]" "canNode" "2" "607x337+724+24:normal"
-
