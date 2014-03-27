@@ -1,0 +1,9 @@
+/out
+*_m.*
+*.vci
+*.vec
+*.sca
+*.anf
+*.tkenvrc
+*.tkenvlog
+/doc

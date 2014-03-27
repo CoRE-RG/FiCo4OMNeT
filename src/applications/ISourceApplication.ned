@@ -15,6 +15,9 @@
 
 package busmodel.applications;
 
+// 
+// Interface for a source application
+//
 moduleinterface ISourceApplication
 {
     parameters:

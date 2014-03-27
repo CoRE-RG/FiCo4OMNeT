@@ -15,6 +15,9 @@
 
 package busmodel.applications;
 
+// 
+// Interface for a sink application
+//
 moduleinterface ISinkApplication
 {
     parameters:
