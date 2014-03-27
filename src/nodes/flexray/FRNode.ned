@@ -27,9 +27,31 @@ import busmodel.synchronisation.flexray.FRSync;
 module FRNode
 {
     parameters:
-        int pChannels = default(2); //0 = A; 1 = B; 2 = A&B 
         @display("bgb=353,272;i=device/device");
-        @node;
+        int pChannels = default(2); //0 = A; 1 = B; 2 = A&B
+        
+        int gCycleCountMax = default(63); // [7,9,...,63]
+        double pdMicrotick @unit(s) = default(12.5ns); //[ns]
+        double gdMacrotick @unit(s) = default(1us); //[µs]
+        int gdStaticSlot = default(4); //[MT]
+        int gdMinislot = default(2); //[MT]
+        int gdNIT = default(2); //[MT]
+        int gdSymbolWindow = default(0); //[MT]
+        int gNumberOfMinislots = default(0);
+        int gNumberOfStaticSlots = default(2);
+        int gdActionPointOffset = default(1); //[MT]
+        int gdMinislotActionPointOffset = default(1); //[MT]
+        double bandwidth @unit(Mbps) = default(10Mbps); //[MBit/s]
+        
+        double maxDriftChange @unit(s) = default(0);
+        double maxDrift @unit(s) = default(0);
+        
+        string staticSlotsChA = default(""); 
+        string staticSlotsChB = default("");
+        string dynamicSlotsChA = default("");
+        string dynamicSlotsChB = default("");
+        int syncFrame = default(0); 
+//        @node;
 
     gates:
         inout channelA @loose;

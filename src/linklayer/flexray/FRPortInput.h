@@ -47,34 +47,19 @@ protected:
 
 private:
     /**
-     * @brief Valid values are between 10000 and 1000000. Initialized from ned-attribute of CAN-Bus.
+     * @brief Bandwidth of the network.
      */
     int bandwidth;
 
     /**
-     * @brief Handles the reception of a dynamic frame.
+     * @brief Handles the received message.
      */
-    virtual void receiveDynamicFrame(FRFrame *frMsg);
-
-    /**
-     * @brief Handles the reception of a static frame.
-     */
-    virtual void receiveStaticFrame(FRFrame *frMsg);
-
-    /**
-     * @brief Incoming frame is scheduled until receiving is completed.
-     */
-    virtual void receiveMessage(FRFrame *msg);
+    virtual void receivedExternMessage(FRFrame *msg);
 
     /**
      * @brief Calculates when the frame is ready to be forwarded based on the number of bits.
      */
     virtual double calculateScheduleTiming(int length);
-
-    /**
-     * @brief Sends the message to the output gate.
-     */
-    virtual void forwardFrame(FRFrame *msg);
 };
 
 #endif /* FRPORTINPUT_H_ */

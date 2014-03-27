@@ -1,7 +1,6 @@
 #include "FRBuffer.h"
 
 void FRBuffer::initialize(){
-    MOB = par("MOB");
 }
 
 void FRBuffer::registerDestinationGate() {
@@ -27,7 +26,7 @@ FRFrame* FRBuffer::getFrame(int id) {
 }
 
 void FRBuffer::putFrame(cMessage* msg){
-    FRFrame *frame = check_and_cast<FRFrame *>(msg);
+    FRFrame *frame = dynamic_cast<FRFrame *>(msg);
     frames.push_back(frame);
 }
 
