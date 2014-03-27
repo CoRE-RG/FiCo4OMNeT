@@ -35,7 +35,7 @@ void CanTrafficSinkAppBase::handleMessage(cMessage *msg) {
         bufferMessageCounter--;
         startWorkOnFrame(0); //TODO working time
     } else if (msg->isSelfMessage()) {
-        InputBuffer *buffer = (InputBuffer*) (getParentModule()->getSubmodule(
+        CanInputBuffer *buffer = (CanInputBuffer*) (getParentModule()->getSubmodule(
                 "bufferIn"));
         buffer->deleteFrame(currentFrameID);
         if (bufferMessageCounter > 0) {
@@ -48,7 +48,7 @@ void CanTrafficSinkAppBase::handleMessage(cMessage *msg) {
 }
 
 void CanTrafficSinkAppBase::requestFrame() {
-    InputBuffer *buffer = (InputBuffer*) (getParentModule()->getSubmodule(
+    CanInputBuffer *buffer = (CanInputBuffer*) (getParentModule()->getSubmodule(
             "bufferIn"));
     buffer->deliverNextFrame();
     idle = false;

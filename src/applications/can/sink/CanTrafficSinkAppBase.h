@@ -18,7 +18,7 @@
 
 #include <omnetpp.h>
 #include <string.h>
-#include "InputBuffer.h"
+#include "CanInputBuffer.h"
 #include "candataframe_m.h"
 
 using namespace std;

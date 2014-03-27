@@ -18,7 +18,7 @@
 
 #include <omnetpp.h>
 #include <string.h>
-#include "InputBuffer.h"
+#include "FRInputBuffer.h"
 #include "FRFrame_m.h"
 
 using namespace std;

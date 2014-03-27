@@ -103,7 +103,7 @@ void CanBusLogic::grantSendingPermission() {
         CanID *id = *it;
         if (id->getId() < currentSendingID) {
             currentSendingID = id->getId();
-            sendingNode = (OutputBuffer*) id->getNode();
+            sendingNode = (CanOutputBuffer*) id->getNode();
             currsit = id->getSignInTime();
         }
     }
@@ -113,7 +113,7 @@ void CanBusLogic::grantSendingPermission() {
         CanID *id = *it;
         if (id->getId() == currentSendingID) {
             if (id->getRtr() == false) { //Data-Frame
-                sendingNode = (OutputBuffer*) id->getNode(); //der Node, der einen Data frame senden möcte wird zum senden ausgewählt
+                sendingNode = (CanOutputBuffer*) id->getNode(); //der Node, der einen Data frame senden möcte wird zum senden ausgewählt
                 currsit = id->getSignInTime();
                 sendcount++;
             }
@@ -126,7 +126,7 @@ void CanBusLogic::grantSendingPermission() {
         endSimulation();
     }
     if (sendingNode != NULL) {
-        OutputBuffer* controller = check_and_cast<OutputBuffer *>(sendingNode);
+        CanOutputBuffer* controller = check_and_cast<CanOutputBuffer *>(sendingNode);
         controller->receiveSendingPermission(currentSendingID);
     } else {
         EV<< "no pending message" << endl;
@@ -142,7 +142,7 @@ void CanBusLogic::grantSendingPermission() {
 
 void CanBusLogic::sendingCompleted() {
     colorIdle();
-    OutputBuffer* controller = check_and_cast<OutputBuffer*>(sendingNode);
+    CanOutputBuffer* controller = check_and_cast<CanOutputBuffer*>(sendingNode);
     controller->sendingCompleted(currentSendingID);
     for (unsigned int it = 0; it != eraseids.size(); it++) {
         ids.erase(eraseids.at(it));

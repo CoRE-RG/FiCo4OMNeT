@@ -16,8 +16,8 @@
 package busmodel.nodes.can;
 
 import busmodel.linklayer.can.CanNodePort;
-import busmodel.buffer.can.InputBuffer;
-import busmodel.buffer.can.OutputBuffer;
+import busmodel.buffer.can.CanInputBuffer;
+import busmodel.buffer.can.CanOutputBuffer;
 import busmodel.applications.can.source.CanTrafficSourceAppBase;
 import busmodel.applications.can.sink.CanTrafficSinkAppBase;
 
@@ -63,10 +63,10 @@ module CanNode
             gates:
                 phygate;
         }
-        bufferIn: InputBuffer {
+        bufferIn: CanInputBuffer {
             @display("p=203,102");
         }
-        bufferOut: OutputBuffer {
+        bufferOut: CanOutputBuffer {
             @display("p=98,102");
         }
         sourceApp: CanTrafficSourceAppBase {

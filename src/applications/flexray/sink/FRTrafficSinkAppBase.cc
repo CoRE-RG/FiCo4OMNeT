@@ -22,33 +22,33 @@ void FRTrafficSinkAppBase::initialize() {
 }
 
 void FRTrafficSinkAppBase::handleMessage(cMessage *msg) {
-    std::string msgClass = msg->getClassName();
-    if (msg->arrivedOn("controllerIn")) {
-        bufferMessageCounter++;
-        if (idle) {
-            requestFrame();
-        }
-    } else if (msgClass.compare("CanDataFrame") == 0) {
-        CanDataFrame *frame = check_and_cast<CanDataFrame *>(msg);
-        int i = frame->getCanID();
-        currentFrameID = i;
-        bufferMessageCounter--;
-        startWorkOnFrame(0); //TODO working time
-    } else if (msg->isSelfMessage()) {
-        InputBuffer *buffer = (InputBuffer*) (getParentModule()->getSubmodule(
-                "bufferIn"));
-        buffer->deleteFrame(currentFrameID);
-        if (bufferMessageCounter > 0) {
-            requestFrame();
-        } else {
-            idle = true;
-        }
-    }
-    delete msg;
+//    std::string msgClass = msg->getClassName();
+//    if (msg->arrivedOn("controllerIn")) {
+//        bufferMessageCounter++;
+//        if (idle) {
+//            requestFrame();
+//        }
+//    } else if (msgClass.compare("CanDataFrame") == 0) {
+//        FRFrame *frame = check_and_cast<FRFrame *>(msg);
+//        int i = frame->getCanID();
+//        currentFrameID = i;
+//        bufferMessageCounter--;
+//        startWorkOnFrame(0); //TODO working time
+//    } else if (msg->isSelfMessage()) {
+//        FRInputBuffer *buffer = (InputBuffer*) (getParentModule()->getSubmodule(
+//                "bufferIn"));
+//        buffer->deleteFrame(currentFrameID);
+//        if (bufferMessageCounter > 0) {
+//            requestFrame();
+//        } else {
+//            idle = true;
+//        }
+//    }
+//    delete msg;
 }
 
 void FRTrafficSinkAppBase::requestFrame() {
-    InputBuffer *buffer = (InputBuffer*) (getParentModule()->getSubmodule(
+    FRInputBuffer *buffer = (FRInputBuffer*) (getParentModule()->getSubmodule(
             "bufferIn"));
     buffer->deliverNextFrame();
     idle = false;

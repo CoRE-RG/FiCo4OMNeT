@@ -24,7 +24,7 @@
 #include "err_m.h"
 #include "BusPort.h"
 #include "CanID.h"
-#include "OutputBuffer.h"
+#include "CanOutputBuffer.h"
 //#include "CanTrafficSourceApp.h"
 
 using namespace std;

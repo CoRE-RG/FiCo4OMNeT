@@ -19,6 +19,12 @@ import busmodel.linklayer.can.CanPortInput;
 import busmodel.linklayer.can.CanPortOutput;
 import busmodel.linklayer.NodePort;
 
+//
+// This module establishes the communication with the bus and the buffers. 
+//
+// It consists of the submodules NodePort, CanPortOutput and CanPortInput.
+//
+//
 module CanNodePort
 {
     @display("bgb=199,193");

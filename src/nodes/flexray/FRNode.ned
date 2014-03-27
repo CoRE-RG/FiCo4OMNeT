@@ -16,7 +16,6 @@
 package busmodel.nodes.flexray;
 
 import busmodel.scheduler.flexray.FRScheduler;
-import busmodel.applications.flexray.FRApp;
 import busmodel.applications.flexray.source.FRTrafficSourceAppBase;
 import busmodel.applications.flexray.sink.FRTrafficSinkAppBase;
 import busmodel.buffer.flexray.FROutputBuffer;
@@ -27,9 +26,9 @@ import busmodel.synchronisation.flexray.FRSync;
 module FRNode
 {
     parameters:
-        @display("bgb=353,272;i=device/device");
+        @display("bgb=331,272;i=device/device");
         int pChannels = default(2); //0 = A; 1 = B; 2 = A&B
-        
+
         int gCycleCountMax = default(63); // [7,9,...,63]
         double pdMicrotick @unit(s) = default(12.5ns); //[ns]
         double gdMacrotick @unit(s) = default(1us); //[µs]
@@ -42,15 +41,15 @@ module FRNode
         int gdActionPointOffset = default(1); //[MT]
         int gdMinislotActionPointOffset = default(1); //[MT]
         double bandwidth @unit(Mbps) = default(10Mbps); //[MBit/s]
-        
+
         double maxDriftChange @unit(s) = default(0);
         double maxDrift @unit(s) = default(0);
-        
-        string staticSlotsChA = default(""); 
+
+        string staticSlotsChA = default("");
         string staticSlotsChB = default("");
         string dynamicSlotsChA = default("");
         string dynamicSlotsChB = default("");
-        int syncFrame = default(0); 
+        int syncFrame = default(0);
 //        @node;
 
     gates:
@@ -60,35 +59,31 @@ module FRNode
     submodules:
 
         frNodePort: FRNodePort {
-            @display("p=155,180");
+            @display("p=128,183");
         }
 
         frScheduler: FRScheduler {
-            @display("p=304,109");
-        }
-
-        frApp: FRApp {
-            @display("p=33,31");
+            @display("p=277,112");
         }
 
         frSourceApp: FRTrafficSourceAppBase {
-            @display("p=102,31");
+            @display("p=75,34");
         }
 
         frSinkApp: FRTrafficSinkAppBase {
-            @display("p=212,31");
+            @display("p=185,34");
         }
 
         frOutputBuffer: FROutputBuffer {
-            @display("p=102,109");
+            @display("p=75,112");
         }
 
         frInputBuffer: FRInputBuffer {
-            @display("p=212,109");
+            @display("p=185,112");
         }
 
         frSync: FRSync {
-            @display("p=304,31");
+            @display("p=277,34");
         }
 
     connections allowunconnected:
