@@ -144,7 +144,7 @@ class FRScheduler : public cSimpleModule {
         /**
          * @brief caches bus_speed parameter
          */
-        double busSpeed; //[MBit/s]
+        double bandwidth; //[MBit/s]
 
         /**
          * @brief number of microticks per cycle

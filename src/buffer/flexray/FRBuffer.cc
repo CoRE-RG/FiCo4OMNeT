@@ -13,12 +13,12 @@ void FRBuffer::registerDestinationGate() {
     }
 }
 
-FRFrame* FRBuffer::getFrame(int id) {
+FRFrame* FRBuffer::getFrame(int frameId) {
     for (std::list<FRFrame*>::iterator it = frames.begin();
             it != frames.end(); ++it) {
         FRFrame* tmp = *it;
-        int i = tmp->getId();
-            if ((i == id)) {
+        int i = tmp->getFrameID();
+            if ((i == frameId)) {
             return tmp;
         }
     }
@@ -30,17 +30,17 @@ void FRBuffer::putFrame(cMessage* msg){
     frames.push_back(frame);
 }
 
-void FRBuffer::deleteFrame(int id) {
+void FRBuffer::deleteFrame(int frameId) {
     Enter_Method_Silent();
-    FRFrame *tmp = getFrame(id);
+    FRFrame *tmp = getFrame(frameId);
     frames.remove(tmp);
     delete tmp;
 }
 
-void FRBuffer::deliverFrame(int id) {
+void FRBuffer::deliverFrame(int frameId) {
     Enter_Method_Silent();
-    sendToDestinationGates(getFrame(id)->dup());
-    deleteFrame(id);
+    sendToDestinationGates(getFrame(frameId)->dup());
+    deleteFrame(frameId);
 }
 
 void FRBuffer::deliverPrioFrame() {
@@ -50,7 +50,7 @@ void FRBuffer::deliverPrioFrame() {
     for (std::list<FRFrame*>::iterator it = frames.begin();
             it != frames.end(); ++it) {
         FRFrame *tmp = *it;
-        int i = tmp->getId();
+        int i = tmp->getFrameID();
         if ((i < prioId)) {
             prioFrame = tmp;
             prioId = i;

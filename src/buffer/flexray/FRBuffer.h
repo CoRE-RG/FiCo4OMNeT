@@ -39,12 +39,12 @@ public:
      * null if there is no DataFrame in the buffer.
      *
      */
-    FRFrame* getFrame(int id);
+    FRFrame* getFrame(int frameId);
 
     /**
      * @brief Puts the frame into the collection and informs the connected gates about the receiption.
      *
-     * @param msg The DataFrame to put in the buffer.
+     * @param msg The FRFrame to put in the buffer.
      *
      */
     virtual void putFrame(cMessage* msg);
@@ -52,12 +52,12 @@ public:
     /**
      * @brief Deletes the frame with the corresponding id from the frames collection.
      */
-    virtual void deleteFrame(int id);
+    virtual void deleteFrame(int frameId);
 
     /**
      * @brief Forwards the frame with the corresponding id to all destination gates.
      */
-    virtual void deliverFrame(int id);
+    virtual void deliverFrame(int frameId);
 
     /**
      * @brief Forwards the frame with the highest priority to all destination gates.
@@ -96,11 +96,6 @@ protected:
      * @param msg The incoming message
      */
 //    virtual void handleMessage(cMessage *msg);
-
-    /**
-     * @brief If true frames with the same ID will be overwritten.
-     */
-    bool MOB;
 
 private:
 

@@ -17,8 +17,8 @@
 
 void FROutputBuffer::putFrame(cMessage* msg) {
     FRFrame *frame = dynamic_cast<FRFrame*>(msg);
-    if (getFrame(frame->getId()) != NULL) {
-        deleteFrame(frame->getId());
+    if (getFrame(frame->getFrameID()) != NULL) {
+        deleteFrame(frame->getFrameID());
     }
     frames.push_back(frame);
 }
@@ -27,4 +27,8 @@ void FROutputBuffer::sendingCompleted(int id) {
     Enter_Method_Silent
     ();
     deleteFrame(id);
+}
+
+void FROutputBuffer::handleMessage(cMessage *msg){
+    FRBuffer::handleMessage(msg);
 }

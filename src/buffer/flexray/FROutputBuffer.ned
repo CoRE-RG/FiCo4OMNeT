@@ -32,7 +32,8 @@ simple FROutputBuffer like FRBuffer
     gates:
         //The buffers Input
         input in @loose @labels(DataFrame);
-        //The buffers Output @warning CURRENTLY NOT USED!
+        //The buffers Output
         output out @loose @labels(DataFrame);
-
+		//Input for information about reaching a slot
+		input schedulerIn @directIn;
 }

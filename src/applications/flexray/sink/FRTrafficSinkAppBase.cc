@@ -31,7 +31,7 @@ void FRTrafficSinkAppBase::handleMessage(cMessage *msg) {
 //    } else if (msgClass.compare("CanDataFrame") == 0) {
     } else if (FRFrame * frame = dynamic_cast<FRFrame *> (msg)) {
 //        FRFrame *frame = check_and_cast<FRFrame *>(msg);
-        int i = frame->getId();
+        int i = frame->getFrameID();
         currentFrameID = i;
         bufferMessageCounter--;
         startWorkOnFrame(0); //TODO working time

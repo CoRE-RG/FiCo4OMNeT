@@ -47,10 +47,18 @@ public:
      */
     virtual void putFrame(cMessage* msg);
 
+protected:
     /**
+     * @brief Is called when a new Frame is received in the buffer.
      *
+     * When a frame is received on the in-Gate it is processed. If the destination
+     * address is unspecified it is set according to the ct marker of the buffer.
+     * Afterwards it is enqueued using the buffer specific enqueue(EtherFrame *newFrame)
+     * method. In the end all registered receive callbacks are executed.
+     *
+     * @param msg The incoming message
      */
-    virtual void deliverFrame(int id);
+    virtual void handleMessage(cMessage *msg);
 };
 Define_Module(FROutputBuffer);
 
