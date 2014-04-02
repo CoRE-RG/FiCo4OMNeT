@@ -28,17 +28,19 @@ void CanOutputBuffer::putFrame(cMessage* msg) {
 }
 
 void CanOutputBuffer::registerForArbitration(int id, bool rtr) {
+    //EV << getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getName() << "\n";
     CanBusLogic *canBusLogic =
-            (CanBusLogic*) (getParentModule()->getParentModule()->getSubmodule(
-                    "bus")->getSubmodule("canBusLogic"));
+            (CanBusLogic*) (getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->getSubmodule(
+                    "canBusLogic"));
     canBusLogic->registerForArbitration(id, this, simTime(), rtr);
 }
 
 void CanOutputBuffer::checkoutFromArbitration(int id) {
     CanBusLogic *canBusLogic =
-            (CanBusLogic*) (getParentModule()->getParentModule()->getSubmodule(
-                    "bus")->getSubmodule("canBusLogic"));
+            (CanBusLogic*) (getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->getSubmodule(
+                    "canBusLogic"));
     canBusLogic->checkoutFromArbitration(id);
+
 }
 
 void CanOutputBuffer::receiveSendingPermission(int id) {
@@ -51,6 +53,8 @@ void CanOutputBuffer::sendingCompleted(int id) {
     Enter_Method_Silent
     ();
     deleteFrame(id);
-    CanPortOutput* portOutput = check_and_cast<CanPortOutput*>(getParentModule()->getSubmodule("canNodePort")->getSubmodule("canPortOutput"));
+    CanPortOutput* portOutput = check_and_cast<CanPortOutput*>(
+            getParentModule()->getSubmodule("canNodePort")->getSubmodule(
+                    "canPortOutput"));
     portOutput->sendingCompleted();
 }
