@@ -30,5 +30,9 @@ void FROutputBuffer::sendingCompleted(int id) {
 }
 
 void FROutputBuffer::handleMessage(cMessage *msg){
-    FRBuffer::handleMessage(msg);
+    if (SchedulerActionTimeEvent *event = dynamic_cast<SchedulerActionTimeEvent *> (msg)){
+        deliverFrame(event->getFrameID());
+    } else {
+        FRBuffer::handleMessage(msg);
+    }
 }

@@ -14,20 +14,15 @@ void CanBusLogic::initialize() {
     errored = false;
     stateok = true;
     errorcount = 0;
-    ack_rcvd = true;
     idle = true;
     char buf[64];
     sprintf(buf, "state: idle");
     bubble("state: idle");
     getDisplayString().setTagArg("tt", 0, buf);
-    payload = false;
     errors = true;
-    ack = false;
     scheduledDataFrame = new CanDataFrame();
 
-    payload = getParentModule()->par("payload");
     errors = getParentModule()->par("errors");
-    ack = getParentModule()->par("ack");
     bandwidth = getParentModule()->par("bandwidth");
 }
 

@@ -20,6 +20,7 @@
 #include <string.h>
 #include <omnetpp.h>
 #include "FRBuffer.h"
+#include "SchedulerMessageEvents_m.h"
 
 using namespace std;
 

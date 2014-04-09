@@ -11,9 +11,7 @@ import busmodel.bus.can.CanBusLogic;
 module CanBus
 {
     parameters:
-        bool payload = default(false);		// activate if payload transfer shall be enabled
         bool errors = default(false);		// activate if errors shall be enabled
-        bool ack = default(false);			// activate if ack-recognition of receiving nodes shall be enabled
         int bandwidth = default(1000000);	// valid values are 10000 - 1000000
         int nodecount = default(2); 		// number of nodes in the network
         @display("i=block/network");

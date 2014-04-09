@@ -39,8 +39,11 @@ void FRBuffer::deleteFrame(int frameId) {
 
 void FRBuffer::deliverFrame(int frameId) {
     Enter_Method_Silent();
-    sendToDestinationGates(getFrame(frameId)->dup());
-    deleteFrame(frameId);
+    FRFrame *tmp = getFrame(frameId);
+    if (tmp != NULL) {
+        sendToDestinationGates(tmp->dup());
+        deleteFrame(frameId);
+    }
 }
 
 void FRBuffer::deliverPrioFrame() {
