@@ -24,4 +24,5 @@ simple FRTrafficSourceAppBase like ISourceApplication
         @display("i=block/source");
     gates:
         output out;
+        input schedulerIn @directIn;
 }

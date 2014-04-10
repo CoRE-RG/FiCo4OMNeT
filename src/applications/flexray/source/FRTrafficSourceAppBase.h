@@ -47,14 +47,14 @@ protected:
 
 private:
     /**
-     * @brief Collection including all
+     * @brief Collection including all outgoing static frames.
      */
-    vector<FRFrame*> outgoingDataFrames;
+    vector<FRFrame*> outgoingStaticFrames;
 
     /**
-     * @brief Creates a data frame which will be queued in the buffer.
+     * @brief Collection including all outgoing dynamic frames.
      */
-    void initialDataFrameCreation();
+    vector<FRFrame*> outgoingDynamicFrames;
 
     /**
      * @brief Calculates the length for the data frame.
@@ -62,9 +62,9 @@ private:
     int calculateLength(int datalength);
 
     /**
-     * @brief Transmits the data frame to the connected output buffer.
+     * @brief Transmits the frame to the connected output buffer.
      */
-    void dataFrameTransmission(FRFrame *frMsg);
+    void frameTransmission();
 };
 Define_Module(FRTrafficSourceAppBase)
 ;

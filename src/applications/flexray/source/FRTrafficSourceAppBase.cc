@@ -16,41 +16,12 @@
 #include "FRTrafficSourceAppBase.h"
 
 void FRTrafficSourceAppBase::initialize() {
-    initialDataFrameCreation();
+
 }
 
 void FRTrafficSourceAppBase::handleMessage(cMessage *msg) {
-    FRFrame *frMsg = check_and_cast<FRFrame *>(msg);
-    dataFrameTransmission(frMsg);
-}
-
-void FRTrafficSourceAppBase::initialDataFrameCreation() {
-    if (getParentModule()->par("idDataFrames").stdstringValue() != "0") {
-        cStringTokenizer dataFrameIDsTokenizer(
-                getParentModule()->par("idDataFrames"), ",");
-        vector<int> dataFrameIDs = dataFrameIDsTokenizer.asIntVector();
-
-        cStringTokenizer dataFramesPeriodicityTokenizer(
-                getParentModule()->par("periodicityDataFrames"), ",");
-
-        cStringTokenizer dataLengthDataFramesTokenizer(
-                getParentModule()->par("dataLengthDataFrames"), ",");
-
-        for (unsigned int i = 0; i < dataFrameIDs.size(); i++) {
-//            FRFrame *can_msg = new FRFrame("message");
-//            can_msg->setNode(getParentModule()->par("node"));
-//            can_msg->setCanID(checkAndReturnID(dataFrameIDs.at(i)));
-//            can_msg->setLength(
-//                    calculateLength(
-//                            atoi(dataLengthDataFramesTokenizer.nextToken())));
-//            can_msg->setPeriod(
-//                    atoi(dataFramesPeriodicityTokenizer.nextToken()));
-//            outgoingDataFrames.push_back(can_msg);
-//            if (can_msg->getPeriod() != 0) {
-//                scheduleAt(simTime() + (can_msg->getPeriod() / 1000.), can_msg);
-//            }
-        }
-    }
+    //Nachrichten an Buffer bei NEW_CYCLE
+    //alle static frames + random (?) dynamic frames
 }
 
 int FRTrafficSourceAppBase::calculateLength(int dataLength) {
@@ -62,22 +33,6 @@ int FRTrafficSourceAppBase::calculateLength(int dataLength) {
     return 0;
 }
 
-void FRTrafficSourceAppBase::dataFrameTransmission(FRFrame *df) {
-    FRFrame *outgoingFrame;
-    if (df->isSelfMessage()) {
-        outgoingFrame = df->dup();
-//        scheduleAt(simTime() + (df->getPeriod() / 1000.), df);
-    } else if (df->arrivedOn("remoteIn")) {
-        for (std::vector<FRFrame*>::iterator it = outgoingDataFrames.begin();
-                it != outgoingDataFrames.end(); ++it) {
-            FRFrame *tmp = *it;
-            if (tmp->getId() == df->getId()) {
-                outgoingFrame = tmp->dup();
-                break;
-            }
-        }
-        delete df;
-    }
-//    outgoingFrame->setStartTime(simTime());
-    send(outgoingFrame, "out");
+void FRTrafficSourceAppBase::frameTransmission() {
+
 }
