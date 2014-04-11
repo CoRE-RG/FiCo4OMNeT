@@ -18,6 +18,8 @@
 
 #include <omnetpp.h>
 #include <string.h>
+#include <clistener.h>
+#include <SchedulerMessage_m.h>
 #include "FRBuffer.h"
 #include "FRFrame_m.h"
 
@@ -30,7 +32,12 @@ using namespace std;
  *
  * @author Stefan Buschmann
  */
-class FRTrafficSourceAppBase: public cSimpleModule {
+class FRTrafficSourceAppBase: public cSimpleModule, cListener {
+
+public:
+
+    virtual void receiveSignal(cComponent *source, simsignal_t signalID, long l);
+
 
 protected:
     /**
@@ -45,6 +52,7 @@ protected:
      */
     virtual void handleMessage(cMessage *msg);
 
+
 private:
     /**
      * @brief Collection including all outgoing static frames.
@@ -57,6 +65,34 @@ private:
     vector<FRFrame*> outgoingDynamicFrames;
 
     /**
+     * @brief Number of the current cycle.
+     */
+    int vCycleCounter;
+
+    /**
+     * @brief Initial creation of all the nodes static frames.
+     */
+    void setUpStaticFrames();
+
+    /**
+     * @brief Initial creation of all the nodes dynamic frames.
+     */
+    void setUpDynamicFrames();
+
+    /**
+     *
+     */
+    void dynamicFrameCreation(cStringTokenizer tokenizer, int channel);
+
+    /**
+     *
+     */
+    FRFrame* createFRFrame(int frameID, int cycleNumber, int channel,
+            bool syncFrameIndicator, int kind);
+
+    int getDynamicSlot(int slot);
+
+    /**
      * @brief Calculates the length for the data frame.
      */
     int calculateLength(int datalength);
@@ -64,7 +100,9 @@ private:
     /**
      * @brief Transmits the frame to the connected output buffer.
      */
-    void frameTransmission();
+    void frameGenerationForNewCycle();
+
+    void transmitFrame(FRFrame *frMsg);
 };
 Define_Module(FRTrafficSourceAppBase)
 ;

@@ -13,28 +13,20 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include "BusPort.h"
+package busmodel.bus.flexray;
 
-void BusPort::handleMessage(cMessage *msg) {
-    if (msg->arrivedOn("innerGate$i")) {
-        forward_to_all(msg);
-    } else {
-        send(msg,"innerGate$o");
-    }
-}
+//
+// The arbitration is handeled in this module. If a node has a message it registers the Can ID at the CanBusLogic.
+// The bus logic grants the sending permission to the node with the lowest Can ID. Is the frame transmission 
+// completed, the next permission is again granted to the node with the highest priority. 
+//
+//
+simple FRBusLogic
+{
+    parameters:
+    	@display("i=block/app");
 
-void BusPort::forward_to_all(cMessage *msg) {
-    Enter_Method_Silent();
-    take(msg);
-    for (int i = 0; i < this->gateSize("phygate"); ++i) {
-        cMessage *newMsg = msg->dup();
-        send(newMsg, "phygate$o", i);
-    }
-    delete msg;
-}
-
-void BusPort::sendMsgToNode(cMessage *msg, int id){
-    Enter_Method_Silent();
-    take(msg);
-    send(msg, "phygate$o", id);
+    gates:
+        inout gateChA;
+        inout gateChB;
 }

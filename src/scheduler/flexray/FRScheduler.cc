@@ -65,7 +65,7 @@ void FRScheduler::handleMessage(cMessage *msg) {
         }
         changeDrift();
         adjustMacrotick();
-        emit(newCycle, 1L);
+        emit(newCycle, vCycleCounter);
         cycles++;
         lastCycleStart = simTime();
         lastCycleTicks += getCycleTicks();

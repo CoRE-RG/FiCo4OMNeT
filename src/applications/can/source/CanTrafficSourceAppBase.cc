@@ -55,6 +55,7 @@ void CanTrafficSourceAppBase::initialRemoteFrameCreation() {
             } else {
                 scheduleAt(simTime() + (can_msg->getPeriod() / 1000.), can_msg);
             }
+
         }
     }
 }

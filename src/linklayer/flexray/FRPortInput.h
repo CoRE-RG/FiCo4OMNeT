@@ -61,5 +61,5 @@ private:
      */
     virtual double calculateScheduleTiming(int length);
 };
-
+Define_Module(FRPortInput);
 #endif /* FRPORTINPUT_H_ */

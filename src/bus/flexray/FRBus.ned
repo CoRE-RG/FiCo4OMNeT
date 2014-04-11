@@ -15,7 +15,8 @@
 
 package busmodel.bus.flexray;
 
-import busmodel.bus.flexray.FRTopologyPort;
+import busmodel.bus.BusPort;
+import busmodel.bus.flexray.FRBusLogic;
 
 module FRBus
 {
@@ -26,21 +27,31 @@ module FRBus
     gates:
         inout channelA[numberOfNodesChannelA];
         inout channelB[numberOfNodesChannelB];
-        
+
     submodules:
-        frTopologyPort: FRTopologyPort {
-            @display("p=402,59");
+        busPortChannelA: BusPort {
+            @display("p=68,138");
             gates:
-                phyChannelA[numberOfNodesChannelA];
-                phyChannelB[numberOfNodesChannelB];
+                phygate[numberOfNodesChannelA];
+        }
+        busPortChannelB: BusPort {
+            @display("p=163,138");
+            gates:
+                phygate[numberOfNodesChannelB];
+        }
+        frBusLogic: FRBusLogic {
+            @display("p=116,46");
         }
 
     connections:
         for i=0..numberOfNodesChannelA-1 {
-            frTopologyPort.phyChannelA[i] <--> channelA[i];
+            busPortChannelA.phygate[i] <--> channelA[i];
         }
         for i=0..numberOfNodesChannelB-1 {
-            frTopologyPort.phyChannelB[i] <--> channelB[i];
+            busPortChannelB.phygate[i] <--> channelB[i];
         }
+
+        frBusLogic.gateChA <--> busPortChannelA.innerGate;
+        frBusLogic.gateChB <--> busPortChannelB.innerGate;
 
 }
