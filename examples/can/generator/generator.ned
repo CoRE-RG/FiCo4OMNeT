@@ -6,12 +6,12 @@ import busmodel.nodes.can.CanNode;
 // Generic network configuration for CAN-Networks
 // 
 // Can be used for various number of CAN-Nodes, but the design of the network can't be changed. Used for all examples.
-network generator_CAN
+network generator
 {
-    @display("bgb=931,343,white;i=bus/philips");
+    @display("bgb=931,343,white");
     submodules:
         bus: CanBus {
-            @display("p=460,127;i=abstract/bus");
+            @display("p=460,127");
         }
         aws: CanNode {
             @display("p=257,47;i=device/pc2");

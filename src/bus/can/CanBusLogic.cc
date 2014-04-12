@@ -12,8 +12,6 @@ void CanBusLogic::initialize() {
     busytimestamp = 0.0;
     errpos = INT_MAX;
     errored = false;
-    stateok = true;
-    errorcount = 0;
     idle = true;
     char buf[64];
     sprintf(buf, "state: idle");
