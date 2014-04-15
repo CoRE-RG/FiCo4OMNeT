@@ -1,3 +1,3 @@
 package busmodel;
 
-@license(LGPL);
+@license(BSD 3-clause);
