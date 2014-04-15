@@ -1,3 +1,6 @@
 # workingdir,                                                     args
+/examples/can/arbitration/,                                      -f omnetpp.ini -c General -r 0
+/examples/can/error1/,                                           -f omnetpp.ini -c General -r 0
+/examples/can/error2/,                                           -f omnetpp.ini -c General -r 0
 /examples/can/simpleNewLayout/,                                  -f omnetpp.ini -c General -r 0
-/examples/can/generatorNewLayout/,                               -f omnetpp.ini -c General -r 0
+/examples/can/generator/,                                        -f omnetpp.ini -c General -r 0
