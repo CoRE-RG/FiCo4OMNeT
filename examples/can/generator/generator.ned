@@ -12,6 +12,8 @@ network generator
     submodules:
         bus: CanBus {
             @display("p=460,127");
+            gates:
+                gate[8];
         }
         aws: CanNode {
             @display("p=257,47;i=device/pc2");
@@ -39,12 +41,12 @@ network generator
             @display("p=539,47;i=block/control");
         }
     connections:
-        bus.gate++ <--> aws.gate;
-        bus.gate++ <--> motorx.gate;
-        bus.gate++ <--> motory.gate;
-        bus.gate++ <--> motorz.gate;
-        bus.gate++ <--> motoralpha.gate;
-        bus.gate++ <--> motorbeta.gate;
-        bus.gate++ <--> motorgamma.gate;
-        bus.gate++ <--> generator.gate;
+        bus.gate[0] <--> aws.gate;
+        bus.gate[1] <--> motorx.gate;
+        bus.gate[2] <--> motory.gate;
+        bus.gate[3] <--> motorz.gate;
+        bus.gate[4] <--> motoralpha.gate;
+        bus.gate[5] <--> motorbeta.gate;
+        bus.gate[6] <--> motorgamma.gate;
+        bus.gate[7] <--> generator.gate;
 }

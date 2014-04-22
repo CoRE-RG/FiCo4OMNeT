@@ -11,10 +11,15 @@ network Error1
 	@display("bgb=550,350,white");
     submodules:
         bus: CanBus {
+            gates:
+                gate[2];
         }
-        node[bus.nodecount]: CanNode;
+        node[2]: CanNode;
     connections:
-        for i=0..(bus.nodecount-1) {
-            bus.gate++ <--> node[i].gate;
-        }
+//        for i=0..(bus.nodecount-1) {
+//            bus.gate++ <--> node[i].gate;
+//        }
+
+        bus.gate[0] <--> node[0].gate;
+        bus.gate[1] <--> node[1].gate;
 }

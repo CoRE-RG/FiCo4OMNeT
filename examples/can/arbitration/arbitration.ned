@@ -8,13 +8,20 @@ import busmodel.nodes.can.CanNode;
 // Can be used for various number of CAN-Nodes, but the design of the network can't be changed. Used for all examples.
 network Canbus
 {
-	@display("bgb=550,350,white");
+    @display("bgb=550,350,white");
     submodules:
         bus: CanBus {
+            gates:
+                gate[5];
         }
-        node[bus.nodecount]: CanNode;
+        node[5]: CanNode;
     connections:
-        for i=0..(bus.nodecount-1) {
-            bus.gate++ <--> node[i].gate;
-        }
+//        for i=0..(bus.nodecount-1) {
+//            bus.gate++ <--> node[i].gate;
+//        }
+		bus.gate[0] <--> node[0].gate;
+		bus.gate[1] <--> node[1].gate;
+		bus.gate[2] <--> node[2].gate;
+		bus.gate[3] <--> node[3].gate;
+		bus.gate[4] <--> node[4].gate;
 }

@@ -13,17 +13,18 @@ module CanBus
     parameters:
         bool errors = default(false);		// activate if errors shall be enabled
         int bandwidth = default(1000000);	// valid values are 10000 - 1000000
-        int nodecount = default(2); 		// number of nodes in the network
+//        int nodecount = default(2); 		// number of nodes in the network
         @display("i=block/network");
     
     gates:
-        inout gate[nodecount];
+//        inout gate[nodecount];
+        inout gate[];
 
     submodules:
         busPort: BusPort {
             @display("p=163,74");
             gates:
-                phygate[nodecount];
+                phygate[sizeof(gate)];
         }
         canBusLogic: CanBusLogic {
             @display("p=52,74");                
@@ -31,7 +32,7 @@ module CanBus
 
     connections allowunconnected:
         busPort.innerGate <--> canBusLogic.gate;
-        for i=0..nodecount-1 {
+        for i=0..sizeof(gate)-1 {
             busPort.phygate[i] <--> gate[i];
         }
 }
