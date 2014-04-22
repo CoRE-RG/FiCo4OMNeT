@@ -21,6 +21,7 @@ void CanBusLogic::initialize() {
 
     errorsActivated = getParentModule()->par("errorsActivated");
     bandwidth = getParentModule()->par("bandwidth");
+    EV<<(bandwidth / (1024*1024))<<"\n";
 }
 
 void CanBusLogic::finish() {
@@ -152,7 +153,8 @@ void CanBusLogic::handleDataFrame(cMessage *msg) {
     EV<<"dataframe mit canid: " << df->getCanID() << " empfangen \n";
     int length = df->getLength();
     double nextidle;
-    nextidle = length / (double) bandwidth;
+    nextidle = (double) length / (bandwidth * 1000 * 1000);
+//    nextidle = (double) length / (bandwidth * 1024 * 1024);
     //TODO Der naechste Idle-Zustand ist eigentlich die (berechnete Zeit - 1), aber hier ist wieder die Sicherheits-Bitzeit mit verrechnet; Ist das so?
     if (scheduledDataFrame != NULL) {
         cancelEvent(scheduledDataFrame);
@@ -177,7 +179,8 @@ void CanBusLogic::handleErrorFrame(cMessage *msg) {
     if (!errored) {
         numErrorFrames++;
         ErrorFrame *ef2 = new ErrorFrame();
-        scheduleAt(simTime() + (12 / (double) bandwidth), ef2); //12 - maximale L�nge eines Error-Frames
+        scheduleAt(simTime() + (12 / (bandwidth * 1000 * 1000)), ef2); //12 - maximale L�nge eines Error-Frames
+//        scheduleAt(simTime() + (12 / (bandwidth * 1024 * 1024)), ef2); //12 - maximale L�nge eines Error-Frames
         emit(rcvdEFSignal, ef2);
         errored = true;
         send(msg->dup(), "gate$o");
@@ -189,10 +192,11 @@ void CanBusLogic::registerForArbitration(int id, cModule *node,
     Enter_Method_Silent
     ();
     ids.push_back(new CanID(id, node, signInTime, rtr));
-
     if (idle) {
         cMessage *self = new cMessage("idle_signin");
-        scheduleAt(simTime() + (1 / (double) bandwidth), self); //TODO was hat das mit dieser +1 auf sich?
+//        scheduleAt(simTime(), self); //TODO was hat das mit dieser +1 auf sich?
+        scheduleAt(simTime() + (1 /  (bandwidth * 1000 * 1000)), self); //TODO was hat das mit dieser +1 auf sich?
+//        scheduleAt(simTime() + (1 /  (bandwidth * 1024 * 1024)), self); //TODO was hat das mit dieser +1 auf sich?
         idle = false;
         busytimestamp = simTime();
         char buf[64];

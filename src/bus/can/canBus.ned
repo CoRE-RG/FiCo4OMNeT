@@ -12,7 +12,7 @@ module CanBus
 {
     parameters:
         bool errorsActivated = default(false);		// activate if errors shall be enabled
-        int bandwidth = default(1000000);	// valid values are 10000 - 1000000
+        double bandwidth @unit(Mbps) = default(1Mbps); //[MBit/s]
 //        int nodecount = default(2); 		// number of nodes in the network
         @display("i=block/network");
     

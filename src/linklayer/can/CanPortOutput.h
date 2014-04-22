@@ -76,9 +76,9 @@ private:
     simsignal_t sendErrorsSignal;
 
     /**
-     * @brief Valid values are between 10000 and 1000000. Initialized from ned-attribute of CAN-Bus.
+     * @brief Bandwidth of the bus in Mbps.
      */
-    int bandwidth;
+    double bandwidth;
 
     /**
      * true if errors are activated. Initialized from ned-attribute of CAN-Node
@@ -129,5 +129,6 @@ private:
     virtual void colorError();
 
 };
-Define_Module(CanPortOutput);
+Define_Module(CanPortOutput)
+;
 #endif /* CANPORTOUTPUT_H_ */

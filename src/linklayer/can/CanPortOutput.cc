@@ -26,7 +26,7 @@ void CanPortOutput::handleReceivedErrorFrame() {
 }
 
 void CanPortOutput::initialize() {
-    bandwidth = getParentModule()->getParentModule()->par("bandwidth");
+    bandwidth = getParentModule()->getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->par("bandwidth");
     errorsActivated = getParentModule()->getParentModule()->par("errorsActivated");
     errorperc = getParentModule()->getParentModule()->par("errorperc");
 
@@ -104,7 +104,8 @@ void CanPortOutput::handleMessage(cMessage *msg) {
 }
 
 double CanPortOutput::calculateScheduleTiming(int length) {
-    return ((double) length) / bandwidth;
+    return ((double) length) / (bandwidth * 1000 * 1000);
+//    return ((double) length) / (bandwidth * 1024 * 1024);
 }
 
 void CanPortOutput::sendingCompleted(){

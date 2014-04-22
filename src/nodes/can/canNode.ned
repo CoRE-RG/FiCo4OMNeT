@@ -35,7 +35,7 @@ module CanNode
         int bitStuffingMethod = default(0);					// Bit-Stuffing mode. See .ini files for further information
         bool errorsActivated = default(false);						// Activate if errors shall be enabled (must be activated for CAN_Bus and CAN_Node)
         int errorperc = default(10);						// If errors are enabled: percentage of errors
-        int bandwidth = default(1000000);					// valid values are 10000 - 1000000 (must be same for CAN_Bus and CAN_Node)
+//        int bandwidth = default(1000000);					// valid values are 10000 - 1000000 (must be same for CAN_Bus and CAN_Node)
         int numOfMessages = default(1);						// Number of messages of the node
         string idDataFrames = default("0");					// The Data Frames ID(s) - String parameter (int) separated with commas
         string periodicityDataFrames = default("0");		// data Frame period(s) for sending of messages - String parameter (int) separated with commas

@@ -176,10 +176,10 @@ private:
      */
     bool ack;
     /**
-     * Valid values are between 10000 and 1000000. Initialized from ned-attribute of CAN-Bus
+     * @brief Bandwidth of the bus in Mbps.
      *
      */
-    int bandwidth;
+    double bandwidth;
     /**
      * true if bus is in idle state; false if in busy state
      *
