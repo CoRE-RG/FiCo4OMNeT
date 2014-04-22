@@ -14,7 +14,10 @@
 // 
 
 package busmodel.buffer.can;
-moduleinterface CanBuffer
+
+import busmodel.buffer.Buffer;
+
+moduleinterface CanBuffer extends Buffer
 {
     parameters:
         @display("i=block/buffer");
@@ -23,12 +26,5 @@ moduleinterface CanBuffer
         //End-to-end latency
         //@statistic[latency](title="End-to-end latency"; unit=s; record=stats,histogram,vector);
 
-        //Comma seperated list of gates where the frames of the buffer are delivered
-        string destination_gates;
         bool MOB;//If true frames with the same ID will be overwritten.
-    gates:
-        //The buffers Input
-        input in @loose @labels(CanDataFrame);
-        //The buffers Output @warning CURRENTLY NOT USED!
-        output out @loose @labels(CanDataFrame);
 }
