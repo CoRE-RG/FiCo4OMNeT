@@ -27,7 +27,7 @@ void CanPortOutput::handleReceivedErrorFrame() {
 
 void CanPortOutput::initialize() {
     bandwidth = getParentModule()->getParentModule()->par("bandwidth");
-    errors = getParentModule()->getParentModule()->par("errors");
+    errorsActivated = getParentModule()->getParentModule()->par("errorsActivated");
     errorperc = getParentModule()->getParentModule()->par("errorperc");
 
     scheduledErrorFrame = new ErrorFrame();
@@ -81,7 +81,7 @@ void CanPortOutput::handleMessage(cMessage *msg) {
             emit(sentDFSignal, df);
         }
         send(df, "out");
-        if (errors && (msgClass.compare("CanDataFrame") == 0)) {
+        if (errorsActivated && (msgClass.compare("CanDataFrame") == 0)) {
             int senderr = intuniform(0, 99);
             if (senderr < errorperc) {
                 ErrorFrame *errself = new ErrorFrame("senderror");

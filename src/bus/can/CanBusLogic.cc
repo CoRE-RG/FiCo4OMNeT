@@ -17,10 +17,9 @@ void CanBusLogic::initialize() {
     sprintf(buf, "state: idle");
     bubble("state: idle");
     getDisplayString().setTagArg("tt", 0, buf);
-    errors = true;
     scheduledDataFrame = new CanDataFrame();
 
-    errors = getParentModule()->par("errors");
+    errorsActivated = getParentModule()->par("errorsActivated");
     bandwidth = getParentModule()->par("bandwidth");
 }
 

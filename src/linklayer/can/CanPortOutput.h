@@ -83,7 +83,7 @@ private:
     /**
      * true if errors are activated. Initialized from ned-attribute of CAN-Node
      */
-    bool errors;
+    bool errorsActivated;
 
     /**
      * if errors = true then this is the amount of errors appearing on the node in percent. Initialized from ned-attribute of CAN-Node

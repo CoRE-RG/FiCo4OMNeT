@@ -169,7 +169,7 @@ private:
      * true if errors are activated. Initialized from ned-attribute of CAN-Bus
      *
      */
-    bool errors;
+    bool errorsActivated;
     /**
      * true ich ack-recognition of receiving nodes is activated. Initialized from ned-attribute of CAN-Bus
      *

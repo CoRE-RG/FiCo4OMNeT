@@ -11,7 +11,7 @@ import busmodel.bus.can.CanBusLogic;
 module CanBus
 {
     parameters:
-        bool errors = default(false);		// activate if errors shall be enabled
+        bool errorsActivated = default(false);		// activate if errors shall be enabled
         int bandwidth = default(1000000);	// valid values are 10000 - 1000000
 //        int nodecount = default(2); 		// number of nodes in the network
         @display("i=block/network");
