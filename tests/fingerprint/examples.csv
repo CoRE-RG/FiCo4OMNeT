@@ -5,3 +5,6 @@
 /examples/can/error2/,                                           -f omnetpp.ini -c General -r 0,                1s,              9934-a565
 /examples/can/generator/,                                        -f omnetpp.ini -c General -r 0,                1s,              3782-b3d2
 /examples/can/simpleNewLayout/,                                  -f omnetpp.ini -c General -r 0,                1s,              1ddc-6f5d
+/examples/can/bitStuffing/noBitStuffing/,                        -f omnetpp.ini -c General -r 0,                1s,              1ddc-6f5d
+/examples/can/bitStuffing/fiftyPercent/,                         -f omnetpp.ini -c General -r 0,                1s,              ed3c-f245
+/examples/can/bitStuffing/worstCase/,                            -f omnetpp.ini -c General -r 0,                1s,              3dbf-039f

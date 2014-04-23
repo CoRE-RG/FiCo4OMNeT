@@ -35,6 +35,10 @@ void CanPortOutput::initialize() {
     initializeStatisticValues();
 }
 
+//void CanPortOutput::collectStats(){
+//
+//}
+
 void CanPortOutput::finish(){
 //    collectStats();
 }
@@ -44,15 +48,6 @@ void CanPortOutput::initializeStatisticValues(){
     sentRFSignal = registerSignal("sentRF");
     sendErrorsSignal = registerSignal("sendError");
     receiveErrorsSignal = registerSignal("receiveError");
-//    dataFramesSent = 0;
-//    errorFramesSent = 0;
-//    WATCH(dataFramesSent);
-//    WATCH(errorFramesSent);
-}
-
-void CanPortOutput::collectStats(){
-//    recordScalar("#sentDF", dataFramesSent);
-//    recordScalar("#sentEF", errorFramesSent);
 }
 
 void CanPortOutput::handleMessage(cMessage *msg) {

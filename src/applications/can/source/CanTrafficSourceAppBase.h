@@ -80,14 +80,9 @@ private:
     string canVersion;
 
     /**
-     * @brief Method which is used to simulate the bitstuffing: 0 = no bitstuffing, 1 = worst case, 2 = percentage, 3 = original
+     * @brief Value for the percentage distribution for bit stuffing. Valid values 0 to 1.
      */
-    int bitStuffingMethod;
-
-    /**
-     * @brief Value for the percentage distribution for bit stuffing
-     */
-    int bitStuffingPercentage;
+    double bitStuffingPercentage;
 
     /**
      * @brief Creates a data frame which will be queued in the buffer.

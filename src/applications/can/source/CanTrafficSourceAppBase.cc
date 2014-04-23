@@ -17,7 +17,6 @@
 
 void CanTrafficSourceAppBase::initialize() {
     canVersion = getParentModule()->par("version").stdstringValue();
-    bitStuffingMethod = getParentModule()->par("bitStuffingMethod");
     bitStuffingPercentage = getParentModule()->par("bitStuffingPercentage");
     initialDataFrameCreation();
     initialRemoteFrameCreation();
@@ -109,25 +108,14 @@ int CanTrafficSourceAppBase::calculateLength(int dataLength) {
     if (canVersion.compare("2.0B") == 0) {
         arbFieldLength += ARBITRATIONFIELD29BIT;
     }
-    return (arbFieldLength + DATAFRAMECONTROLBITS + (dataLength * 8) + calculateStuffingBits(dataLength, arbFieldLength));
+    return (arbFieldLength + DATAFRAMECONTROLBITS + (dataLength * 8)
+            + calculateStuffingBits(dataLength, arbFieldLength));
 }
 
-int CanTrafficSourceAppBase::calculateStuffingBits(int dataLength, int arbFieldLength){
-    switch(bitStuffingMethod){
-        //no bitstuffing:
-        case 0: return 0;
-        //worst case:
-        case 1: return ((CONTROLBITSFORBITSTUFFING + arbFieldLength + (dataLength * 8) - 1) / 4);  //Der hintere Teil steht fuer die Stopfbits
-        break;
-        //percentage:
-        case 2: return (((CONTROLBITSFORBITSTUFFING + arbFieldLength + (dataLength * 8) - 1) / 4) * ((double)bitStuffingPercentage/100));
-        break;
-        //original:
-        case 3: return 0; //TODO implement original bit stuffing
-        break;
-        default: return 0;
-        break;
-    }
+int CanTrafficSourceAppBase::calculateStuffingBits(int dataLength,
+        int arbFieldLength) {
+    return (((CONTROLBITSFORBITSTUFFING + arbFieldLength + (dataLength * 8) - 1)
+            / 4) * bitStuffingPercentage);
 }
 
 void CanTrafficSourceAppBase::dataFrameTransmission(CanDataFrame *df) {
@@ -136,8 +124,9 @@ void CanTrafficSourceAppBase::dataFrameTransmission(CanDataFrame *df) {
         outgoingFrame = df->dup();
         scheduleAt(simTime() + (df->getPeriod() / 1000.), df);
     } else if (df->arrivedOn("remoteIn")) {
-        for (std::vector<CanDataFrame*>::iterator it = outgoingDataFrames.begin();
-                it != outgoingDataFrames.end(); ++it) {
+        for (std::vector<CanDataFrame*>::iterator it =
+                outgoingDataFrames.begin(); it != outgoingDataFrames.end();
+                ++it) {
             CanDataFrame *tmp = *it;
             if (tmp->getCanID() == df->getCanID()) {
                 outgoingFrame = tmp->dup();

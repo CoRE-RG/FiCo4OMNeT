@@ -44,6 +44,8 @@ protected:
      */
     virtual void initialize();
 
+//    virtual void collectStats();
+
     virtual void finish();
 
     /**
@@ -102,11 +104,6 @@ private:
      * @brief Initializes the values needed for the stats collection.
      */
     virtual void initializeStatisticValues();
-
-    /**
-     * @brief Generates the values for the statistics
-     */
-    virtual void collectStats();
 
     /**
      * @brief Calculates when the frame is ready to be forwarded based on the number of bits.
