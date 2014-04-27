@@ -1,0 +1,19 @@
+- (Till) change bandwidth from:
+  double bandwidth @unit(Mbps) = default(1Mbps)
+  to
+  double bandwidth @unit(bps) = default(1Mbps)
+  remove all "*1000*1000" form Logic! Conversion is unncecessary!
+
+- (Till) Add statistics to all buffers and applications for incoming and outgoing packets
+
+- (Till) Check module distructors: (ErrorFrame in canPortOutput) and (CanDataFrame in bufferOut)
+
+- (Till) packet CanDataFrame (candataframe.msg) cleanup, this should only contain the real data of the frame!
+- (Till) rename candataframe.msg to CanDataFrame.msg
+
+- (Till) packet ErrorFrame (err.msg) cleanup, this should only contain the real data of the frame!
+- (Till) rename err.msg to ErrorFrame.msg
+
+- (Till) compile with -wall and -werr
+
+- (Till) NED: CanNodePort must extend NodePort
