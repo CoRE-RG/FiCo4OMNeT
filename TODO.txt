@@ -1,19 +1,21 @@
-- (Till) change bandwidth from:
+- (added by Till) change bandwidth from:
   double bandwidth @unit(Mbps) = default(1Mbps)
   to
   double bandwidth @unit(bps) = default(1Mbps)
   remove all "*1000*1000" form Logic! Conversion is unncecessary!
 
-- (Till) Add statistics to all buffers and applications for incoming and outgoing packets
+- (added by Till) Add statistics to all buffers and applications for incoming and outgoing packets
 
-- (Till) Check module distructors: (ErrorFrame in canPortOutput) and (CanDataFrame in bufferOut)
+- (added by Till) Check module distructors: (ErrorFrame in canPortOutput) and (CanDataFrame in bufferOut)
 
-- (Till) packet CanDataFrame (candataframe.msg) cleanup, this should only contain the real data of the frame!
-- (Till) rename candataframe.msg to CanDataFrame.msg
+- (added by Till) packet CanDataFrame (candataframe.msg) cleanup, this should only contain the real data of the frame!
+- (added by Till) rename candataframe.msg to CanDataFrame.msg
 
-- (Till) packet ErrorFrame (err.msg) cleanup, this should only contain the real data of the frame!
-- (Till) rename err.msg to ErrorFrame.msg
+- (added by Till) packet ErrorFrame (err.msg) cleanup, this should only contain the real data of the frame!
+- (added by Till) rename err.msg to ErrorFrame.msg
 
-- (Till) compile with -wall and -werr
+- (added by Till) compile with -wall and -werr
 
-- (Till) NED: CanNodePort must extend NodePort
+- (added by Till) NED: CanNodePort must extend NodePort
+
+- (added by Till) Rename the whole Project: I (Till) can do that, tell me when I can access the code!
