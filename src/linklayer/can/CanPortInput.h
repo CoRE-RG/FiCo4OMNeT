@@ -85,11 +85,6 @@ private:
     double bandwidth;
 
     /**
-     * true if errors are activated. Initialized from ned-attribute of CAN-Node.
-     */
-    bool errorsActivated;
-
-    /**
      * if errors = true then this is the amount of errors appearing on the node in percent. Initialized from ned-attribute of CAN-Node
      *
      */

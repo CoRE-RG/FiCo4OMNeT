@@ -19,9 +19,8 @@ void CanBusLogic::initialize() {
     getDisplayString().setTagArg("tt", 0, buf);
     scheduledDataFrame = new CanDataFrame();
 
-    errorsActivated = getParentModule()->par("errorsActivated");
     bandwidth = getParentModule()->par("bandwidth");
-    EV<<(bandwidth / (1024*1024))<<"\n";
+//    EV<<(bandwidth / (1024*1024))<<"\n";
 }
 
 void CanBusLogic::finish() {
@@ -62,31 +61,6 @@ void CanBusLogic::handleMessage(cMessage *msg) {
 
     delete msg;
 }
-
-//void CanBusLogic::checkAcknowledgementReception(ArbMsg *am) {
-//    if (ack_rcvd) {
-//        EV<< "Nachricht bestaetigt" << endl;
-//        ArbMsg *newam = new ArbMsg("SendingComplete");
-//        newam->setNode(am->getNode());
-//        newam->setId(am->getId());
-//        scheduleAt(simTime() + (11 / (double) bandwidth),
-//                newam);
-//        stateok = false;
-//    } else {
-//        EV << "Nachricht nicht bestaetigt" << endl;
-//        AckMsg *newam = new AckMsg("SendingFailed");
-//        newam->setAck(false);
-//        newam->setId(am->getId());
-//        BusPort *port = (BusPort*) (getParentModule()->getSubmodule("busPort"));
-//        port->sendMsgToNode(newam, am->getNode());
-//        ArbMsg *sp = new ArbMsg("SendingPermission");
-//        sp->setSignInTime(currsit);
-//        sp->setId(am->getId());
-//        sp->setRemotesent(true);
-//        port->sendMsgToNode(sp, am->getNode());
-//    }
-//    delete am;
-//}
 
 void CanBusLogic::grantSendingPermission() {
     currentSendingID = INT_MAX;
@@ -153,8 +127,7 @@ void CanBusLogic::handleDataFrame(cMessage *msg) {
     EV<<"dataframe mit canid: " << df->getCanID() << " empfangen \n";
     int length = df->getLength();
     double nextidle;
-    nextidle = (double) length / (bandwidth * 1000 * 1000);
-//    nextidle = (double) length / (bandwidth * 1024 * 1024);
+    nextidle = (double) length / (bandwidth);
     //TODO Der naechste Idle-Zustand ist eigentlich die (berechnete Zeit - 1), aber hier ist wieder die Sicherheits-Bitzeit mit verrechnet; Ist das so?
     if (scheduledDataFrame != NULL) {
         cancelEvent(scheduledDataFrame);
@@ -179,8 +152,8 @@ void CanBusLogic::handleErrorFrame(cMessage *msg) {
     if (!errored) {
         numErrorFrames++;
         ErrorFrame *ef2 = new ErrorFrame();
-        scheduleAt(simTime() + (12 / (bandwidth * 1000 * 1000)), ef2); //12 - maximale L�nge eines Error-Frames
-//        scheduleAt(simTime() + (12 / (bandwidth * 1024 * 1024)), ef2); //12 - maximale L�nge eines Error-Frames
+//        scheduleAt(simTime() + (12 / (bandwidth * 1000 * 1000)), ef2); //12 - maximale L�nge eines Error-Frames
+        scheduleAt(simTime() + (12 / (bandwidth)), ef2); //12 - maximale L�nge eines Error-Frames
         emit(rcvdEFSignal, ef2);
         errored = true;
         send(msg->dup(), "gate$o");
@@ -194,9 +167,7 @@ void CanBusLogic::registerForArbitration(int id, cModule *node,
     ids.push_back(new CanID(id, node, signInTime, rtr));
     if (idle) {
         cMessage *self = new cMessage("idle_signin");
-//        scheduleAt(simTime(), self); //TODO was hat das mit dieser +1 auf sich?
-        scheduleAt(simTime() + (1 /  (bandwidth * 1000 * 1000)), self); //TODO was hat das mit dieser +1 auf sich?
-//        scheduleAt(simTime() + (1 /  (bandwidth * 1024 * 1024)), self); //TODO was hat das mit dieser +1 auf sich?
+        scheduleAt(simTime() + (1 /  (bandwidth)), self); //TODO was hat das mit dieser +1 auf sich?
         idle = false;
         busytimestamp = simTime();
         char buf[64];

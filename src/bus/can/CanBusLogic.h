@@ -166,11 +166,6 @@ private:
      */
     bool payload;
     /**
-     * true if errors are activated. Initialized from ned-attribute of CAN-Bus
-     *
-     */
-    bool errorsActivated;
-    /**
      * true ich ack-recognition of receiving nodes is activated. Initialized from ned-attribute of CAN-Bus
      *
      */

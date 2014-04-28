@@ -28,7 +28,6 @@ void CanPortInput::initialize() {
     outgoingRemoteFrameIDs = idIncomingRemoteFramesTokenizer.asIntVector();
 
     bandwidth = getParentModule()->getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->par("bandwidth");
-    errorsActivated = getParentModule()->getParentModule()->par("errorsActivated");
     errorperc = getParentModule()->getParentModule()->par("errorperc");
 
     scheduledDataFrame = NULL;
@@ -68,7 +67,7 @@ void CanPortInput::handleMessage(cMessage *msg) {
         CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
         if (checkExistence(df)) {
             int rcverr = intuniform(0, 99);
-            if (errorsActivated && (rcverr < errorperc)) {
+            if (rcverr < errorperc) {
                 generateReceiveError(df);
             } else {
                 receiveMessage(df);
@@ -154,8 +153,8 @@ bool CanPortInput::checkIncomingDataFrames(int id) {
 }
 
 double CanPortInput::calculateScheduleTiming(int length) {
-    return ((double) length) / (bandwidth * 1000 * 1000);
-//    return ((double) length) / (bandwidth * 1024 * 1024);
+//    return ((double) length) / (bandwidth * 1000 * 1000);
+    return ((double) length) / (bandwidth);
 }
 
 void CanPortInput::forwardDataFrame(CanDataFrame *df) {

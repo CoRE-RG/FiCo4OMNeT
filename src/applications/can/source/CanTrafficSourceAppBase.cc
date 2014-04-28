@@ -18,8 +18,21 @@
 void CanTrafficSourceAppBase::initialize() {
     canVersion = getParentModule()->par("version").stdstringValue();
     bitStuffingPercentage = getParentModule()->par("bitStuffingPercentage");
+    checkParameterValues();
+
     initialDataFrameCreation();
     initialRemoteFrameCreation();
+}
+
+void CanTrafficSourceAppBase::checkParameterValues(){
+    if (bitStuffingPercentage < 0 || bitStuffingPercentage > 1) {
+        EV << "The value for the parameter \"bitStuffingPercentage\" is not permitted. Permitted values are from 0 to 1.";
+        endSimulation();
+    }
+    if (canVersion.compare("2.0A") != 0 && canVersion.compare("2.0B") != 0) {
+            EV << "The value for the parameter \"canVersion\" is not permitted. Permitted values are \"2.0B\" and \"2.0A\".";
+            endSimulation();
+        }
 }
 
 void CanTrafficSourceAppBase::handleMessage(cMessage *msg) {

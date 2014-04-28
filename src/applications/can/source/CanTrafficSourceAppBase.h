@@ -39,6 +39,11 @@ protected:
     virtual void initialize();
 
     /**
+     * @brief This method checks whether the configured values from the ini files are permitted.
+     */
+    virtual void checkParameterValues();
+
+    /**
      * @brief Self messages are processed and outgoing frames are built.
      *
      * @param msg incoming self message
