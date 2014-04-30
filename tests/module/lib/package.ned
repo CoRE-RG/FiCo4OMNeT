@@ -15,4 +15,4 @@
 package test.modul;
 
 @license(LGPL);
-@namespace(CoRE4INET);
+@namespace(FiCo4OMNeT);
