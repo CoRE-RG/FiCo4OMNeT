@@ -13,9 +13,9 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package busmodel.applications.flexray.source;
+package fico4omnet.applications.flexray.source;
 
-import busmodel.applications.ISourceApplication;
+import fico4omnet.applications.ISourceApplication;
 
 simple FRTrafficSourceAppBase like ISourceApplication
 {

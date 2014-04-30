@@ -15,6 +15,10 @@
 
 #include "CanPortOutput.h"
 
+namespace FiCo4OMNeT {
+
+Define_Module(CanPortOutput);
+
 void CanPortOutput::handleReceivedErrorFrame() {
     errorReceived = true;
     if (scheduledErrorFrame != NULL && scheduledErrorFrame->isScheduled()) {
@@ -123,4 +127,6 @@ void CanPortOutput::colorError(){
     getParentModule()->getParentModule()->gate("gate$i")->getDisplayString().setTagArg("ls", 1, "3");
     getParentModule()->getParentModule()->gate("gate$i")->getPreviousGate()->getDisplayString().setTagArg("ls", 0, "red");
     getParentModule()->getParentModule()->gate("gate$i")->getPreviousGate()->getDisplayString().setTagArg("ls", 1, "3");
+}
+
 }

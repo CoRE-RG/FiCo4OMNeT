@@ -13,11 +13,11 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package busmodel.linklayer.flexray;
+package fico4omnet.linklayer.flexray;
 
-import busmodel.linklayer.flexray.FRPortInput;
-import busmodel.linklayer.flexray.FRPortOutput;
-import busmodel.linklayer.NodePort;
+import fico4omnet.linklayer.flexray.FRPortInput;
+import fico4omnet.linklayer.flexray.FRPortOutput;
+import fico4omnet.linklayer.NodePort;
 
 module FRNodePort
 {

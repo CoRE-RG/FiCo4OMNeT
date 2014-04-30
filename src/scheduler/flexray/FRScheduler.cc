@@ -15,6 +15,8 @@
 
 #include "FRScheduler.h"
 
+namespace FiCo4OMNeT {
+
 Define_Module( FRScheduler);
 
 simsignal_t FRScheduler::newCycle = SIMSIGNAL_NULL;
@@ -25,7 +27,7 @@ void FRScheduler::initialize() {
     maxDriftChange = getParentModule()->par("maxDriftChange").doubleValue(); //[]
     maxDrift = getParentModule()->par("maxDrift").doubleValue(); //[]
     pdMicrotick = getParentModule()->par("pdMicrotick").doubleValue(); //[ns]
-    gdMacrotick = getParentModule()->par("gdMacrotick").doubleValue(); //[µs]
+    gdMacrotick = getParentModule()->par("gdMacrotick").doubleValue(); //[ï¿½s]
     gdStaticSlot = getParentModule()->par("gdStaticSlot"); //[MT]
     gdMinislot = getParentModule()->par("gdMinislot"); //[MT]
     gdNIT = getParentModule()->par("gdNIT"); //[MT]
@@ -397,4 +399,6 @@ int FRScheduler::calculateDeviationValue() {
                     + ((getSlotCounter() - 1) * gdStaticSlot
                             + gdActionPointOffset) * gdMacrotick)).dbl())
             / currentTick;
+}
+
 }

@@ -15,6 +15,10 @@
 
 #include "FRInputBuffer.h"
 
+namespace FiCo4OMNeT {
+
+Define_Module(FRInputBuffer);
+
 void FRInputBuffer::putFrame(cMessage* msg) {
     FRFrame *frame = dynamic_cast<FRFrame*>(msg);
     if (getFrame(frame->getFrameID()) != NULL) {
@@ -24,4 +28,6 @@ void FRInputBuffer::putFrame(cMessage* msg) {
         sendDirect(new cMessage("Message in buffer"), sinkApp, "controllerIn");
     }
     frames.push_back(frame);
+}
+
 }

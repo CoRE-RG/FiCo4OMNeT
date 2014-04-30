@@ -13,7 +13,7 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package busmodel.linklayer;
+package fico4omnet.linklayer;
 
 simple NodePort
 {

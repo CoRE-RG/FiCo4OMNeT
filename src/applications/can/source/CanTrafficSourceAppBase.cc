@@ -15,6 +15,10 @@
 
 #include "CanTrafficSourceAppBase.h"
 
+namespace FiCo4OMNeT {
+
+Define_Module(CanTrafficSourceAppBase);
+
 void CanTrafficSourceAppBase::initialize() {
     canVersion = getParentModule()->par("version").stdstringValue();
     bitStuffingPercentage = getParentModule()->par("bitStuffingPercentage");
@@ -49,7 +53,7 @@ void CanTrafficSourceAppBase::initialRemoteFrameCreation() {
 
     if (par("idRemoteFrames").stdstringValue() != "0") {
         cStringTokenizer remoteFrameIDsTokenizer(par("idRemoteFrames"), ",");
-        vector<int> remoteFrameIDs = remoteFrameIDsTokenizer.asIntVector();
+        std::vector<int> remoteFrameIDs = remoteFrameIDsTokenizer.asIntVector();
         cStringTokenizer remoteFramesPeriodicityTokenizer(
                 par("periodicityRemoteFrames"), ",");
 
@@ -87,7 +91,7 @@ void CanTrafficSourceAppBase::initialDataFrameCreation() {
     if (par("idDataFrames").stdstringValue() != "0") {
         cStringTokenizer dataFrameIDsTokenizer(
                 par("idDataFrames"), ",");
-        vector<int> dataFrameIDs = dataFrameIDsTokenizer.asIntVector();
+        std::vector<int> dataFrameIDs = dataFrameIDsTokenizer.asIntVector();
 
         cStringTokenizer dataFramesPeriodicityTokenizer(
                 par("periodicityDataFrames"), ",");
@@ -168,4 +172,6 @@ void CanTrafficSourceAppBase::dataFrameTransmission(CanDataFrame *df) {
     }
     outgoingFrame->setStartTime(simTime());
     send(outgoingFrame, "out");
+}
+
 }

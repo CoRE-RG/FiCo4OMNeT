@@ -15,6 +15,10 @@
 
 #include "CanPortInput.h"
 
+namespace FiCo4OMNeT {
+
+Define_Module(CanPortInput);
+
 void CanPortInput::initialize() {
 
     cStringTokenizer idIncomingFramesTokenizer(
@@ -162,7 +166,7 @@ void CanPortInput::forwardDataFrame(CanDataFrame *df) {
         }
     } else {
         for (std::vector<int>::iterator it = incomingDataFrameIDs.begin();
-                it != incomingDataFrameIDs.end(); ++it) { //TODO muss ich hier noch drauf überprüfen? eigentlich mache ich das glaube ich schon beim empfang des frames
+                it != incomingDataFrameIDs.end(); ++it) { //TODO muss ich hier noch drauf ï¿½berprï¿½fen? eigentlich mache ich das glaube ich schon beim empfang des frames
             if (*it == df->getCanID()) {
                 emit(rcvdDFSignal, df);
                 send(df->dup(), "out");
@@ -207,4 +211,6 @@ void CanPortInput::registerOutgoingRemoteFrame(int canID){
     it = outgoingRemoteFrameIDs.begin();
     it = outgoingRemoteFrameIDs.insert(it, canID);
 //    outgoingRemoteFrameIDs.insert(canID);
+}
+
 }

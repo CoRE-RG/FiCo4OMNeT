@@ -13,7 +13,7 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package busmodel.scheduler.flexray;
+package fico4omnet.scheduler.flexray;
 
 
 simple FRScheduler

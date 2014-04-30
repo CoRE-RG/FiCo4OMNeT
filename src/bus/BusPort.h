@@ -13,13 +13,13 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef BUSPORT_H_
-#define BUSPORT_H_
+#ifndef __FICO4OMNET_BUSPORT_H_
+#define __FICO4OMNET_BUSPORT_H_
 
 #include <omnetpp.h>
 //#include "CanBusLogic.h"
 
-using namespace std;
+namespace FiCo4OMNeT {
 
 /**
  * @brief Represents the connection between the bus and all connected nodes.
@@ -56,6 +56,6 @@ class BusPort : public cSimpleModule {
         virtual void sendMsgToNode(cMessage *msg, int id);
 };
 
-Define_Module(BusPort);
+}
 
 #endif /* BUSPORT_H_ */

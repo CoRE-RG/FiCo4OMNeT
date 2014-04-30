@@ -15,6 +15,10 @@
 
 #include "NodePort.h"
 
+namespace FiCo4OMNeT {
+
+Define_Module(NodePort);
+
 void NodePort::handleMessage(cMessage *msg) {
     if (msg->arrivedOn("phygate$i")) {
         send(msg, "upperLayerOut");
@@ -27,4 +31,6 @@ void NodePort::sendMsgToBus(cMessage *msg){ //TODO needed?
     Enter_Method_Silent();
     take(msg);
     send(msg, "phygate$o");
+}
+
 }

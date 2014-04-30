@@ -13,12 +13,12 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef FRTOPOLOGYPORT_H_
-#define FRTOPOLOGYPORT_H_
+#ifndef __FICO4OMNET_FRTOPOLOGYPORT_H_
+#define __FICO4OMNET_FRTOPOLOGYPORT_H_
 
 #include <omnetpp.h>
 
-using namespace std;
+namespace FiCo4OMNeT {
 
 class FRTopologyPort : public cSimpleModule {
 
@@ -33,5 +33,8 @@ class FRTopologyPort : public cSimpleModule {
          */
         virtual void handleMessage(cMessage *msg);
 };
+
+
+}
 
 #endif /* FRTOPOLOGYPORT_H_ */

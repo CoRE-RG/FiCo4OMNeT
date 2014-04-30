@@ -13,11 +13,13 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef FRINPUTBUFFER_H_
-#define FRINPUTBUFFER_H_
+#ifndef __FICO4OMNET_FRINPUTBUFFER_H_
+#define __FICO4OMNET_FRINPUTBUFFER_H_
 
 #include <omnetpp.h>
 #include "FRBuffer.h"
+
+namespace FiCo4OMNeT {
 
 /**
  * @brief This buffer holds messages which were received by this node.
@@ -37,5 +39,6 @@ public:
      */
     virtual void putFrame(cMessage* msg);
 };
-Define_Module(FRInputBuffer);
+
+}
 #endif /* FRINPUTBUFFER_H_ */

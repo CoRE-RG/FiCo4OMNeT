@@ -13,8 +13,8 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef FRTRAFFICSOURCEAPPBASE_H_
-#define FRTRAFFICSOURCEAPPBASE_H_
+#ifndef __FICO4OMNET_FRTRAFFICSOURCEAPPBASE_H_
+#define __FICO4OMNET_FRTRAFFICSOURCEAPPBASE_H_
 
 #include <omnetpp.h>
 #include <string.h>
@@ -23,7 +23,7 @@
 #include "FRBuffer.h"
 #include "FRFrame_m.h"
 
-using namespace std;
+namespace FiCo4OMNeT {
 
 /**
  * @brief Traffic source application used to generate outgoing messages.
@@ -57,12 +57,12 @@ private:
     /**
      * @brief Collection including all outgoing static frames.
      */
-    vector<FRFrame*> outgoingStaticFrames;
+    std::vector<FRFrame*> outgoingStaticFrames;
 
     /**
      * @brief Collection including all outgoing dynamic frames.
      */
-    vector<FRFrame*> outgoingDynamicFrames;
+    std::vector<FRFrame*> outgoingDynamicFrames;
 
     /**
      * @brief Number of the current cycle.
@@ -104,6 +104,6 @@ private:
 
     void transmitFrame(FRFrame *frMsg);
 };
-Define_Module(FRTrafficSourceAppBase)
-;
+
+}
 #endif /* FRTRAFFICSOURCEAPPBASE_H_ */

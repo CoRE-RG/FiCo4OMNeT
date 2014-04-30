@@ -1,5 +1,7 @@
 #include "FRBuffer.h"
 
+namespace FiCo4OMNeT {
+
 void FRBuffer::initialize(){
 }
 
@@ -69,4 +71,6 @@ void FRBuffer::deliverNextFrame() {
 
 void FRBuffer::sendToDestinationGates(FRFrame *df) {
     send(df,"out");
+}
+
 }

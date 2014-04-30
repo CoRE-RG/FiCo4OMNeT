@@ -13,9 +13,9 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package busmodel.applications.can.sink;
+package fico4omnet.applications.can.sink;
 
-import busmodel.applications.ISinkApplication;
+import fico4omnet.applications.ISinkApplication;
 
 //
 // Received data frames are processed in this module. When the input buffer receives a frame, 

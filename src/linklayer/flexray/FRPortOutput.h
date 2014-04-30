@@ -13,11 +13,13 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef FRPORTOUTPUT_H_
-#define FRPORTOUTPUT_H_
+#ifndef __FICO4OMNET_FRPORTOUTPUT_H_
+#define __FICO4OMNET_FRPORTOUTPUT_H_
 
 #include <omnetpp.h>
 #include <FRFrame_m.h>
+
+namespace FiCo4OMNeT {
 
 class FRPortOutput: public cSimpleModule {
 public:
@@ -74,5 +76,6 @@ private:
     virtual void colorIdle();
 
 };
-Define_Module(FRPortOutput);
+
+}
 #endif /* FRPORTOUTPUT_H_ */

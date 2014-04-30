@@ -1,3 +1,4 @@
+namespace FiCo4OMNeT;
 
 // Used for error signaling
 // 

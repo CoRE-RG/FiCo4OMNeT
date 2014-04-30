@@ -1,3 +1,4 @@
+namespace FiCo4OMNeT;
 
 // Represents a data-frame
 //

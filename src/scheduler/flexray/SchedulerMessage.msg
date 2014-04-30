@@ -1,4 +1,4 @@
-namespace std;
+namespace FiCo4OMNeT;
 
 //
 // abstract base message for TTEScheduler.

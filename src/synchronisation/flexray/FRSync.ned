@@ -1,4 +1,4 @@
-package busmodel.synchronisation.flexray;
+package fico4omnet.synchronisation.flexray;
 
 //
 // Dummy synchronisation module that corrects the clock with a certain imprecission.

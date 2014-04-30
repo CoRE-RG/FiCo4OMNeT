@@ -13,12 +13,14 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef CANINPUTBUFFER_H_
-#define CANINPUTBUFFER_H_
+#ifndef __FICO4OMNET_CANINPUTBUFFER_H_
+#define __FICO4OMNET_CANINPUTBUFFER_H_
 
 #include <omnetpp.h>
 #include "CanBuffer.h"
 
+
+namespace FiCo4OMNeT {
 /**
  * @brief This buffer holds messages which were received by this node.
  *
@@ -37,5 +39,6 @@ public:
      */
     virtual void putFrame(cMessage* msg);
 };
-Define_Module(CanInputBuffer);
+
+}
 #endif /* CANINPUTBUFFER_H_ */

@@ -13,9 +13,9 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package busmodel.applications.flexray.sink;
+package fico4omnet.applications.flexray.sink;
 
-import busmodel.applications.ISinkApplication;
+import fico4omnet.applications.ISinkApplication;
 
 simple FRTrafficSinkAppBase like ISinkApplication
 {

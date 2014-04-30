@@ -13,9 +13,9 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package busmodel.buffer.flexray;
+package fico4omnet.buffer.flexray;
 
-import busmodel.buffer.flexray.FRBuffer;
+import fico4omnet.buffer.flexray.FRBuffer;
 
 simple FROutputBuffer like FRBuffer
 {

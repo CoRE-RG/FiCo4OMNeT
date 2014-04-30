@@ -13,16 +13,16 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef CANTRAFFICSOURCEAPPBASE_H_
-#define CANTRAFFICSOURCEAPPBASE_H_
+#ifndef __FICO4OMNET_CANTRAFFICSOURCEAPPBASE_H_
+#define __FICO4OMNET_CANTRAFFICSOURCEAPPBASE_H_
 
 #include <omnetpp.h>
 #include <string.h>
 #include "CanBuffer.h"
 #include "CanPortInput.h"
-#include "candataframe_m.h"
+#include "CanDataFrame_m.h"
 
-using namespace std;
+namespace FiCo4OMNeT {
 
 /**
  * @brief Traffic source application used to generate outgoing messages.
@@ -83,7 +83,7 @@ private:
     /**
      * @brief The version of CAN used in this network. 2.0A or 2.0B
      */
-    string canVersion;
+    std::string canVersion;
 
     /**
      * @brief Value for the percentage distribution for bit stuffing. Valid values 0 to 1.
@@ -103,7 +103,7 @@ private:
     /**
      * @brief Collection including all
      */
-    vector<CanDataFrame*> outgoingDataFrames;
+    std::vector<CanDataFrame*> outgoingDataFrames;
 
     /**
      * @brief Creates a data frame which will be queued in the buffer.
@@ -135,6 +135,5 @@ private:
      */
     void dataFrameTransmission(CanDataFrame *df);
 };
-Define_Module(CanTrafficSourceAppBase)
-;
+}
 #endif /* CANTRAFFICSOURCEAPPBASE_H_ */

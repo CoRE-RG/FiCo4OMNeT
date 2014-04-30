@@ -1,11 +1,11 @@
-#ifndef CANBUFFER_H_
-#define CANBUFFER_H_
+#ifndef __FICO4OMNET_CANBUFFER_H_
+#define __FICO4OMNET_CANBUFFER_H_
 
 #include <stdio.h>
 #include <string.h>
 #include <omnetpp.h>
 #include "Buffer.h"
-#include "candataframe_m.h"
+#include "CanDataFrame_m.h"
 
 /**
  * @brief Represents the content of a physical buffer on a CAN_Node 
@@ -17,7 +17,7 @@
  *
  */
 
-using namespace std;
+namespace FiCo4OMNeT {
 
 /**
  * @brief Base class for the input and output buffer for CAN nodes.
@@ -110,5 +110,5 @@ private:
     virtual void sendToDestinationGates(CanDataFrame *msg);
 };
 
-//Define_Module(Buffer);
+}
 #endif

@@ -15,6 +15,10 @@
 
 #include "FRPortOutput.h"
 
+namespace FiCo4OMNeT {
+
+Define_Module(FRPortOutput);
+
 void FRPortOutput::initialize() {
     bandwidth = getParentModule()->getParentModule()->par("bandwidth");
     initializeStatisticValues();
@@ -64,4 +68,6 @@ void FRPortOutput::colorIdle() {
             "ls", 0, "black");
     getParentModule()->getParentModule()->gate("gate$i")->getPreviousGate()->getDisplayString().setTagArg(
             "ls", 1, "1");
+}
+
 }

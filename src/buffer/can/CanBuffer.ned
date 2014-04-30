@@ -13,9 +13,9 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package busmodel.buffer.can;
+package fico4omnet.buffer.can;
 
-import busmodel.buffer.Buffer;
+import fico4omnet.buffer.Buffer;
 
 moduleinterface CanBuffer extends Buffer
 {

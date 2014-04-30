@@ -13,7 +13,7 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package busmodel.bus;
+package fico4omnet.bus;
 
 //
 // The bus port simulates the physical connection between the clients and the bus.

@@ -13,7 +13,7 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package busmodel.bus.flexray;
+package fico4omnet.bus.flexray;
 
 
 simple FRTopologyPort

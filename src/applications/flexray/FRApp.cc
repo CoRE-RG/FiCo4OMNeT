@@ -15,6 +15,8 @@
 
 #include "FRApp.h"
 
+namespace FiCo4OMNeT {
+
 Define_Module(FRApp);
 
 void FRApp::initialize() {
@@ -95,4 +97,6 @@ void FRApp::setMaxRandom(int max){
 
 int FRApp::randomSize(){
     return intuniform(0,maxRandom);
+}
+
 }

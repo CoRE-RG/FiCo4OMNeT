@@ -13,8 +13,8 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef FRBUSLOGIC_H_
-#define FRBUSLOGIC_H_
+#ifndef __FICO4OMNET_FRBUSLOGIC_H_
+#define __FICO4OMNET_FRBUSLOGIC_H_
 
 #include <stdio.h>
 #include <string.h>
@@ -22,7 +22,8 @@
 #include <limits>
 #include "BusPort.h"
 
-using namespace std;
+namespace FiCo4OMNeT {
+
 /**
  * @brief Represents the logic of the bus. It provides several statistic values.
  *
@@ -71,7 +72,6 @@ private:
     virtual void colorError();
 };
 
-Define_Module(FRBusLogic)
-;
+}
 
 #endif /* FRBUSAPP_H_ */

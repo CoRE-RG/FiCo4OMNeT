@@ -13,8 +13,8 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef FROUTPUTBUFFER_H_
-#define FROUTPUTBUFFER_H_
+#ifndef __FICO4OMNET_FROUTPUTBUFFER_H_
+#define __FICO4OMNET_FROUTPUTBUFFER_H_
 
 #include <stdio.h>
 #include <string.h>
@@ -22,7 +22,7 @@
 #include "FRBuffer.h"
 #include "SchedulerMessageEvents_m.h"
 
-using namespace std;
+namespace FiCo4OMNeT {
 
 /**
  * @brief This buffer holds messages which will be sent to the bus.
@@ -61,6 +61,7 @@ protected:
      */
     virtual void handleMessage(cMessage *msg);
 };
-Define_Module(FROutputBuffer);
+
+}
 
 #endif /* FROUTPUTBUFFER_H_ */

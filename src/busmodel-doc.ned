@@ -60,4 +60,4 @@
 //
 //
 
-package busmodel;
+package fico4omnet;

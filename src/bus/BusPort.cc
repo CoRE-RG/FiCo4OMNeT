@@ -15,6 +15,10 @@
 
 #include "BusPort.h"
 
+namespace FiCo4OMNeT {
+
+Define_Module(BusPort);
+
 void BusPort::handleMessage(cMessage *msg) {
     if (msg->arrivedOn("innerGate$i")) {
         forward_to_all(msg);
@@ -37,4 +41,6 @@ void BusPort::sendMsgToNode(cMessage *msg, int id){
     Enter_Method_Silent();
     take(msg);
     send(msg, "phygate$o", id);
+}
+
 }

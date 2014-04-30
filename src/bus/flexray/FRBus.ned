@@ -13,10 +13,10 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package busmodel.bus.flexray;
+package fico4omnet.bus.flexray;
 
-import busmodel.bus.BusPort;
-import busmodel.bus.flexray.FRBusLogic;
+import fico4omnet.bus.BusPort;
+import fico4omnet.bus.flexray.FRBusLogic;
 
 module FRBus
 {

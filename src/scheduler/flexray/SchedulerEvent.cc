@@ -1,6 +1,6 @@
 #include "SchedulerEvent.h"
 
-
+namespace FiCo4OMNeT {
 
 Register_Class( SchedulerEvent);
 
@@ -12,4 +12,6 @@ cGate* SchedulerEvent::getDestinationGate() const
 void SchedulerEvent::setDestinationGate(cGate *destinationGate_var)
 {
     this->destinationGate_var = destinationGate_var;
+}
+
 }

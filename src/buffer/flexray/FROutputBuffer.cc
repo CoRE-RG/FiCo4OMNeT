@@ -15,6 +15,10 @@
 
 #include "FROutputBuffer.h"
 
+namespace FiCo4OMNeT {
+
+Define_Module(FROutputBuffer);
+
 void FROutputBuffer::putFrame(cMessage* msg) {
     FRFrame *frame = dynamic_cast<FRFrame*>(msg);
     if (getFrame(frame->getFrameID()) != NULL) {
@@ -35,4 +39,6 @@ void FROutputBuffer::handleMessage(cMessage *msg){
     } else {
         FRBuffer::handleMessage(msg);
     }
+}
+
 }

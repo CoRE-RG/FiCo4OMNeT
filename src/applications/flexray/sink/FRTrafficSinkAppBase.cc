@@ -15,6 +15,10 @@
 
 #include "FRTrafficSinkAppBase.h"
 
+namespace FiCo4OMNeT {
+
+Define_Module(FRTrafficSinkAppBase);
+
 void FRTrafficSinkAppBase::initialize() {
     idle = true;
     currentFrameID = 0;
@@ -29,15 +33,15 @@ void FRTrafficSinkAppBase::handleMessage(cMessage *msg) {
             requestFrame();
         }
 //    } else if (msgClass.compare("CanDataFrame") == 0) {
-    } else if (FRFrame * frame = dynamic_cast<FRFrame *> (msg)) {
+    } else if (FRFrame * frame = dynamic_cast<FRFrame *>(msg)) {
 //        FRFrame *frame = check_and_cast<FRFrame *>(msg);
         int i = frame->getFrameID();
         currentFrameID = i;
         bufferMessageCounter--;
         startWorkOnFrame(0); //TODO working time
     } else if (msg->isSelfMessage()) {
-        FRInputBuffer *buffer = (FRInputBuffer*) (getParentModule()->getSubmodule(
-                "bufferIn"));
+        FRInputBuffer *buffer =
+                (FRInputBuffer*) (getParentModule()->getSubmodule("bufferIn"));
         buffer->deleteFrame(currentFrameID);
         if (bufferMessageCounter > 0) {
             requestFrame();
@@ -58,4 +62,6 @@ void FRTrafficSinkAppBase::requestFrame() {
 void FRTrafficSinkAppBase::startWorkOnFrame(float workTime) {
     cMessage *msg = new cMessage("workFinished");
     scheduleAt(simTime() + workTime, msg);
+}
+
 }

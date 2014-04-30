@@ -13,9 +13,9 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package busmodel.applications.can.source;
+package fico4omnet.applications.can.source;
 
-import busmodel.applications.ISourceApplication;
+import fico4omnet.applications.ISourceApplication;
 //
 // This module generates all data and remote frames for the node. Periodically sent messages
 // are scheduled and forwarded to the output buffer at the given time. A frame with a period 

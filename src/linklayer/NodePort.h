@@ -13,13 +13,13 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef NODEPORT_H_
-#define NODEPORT_H_
+#ifndef __FICO4OMNET_NODEPORT_H_
+#define __FICO4OMNET_NODEPORT_H_
 
 #include <omnetpp.h>
 
 
-using namespace std;
+namespace FiCo4OMNeT {
 
 /**
  * @brief The NodePort represents the connection between the bus and the in- and output ports.
@@ -48,6 +48,6 @@ public:
     virtual void sendMsgToBus(cMessage *msg);
 };
 
-Define_Module(NodePort);
+}
 
 #endif /* NODEPORT_H_ */

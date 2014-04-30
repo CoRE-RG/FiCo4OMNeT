@@ -13,10 +13,10 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package busmodel.examples.flexray.performanceD;
+package fico4omnet.examples.flexray.performanceD;
 
-import busmodel.nodes.flexray.FRNode;
-import busmodel.bus.flexray.FRBus;
+import fico4omnet.nodes.flexray.FRNode;
+import fico4omnet.bus.flexray.FRBus;
 
 //
 // Small sample network with three hosts and one switch that shows how to 

@@ -15,6 +15,10 @@
 
 #include "CanOutputBuffer.h"
 
+namespace FiCo4OMNeT {
+
+Define_Module(CanOutputBuffer);
+
 void CanOutputBuffer::putFrame(cMessage* msg) {
     CanDataFrame *frame = dynamic_cast<CanDataFrame *>(msg);
     if (MOB == true) {
@@ -57,4 +61,6 @@ void CanOutputBuffer::sendingCompleted(int id) {
             getParentModule()->getSubmodule("canNodePort")->getSubmodule(
                     "canPortOutput"));
     portOutput->sendingCompleted();
+}
+
 }

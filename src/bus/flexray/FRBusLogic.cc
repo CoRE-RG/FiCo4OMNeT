@@ -1,5 +1,9 @@
 #include "FRBusLogic.h"
 
+namespace FiCo4OMNeT {
+
+Define_Module(FRBusLogic);
+
 void FRBusLogic::initialize() {
 
 }
@@ -61,4 +65,6 @@ void FRBusLogic::colorError() {
         getParentModule()->gate("gate$o", gateIndex)->getDisplayString().setTagArg(
                 "ls", 1, "3");
     }
+}
+
 }

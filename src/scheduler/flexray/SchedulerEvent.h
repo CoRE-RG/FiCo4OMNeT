@@ -1,9 +1,9 @@
-#ifndef __FLEXRAY_SCHEDULEREVENT_H_
-#define __FLEXRAY_SCHEDULEREVENT_H_
+#ifndef __FICO4OMNET_SCHEDULEREVENT_H_
+#define __FICO4OMNET_SCHEDULEREVENT_H_
 
 #include <SchedulerMessage_m.h>
 
-using namespace std;
+namespace FiCo4OMNeT {
 
 /**
  * @brief Redefines SchedulerEvent_Base and adds destinationGate
@@ -36,4 +36,6 @@ class SchedulerEvent : public SchedulerEvent_Base
         virtual cGate* getDestinationGate() const;
         virtual void setDestinationGate(cGate *destinationGate);
 };
+
+}
 #endif

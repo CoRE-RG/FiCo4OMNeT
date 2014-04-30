@@ -13,21 +13,21 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef CANBUSLOGIC_H_
-#define CANBUSLOGIC_H_
+#ifndef __FICO4OMNET_CANBUSLOGIC_H_
+#define __FICO4OMNET_CANBUSLOGIC_H_
 
 #include <stdio.h>
 #include <string.h>
 #include <omnetpp.h>
 #include <limits>
-#include "candataframe_m.h"
-#include "err_m.h"
+#include "CanDataFrame_m.h"
+#include "ErrorFrame_m.h"
 #include "BusPort.h"
 #include "CanID.h"
 #include "CanOutputBuffer.h"
 //#include "CanTrafficSourceApp.h"
 
-using namespace std;
+namespace FiCo4OMNeT {
 /**
  * @brief Represents the logic of the bus. It handles the arbitration for the network and provides several statistic values.
  *
@@ -184,12 +184,12 @@ private:
      * List of message-IDs that want to send a message. Used like a priority queue.
      *
      */
-    list<CanID*> ids; //Die Nachrichten-IDs der Knoten, die senden wollen
+    std::list<CanID*> ids; //Die Nachrichten-IDs der Knoten, die senden wollen
 
     /**
      * Vector with CanIDs which are currently scheduled for arbitration and will be deleted after transmission.
      */
-    vector<list<CanID*>::iterator> eraseids;
+    std::vector<std::list<CanID*>::iterator> eraseids;
 
     //Statistiken:
     /**
@@ -270,7 +270,6 @@ private:
     virtual void colorError();
 };
 
-Define_Module(CanBusLogic)
-;
+}
 
 #endif /* CANBUSAPP_H_ */

@@ -1,7 +1,7 @@
-package busmodel.examples.can.bitStuffing.worstCase;
+package fico4omnet.examples.can.bitStuffing.worstCase;
 
-import busmodel.bus.can.CanBus;
-import busmodel.nodes.can.CanNode;
+import fico4omnet.bus.can.CanBus;
+import fico4omnet.nodes.can.CanNode;
 
 // Generic network configuration for CAN-Networks
 // 

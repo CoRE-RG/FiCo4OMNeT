@@ -1,5 +1,9 @@
 #include "Buffer.h"
 
+namespace FiCo4OMNeT {
+
+//Define_Module(Buffer);
+
 void Buffer::initialize(){
 }
 
@@ -9,7 +13,7 @@ void Buffer::handleMessage(cMessage *msg) {
     }
 }
 
-void Buffer::registerDestinationGate() { //TODO mal schauen ob das nötig ist
+void Buffer::registerDestinationGate() { //TODO mal schauen ob das nï¿½tig ist
     cStringTokenizer destinationGatesTokenizer(
             getParentModule()->par("destinationGates"), ",");
     while (destinationGatesTokenizer.hasMoreTokens()) {
@@ -54,4 +58,6 @@ void Buffer::deliverNextFrame() {
 
 void Buffer::sendToDestinationGates(cMessage *df) {
     send(df,"out");
+}
+
 }

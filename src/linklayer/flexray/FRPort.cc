@@ -14,6 +14,8 @@
 
 #include "FRPort.h"
 
+namespace FiCo4OMNeT {
+
 //Define_Module(FRPort);
 
 void FRPort::handleMessage(cMessage *msg) {
@@ -50,5 +52,7 @@ void FRPort::sendMsg(FRFrame *msg) {
 	} else if (msg->getChannel() == 1) {
 		send(msg, "phyChannelB$o");
 	}
+
+}
 
 }

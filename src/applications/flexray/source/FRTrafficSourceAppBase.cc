@@ -15,6 +15,10 @@
 
 #include "FRTrafficSourceAppBase.h"
 
+namespace FiCo4OMNeT {
+
+Define_Module(FRTrafficSourceAppBase);
+
 void FRTrafficSourceAppBase::initialize() {
     //static frames in Buffer & in Liste
     //dynamic frames in Liste
@@ -141,7 +145,7 @@ int FRTrafficSourceAppBase::calculateLength(int dataLength) {
 }
 
 void FRTrafficSourceAppBase::frameGenerationForNewCycle() {
-    //dynamische frames für den aktuellen zyklus erstellen und an Buffer weiterleiten
+    //dynamische frames fï¿½r den aktuellen zyklus erstellen und an Buffer weiterleiten
     FRFrame *tmp;
     for (std::vector<FRFrame*>::iterator it = outgoingDynamicFrames.begin();
             it != outgoingDynamicFrames.end(); ++it) {
@@ -161,4 +165,6 @@ void FRTrafficSourceAppBase::frameGenerationForNewCycle() {
 
 void FRTrafficSourceAppBase::transmitFrame(FRFrame *frMsg){
     send(frMsg,"out");
+}
+
 }

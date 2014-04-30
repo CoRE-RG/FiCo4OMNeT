@@ -17,6 +17,8 @@
 #include "FRScheduler.h"
 #include "SchedulerMessageEvents_m.h"
 
+namespace FiCo4OMNeT {
+
 Define_Module( FRSync);
 
 void FRSync::initialize(int stage) {
@@ -191,4 +193,6 @@ void FRSync::resetTables() {
 		T_DevTable[ODD][B][i].valid = false;
 	}
 	position.clear();
+}
+
 }

@@ -13,7 +13,7 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package busmodel.bus.can;
+package fico4omnet.bus.can;
 
 //
 // The arbitration is handeled in this module. If a node has a message it registers the Can ID at the CanBusLogic.

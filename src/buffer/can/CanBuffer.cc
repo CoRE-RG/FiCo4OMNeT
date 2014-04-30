@@ -1,5 +1,9 @@
 #include "CanBuffer.h"
 
+namespace FiCo4OMNeT {
+
+//Define_Module(Buffer);
+
 void CanBuffer::initialize(){
     MOB = par("MOB");
 }
@@ -66,4 +70,6 @@ void CanBuffer::deliverNextFrame() {
 
 void CanBuffer::sendToDestinationGates(CanDataFrame *df) {
     send(df,"out");
+}
+
 }

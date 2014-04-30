@@ -7,11 +7,11 @@
         requires = ""
         labels = ""
         nedPackages = "
-                       busmodel.applications.can
-                       busmodel.buffer.can
-                       busmodel.bus.can
-                       busmodel.linklayer.can
-                       busmodel.nodes.can
+                       fico4omnet.applications.can
+                       fico4omnet.buffer.can
+                       fico4omnet.bus.can
+                       fico4omnet.linklayer.can
+                       fico4omnet.nodes.can
                       "
         extraSourceFolders = ""
         compileFlags = "-DWITH_CAN_COMMON"
@@ -25,7 +25,7 @@
         requires = "CAN_common"
         labels = ""
         nedPackages = "
-                       busmodel.examples.can
+                       fico4omnet.examples.can
                       "
         extraSourceFolders = ""
         linkerFlags = ""
@@ -38,13 +38,13 @@
         requires = ""
         labels = ""
         nedPackages = "
-                       busmodel.applications.flexray
-                       busmodel.buffer.flexray
-                       busmodel.bus.flexray
-                       busmodel.linklayer.flexray
-                       busmodel.nodes.flexray
-                       busmodel.scheduler.flexray
-                       busmodel.synchronisation.flexray
+                       fico4omnet.applications.flexray
+                       fico4omnet.buffer.flexray
+                       fico4omnet.bus.flexray
+                       fico4omnet.linklayer.flexray
+                       fico4omnet.nodes.flexray
+                       fico4omnet.scheduler.flexray
+                       fico4omnet.synchronisation.flexray
                       "
         extraSourceFolders = ""
         compileFlags = "-DWITH_FR_COMMON"
@@ -58,7 +58,7 @@
         requires = "FR_common"
         labels = ""
         nedPackages = "
-                       busmodel.examples.flexray
+                       fico4omnet.examples.flexray
                       "
         extraSourceFolders = ""
         linkerFlags = ""

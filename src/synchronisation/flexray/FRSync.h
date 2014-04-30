@@ -13,13 +13,13 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef FRSYNC_H_
-#define FRSYNC_H_
+#ifndef __FICO4OMNET_FRSYNC_H_
+#define __FICO4OMNET_FRSYNC_H_
 
 #include <omnetpp.h>
 #include <list>
 
-using namespace std;
+namespace FiCo4OMNeT {
 
 /**
  * @brief sync module.
@@ -100,4 +100,6 @@ class FRSync : public cSimpleModule
          */
         virtual void resetTables();
 };
+
+}
 #endif

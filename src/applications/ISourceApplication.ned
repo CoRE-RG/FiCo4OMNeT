@@ -13,7 +13,7 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package busmodel.applications;
+package fico4omnet.applications;
 
 // 
 // Interface for a source application

@@ -13,8 +13,8 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef FRAPP_H_
-#define FRAPP_H_
+#ifndef __FICO4OMNET_FRAPP_H_
+#define __FICO4OMNET_FRAPP_H_
 
 #include <iostream>
 #include <FRFrame_m.h>
@@ -24,7 +24,7 @@
 #include <FRScheduler.h>
 #include <FRPort.h>
 
-using namespace std;
+namespace FiCo4OMNeT {
 
 class FRApp : public cSimpleModule {
 
@@ -58,4 +58,5 @@ class FRApp : public cSimpleModule {
         virtual int randomSize();
 };
 
+}
 #endif /* FRAPP_H_ */

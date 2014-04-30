@@ -2,7 +2,7 @@ cplusplus {{
         #include "SchedulerEvent.h"
 }}
 
-//namespace std;
+namespace FiCo4OMNeT;
 
 class SchedulerEvent;
 

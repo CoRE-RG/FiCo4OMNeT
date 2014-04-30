@@ -13,14 +13,14 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package busmodel.nodes.can;
+package fico4omnet.nodes.can;
 
-import busmodel.linklayer.can.CanNodePort;
-import busmodel.buffer.can.CanInputBuffer;
-import busmodel.buffer.can.CanOutputBuffer;
-import busmodel.applications.ISourceApplication;
-import busmodel.applications.can.source.CanTrafficSourceAppBase;
-import busmodel.applications.can.sink.CanTrafficSinkAppBase;
+import fico4omnet.linklayer.can.CanNodePort;
+import fico4omnet.buffer.can.CanInputBuffer;
+import fico4omnet.buffer.can.CanOutputBuffer;
+import fico4omnet.applications.ISourceApplication;
+import fico4omnet.applications.can.source.CanTrafficSourceAppBase;
+import fico4omnet.applications.can.sink.CanTrafficSinkAppBase;
 
 //
 // Participants in the network. 

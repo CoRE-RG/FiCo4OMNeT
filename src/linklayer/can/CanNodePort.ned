@@ -13,11 +13,11 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package busmodel.linklayer.can;
+package fico4omnet.linklayer.can;
 
-import busmodel.linklayer.can.CanPortInput;
-import busmodel.linklayer.can.CanPortOutput;
-import busmodel.linklayer.NodePort;
+import fico4omnet.linklayer.can.CanPortInput;
+import fico4omnet.linklayer.can.CanPortOutput;
+import fico4omnet.linklayer.NodePort;
 
 //
 // This module establishes the communication with the bus and the buffers. 

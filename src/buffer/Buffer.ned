@@ -13,7 +13,7 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package busmodel.buffer;
+package fico4omnet.buffer;
 moduleinterface Buffer
 {
     parameters:

@@ -13,15 +13,15 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package busmodel.nodes.flexray;
+package fico4omnet.nodes.flexray;
 
-import busmodel.scheduler.flexray.FRScheduler;
-import busmodel.applications.flexray.source.FRTrafficSourceAppBase;
-import busmodel.applications.flexray.sink.FRTrafficSinkAppBase;
-import busmodel.buffer.flexray.FROutputBuffer;
-import busmodel.buffer.flexray.FRInputBuffer;
-import busmodel.linklayer.flexray.FRNodePort;
-import busmodel.synchronisation.flexray.FRSync;
+import fico4omnet.scheduler.flexray.FRScheduler;
+import fico4omnet.applications.flexray.source.FRTrafficSourceAppBase;
+import fico4omnet.applications.flexray.sink.FRTrafficSinkAppBase;
+import fico4omnet.buffer.flexray.FROutputBuffer;
+import fico4omnet.buffer.flexray.FRInputBuffer;
+import fico4omnet.linklayer.flexray.FRNodePort;
+import fico4omnet.synchronisation.flexray.FRSync;
 
 module FRNode
 {
@@ -31,7 +31,7 @@ module FRNode
 
         int gCycleCountMax = default(63); // [7,9,...,63]
         double pdMicrotick @unit(s) = default(12.5ns); //[ns]
-        double gdMacrotick @unit(s) = default(1us); //[µs]
+        double gdMacrotick @unit(s) = default(1us); //[ï¿½s]
         int gdStaticSlot = default(4); //[MT]
         int gdMinislot = default(2); //[MT]
         int gdNIT = default(2); //[MT]

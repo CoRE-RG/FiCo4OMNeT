@@ -1,5 +1,5 @@
-#ifndef FRBUFFER_H_
-#define FRBUFFER_H_
+#ifndef __FICO4OMNET_FRBUFFER_H_
+#define __FICO4OMNET_FRBUFFER_H_
 
 #include <stdio.h>
 #include <string.h>
@@ -17,7 +17,7 @@
  *
  */
 
-using namespace std;
+namespace FiCo4OMNeT {
 
 /**
  * @brief Base class for the input and output buffer for CAN nodes.
@@ -104,5 +104,7 @@ private:
      */
     virtual void sendToDestinationGates(FRFrame *msg);
 };
+
+}
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef BUFFER_H_
-#define BUFFER_H_
+#ifndef __FICO4OMNET_BUFFER_H_
+#define __FICO4OMNET_BUFFER_H_
 
 #include <stdio.h>
 #include <string.h>
@@ -15,7 +15,7 @@
  *
  */
 
-using namespace std;
+namespace FiCo4OMNeT {
 
 class Buffer : public cSimpleModule {
 public:
@@ -91,5 +91,5 @@ private:
     virtual void sendToDestinationGates(cMessage *msg);
 };
 
-//Define_Module(Buffer);
+}
 #endif

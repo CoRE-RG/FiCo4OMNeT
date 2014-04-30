@@ -15,6 +15,10 @@
 
 #include "CanTrafficSinkAppBase.h"
 
+namespace FiCo4OMNeT {
+
+Define_Module(CanTrafficSinkAppBase);
+
 void CanTrafficSinkAppBase::initialize() {
     idle = true;
     currentFrameID = 0;
@@ -57,4 +61,6 @@ void CanTrafficSinkAppBase::requestFrame() {
 void CanTrafficSinkAppBase::startWorkOnFrame(float workTime) {
     cMessage *msg = new cMessage("workFinished");
     scheduleAt(simTime() + workTime, msg);
+}
+
 }

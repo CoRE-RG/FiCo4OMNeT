@@ -15,6 +15,8 @@
 
 #include "FRTopologyPort.h"
 
+namespace FiCo4OMNeT {
+
 Define_Module(FRTopologyPort);
 
 void FRTopologyPort::handleMessage(cMessage *msg) {
@@ -34,4 +36,6 @@ void FRTopologyPort::handleMessage(cMessage *msg) {
 		}
 	}
 	delete msg;
+}
+
 }

@@ -13,12 +13,14 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef CANPORTOUTPUT_H_
-#define CANPORTOUTPUT_H_
+#ifndef __FICO4OMNET_CANPORTOUTPUT_H_
+#define __FICO4OMNET_CANPORTOUTPUT_H_
 
 #include <omnetpp.h>
-#include "err_m.h"
-#include "candataframe_m.h"
+#include "ErrorFrame_m.h"
+#include "CanDataFrame_m.h"
+
+namespace FiCo4OMNeT {
 
 /**
  * @brief Outgoing messages are handled in this module.
@@ -125,6 +127,7 @@ private:
     virtual void colorError();
 
 };
-Define_Module(CanPortOutput)
-;
+
+}
+
 #endif /* CANPORTOUTPUT_H_ */

@@ -1,9 +1,14 @@
+
+#ifndef __FICO4OMNET_CANID_H_
+#define __FICO4OMNET_CANID_H_
+
 #include <stdio.h>
 #include <string.h>
 #include <omnetpp.h>
 #include <cmodule.h>
 
-//using namespace std;
+namespace FiCo4OMNeT {
+
 
 /**
  * @brief Used for the arbitration list of the CAN_Bus node. 
@@ -72,3 +77,6 @@ class CanID {
 		*/
 		bool rtr;
 };
+
+}
+#endif

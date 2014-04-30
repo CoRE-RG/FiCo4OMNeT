@@ -13,7 +13,7 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package busmodel.linklayer.can;
+package fico4omnet.linklayer.can;
 
 //
 // This submodule is part of the node port module. Outgoing frames are processed here. This includes the 

@@ -13,16 +13,16 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef CANPORTINPUT_H_
-#define CANPORTINPUT_H_
+#ifndef __FICO4OMNET_CANPORTINPUT_H_
+#define __FICO4OMNET_CANPORTINPUT_H_
 
 #include <omnetpp.h>
 #include <string.h>
-#include "candataframe_m.h"
-#include "err_m.h"
+#include "CanDataFrame_m.h"
+#include "ErrorFrame_m.h"
 #include "CanPortOutput.h"
 
-using namespace std;
+namespace FiCo4OMNeT {
 
 /**
  * @brief Received messages are initially handled in this module.
@@ -78,7 +78,7 @@ private:
     /**
      * @brief Vector with IDs of useful incoming data frames
      */
-    vector<int> incomingDataFrameIDs;
+    std::vector<int> incomingDataFrameIDs;
 
     /**
      * @brief Map with IDs and corresponding sourceApp-gates of useful incoming remote frames
@@ -88,7 +88,7 @@ private:
     /**
      * @brief Vector with IDs of outgoing remote frames
      */
-    vector<int> outgoingRemoteFrameIDs;
+    std::vector<int> outgoingRemoteFrameIDs;
 
     /**
      * @brief Bandwidth of the bus in Mbps.
@@ -161,6 +161,7 @@ private:
      */
     virtual void handleExternErrorFrame(ErrorFrame *ef);
 };
-Define_Module(CanPortInput)
-;
+
+}
+
 #endif /* CANPORTINPUT_H_ */

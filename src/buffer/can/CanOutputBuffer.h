@@ -13,8 +13,8 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef CANOUTPUTBUFFER_H_
-#define CANOUTPUTBUFFER_H_
+#ifndef __FICO4OMNET_CANOUTPUTBUFFER_H_
+#define __FICO4OMNET_CANOUTPUTBUFFER_H_
 
 #include <stdio.h>
 #include <string.h>
@@ -24,7 +24,7 @@
 #include "CanTrafficSourceAppBase.h"
 #include "CanPortOutput.h"
 
-using namespace std;
+namespace FiCo4OMNeT {
 
 /**
  * @brief This buffer holds messages which will be sent to the bus.
@@ -65,6 +65,7 @@ protected:
      */
     virtual void checkoutFromArbitration(int id);
 };
-Define_Module(CanOutputBuffer);
+
+}
 
 #endif /* CANOUTPUTBUFFER_H_ */

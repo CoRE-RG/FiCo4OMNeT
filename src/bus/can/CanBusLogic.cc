@@ -1,5 +1,9 @@
 #include "CanBusLogic.h"
 
+namespace FiCo4OMNeT {
+
+Define_Module(CanBusLogic);
+
 void CanBusLogic::initialize() {
     rcvdDFSignal = registerSignal("receivedDF");
     rcvdRFSignal = registerSignal("receivedRF");
@@ -66,7 +70,7 @@ void CanBusLogic::grantSendingPermission() {
     currentSendingID = INT_MAX;
     sendingNode = NULL;
 
-    for (list<CanID*>::iterator it = ids.begin(); it != ids.end(); ++it) { //finden der höchsten Priorität aller angemeldeten Nachrichten
+    for (std::list<CanID*>::iterator it = ids.begin(); it != ids.end(); ++it) { //finden der höchsten Priorität aller angemeldeten Nachrichten
         CanID *id = *it;
         if (id->getId() < currentSendingID) {
             currentSendingID = id->getId();
@@ -76,7 +80,7 @@ void CanBusLogic::grantSendingPermission() {
     }
 
     int sendcount = 0;
-    for (list<CanID*>::iterator it = ids.begin(); it != ids.end(); ++it) { //finden, ob remote frame für diese ID auch gesendet werden soll
+    for (std::list<CanID*>::iterator it = ids.begin(); it != ids.end(); ++it) { //finden, ob remote frame für diese ID auch gesendet werden soll
         CanID *id = *it;
         if (id->getId() == currentSendingID) {
             if (id->getRtr() == false) { //Data-Frame
@@ -180,7 +184,7 @@ void CanBusLogic::registerForArbitration(int id, cModule *node,
 void CanBusLogic::checkoutFromArbitration(int id) {
     Enter_Method_Silent
     ();
-    for (list<CanID*>::iterator it = ids.begin(); it != ids.end(); ++it) {
+    for (std::list<CanID*>::iterator it = ids.begin(); it != ids.end(); ++it) {
         CanID* tmp = *it;
         if (tmp->getId() == id) {
             ids.remove(tmp);
@@ -242,4 +246,6 @@ void CanBusLogic::colorError() {
         getParentModule()->gate("gate$o", gateIndex)->getDisplayString().setTagArg(
                 "ls", 1, "3");
     }
+}
+
 }

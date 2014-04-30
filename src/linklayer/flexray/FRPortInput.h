@@ -13,8 +13,8 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef FRPORTINPUT_H_
-#define FRPORTINPUT_H_
+#ifndef __FICO4OMNET_FRPORTINPUT_H_
+#define __FICO4OMNET_FRPORTINPUT_H_
 
 #include <omnetpp.h>
 #include <string.h>
@@ -22,7 +22,7 @@
 #include "FRScheduler.h"
 #include "FRSync.h"
 
-using namespace std;
+namespace FiCo4OMNeT {
 
 /**
  * @brief Received messages are initially handled in this module.
@@ -61,5 +61,6 @@ private:
      */
     virtual double calculateScheduleTiming(int length);
 };
-Define_Module(FRPortInput);
+
+}
 #endif /* FRPORTINPUT_H_ */

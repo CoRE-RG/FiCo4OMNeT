@@ -15,6 +15,10 @@
 
 #include "FRPortInput.h"
 
+namespace FiCo4OMNeT {
+
+Define_Module(FRPortInput);
+
 void FRPortInput::initialize() {
     bandwidth = getParentModule()->getParentModule()->par("bandwidth");
 }
@@ -57,4 +61,6 @@ void FRPortInput::receivedExternMessage(FRFrame *msg) {
 
 double FRPortInput::calculateScheduleTiming(int length) {
     return ((double) length) / bandwidth;
+}
+
 }

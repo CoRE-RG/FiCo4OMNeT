@@ -1,8 +1,8 @@
-package busmodel.bus.can;
+package fico4omnet.bus.can;
 
 
-import busmodel.bus.BusPort;
-import busmodel.bus.can.CanBusLogic;
+import fico4omnet.bus.BusPort;
+import fico4omnet.bus.can.CanBusLogic;
 
 // Central unit of the CAN-Network
 //

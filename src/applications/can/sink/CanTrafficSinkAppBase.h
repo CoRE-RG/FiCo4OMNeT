@@ -13,15 +13,15 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef CANTRAFFICSINKAPP_H_
-#define CANTRAFFICSINKAPP_H_
+#ifndef __FICO4OMNET_CANTRAFFICSINKAPPBASE_H_
+#define __FICO4OMNET_CANTRAFFICSINKAPPBASE_H_
 
 #include <omnetpp.h>
 #include <string.h>
 #include "CanInputBuffer.h"
-#include "candataframe_m.h"
+#include "CanDataFrame_m.h"
 
-using namespace std;
+namespace FiCo4OMNeT {
 
 /**
  * @brief Traffic sink application used to handle incomming messages.
@@ -30,7 +30,7 @@ using namespace std;
  *
  * @author Stefan Buschmann
  */
-class CanTrafficSinkAppBase : public cSimpleModule{
+class CanTrafficSinkAppBase: public cSimpleModule {
 
 protected:
     /**
@@ -73,6 +73,7 @@ private:
      */
     void startWorkOnFrame(float workTime);
 };
-Define_Module(CanTrafficSinkAppBase);
+
+}
 
 #endif /* CANTRAFFICSINKAPP_H_ */
