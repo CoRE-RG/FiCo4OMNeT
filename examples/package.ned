@@ -1,3 +1,3 @@
 package fico4omnet.examples;
-
-@license(LGPL);
+@namespace(FiCo4OMNeT);
+@license(BSD 3-clause);
