@@ -16,8 +16,6 @@
 
 - (added by Till) compile with -wall and -werr
 
-- (added by Till) NED: CanNodePort must extend NodePort
-
 - (added by Till) Rename the whole Project: I (Till) can do that, tell me when I can access the code!
 
 - (added by Stefan) Only english!
