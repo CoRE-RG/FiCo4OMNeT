@@ -5,6 +5,8 @@
 #include <string.h>
 #include <omnetpp.h>
 
+namespace FiCo4OMNeT {
+
 /**
  * @brief Represents the content of a physical buffer on a CAN_Node 
  *
@@ -14,8 +16,6 @@
  * @sa CAN_Node
  *
  */
-
-namespace FiCo4OMNeT {
 
 class Buffer : public cSimpleModule {
 public:

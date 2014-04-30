@@ -7,6 +7,8 @@
 #include "Buffer.h"
 #include "CanDataFrame_m.h"
 
+namespace FiCo4OMNeT {
+
 /**
  * @brief Represents the content of a physical buffer on a CAN_Node 
  *
@@ -16,8 +18,6 @@
  * @sa CAN_Node
  *
  */
-
-namespace FiCo4OMNeT {
 
 /**
  * @brief Base class for the input and output buffer for CAN nodes.
