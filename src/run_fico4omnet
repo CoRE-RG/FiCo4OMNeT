@@ -1,0 +1,8 @@
+#! /bin/sh
+DIR=`dirname $0`
+
+if [ -x $DIR/FiCo4OMNeT -o -x $DIR/FiCo4OMNeT.exe ]; then
+  $DIR/FiCo4OMNeT -n $DIR/../examples:$DIR $*
+else
+  opp_run -l $DIR/FiCo4OMNeT -n $DIR/../examples:$DIR $*
+fi
