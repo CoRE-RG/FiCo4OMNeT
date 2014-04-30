@@ -25,12 +25,12 @@ import time
 import unittest
 import csv
 
-busmodelRoot = os.path.abspath("../..")
+fico4omnetRoot = os.path.abspath("../..")
 #TODO: Make test read paths from somewhere else
 #inetRoot = os.path.abspath("../../../inet")
 sep = ";" if sys.platform == 'win32' else ':'
-nedPath = busmodelRoot + "/src" + sep + busmodelRoot + "/examples" + sep + busmodelRoot + "/tests/smoke"
-busmodelLib = busmodelRoot + "/src/BusModel"
+nedPath = fico4omnetRoot + "/src" + sep + fico4omnetRoot + "/examples" + sep + fico4omnetRoot + "/tests/smoke"
+fico4omnetLib = fico4omnetRoot + "/src/FiCo4OMNeT"
 opp_run = "opp_run"
 cpuTimeLimit = "30s"
 logFile = "test.out"
@@ -183,11 +183,11 @@ class FingerprintTestCase(SimulationTestCase):
 
     def runTest(self):
         # CPU time limit is a safety guard: fingerprint checks shouldn't take forever
-        global busmodelRoot, opp_run, nedPath, cpuTimeLimit
+        global fico4omnetRoot, opp_run, nedPath, cpuTimeLimit
 
         # run the simulation
-        workingdir = _iif(self.wd.startswith('/'), busmodelRoot + "/" + self.wd, self.wd)
-        command = opp_run + " -n " + nedPath + " -l " + busmodelLib + " -u Cmdenv " + self.args + \
+        workingdir = _iif(self.wd.startswith('/'), fico4omnetRoot + "/" + self.wd, self.wd)
+        command = opp_run + " -n " + nedPath + " -l " + fico4omnetLib + " -u Cmdenv " + self.args + \
             _iif(self.simtimelimit!="", " --sim-time-limit=" + self.simtimelimit, "") + \
             " --fingerprint=" + self.fingerprint + " --cpu-time-limit=" + cpuTimeLimit + \
             " --vector-recording=false --scalar-recording=false"
