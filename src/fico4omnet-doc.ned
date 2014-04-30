@@ -18,7 +18,7 @@
 //
 //<center><img src="../images/CoRE.png"/><img src="../images/HAW.gif"/></center>
 //
-// <center><h1>Controller Area Network and FlexRay bus models</h1></center>
+// <center><h1>FiCo4OMNeT: Fieldbus Communication for OMNeT++</h1></center>
 // <center>release [VERSION_STRING]</center>
 //
 // In this model the bus technologies Controller Area Network (CAN) and FlexRay are implemented in the OMNEST/OMNeT++ simulation system.
