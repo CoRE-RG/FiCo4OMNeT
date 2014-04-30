@@ -29,6 +29,12 @@ simple CanTrafficSourceAppBase like ISourceApplication
     parameters:
         @class(CanTrafficSourceAppBase);
         @display("i=block/source");
+        string idDataFrames = default("0");					// The Data Frames ID(s) - String parameter (int) separated with commas
+        string periodicityDataFrames = default("0");		// data Frame period(s) for sending of messages - String parameter (int) separated with commas
+        string dataLengthDataFrames = default("0");			// Datafield-length - String parameter (int) separated with commas
+        string idRemoteFrames = default("0");				// The Remote Frame ID(s) - String parameter (int) separated with commas
+        string periodicityRemoteFrames = default("0"); 		// Remote Frame period(s) for sending of messages - String parameter (int) separated with commas
+        string dataLengthRemoteFrames = default("0");		// Datafield-length - String parameter (int) separated with commas
     gates:
         output out @labels(DataFrame);
         input remoteIn @directIn;

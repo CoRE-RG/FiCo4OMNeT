@@ -20,12 +20,11 @@ void CanPortInput::initialize() {
     cStringTokenizer idIncomingFramesTokenizer(
             getParentModule()->getParentModule()->par("idIncomingFrames"), ",");
     incomingDataFrameIDs = idIncomingFramesTokenizer.asIntVector();
-    cStringTokenizer idIncomingRemoteFramesTokenizer(
-            getParentModule()->getParentModule()->par("idDataFrames"), ",");
-    outgoingDataFrameIDs = idIncomingRemoteFramesTokenizer.asIntVector();
-    cStringTokenizer idOutgoingRemoteFramesTokenizer(
-            getParentModule()->getParentModule()->par("idRemoteFrames"), ",");
-    outgoingRemoteFrameIDs = idIncomingRemoteFramesTokenizer.asIntVector();
+//    cStringTokenizer idIncomingRemoteFramesTokenizer(
+//            getParentModule()->getParentModule()->par("idDataFrames"), ",");
+//    cStringTokenizer idOutgoingRemoteFramesTokenizer(
+//            getParentModule()->getParentModule()->par("idRemoteFrames"), ",");
+//    outgoingRemoteFrameIDs = idIncomingRemoteFramesTokenizer.asIntVector();
 
     bandwidth = getParentModule()->getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->par("bandwidth");
     errorperc = getParentModule()->getParentModule()->par("errorperc");
@@ -35,8 +34,6 @@ void CanPortInput::initialize() {
 
     rcvdDFSignal = registerSignal("receivedCompleteDF");
     rcvdRFSignal = registerSignal("receivedCompleteRF");
-
-//    messagestats.push_back(new Stats(id)); //Statistiken fï¿½r diese Nachricht erstellen
 }
 
 void CanPortInput::finish() {
@@ -123,11 +120,10 @@ bool CanPortInput::checkExistence(CanDataFrame *df) {
 }
 
 bool CanPortInput::checkOutgoingDataFrames(int id) {
-    for (std::vector<int>::iterator it = outgoingDataFrameIDs.begin();
-            it != outgoingDataFrameIDs.end(); ++it) {
-        if (*it == id) {
-            return true;
-        }
+    std::map<int,cGate*>::iterator it;
+    it = outgoingDataFrameIDs.find(id);
+    if (it != outgoingDataFrameIDs.end()) {
+        return true;
     }
     return false;
 }
@@ -153,22 +149,16 @@ bool CanPortInput::checkIncomingDataFrames(int id) {
 }
 
 double CanPortInput::calculateScheduleTiming(int length) {
-//    return ((double) length) / (bandwidth * 1000 * 1000);
     return ((double) length) / (bandwidth);
 }
 
 void CanPortInput::forwardDataFrame(CanDataFrame *df) {
     if (df->getRtr()) {
-        for (std::vector<int>::iterator it = outgoingDataFrameIDs.begin();
-                it != outgoingDataFrameIDs.end(); ++it) { //TODO muss ich hier noch drauf überprüfen? eigentlich mache ich das glaube ich schon beim empfang des frames
-            if (*it == df->getCanID()) {
-                emit(rcvdRFSignal, df);
-                cModule* sourceApp =
-                        getParentModule()->getParentModule()->getSubmodule(
-                                "sourceApp");
-                sendDirect(df->dup(), sourceApp, "remoteIn");
-                break;
-            }
+        std::map<int,cGate*>::iterator it;
+        it = outgoingDataFrameIDs.find(df->getCanID());
+        if (it!=outgoingDataFrameIDs.end()) {
+            emit(rcvdRFSignal, df);
+            sendDirect(df->dup(), it->second);
         }
     } else {
         for (std::vector<int>::iterator it = incomingDataFrameIDs.begin();
@@ -206,4 +196,15 @@ void CanPortInput::handleExternErrorFrame(ErrorFrame *ef) {
             && ef->getCanID() == scheduledErrorFrame->getCanID()) {
         cancelEvent(scheduledErrorFrame);
     }
+}
+
+void CanPortInput::registerOutgoingDataFrame(int canID, cGate* gate){
+    outgoingDataFrameIDs.insert(std::pair<int,cGate*>(canID,gate));
+}
+
+void CanPortInput::registerOutgoingRemoteFrame(int canID){
+    std::vector<int>::iterator it;
+    it = outgoingRemoteFrameIDs.begin();
+    it = outgoingRemoteFrameIDs.insert(it, canID);
+//    outgoingRemoteFrameIDs.insert(canID);
 }

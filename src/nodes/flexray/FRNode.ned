@@ -76,10 +76,14 @@ module FRNode
 
         outputBuffer: FROutputBuffer {
             @display("p=75,112");
+            gates:
+                in[1];
         }
 
         inputBuffer: FRInputBuffer {
             @display("p=185,112");
+            gates:
+                in[1];
         }
 
         frSync: FRSync {
@@ -87,10 +91,10 @@ module FRNode
         }
 
     connections allowunconnected:
-        frSourceApp.out --> outputBuffer.in;
+        frSourceApp.out --> outputBuffer.in[0];
         frSinkApp.in <-- inputBuffer.out;
 
-        frNodePort.upperLayerOut --> inputBuffer.in;
+        frNodePort.upperLayerOut --> inputBuffer.in[0];
         frNodePort.upperLayerIn <-- outputBuffer.out;
 
         channelA <--> frNodePort.phyChA if pChannels == 0 || pChannels == 2;

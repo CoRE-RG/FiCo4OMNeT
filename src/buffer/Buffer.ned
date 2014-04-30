@@ -27,7 +27,7 @@ moduleinterface Buffer
         string destination_gates;
     gates:
         //The buffers Input
-        input in @loose;
+        input in[] @loose;
         //The buffers Output @warning CURRENTLY NOT USED!
         output out @loose;
 }

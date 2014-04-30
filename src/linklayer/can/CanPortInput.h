@@ -32,6 +32,17 @@ using namespace std;
  * @author Stefan Buschmann
  */
 class CanPortInput: public cSimpleModule {
+public:
+    /**
+     * @brief Source Applications can register their CanIDs so that incoming remote frames are forwarded to them.
+     */
+    virtual void registerOutgoingDataFrame(int canID, cGate* gate);
+
+    /**
+     * @brief Source Applications can register their remote frame CanIDs.
+     */
+    virtual void registerOutgoingRemoteFrame(int canID);
+
 protected:
     /**
      * @brief Initialization of several variables.
@@ -70,9 +81,9 @@ private:
     vector<int> incomingDataFrameIDs;
 
     /**
-     * @brief Vector with IDs of useful incoming remote frames
+     * @brief Map with IDs and corresponding sourceApp-gates of useful incoming remote frames
      */
-    vector<int> outgoingDataFrameIDs;
+    std::map<int,cGate*> outgoingDataFrameIDs;
 
     /**
      * @brief Vector with IDs of outgoing remote frames

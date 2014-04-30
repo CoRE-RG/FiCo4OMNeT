@@ -34,10 +34,6 @@ void CanPortOutput::initialize() {
     initializeStatisticValues();
 }
 
-//void CanPortOutput::collectStats(){
-//
-//}
-
 void CanPortOutput::finish(){
 //    collectStats();
 }

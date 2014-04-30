@@ -24,33 +24,37 @@ void CanTrafficSourceAppBase::initialize() {
     initialRemoteFrameCreation();
 }
 
-void CanTrafficSourceAppBase::checkParameterValues(){
+void CanTrafficSourceAppBase::checkParameterValues() {
     if (bitStuffingPercentage < 0 || bitStuffingPercentage > 1) {
-        EV << "The value for the parameter \"bitStuffingPercentage\" is not permitted. Permitted values are from 0 to 1.";
+        EV<< "The value for the parameter \"bitStuffingPercentage\" is not permitted. Permitted values are from 0 to 1.";
         endSimulation();
     }
     if (canVersion.compare("2.0A") != 0 && canVersion.compare("2.0B") != 0) {
-            EV << "The value for the parameter \"canVersion\" is not permitted. Permitted values are \"2.0B\" and \"2.0A\".";
-            endSimulation();
-        }
+        EV << "The value for the parameter \"canVersion\" is not permitted. Permitted values are \"2.0B\" and \"2.0A\".";
+        endSimulation();
+    }
 }
 
 void CanTrafficSourceAppBase::handleMessage(cMessage *msg) {
     CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
     dataFrameTransmission(df);
+//    if (CanDataFrame *df = dynamic_cast<CanDataFrame *>(msg)) {
+//        dataFrameTransmission(df);
+//    } else {
+//        registerDataFrameAtPort(1);
+//    }
 }
 
 void CanTrafficSourceAppBase::initialRemoteFrameCreation() {
 
-    if (getParentModule()->par("idRemoteFrames").stdstringValue() != "0") {
-        cStringTokenizer remoteFrameIDsTokenizer(
-                getParentModule()->par("idRemoteFrames"), ",");
+    if (par("idRemoteFrames").stdstringValue() != "0") {
+        cStringTokenizer remoteFrameIDsTokenizer(par("idRemoteFrames"), ",");
         vector<int> remoteFrameIDs = remoteFrameIDsTokenizer.asIntVector();
         cStringTokenizer remoteFramesPeriodicityTokenizer(
-                getParentModule()->par("periodicityRemoteFrames"), ",");
+                par("periodicityRemoteFrames"), ",");
 
         cStringTokenizer dataLengthRemoteFramesTokenizer(
-                getParentModule()->par("dataLengthRemoteFrames"), ",");
+                par("dataLengthRemoteFrames"), ",");
 
         for (unsigned int i = 0; i < remoteFrameIDs.size(); i++) {
             CanDataFrame *can_msg = new CanDataFrame("remoteFrame");
@@ -62,6 +66,7 @@ void CanTrafficSourceAppBase::initialRemoteFrameCreation() {
             can_msg->setRtr(true);
             can_msg->setPeriod(
                     atoi(remoteFramesPeriodicityTokenizer.nextToken()));
+            registerRemoteFrameAtPort(can_msg->getCanID());
             if (can_msg->getPeriod() == 0) {
                 EV<<"Remote frame with ID "<< can_msg->getCanID() << " has no period. Hence it will be ignored.\n";
             } else {
@@ -72,17 +77,23 @@ void CanTrafficSourceAppBase::initialRemoteFrameCreation() {
     }
 }
 
+void CanTrafficSourceAppBase::registerRemoteFrameAtPort(int canID) {
+    CanPortInput* port = (CanPortInput*) getParentModule()->getSubmodule(
+            "canNodePort")->getSubmodule("canPortInput");
+    port->registerOutgoingRemoteFrame(canID);
+}
+
 void CanTrafficSourceAppBase::initialDataFrameCreation() {
-    if (getParentModule()->par("idDataFrames").stdstringValue() != "0") {
+    if (par("idDataFrames").stdstringValue() != "0") {
         cStringTokenizer dataFrameIDsTokenizer(
-                getParentModule()->par("idDataFrames"), ",");
+                par("idDataFrames"), ",");
         vector<int> dataFrameIDs = dataFrameIDsTokenizer.asIntVector();
 
         cStringTokenizer dataFramesPeriodicityTokenizer(
-                getParentModule()->par("periodicityDataFrames"), ",");
+                par("periodicityDataFrames"), ",");
 
         cStringTokenizer dataLengthDataFramesTokenizer(
-                getParentModule()->par("dataLengthDataFrames"), ",");
+                par("dataLengthDataFrames"), ",");
 
         for (unsigned int i = 0; i < dataFrameIDs.size(); i++) {
             CanDataFrame *can_msg = new CanDataFrame("message");
@@ -94,11 +105,18 @@ void CanTrafficSourceAppBase::initialDataFrameCreation() {
             can_msg->setPeriod(
                     atoi(dataFramesPeriodicityTokenizer.nextToken()));
             outgoingDataFrames.push_back(can_msg);
+            registerDataFrameAtPort(can_msg->getCanID());
             if (can_msg->getPeriod() != 0) {
                 scheduleAt(simTime() + (can_msg->getPeriod() / 1000.), can_msg);
             }
         }
     }
+}
+
+void CanTrafficSourceAppBase::registerDataFrameAtPort(int canID) {
+    CanPortInput* port = (CanPortInput*) getParentModule()->getSubmodule(
+            "canNodePort")->getSubmodule("canPortInput");
+    port->registerOutgoingDataFrame(canID,this->gate("remoteIn"));
 }
 
 int CanTrafficSourceAppBase::checkAndReturnID(int id) {

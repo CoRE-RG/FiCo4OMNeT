@@ -19,6 +19,7 @@
 #include <omnetpp.h>
 #include <string.h>
 #include "CanBuffer.h"
+#include "CanPortInput.h"
 #include "candataframe_m.h"
 
 using namespace std;
@@ -95,6 +96,11 @@ private:
     void initialRemoteFrameCreation();
 
     /**
+     * @brief Registers the outgoing remote frame at the port.
+     */
+    void registerRemoteFrameAtPort(int canID);
+
+    /**
      * @brief Collection including all
      */
     vector<CanDataFrame*> outgoingDataFrames;
@@ -103,6 +109,11 @@ private:
      * @brief Creates a data frame which will be queued in the buffer.
      */
     void initialDataFrameCreation();
+
+    /**
+     * @brief Registers the outgoing data frames at the port to receive incoming remote frames.
+     */
+    void registerDataFrameAtPort(int canID);
 
     /**
      * @brief Checks whether the CAN-ID matches the restrictions of the CAN version.

@@ -18,6 +18,7 @@ package busmodel.nodes.can;
 import busmodel.linklayer.can.CanNodePort;
 import busmodel.buffer.can.CanInputBuffer;
 import busmodel.buffer.can.CanOutputBuffer;
+import busmodel.applications.ISourceApplication;
 import busmodel.applications.can.source.CanTrafficSourceAppBase;
 import busmodel.applications.can.sink.CanTrafficSinkAppBase;
 
@@ -30,16 +31,17 @@ import busmodel.applications.can.sink.CanTrafficSinkAppBase;
 module CanNode
 {
     parameters:
+        int numSourceApps = default(1);
         string version = default("2.0A");					// Version of CAN-Protocol. 2.0A = 11 Bits identifier, 2.0B = 29 Bits identifier
         double bitStuffingPercentage = default(0);			// Value for the percentage distribution for bit stuffing. Valid values 0 to 1.
         int errorperc = default(0);							// If errors are enabled: percentage of errors
         int numOfMessages = default(1);						// Number of messages of the node
-        string idDataFrames = default("0");					// The Data Frames ID(s) - String parameter (int) separated with commas
-        string periodicityDataFrames = default("0");		// data Frame period(s) for sending of messages - String parameter (int) separated with commas
-        string dataLengthDataFrames = default("0");			// Datafield-length - String parameter (int) separated with commas
-        string idRemoteFrames = default("0");				// The Remote Frame ID(s) - String parameter (int) separated with commas
-        string periodicityRemoteFrames = default("0"); 		// Remote Frame period(s) for sending of messages - String parameter (int) separated with commas
-        string dataLengthRemoteFrames = default("0");		// Datafield-length - String parameter (int) separated with commas
+//        string idDataFrames = default("0");					// The Data Frames ID(s) - String parameter (int) separated with commas
+//        string periodicityDataFrames = default("0");		// data Frame period(s) for sending of messages - String parameter (int) separated with commas
+//        string dataLengthDataFrames = default("0");			// Datafield-length - String parameter (int) separated with commas
+//        string idRemoteFrames = default("0");				// The Remote Frame ID(s) - String parameter (int) separated with commas
+//        string periodicityRemoteFrames = default("0"); 		// Remote Frame period(s) for sending of messages - String parameter (int) separated with commas
+//        string dataLengthRemoteFrames = default("0");		// Datafield-length - String parameter (int) separated with commas
         string idIncomingFrames = default("0");				// The Incoming Frame ID(s) - String parameter (int) separated with commas
         string node = default("0");							// Name of the node
         @display("i=block/app2;bgb=248,222");
@@ -55,21 +57,31 @@ module CanNode
         }
         bufferIn: CanInputBuffer {
             @display("p=203,102");
+            gates:
+                in[1];
         }
         bufferOut: CanOutputBuffer {
             @display("p=98,102");
+            gates:
+                in[numSourceApps];
         }
-        sourceApp: CanTrafficSourceAppBase {
-            @display("p=98,32");
+        sourceApp[numSourceApps]: <default("CanTrafficSourceAppBase")> like ISourceApplication {
+            @display("p=98,32,row,70");
         }
+//        sourceApp: CanTrafficSourceAppBase {
+//            @display("p=98,32");
+//        }
         sinkApp: CanTrafficSinkAppBase {
             @display("p=203,32");
         }
     connections:
         canNodePort.phygate <--> gate;
         canNodePort.upperLayerIn <-- bufferOut.out;
-        canNodePort.upperLayerOut --> bufferIn.in;
-        sourceApp.out --> bufferOut.in;
+        canNodePort.upperLayerOut --> bufferIn.in[0];
         sinkApp.in <-- bufferIn.out;
-
+//        sourceApp.out --> bufferOut.in;
+		sourceApp[0].out --> bufferOut.in[0];
+//        for i=0..sizeof(numSourceApps)-1 {
+//            sourceApp[i].out --> bufferOut.in[i];
+//        }
 }

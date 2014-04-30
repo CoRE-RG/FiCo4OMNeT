@@ -44,7 +44,6 @@ protected:
      */
     virtual void initialize();
 
-//    virtual void collectStats();
 
     virtual void finish();
 

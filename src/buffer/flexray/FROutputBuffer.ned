@@ -31,7 +31,7 @@ simple FROutputBuffer like FRBuffer
         bool MOB = default(true);//If true frames with the same ID will be overwritten.
     gates:
         //The buffers Input
-        input in @loose @labels(DataFrame);
+        input in[] @loose @labels(DataFrame);
         //The buffers Output
         output out @loose @labels(DataFrame);
 		//Input for information about reaching a slot
