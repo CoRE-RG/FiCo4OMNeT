@@ -24,7 +24,6 @@ void CanBusLogic::initialize() {
     scheduledDataFrame = new CanDataFrame();
 
     bandwidth = getParentModule()->par("bandwidth");
-//    EV<<(bandwidth / (1024*1024))<<"\n";
 }
 
 void CanBusLogic::finish() {
@@ -40,11 +39,11 @@ void CanBusLogic::finish() {
 }
 
 void CanBusLogic::handleMessage(cMessage *msg) {
-    std::string msgClass = msg->getClassName();
+//    std::string msgClass = msg->getClassName();
     if (msg->isSelfMessage()) { //Bus ist wieder im Idle-Zustand
-        if (msgClass.compare("CanDataFrame") == 0) { //Wenn zuvor eine Nachricht gesendet wurde
+        if (dynamic_cast<CanDataFrame *> (msg)) { //Wenn zuvor eine Nachricht gesendet wurde
             sendingCompleted();
-        } else if (msgClass.compare("ErrorFrame") == 0) {
+        } else if (dynamic_cast<ErrorFrame *> (msg)) {
             colorIdle();
             if (scheduledDataFrame != NULL) {
                 cancelEvent(scheduledDataFrame);
@@ -55,10 +54,10 @@ void CanBusLogic::handleMessage(cMessage *msg) {
             eraseids.clear();
         }
         grantSendingPermission();
-    } else if (msgClass.compare("CanDataFrame") == 0) { // externe Nachricht
+    } else if (dynamic_cast<CanDataFrame *> (msg)) { // externe Nachricht
         colorBusy();
         handleDataFrame(msg);
-    } else if (msgClass.compare("ErrorFrame") == 0) {
+    } else if (dynamic_cast<ErrorFrame *> (msg)) {
         colorError();
         handleErrorFrame(msg);
     }

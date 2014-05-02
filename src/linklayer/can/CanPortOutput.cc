@@ -50,10 +50,9 @@ void CanPortOutput::initializeStatisticValues(){
 }
 
 void CanPortOutput::handleMessage(cMessage *msg) {
-    std::string msgClass = msg->getClassName();
-    if (msgClass.compare("ErrorFrame") == 0) {
+    if (ErrorFrame *ef = dynamic_cast<ErrorFrame *>(msg)) {
         if (!errorReceived) {
-            ErrorFrame *ef = check_and_cast<ErrorFrame *>(msg);
+//            ErrorFrame *ef = check_and_cast<ErrorFrame *>(msg);
             if (ef->getKind() < 2) { //TODO magic number
                 emit(sendErrorsSignal, ef);
             } else {
@@ -66,16 +65,10 @@ void CanPortOutput::handleMessage(cMessage *msg) {
             delete msg;
         }
     } else {
-        CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
+        CanDataFrame *df;
         colorBusy();
         errorReceived = false;
-        if (df->getRtr()) {
-            emit(sentRFSignal, df);
-        } else {
-            emit(sentDFSignal, df);
-        }
-        send(df, "out");
-        if (errorperc > 0 && (msgClass.compare("CanDataFrame") == 0)) {
+        if ((df = dynamic_cast<CanDataFrame *>(msg)) && (errorperc > 0)) {
             int senderr = intuniform(0, 99);
             if (senderr < errorperc) {
                 ErrorFrame *errself = new ErrorFrame("senderror");
@@ -94,6 +87,12 @@ void CanPortOutput::handleMessage(cMessage *msg) {
                         scheduledErrorFrame);
             }
         }
+        if (df->getRtr()) {
+            emit(sentRFSignal, df);
+        } else {
+            emit(sentDFSignal, df);
+        }
+        send(df, "out");
     }
 }
 

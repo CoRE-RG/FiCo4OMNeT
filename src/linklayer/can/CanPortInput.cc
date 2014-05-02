@@ -47,16 +47,16 @@ void CanPortInput::finish() {
 void CanPortInput::handleMessage(cMessage *msg) {
     std::string msgClass = msg->getClassName();
     if (msg->isSelfMessage()) {
-        if (msgClass.compare("ErrorFrame") == 0) {
-            ErrorFrame *ef = dynamic_cast<ErrorFrame *>(msg);
+        if (ErrorFrame *ef = dynamic_cast<ErrorFrame *>(msg)) {
+//            ErrorFrame *ef = dynamic_cast<ErrorFrame *>(msg);
             forwardOwnErrorFrame(ef);
             if (scheduledErrorFrame != NULL) {
                 cancelEvent(scheduledErrorFrame);
             }
             delete (scheduledErrorFrame);
             scheduledErrorFrame = NULL;
-        } else if (msgClass.compare("CanDataFrame") == 0) {
-            CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
+        } else if (CanDataFrame *df = dynamic_cast<CanDataFrame *>(msg)) {
+//            CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
             forwardDataFrame(df);
             if (scheduledDataFrame != NULL) {
                 cancelEvent(scheduledDataFrame);
@@ -64,8 +64,8 @@ void CanPortInput::handleMessage(cMessage *msg) {
             delete (scheduledDataFrame);
             scheduledDataFrame = NULL;
         }
-    } else if (msgClass.compare("CanDataFrame") == 0) {
-        CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
+    } else if (CanDataFrame *df = dynamic_cast<CanDataFrame *>(msg)) {
+//        CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
         if (checkExistence(df)) {
             int rcverr = intuniform(0, 99);
             if (rcverr < errorperc) {
@@ -81,8 +81,8 @@ void CanPortInput::handleMessage(cMessage *msg) {
             scheduledDataFrame = NULL;
         }
         delete msg;
-    } else if (msgClass.compare("ErrorFrame") == 0) {
-        ErrorFrame *ef = check_and_cast<ErrorFrame *>(msg);
+    } else if (ErrorFrame *ef = dynamic_cast<ErrorFrame *>(msg)) {
+//        ErrorFrame *ef = check_and_cast<ErrorFrame *>(msg);
         handleExternErrorFrame(ef);
         delete msg;
     }
