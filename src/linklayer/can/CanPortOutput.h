@@ -31,6 +31,8 @@ namespace FiCo4OMNeT {
  */
 class CanPortOutput: public cSimpleModule {
 public:
+    virtual ~CanPortOutput();
+
     /**
      * @brief Handles received error frames so that scheduled error events can be canceled.
      */

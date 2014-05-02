@@ -7,6 +7,10 @@ namespace FiCo4OMNeT {
 void Buffer::initialize(){
 }
 
+void Buffer::finish(){
+    frames.clear();
+}
+
 void Buffer::handleMessage(cMessage *msg) {
     if (msg->arrivedOn("in")) {
         putFrame(msg);

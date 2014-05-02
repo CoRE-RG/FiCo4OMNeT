@@ -19,6 +19,11 @@ namespace FiCo4OMNeT {
 
 Define_Module(CanPortOutput);
 
+
+CanPortOutput::~CanPortOutput(){
+    cancelAndDelete(scheduledErrorFrame);
+}
+
 void CanPortOutput::handleReceivedErrorFrame() {
     errorReceived = true;
     if (scheduledErrorFrame != NULL && scheduledErrorFrame->isScheduled()) {
@@ -39,7 +44,8 @@ void CanPortOutput::initialize() {
 }
 
 void CanPortOutput::finish(){
-//    collectStats();
+    cancelAndDelete(scheduledErrorFrame);
+    scheduledErrorFrame = NULL;
 }
 
 void CanPortOutput::initializeStatisticValues(){
