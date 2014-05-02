@@ -17,12 +17,29 @@
 
 namespace FiCo4OMNeT {
 
-Define_Module(CanTrafficSinkAppBase);
+Define_Module(CanTrafficSinkAppBase)
+;
 
 void CanTrafficSinkAppBase::initialize() {
     idle = true;
     currentFrameID = 0;
     bufferMessageCounter = 0;
+    registerIncomingDataFramesAtPort();
+}
+
+void CanTrafficSinkAppBase::registerIncomingDataFramesAtPort() {
+    CanPortInput* port = (CanPortInput*) getParentModule()->getSubmodule(
+            "canNodePort")->getSubmodule("canPortInput");
+    cStringTokenizer idIncomingFramesTokenizer(par("idIncomingFrames"), ",");
+
+    while (idIncomingFramesTokenizer.hasMoreTokens()){
+        std::stringstream strValue;
+        int intValue;
+        strValue << idIncomingFramesTokenizer.nextToken();
+        strValue >> intValue;
+
+        port->registerIncomingDataFrame(intValue);
+    }
 }
 
 void CanTrafficSinkAppBase::handleMessage(cMessage *msg) {
@@ -38,8 +55,8 @@ void CanTrafficSinkAppBase::handleMessage(cMessage *msg) {
         bufferMessageCounter--;
         startWorkOnFrame(0); //TODO working time
     } else if (msg->isSelfMessage()) {
-        CanInputBuffer *buffer = (CanInputBuffer*) (getParentModule()->getSubmodule(
-                "bufferIn"));
+        CanInputBuffer *buffer =
+                (CanInputBuffer*) (getParentModule()->getSubmodule("bufferIn"));
         buffer->deleteFrame(currentFrameID);
         if (bufferMessageCounter > 0) {
             requestFrame();

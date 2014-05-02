@@ -2,7 +2,7 @@
 # workingdir,                                                     args,                                          simtimelimit,    fingerprint
 /examples/can/arbitration/,                                      -f omnetpp.ini -c General -r 0,                1s,              219a-4685
 /examples/can/error1/,                                           -f omnetpp.ini -c General -r 0,                1s,              200d-1f78
-/examples/can/error2/,                                           -f omnetpp.ini -c General -r 0,                1s,              9934-a565
+/examples/can/error2/,                                           -f omnetpp.ini -c General -r 0,                1s,              26ec-9a13
 /examples/can/generator/,                                        -f omnetpp.ini -c General -r 0,                1s,              3782-b3d2
 /examples/can/simpleNewLayout/,                                  -f omnetpp.ini -c General -r 0,                1s,              1ddc-6f5d
 /examples/can/bitStuffing/noBitStuffing/,                        -f omnetpp.ini -c General -r 0,                1s,              1ddc-6f5d

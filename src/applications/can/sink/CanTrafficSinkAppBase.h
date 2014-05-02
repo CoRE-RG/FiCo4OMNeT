@@ -20,6 +20,7 @@
 #include <string.h>
 #include "CanInputBuffer.h"
 #include "CanDataFrame_m.h"
+#include "CanPortInput.h"
 
 namespace FiCo4OMNeT {
 
@@ -62,6 +63,11 @@ private:
     int currentFrameID;
 
     /**
+     * @brief Registers the canIDs which will be received by this node.
+     */
+    void registerIncomingDataFramesAtPort();
+
+    /**
      * @brief Requests a frame from buffer.
      */
     void requestFrame();
@@ -72,6 +78,7 @@ private:
      * @param workTime represents the time it takes until the sink can process the next frame.
      */
     void startWorkOnFrame(float workTime);
+
 };
 
 }

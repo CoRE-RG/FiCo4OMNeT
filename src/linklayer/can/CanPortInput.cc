@@ -21,9 +21,9 @@ Define_Module(CanPortInput);
 
 void CanPortInput::initialize() {
 
-    cStringTokenizer idIncomingFramesTokenizer(
-            getParentModule()->getParentModule()->par("idIncomingFrames"), ",");
-    incomingDataFrameIDs = idIncomingFramesTokenizer.asIntVector();
+//    cStringTokenizer idIncomingFramesTokenizer(
+//            getParentModule()->getParentModule()->par("idIncomingFrames"), ",");
+//    incomingDataFrameIDs = idIncomingFramesTokenizer.asIntVector();
 //    cStringTokenizer idIncomingRemoteFramesTokenizer(
 //            getParentModule()->getParentModule()->par("idDataFrames"), ",");
 //    cStringTokenizer idOutgoingRemoteFramesTokenizer(
@@ -210,7 +210,12 @@ void CanPortInput::registerOutgoingRemoteFrame(int canID){
     std::vector<int>::iterator it;
     it = outgoingRemoteFrameIDs.begin();
     it = outgoingRemoteFrameIDs.insert(it, canID);
-//    outgoingRemoteFrameIDs.insert(canID);
+}
+
+void CanPortInput::registerIncomingDataFrame(int canID){
+    std::vector<int>::iterator it;
+    it = incomingDataFrameIDs.begin();
+    it = incomingDataFrameIDs.insert(it, canID);
 }
 
 }

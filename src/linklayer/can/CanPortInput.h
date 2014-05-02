@@ -43,6 +43,11 @@ public:
      */
     virtual void registerOutgoingRemoteFrame(int canID);
 
+    /**
+     * @brief Sink Applications can register the CanIDs which they are interested in.
+     */
+    virtual void registerIncomingDataFrame(int canID);
+
 protected:
     /**
      * @brief Initialization of several variables.

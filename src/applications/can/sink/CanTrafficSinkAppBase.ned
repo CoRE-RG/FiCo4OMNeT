@@ -28,6 +28,7 @@ simple CanTrafficSinkAppBase like ISinkApplication
     parameters:
         @class(CanTrafficSinkAppBase);
         @display("i=block/sink");
+        string idIncomingFrames = default("0");				// The Incoming Frame ID(s) - String parameter (int) separated with commas
     gates:
         input in @labels(DataFrame);
         input controllerIn @directIn;

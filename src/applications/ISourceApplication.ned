@@ -22,6 +22,12 @@ moduleinterface ISourceApplication
 {
     parameters:
         @display("i=block/source");
+//        string idDataFrames;					// The Data Frames ID(s) - String parameter (int) separated with commas
+//        string periodicityDataFrames;			// data Frame period(s) for sending of messages - String parameter (int) separated with commas
+//        string dataLengthDataFrames;			// Datafield-length - String parameter (int) separated with commas
+//        string idRemoteFrames;					// The Remote Frame ID(s) - String parameter (int) separated with commas
+//        string periodicityRemoteFrames; 		// Remote Frame period(s) for sending of messages - String parameter (int) separated with commas
+//        string dataLengthRemoteFrames;			// Datafield-length - String parameter (int) separated with commas
     gates:
         output out;
 }

@@ -42,7 +42,7 @@ module CanNode
 //        string idRemoteFrames = default("0");				// The Remote Frame ID(s) - String parameter (int) separated with commas
 //        string periodicityRemoteFrames = default("0"); 		// Remote Frame period(s) for sending of messages - String parameter (int) separated with commas
 //        string dataLengthRemoteFrames = default("0");		// Datafield-length - String parameter (int) separated with commas
-        string idIncomingFrames = default("0");				// The Incoming Frame ID(s) - String parameter (int) separated with commas
+//        string idIncomingFrames = default("0");				// The Incoming Frame ID(s) - String parameter (int) separated with commas
         string node = default("0");							// Name of the node
         @display("i=block/app2;bgb=248,222");
 
