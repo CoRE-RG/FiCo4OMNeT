@@ -17,7 +17,7 @@ namespace FiCo4OMNeT {
  *
  */
 
-class Buffer : public cSimpleModule {
+class Buffer: public cSimpleModule {
 public:
     /**
      * @brief This method registers the gate for the reception of the messages.
@@ -67,6 +67,15 @@ protected:
     std::list<cMessage*> frames;
 
     /**
+     * Signal that is emitted every time a frame was sent.
+     */
+    simsignal_t txPkSignal;
+    /**
+     * Signal that is emitted every time a frame was received.
+     */
+    simsignal_t rxPkSignal;
+
+    /**
      * @brief Initialization of the module.
      */
     virtual void initialize();
@@ -85,12 +94,34 @@ protected:
      */
     virtual void handleMessage(cMessage *msg);
 
+    /**
+     * @brief Emits a statistics signal that a frame was sent from the buffer
+     *
+     * @param frame the frame that was sent
+     */
+    void recordPacketSent(cMessage *frame);
+
+    /**
+     * @brief Emits a statistics signal that a frame was received in the buffer
+     *
+     * @param frame the frame that was received
+     */
+    void recordPacketReceived(cMessage *frame);
+
+    /**
+     * @brief The message is delivered to the destination.
+     */
+    virtual void sendToDestinationGates(cMessage *msg);
+
 private:
 
     /**
-     *
+     * Initializes the statistics for the module
      */
-    virtual void sendToDestinationGates(cMessage *msg);
+    void initializeStatistics();
+
+
+
 };
 
 }

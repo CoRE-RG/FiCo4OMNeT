@@ -107,7 +107,7 @@ private:
     /**
      *
      */
-    virtual void sendToDestinationGates(CanDataFrame *msg);
+//    virtual void sendToDestinationGates(CanDataFrame *msg);
 };
 
 }

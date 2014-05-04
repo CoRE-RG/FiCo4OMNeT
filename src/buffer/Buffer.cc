@@ -5,6 +5,7 @@ namespace FiCo4OMNeT {
 //Define_Module(Buffer);
 
 void Buffer::initialize(){
+    initializeStatistics();
 }
 
 void Buffer::finish(){
@@ -14,6 +15,7 @@ void Buffer::finish(){
 void Buffer::handleMessage(cMessage *msg) {
     if (msg->arrivedOn("in")) {
         putFrame(msg);
+        recordPacketReceived(msg);
     }
 }
 
@@ -61,7 +63,24 @@ void Buffer::deliverNextFrame() {
 }
 
 void Buffer::sendToDestinationGates(cMessage *df) {
+    recordPacketSent(df);
     send(df,"out");
+}
+
+void Buffer::initializeStatistics()
+{
+    txPkSignal = registerSignal("txPk");
+    rxPkSignal = registerSignal("rxPk");
+}
+
+void Buffer::recordPacketSent(cMessage *frame)
+{
+    emit(txPkSignal, frame);
+}
+
+void Buffer::recordPacketReceived(cMessage *frame)
+{
+    emit(rxPkSignal, frame);
 }
 
 }
