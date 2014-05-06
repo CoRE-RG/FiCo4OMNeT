@@ -41,9 +41,9 @@ void CanBusLogic::finish() {
 void CanBusLogic::handleMessage(cMessage *msg) {
 //    std::string msgClass = msg->getClassName();
     if (msg->isSelfMessage()) { //Bus ist wieder im Idle-Zustand
-        if (dynamic_cast<CanDataFrame *> (msg)) { //Wenn zuvor eine Nachricht gesendet wurde
+        if (dynamic_cast<CanDataFrame *>(msg)) { //Wenn zuvor eine Nachricht gesendet wurde
             sendingCompleted();
-        } else if (dynamic_cast<ErrorFrame *> (msg)) {
+        } else if (dynamic_cast<ErrorFrame *>(msg)) {
             colorIdle();
             if (scheduledDataFrame != NULL) {
                 cancelEvent(scheduledDataFrame);
@@ -54,10 +54,10 @@ void CanBusLogic::handleMessage(cMessage *msg) {
             eraseids.clear();
         }
         grantSendingPermission();
-    } else if (dynamic_cast<CanDataFrame *> (msg)) { // externe Nachricht
+    } else if (dynamic_cast<CanDataFrame *>(msg)) { // externe Nachricht
         colorBusy();
         handleDataFrame(msg);
-    } else if (dynamic_cast<ErrorFrame *> (msg)) {
+    } else if (dynamic_cast<ErrorFrame *>(msg)) {
         colorError();
         handleErrorFrame(msg);
     }
@@ -91,15 +91,17 @@ void CanBusLogic::grantSendingPermission() {
         }
     }
     if (sendcount > 1) {
-        EV<< "More than one node sends with the same ID.\n";
-        EV<< "This behavior is not allowed. Hence the simulation is stopped.\n";
+        EV << "More than one node sends with the same ID.\n";
+        EV
+                  << "This behavior is not allowed. Hence the simulation is stopped.\n";
         endSimulation();
     }
     if (sendingNode != NULL) {
-        CanOutputBuffer* controller = check_and_cast<CanOutputBuffer *>(sendingNode);
+        CanOutputBuffer* controller = check_and_cast<CanOutputBuffer *>(
+                sendingNode);
         controller->receiveSendingPermission(currentSendingID);
     } else {
-        EV<< "no pending message" << endl;
+        EV << "no pending message" << endl;
         simtime_t timetaken = simTime() - busytimestamp;
         busytime += timetaken;
         idle = true;
@@ -127,7 +129,7 @@ void CanBusLogic::sendingCompleted() {
 
 void CanBusLogic::handleDataFrame(cMessage *msg) {
     CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
-    EV<<"dataframe mit canid: " << df->getCanID() << " empfangen \n";
+    EV << "dataframe mit canid: " << df->getCanID() << " empfangen \n";
     int length = df->getLength();
     double nextidle;
     nextidle = (double) length / (bandwidth);
@@ -170,7 +172,7 @@ void CanBusLogic::registerForArbitration(int id, cModule *node,
     ids.push_back(new CanID(id, node, signInTime, rtr));
     if (idle) {
         cMessage *self = new cMessage("idle_signin");
-        scheduleAt(simTime() + (1 /  (bandwidth)), self); //TODO was hat das mit dieser +1 auf sich?
+        scheduleAt(simTime() + (1 / (bandwidth)), self); //TODO was hat das mit dieser +1 auf sich?
         idle = false;
         busytimestamp = simTime();
         char buf[64];
@@ -193,57 +195,62 @@ void CanBusLogic::checkoutFromArbitration(int id) {
 }
 
 void CanBusLogic::colorBusy() {
-    for (int gateIndex = 0;
-            gateIndex < getParentModule()->gate("gate$o", 0)->getVectorSize();
-            gateIndex++) {
-        getParentModule()->gate("gate$i", gateIndex)->getDisplayString().setTagArg("ls", 0, "yellow");
-        getParentModule()->gate("gate$i", gateIndex)->getDisplayString().setTagArg("ls", 1, "3");
+    if (ev.isGUI()) {
+        for (int gateIndex = 0;
+                gateIndex
+                        < getParentModule()->gate("gate$o", 0)->getVectorSize();
+                gateIndex++) {
+            getParentModule()->gate("gate$o", gateIndex)->getDisplayString().setTagArg(
+                    "ls", 0, "yellow");
+            getParentModule()->gate("gate$o", gateIndex)->getDisplayString().setTagArg(
+                    "ls", 1, "3");
 
-        getParentModule()->gate("gate$o", gateIndex)->getDisplayString().setTagArg("ls", 0, "yellow");
-        getParentModule()->gate("gate$o", gateIndex)->getDisplayString().setTagArg("ls", 1, "3");
-
-
-//        getParentModule()->gate("gate$i", gateIndex)->findIncomingTransmissionChannel()->getDisplayString().setTagArg(
-//                "ls", 0, "yellow");
-//        getParentModule()->gate("gate$i", gateIndex)->findIncomingTransmissionChannel()->getDisplayString().setTagArg(
-//                "ls", 1, "3");
-//
-//        getParentModule()->gate("gate$o", gateIndex)->getTransmissionChannel()->getDisplayString().setTagArg(
-//                "ls", 0, "yellow");
-//        getParentModule()->gate("gate$o", gateIndex)->getTransmissionChannel()->getDisplayString().setTagArg(
-//                "ls", 1, "3");
+            //TODO: This is necessary due to visualization issues with OMNeT++
+            getParentModule()->gate("gate$i", gateIndex)->getPreviousGate()->getDisplayString().setTagArg(
+                    "ls", 0, "yellow");
+            getParentModule()->gate("gate$i", gateIndex)->getPreviousGate()->getDisplayString().setTagArg(
+                    "ls", 1, "3");
+        }
     }
 }
 
 void CanBusLogic::colorIdle() {
-    for (int gateIndex = 0;
-            gateIndex < getParentModule()->gate("gate$o", 0)->getVectorSize();
-            gateIndex++) {
-        getParentModule()->gate("gate$i", gateIndex)->getDisplayString().setTagArg(
-                "ls", 0, "black");
-        getParentModule()->gate("gate$i", gateIndex)->getDisplayString().setTagArg(
-                "ls", 1, "1");
+    if (ev.isGUI()) {
+        for (int gateIndex = 0;
+                gateIndex
+                        < getParentModule()->gate("gate$o", 0)->getVectorSize();
+                gateIndex++) {
+            getParentModule()->gate("gate$o", gateIndex)->getDisplayString().setTagArg(
+                    "ls", 0, "black");
+            getParentModule()->gate("gate$o", gateIndex)->getDisplayString().setTagArg(
+                    "ls", 1, "1");
 
-        getParentModule()->gate("gate$o", gateIndex)->getDisplayString().setTagArg(
-                "ls", 0, "black");
-        getParentModule()->gate("gate$o", gateIndex)->getDisplayString().setTagArg(
-                "ls", 1, "1");
+            //TODO: This is necessary due to visualization issues with OMNeT++
+            getParentModule()->gate("gate$i", gateIndex)->getPreviousGate()->getDisplayString().setTagArg(
+                    "ls", 0, "black");
+            getParentModule()->gate("gate$i", gateIndex)->getPreviousGate()->getDisplayString().setTagArg(
+                    "ls", 1, "1");
+        }
     }
 }
 
 void CanBusLogic::colorError() {
-    for (int gateIndex = 0;
-            gateIndex < getParentModule()->gate("gate$o", 0)->getVectorSize();
-            gateIndex++) {
-        getParentModule()->gate("gate$i", gateIndex)->getDisplayString().setTagArg(
-                "ls", 0, "red");
-        getParentModule()->gate("gate$i", gateIndex)->getDisplayString().setTagArg(
-                "ls", 1, "3");
+    if (ev.isGUI()) {
+        for (int gateIndex = 0;
+                gateIndex
+                        < getParentModule()->gate("gate$o", 0)->getVectorSize();
+                gateIndex++) {
+            getParentModule()->gate("gate$o", gateIndex)->getDisplayString().setTagArg(
+                    "ls", 0, "red");
+            getParentModule()->gate("gate$o", gateIndex)->getDisplayString().setTagArg(
+                    "ls", 1, "3");
 
-        getParentModule()->gate("gate$o", gateIndex)->getDisplayString().setTagArg(
-                "ls", 0, "red");
-        getParentModule()->gate("gate$o", gateIndex)->getDisplayString().setTagArg(
-                "ls", 1, "3");
+            //TODO: This is necessary due to visualization issues with OMNeT++
+            getParentModule()->gate("gate$i", gateIndex)->getPreviousGate()->getDisplayString().setTagArg(
+                    "ls", 0, "red");
+            getParentModule()->gate("gate$i", gateIndex)->getPreviousGate()->getDisplayString().setTagArg(
+                    "ls", 1, "3");
+        }
     }
 }
 
