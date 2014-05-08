@@ -13,3 +13,6 @@
 - (added by Till) Go through all sourcecode documentation and check for copy and paste errors
 
 - (added by Till) build run_demo for examples directory
+
+- (added by Till) TrafficSource crashes with segfault when parameter is not correctly formated
+- (added by Till) TrafficSource parameters should contain uints where appropriate
