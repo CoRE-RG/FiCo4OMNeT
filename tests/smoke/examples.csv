@@ -1,9 +1,10 @@
 # workingdir,                                                     args
 /examples/can/arbitration/,                                      -f omnetpp.ini -c General -r 0
-/examples/can/error1/,                                           -f omnetpp.ini -c General -r 0
-/examples/can/error2/,                                           -f omnetpp.ini -c General -r 0
-/examples/can/simpleNewLayout/,                                  -f omnetpp.ini -c General -r 0
-/examples/can/generator/,                                        -f omnetpp.ini -c General -r 0
 /examples/can/bitStuffing/noBitStuffing/,                        -f omnetpp.ini -c General -r 0
 /examples/can/bitStuffing/fiftyPercent/,                         -f omnetpp.ini -c General -r 0
 /examples/can/bitStuffing/worstCase/,                            -f omnetpp.ini -c General -r 0
+/examples/can/error1/,                                           -f omnetpp.ini -c General -r 0
+/examples/can/error2/,                                           -f omnetpp.ini -c General -r 0
+/examples/can/generator/,                                        -f omnetpp.ini -c General -r 0
+/examples/can/multipleSourceApps/,                               -f omnetpp.ini -c General -r 0
+/examples/can/simpleNewLayout/,                                  -f omnetpp.ini -c General -r 0

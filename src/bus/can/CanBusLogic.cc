@@ -24,6 +24,8 @@ void CanBusLogic::initialize() {
     scheduledDataFrame = new CanDataFrame();
 
     bandwidth = getParentModule()->par("bandwidth");
+
+    EV<< "canVersion: " << getParentModule()->par("version").stdstringValue() << "\n";
 }
 
 void CanBusLogic::finish() {
@@ -104,6 +106,7 @@ void CanBusLogic::grantSendingPermission() {
         EV << "no pending message" << endl;
         simtime_t timetaken = simTime() - busytimestamp;
         busytime += timetaken;
+        EV << "Busytime: " << busytime << "\n";
         idle = true;
         char buf[64];
         sprintf(buf, "state: idle");
@@ -133,6 +136,8 @@ void CanBusLogic::handleDataFrame(cMessage *msg) {
     int length = df->getLength();
     double nextidle;
     nextidle = (double) length / (bandwidth);
+    EV<< "#####message wird gescheduled#####\n";
+    EV<< "Größe: " << df->getLength() << "nextidle: " << nextidle << "\n";
     //TODO Der naechste Idle-Zustand ist eigentlich die (berechnete Zeit - 1), aber hier ist wieder die Sicherheits-Bitzeit mit verrechnet; Ist das so?
     if (scheduledDataFrame != NULL) {
         cancelEvent(scheduledDataFrame);
@@ -172,6 +177,7 @@ void CanBusLogic::registerForArbitration(int id, cModule *node,
     ids.push_back(new CanID(id, node, signInTime, rtr));
     if (idle) {
         cMessage *self = new cMessage("idle_signin");
+        EV<<"scheudle at: " << (simTime() + (1 / (bandwidth))) << "\n";
         scheduleAt(simTime() + (1 / (bandwidth)), self); //TODO was hat das mit dieser +1 auf sich?
         idle = false;
         busytimestamp = simTime();

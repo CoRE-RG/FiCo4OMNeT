@@ -13,11 +13,11 @@ module CanBus
     parameters:
         bool errorsActivated = default(false);		// activate if errors shall be enabled
         double bandwidth @unit(bps) = default(1Mbps); //[MBit/s]
-//        int nodecount = default(2); 		// number of nodes in the network
+        string version = default("2.0A");					// Version of CAN-Protocol. 2.0A = 11 Bits identifier, 2.0B = 29 Bits identifier
+        double bitStuffingPercentage = default(0);			// Value for the percentage distribution for bit stuffing. Valid values 0 to 1.
         @display("i=block/network");
     
     gates:
-//        inout gate[nodecount];
         inout gate[];
 
     submodules:

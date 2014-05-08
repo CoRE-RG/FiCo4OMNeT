@@ -20,8 +20,8 @@ namespace FiCo4OMNeT {
 Define_Module(CanTrafficSourceAppBase);
 
 void CanTrafficSourceAppBase::initialize() {
-    canVersion = getParentModule()->par("version").stdstringValue();
-    bitStuffingPercentage = getParentModule()->par("bitStuffingPercentage");
+    canVersion = getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->par("version").stdstringValue();
+    bitStuffingPercentage = getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->par("bitStuffingPercentage");
     checkParameterValues();
 
     initialDataFrameCreation();
