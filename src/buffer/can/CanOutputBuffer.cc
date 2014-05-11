@@ -32,7 +32,6 @@ void CanOutputBuffer::putFrame(cMessage* msg) {
 }
 
 void CanOutputBuffer::registerForArbitration(int id, bool rtr) {
-    //EV << getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getName() << "\n";
     CanBusLogic *canBusLogic =
             (CanBusLogic*) (getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->getSubmodule(
                     "canBusLogic"));

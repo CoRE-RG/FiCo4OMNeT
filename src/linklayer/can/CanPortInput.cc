@@ -40,15 +40,10 @@ void CanPortInput::initialize() {
     rcvdRFSignal = registerSignal("receivedCompleteRF");
 }
 
-void CanPortInput::finish() {
-
-}
-
 void CanPortInput::handleMessage(cMessage *msg) {
     std::string msgClass = msg->getClassName();
     if (msg->isSelfMessage()) {
         if (ErrorFrame *ef = dynamic_cast<ErrorFrame *>(msg)) {
-//            ErrorFrame *ef = dynamic_cast<ErrorFrame *>(msg);
             forwardOwnErrorFrame(ef);
             if (scheduledErrorFrame != NULL) {
                 cancelEvent(scheduledErrorFrame);
@@ -56,7 +51,6 @@ void CanPortInput::handleMessage(cMessage *msg) {
             delete (scheduledErrorFrame);
             scheduledErrorFrame = NULL;
         } else if (CanDataFrame *df = dynamic_cast<CanDataFrame *>(msg)) {
-//            CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
             forwardDataFrame(df);
             if (scheduledDataFrame != NULL) {
                 cancelEvent(scheduledDataFrame);
@@ -65,7 +59,6 @@ void CanPortInput::handleMessage(cMessage *msg) {
             scheduledDataFrame = NULL;
         }
     } else if (CanDataFrame *df = dynamic_cast<CanDataFrame *>(msg)) {
-//        CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
         if (checkExistence(df)) {
             int rcverr = intuniform(0, 99);
             if (rcverr < errorperc) {
@@ -82,7 +75,6 @@ void CanPortInput::handleMessage(cMessage *msg) {
         }
         delete msg;
     } else if (ErrorFrame *ef = dynamic_cast<ErrorFrame *>(msg)) {
-//        ErrorFrame *ef = check_and_cast<ErrorFrame *>(msg);
         handleExternErrorFrame(ef);
         delete msg;
     }
@@ -101,11 +93,11 @@ void CanPortInput::receiveMessage(CanDataFrame *df) {
 
 void CanPortInput::generateReceiveError(CanDataFrame *df) {
     ErrorFrame *errorMsg = new ErrorFrame("receiveError");
-    int pos = intuniform(0, df->getLength() - 12); //Position zwischen 0 - L�nge des Frames (abz�glich ((EOF und ACK-Delimiter)+1))
-    errorMsg->setKind(intuniform(2, 3)); //2: CRC-Fehler, 3: Bit-Stuffing-Fehler
+    int pos = intuniform(0, df->getLength() - 12); //TODO magic number; Position zwischen 0 - L�nge des Frames (abz�glich ((EOF und ACK-Delimiter)+1))
+    errorMsg->setKind(intuniform(2, 3)); //2: CRC-error, 3: Bit-Stuffing-error
     errorMsg->setCanID(df->getCanID());
     if (pos > 0)
-        pos--;  //wegen der verschobenen Sendezeiten
+        pos--;  // TODO wegen der verschobenen Sendezeiten
     errorMsg->setPos(pos);
     if (scheduledErrorFrame != NULL) {
         cancelEvent(scheduledErrorFrame);
@@ -190,7 +182,6 @@ void CanPortInput::handleExternErrorFrame(ErrorFrame *ef) {
         if (ef->getKind() > 2) {
             portOutput->handleReceivedErrorFrame();
         }
-        // dieser knoten ist sender; ef an output; da evtl. geschedulte ef löschen & neue Arbitrierung
     }
     if (scheduledDataFrame != NULL && scheduledDataFrame->isScheduled()
             && (ef->getCanID() == scheduledDataFrame->getCanID())) {

@@ -54,8 +54,6 @@ protected:
      */
     virtual void initialize();
 
-    virtual void finish();
-
     /**
      * @brief Handles all received messages
      *
@@ -101,7 +99,7 @@ private:
     double bandwidth;
 
     /**
-     * if errors = true then this is the amount of errors appearing on the node in percent. Initialized from ned-attribute of CAN-Node
+     * @brief Probability that an error for the received frame will occur.
      *
      */
     int errorperc;
@@ -122,7 +120,7 @@ private:
     virtual void receiveMessage(CanDataFrame *msg);
 
     /**
-     * @brief
+     * @brief This method generates an error message for the received data frame.
      */
     virtual void generateReceiveError(CanDataFrame *df);
 
@@ -162,7 +160,7 @@ private:
     virtual void forwardOwnErrorFrame(ErrorFrame *ef);
 
     /**
-     * @brief
+     * @brief Called when a error frame is received.
      */
     virtual void handleExternErrorFrame(ErrorFrame *ef);
 };

@@ -48,9 +48,6 @@ protected:
      */
     virtual void initialize();
 
-
-    virtual void finish();
-
     /**
      * @brief Handles all received messages
      *
@@ -91,7 +88,7 @@ private:
     bool errorsActivated;
 
     /**
-     * if errors = true then this is the amount of errors appearing on the node in percent. Initialized from ned-attribute of CAN-Node
+     * @brief Probability that an error for the received frame will occur.
      *
      */
     int errorperc;
@@ -101,6 +98,9 @@ private:
      */
     ErrorFrame *scheduledErrorFrame;
 
+    /**
+     * @brief True if an error frame for the current data frame is already received.
+     */
     bool errorReceived;
 
     /**

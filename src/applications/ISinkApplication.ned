@@ -22,7 +22,6 @@ moduleinterface ISinkApplication
 {
     parameters:
         @display("i=block/sink");
-//        string idIncomingFrames;				// The Incoming Frame ID(s) - String parameter (int) separated with commas
     gates:
         input in;
 }

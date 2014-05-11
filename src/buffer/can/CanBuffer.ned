@@ -21,10 +21,6 @@ moduleinterface CanBuffer extends Buffer
 {
     parameters:
         @display("i=block/buffer");
-        //Statistic of the amount of packets that were sent by the buffer
-//        @statistic[txPk](title="TX Packets"; record=count,vector);
-        //End-to-end latency
-        //@statistic[latency](title="End-to-end latency"; unit=s; record=stats,histogram,vector);
 
         bool MOB;//If true frames with the same ID will be overwritten.
 }

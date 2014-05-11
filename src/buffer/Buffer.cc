@@ -2,14 +2,8 @@
 
 namespace FiCo4OMNeT {
 
-//Define_Module(Buffer);
-
 void Buffer::initialize(){
     initializeStatistics();
-}
-
-void Buffer::finish(){
-    frames.clear();
 }
 
 void Buffer::handleMessage(cMessage *msg) {
@@ -19,7 +13,7 @@ void Buffer::handleMessage(cMessage *msg) {
     }
 }
 
-void Buffer::registerDestinationGate() { //TODO mal schauen ob das n�tig ist
+void Buffer::registerDestinationGate() { //TODO needs upgrade for multiple sink apps
     cStringTokenizer destinationGatesTokenizer(
             getParentModule()->par("destinationGates"), ",");
     while (destinationGatesTokenizer.hasMoreTokens()) {

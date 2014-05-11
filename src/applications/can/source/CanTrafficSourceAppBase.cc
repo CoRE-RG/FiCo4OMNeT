@@ -42,11 +42,6 @@ void CanTrafficSourceAppBase::checkParameterValues() {
 void CanTrafficSourceAppBase::handleMessage(cMessage *msg) {
     CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
     dataFrameTransmission(df);
-//    if (CanDataFrame *df = dynamic_cast<CanDataFrame *>(msg)) {
-//        dataFrameTransmission(df);
-//    } else {
-//        registerDataFrameAtPort(1);
-//    }
 }
 
 void CanTrafficSourceAppBase::initialRemoteFrameCreation() {

@@ -24,8 +24,6 @@ void CanBusLogic::initialize() {
     scheduledDataFrame = new CanDataFrame();
 
     bandwidth = getParentModule()->par("bandwidth");
-
-    EV<< "canVersion: " << getParentModule()->par("version").stdstringValue() << "\n";
 }
 
 void CanBusLogic::finish() {
@@ -41,9 +39,8 @@ void CanBusLogic::finish() {
 }
 
 void CanBusLogic::handleMessage(cMessage *msg) {
-//    std::string msgClass = msg->getClassName();
-    if (msg->isSelfMessage()) { //Bus ist wieder im Idle-Zustand
-        if (dynamic_cast<CanDataFrame *>(msg)) { //Wenn zuvor eine Nachricht gesendet wurde
+    if (msg->isSelfMessage()) {
+        if (dynamic_cast<CanDataFrame *>(msg)) {
             sendingCompleted();
         } else if (dynamic_cast<ErrorFrame *>(msg)) {
             colorIdle();
@@ -56,7 +53,7 @@ void CanBusLogic::handleMessage(cMessage *msg) {
             eraseids.clear();
         }
         grantSendingPermission();
-    } else if (dynamic_cast<CanDataFrame *>(msg)) { // externe Nachricht
+    } else if (dynamic_cast<CanDataFrame *>(msg)) {
         colorBusy();
         handleDataFrame(msg);
     } else if (dynamic_cast<ErrorFrame *>(msg)) {
@@ -71,7 +68,7 @@ void CanBusLogic::grantSendingPermission() {
     currentSendingID = INT_MAX;
     sendingNode = NULL;
 
-    for (std::list<CanID*>::iterator it = ids.begin(); it != ids.end(); ++it) { //finden der höchsten Priorität aller angemeldeten Nachrichten
+    for (std::list<CanID*>::iterator it = ids.begin(); it != ids.end(); ++it) {
         CanID *id = *it;
         if (id->getId() < currentSendingID) {
             currentSendingID = id->getId();
@@ -81,11 +78,11 @@ void CanBusLogic::grantSendingPermission() {
     }
 
     int sendcount = 0;
-    for (std::list<CanID*>::iterator it = ids.begin(); it != ids.end(); ++it) { //finden, ob remote frame für diese ID auch gesendet werden soll
+    for (std::list<CanID*>::iterator it = ids.begin(); it != ids.end(); ++it) {
         CanID *id = *it;
         if (id->getId() == currentSendingID) {
             if (id->getRtr() == false) { //Data-Frame
-                sendingNode = (CanOutputBuffer*) id->getNode(); //der Node, der einen Data frame senden möcte wird zum senden ausgewählt
+                sendingNode = (CanOutputBuffer*) id->getNode();
                 currsit = id->getSignInTime();
                 sendcount++;
             }
@@ -162,8 +159,7 @@ void CanBusLogic::handleErrorFrame(cMessage *msg) {
     if (!errored) {
         numErrorFrames++;
         ErrorFrame *ef2 = new ErrorFrame();
-//        scheduleAt(simTime() + (12 / (bandwidth * 1000 * 1000)), ef2); //12 - maximale L�nge eines Error-Frames
-        scheduleAt(simTime() + (12 / (bandwidth)), ef2); //12 - maximale L�nge eines Error-Frames
+        scheduleAt(simTime() + (12 / (bandwidth)), ef2); //TODO magic number
         emit(rcvdEFSignal, ef2);
         errored = true;
         send(msg->dup(), "gate$o");
@@ -178,7 +174,7 @@ void CanBusLogic::registerForArbitration(int id, cModule *node,
     if (idle) {
         cMessage *self = new cMessage("idle_signin");
         EV<<"scheudle at: " << (simTime() + (1 / (bandwidth))) << "\n";
-        scheduleAt(simTime() + (1 / (bandwidth)), self); //TODO was hat das mit dieser +1 auf sich?
+        scheduleAt(simTime() + (1 / (bandwidth)), self); //TODO +1?
         idle = false;
         busytimestamp = simTime();
         char buf[64];

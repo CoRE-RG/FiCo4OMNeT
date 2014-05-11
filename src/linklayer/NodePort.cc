@@ -27,7 +27,7 @@ void NodePort::handleMessage(cMessage *msg) {
     }
 }
 
-void NodePort::sendMsgToBus(cMessage *msg){ //TODO needed?
+void NodePort::sendMsgToBus(cMessage *msg){
     Enter_Method_Silent();
     take(msg);
     send(msg, "phygate$o");

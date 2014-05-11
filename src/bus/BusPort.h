@@ -53,6 +53,9 @@ class BusPort : public cSimpleModule {
          */
         virtual void forward_to_all(cMessage *msg);
 
+        /**
+         * @brief Sends a message to a single node.
+         */
         virtual void sendMsgToNode(cMessage *msg, int id);
 };
 

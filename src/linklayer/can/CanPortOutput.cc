@@ -43,11 +43,6 @@ void CanPortOutput::initialize() {
     initializeStatisticValues();
 }
 
-void CanPortOutput::finish(){
-    cancelAndDelete(scheduledErrorFrame);
-    scheduledErrorFrame = NULL;
-}
-
 void CanPortOutput::initializeStatisticValues(){
     sentDFSignal = registerSignal("sentDF");
     sentRFSignal = registerSignal("sentRF");
@@ -58,7 +53,6 @@ void CanPortOutput::initializeStatisticValues(){
 void CanPortOutput::handleMessage(cMessage *msg) {
     if (ErrorFrame *ef = dynamic_cast<ErrorFrame *>(msg)) {
         if (!errorReceived) {
-//            ErrorFrame *ef = check_and_cast<ErrorFrame *>(msg);
             if (ef->getKind() < 2) { //TODO magic number
                 emit(sendErrorsSignal, ef);
             } else {
@@ -78,11 +72,11 @@ void CanPortOutput::handleMessage(cMessage *msg) {
             int senderr = intuniform(0, 99);
             if (senderr < errorperc) {
                 ErrorFrame *errself = new ErrorFrame("senderror");
-                int pos = intuniform(0, df->getLength() - 12); //Position zwischen 0 - L�nge des Frames (abz�glich ((EOF und ACK-Delimiter)+1))
+                int pos = intuniform(0, df->getLength() - 12); //TODO magic number; Position zwischen 0 - L�nge des Frames (abz�glich ((EOF und ACK-Delimiter)+1))
                 errself->setKind(intuniform(0, 1)); //0: Bit-Error, 1: Form-Error
                 errself->setCanID(df->getCanID());
                 if (pos > 0)
-                    pos--;  //wegen der verschobenen Sendezeiten
+                    pos--;  //TODO wegen der verschobenen Sendezeiten
                 errself->setPos(pos);
                 if (scheduledErrorFrame != NULL && scheduledErrorFrame->isScheduled()) {
                     cancelEvent(scheduledErrorFrame);

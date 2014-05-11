@@ -80,8 +80,6 @@ protected:
      */
     virtual void initialize();
 
-    virtual void finish();
-
     /**
      * @brief Is called when a new Frame is received in the buffer.
      *

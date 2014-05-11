@@ -21,11 +21,6 @@ simple CanOutputBuffer like CanBuffer
 {
         parameters:
         @display("i=block/buffer");
-        //Statistic of the amount of packets that were sent by the buffer
-        //@statistic[txPk](title="TX Packets"; record=count,vector);
-        //End-to-end latency
-        //@statistic[latency](title="End-to-end latency"; unit=s; record=stats,histogram,vector);
-
         //Comma seperated list of gates where the frames of the buffer are delivered
         string destination_gates = default("");
         bool MOB = default(true);//If true frames with the same ID will be overwritten.

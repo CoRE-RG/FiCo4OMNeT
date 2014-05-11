@@ -25,7 +25,6 @@
 #include "BusPort.h"
 #include "CanID.h"
 #include "CanOutputBuffer.h"
-//#include "CanTrafficSourceApp.h"
 
 namespace FiCo4OMNeT {
 /**
@@ -57,30 +56,7 @@ protected:
      *
      */
     virtual void finish();
-    /**
-     * @brief Writes a message-ID into the ids-list
-     *
-     * Incoming Arbitration messages ("ArbIn") trigger this method.
-     * The contained message-ID is stored in the ids-list.
-     * The ids-list is a substitution for the arbitration mechanism.
-     *
-     */
-//    virtual void signIn(cMessage *msg);
-    /**
-     * @brief Deletes a message-ID in the ids-list
-     *
-     * Incoming Arbitration messages ("ArbOut") trigger this method.
-     *
-     */
-//    virtual void signOut(cMessage *msg);
-//        /**
-//         * @brief Forwards an incoming Data- or Error-Frame to all participants
-//         *
-//         * A copy of the Data- or Error-Frame is generated and respectively sent to all participants.
-//         * The original message will be deleted afterwards.
-//         *
-//         */
-//        virtual void forward_to_all(cMessage *msg);
+
     /**
      * @brief Initializes all participants of the network
      *
@@ -89,6 +65,7 @@ protected:
      *
      */
     virtual void initialize();
+
     /**
      * @brief Is called when a new message is received
      *
@@ -191,7 +168,7 @@ private:
      */
     std::vector<std::list<CanID*>::iterator> eraseids;
 
-    //Statistiken:
+    //statistics:
     /**
      * number of sent data frames. For statistics-collection of the bus.
      *
@@ -224,13 +201,6 @@ private:
      * @brief NodeController which is currently sending.
      */
     cModule *sendingNode;
-
-    /**
-     * @brief Checks wether the current frame was acknowledged or not.
-     *
-     *
-     */
-//    virtual void checkAcknowledgementReception(ArbMsg *am);
 
     /**
      * @brief Sending permission for the frame with the highest priority is sent to the according node or the bus state is set to idle.

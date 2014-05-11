@@ -16,3 +16,5 @@
 
 - (added by Till) TrafficSource crashes with segfault when parameter is not correctly formated
 - (added by Till) TrafficSource parameters should contain uints where appropriate
+
+- (added by Stefan) TODOs

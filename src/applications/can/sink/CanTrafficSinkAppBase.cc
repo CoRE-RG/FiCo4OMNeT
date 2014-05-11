@@ -37,7 +37,6 @@ void CanTrafficSinkAppBase::registerIncomingDataFramesAtPort() {
         int intValue;
         strValue << idIncomingFramesTokenizer.nextToken();
         strValue >> intValue;
-
         port->registerIncomingDataFrame(intValue);
     }
 }
@@ -49,11 +48,10 @@ void CanTrafficSinkAppBase::handleMessage(cMessage *msg) {
             requestFrame();
         }
     } else if (CanDataFrame *frame = dynamic_cast<CanDataFrame *>(msg)) {
-//        CanDataFrame *frame = dynamic_cast<CanDataFrame *>(msg);
         int i = frame->getCanID();
         currentFrameID = i;
         bufferMessageCounter--;
-        startWorkOnFrame(0); //TODO working time
+        startWorkOnFrame(0);
     } else if (msg->isSelfMessage()) {
         CanInputBuffer *buffer =
                 (CanInputBuffer*) (getParentModule()->getSubmodule("bufferIn"));

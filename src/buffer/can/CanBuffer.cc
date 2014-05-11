@@ -2,8 +2,6 @@
 
 namespace FiCo4OMNeT {
 
-//Define_Module(Buffer);
-
 void CanBuffer::initialize(){
     Buffer::initialize();
     MOB = par("MOB");
@@ -68,9 +66,4 @@ void CanBuffer::deliverNextFrame() {
     Enter_Method_Silent();
     sendToDestinationGates(frames.front()->dup());
 }
-
-//void CanBuffer::sendToDestinationGates(CanDataFrame *df) {
-//    send(df,"out");
-//}
-
 }
