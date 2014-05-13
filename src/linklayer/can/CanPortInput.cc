@@ -38,6 +38,8 @@ void CanPortInput::initialize() {
 
     rcvdDFSignal = registerSignal("receivedCompleteDF");
     rcvdRFSignal = registerSignal("receivedCompleteRF");
+
+    WATCH_VECTOR(incomingDataFrameIDs);
 }
 
 void CanPortInput::handleMessage(cMessage *msg) {

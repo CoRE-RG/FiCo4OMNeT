@@ -1,4 +1,4 @@
-#include "Buffer.h"
+#include "buffer/Buffer.h"
 
 namespace FiCo4OMNeT {
 

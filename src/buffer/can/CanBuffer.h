@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <omnetpp.h>
-#include "Buffer.h"
+#include "buffer/Buffer.h"
 #include "CanDataFrame_m.h"
 
 namespace FiCo4OMNeT {

@@ -69,7 +69,7 @@ void CanTrafficSourceAppBase::initialRemoteFrameCreation() {
             if (can_msg->getPeriod() == 0) {
                 EV<<"Remote frame with ID "<< can_msg->getCanID() << " has no period. Hence it will be ignored.\n";
             } else {
-                scheduleAt(simTime() + (can_msg->getPeriod() / 1000.), can_msg);
+                scheduleAt(simTime() + (can_msg->getPeriod() / 1000.) + SimTime(par("periodInaccurracy").doubleValue()), can_msg);
             }
 
         }
@@ -106,7 +106,7 @@ void CanTrafficSourceAppBase::initialDataFrameCreation() {
             outgoingDataFrames.push_back(can_msg);
             registerDataFrameAtPort(can_msg->getCanID());
             if (can_msg->getPeriod() != 0) {
-                scheduleAt(simTime() + (can_msg->getPeriod() / 1000.), can_msg);
+                scheduleAt(simTime() + (can_msg->getPeriod() / 1000.) + SimTime(par("periodInaccurracy").doubleValue()), can_msg);
             }
         }
     }
@@ -152,7 +152,7 @@ void CanTrafficSourceAppBase::dataFrameTransmission(CanDataFrame *df) {
     CanDataFrame *outgoingFrame;
     if (df->isSelfMessage()) {
         outgoingFrame = df->dup();
-        scheduleAt(simTime() + (df->getPeriod() / 1000.), df);
+        scheduleAt(simTime() + (df->getPeriod() / 1000.) + SimTime(par("periodInaccurracy").doubleValue()), df);
     } else if (df->arrivedOn("remoteIn")) {
         for (std::vector<CanDataFrame*>::iterator it =
                 outgoingDataFrames.begin(); it != outgoingDataFrames.end();

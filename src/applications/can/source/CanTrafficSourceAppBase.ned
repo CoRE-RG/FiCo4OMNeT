@@ -35,6 +35,7 @@ simple CanTrafficSourceAppBase like ISourceApplication
         string idRemoteFrames = default("0");				// The Remote Frame ID(s) - String parameter (int) separated with commas
         string periodicityRemoteFrames = default("0"); 		// Remote Frame period(s) for sending of messages - String parameter (int) separated with commas
         string dataLengthRemoteFrames = default("0");		// Datafield-length - String parameter (int) separated with commas
+        double periodInaccurracy @unit(s) = default(0s);
     gates:
         output out @labels(DataFrame);
         input remoteIn @directIn;

@@ -90,10 +90,10 @@ void CanBusLogic::grantSendingPermission() {
         }
     }
     if (sendcount > 1) {
-        EV << "More than one node sends with the same ID.\n";
-        EV
-                  << "This behavior is not allowed. Hence the simulation is stopped.\n";
-        endSimulation();
+        std::ostringstream oss;
+        oss << "More than one node sends with the same ID " << currentSendingID
+                << ". This behavior is not allowed.";
+        throw cRuntimeError(oss.str().c_str());
     }
     if (sendingNode != NULL) {
         CanOutputBuffer* controller = check_and_cast<CanOutputBuffer *>(
@@ -133,8 +133,8 @@ void CanBusLogic::handleDataFrame(cMessage *msg) {
     int length = df->getLength();
     double nextidle;
     nextidle = (double) length / (bandwidth);
-    EV<< "#####message wird gescheduled#####\n";
-    EV<< "Größe: " << df->getLength() << "nextidle: " << nextidle << "\n";
+    EV << "#####message wird gescheduled#####\n";
+    EV << "Grï¿½ï¿½e: " << df->getLength() << "nextidle: " << nextidle << "\n";
     //TODO Der naechste Idle-Zustand ist eigentlich die (berechnete Zeit - 1), aber hier ist wieder die Sicherheits-Bitzeit mit verrechnet; Ist das so?
     if (scheduledDataFrame != NULL) {
         cancelEvent(scheduledDataFrame);
@@ -173,7 +173,7 @@ void CanBusLogic::registerForArbitration(int id, cModule *node,
     ids.push_back(new CanID(id, node, signInTime, rtr));
     if (idle) {
         cMessage *self = new cMessage("idle_signin");
-        EV<<"scheudle at: " << (simTime() + (1 / (bandwidth))) << "\n";
+        EV << "scheudle at: " << (simTime() + (1 / (bandwidth))) << "\n";
         scheduleAt(simTime() + (1 / (bandwidth)), self); //TODO +1?
         idle = false;
         busytimestamp = simTime();

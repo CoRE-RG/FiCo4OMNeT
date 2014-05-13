@@ -25,12 +25,12 @@ void CanInputBuffer::putFrame(cMessage* msg) {
         if (getFrame(frame->getCanID()) != NULL) {
             deleteFrame(frame->getCanID());
         } else {
-            cModule *sinkApp = getParentModule()->getSubmodule("sinkApp");
+            cModule *sinkApp = (cModule*)gate("out")->getPathEndGate()->getOwner();
             sendDirect(new cMessage("Message in buffer"), sinkApp,
                     "controllerIn");
         }
     } else {
-        cModule *sinkApp = getParentModule()->getSubmodule("sinkApp");
+        cModule *sinkApp = (cModule*)gate("out")->getPathEndGate()->getOwner();
         sendDirect(new cMessage("Message in buffer"), sinkApp, "controllerIn");
     }
     frames.push_back(frame);
