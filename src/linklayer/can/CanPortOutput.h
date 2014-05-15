@@ -58,6 +58,11 @@ protected:
 private:
 
     /**
+     * @brief Maximum size of an error frame.
+     */
+    static const int MAXERRORFRAMESIZE = 12;
+
+    /**
      * @brief Simsignal for sent data frames.
      */
     simsignal_t sentDFSignal;

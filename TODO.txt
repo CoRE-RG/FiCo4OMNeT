@@ -1,4 +1,7 @@
+CAN
+
 - (added by Till) Add statistics to all buffers and applications for incoming and outgoing packets
+	done (Stefan)
 
 - (added by Till) Check module distructors: (ErrorFrame in canPortOutput) and (CanDataFrame in bufferOut)
 
@@ -8,8 +11,6 @@
 
 - (added by Till) compile with -wall and -werr
 
-- (added by Stefan) Only english!
-
 - (added by Till) Go through all sourcecode documentation and check for copy and paste errors
 
 - (added by Till) build run_demo for examples directory
@@ -18,3 +19,8 @@
 - (added by Till) TrafficSource parameters should contain uints where appropriate
 
 - (added by Stefan) TODOs
+
+
+
+FlexRay
+

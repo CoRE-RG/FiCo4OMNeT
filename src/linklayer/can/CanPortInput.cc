@@ -95,7 +95,7 @@ void CanPortInput::receiveMessage(CanDataFrame *df) {
 
 void CanPortInput::generateReceiveError(CanDataFrame *df) {
     ErrorFrame *errorMsg = new ErrorFrame("receiveError");
-    int pos = intuniform(0, df->getLength() - 12); //TODO magic number; Position zwischen 0 - L�nge des Frames (abz�glich ((EOF und ACK-Delimiter)+1))
+    int pos = intuniform(0, df->getLength() - MAXERRORFRAMESIZE); //TODO Position zwischen 0 - L�nge des Frames (abz�glich ((EOF und ACK-Delimiter)+1))
     errorMsg->setKind(intuniform(2, 3)); //2: CRC-error, 3: Bit-Stuffing-error
     errorMsg->setCanID(df->getCanID());
     if (pos > 0)

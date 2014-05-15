@@ -27,6 +27,8 @@ void CanBusLogic::initialize() {
 }
 
 void CanBusLogic::finish() {
+    ev << "busytime: " << busytime << endl;
+    ev << "simtime: " << simTime() << endl;
     simtime_t busload = (busytime / simTime()) * 100;
     if (busload == 0.0 && !idle) {
         busload = 100.0;
@@ -129,10 +131,10 @@ void CanBusLogic::sendingCompleted() {
 
 void CanBusLogic::handleDataFrame(cMessage *msg) {
     CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
-    EV << "dataframe mit canid: " << df->getCanID() << " empfangen \n";
     int length = df->getLength();
     double nextidle;
     nextidle = (double) length / (bandwidth);
+    ev << "nextidle: " << nextidle << endl;
     //TODO Der naechste Idle-Zustand ist eigentlich die (berechnete Zeit - 1), aber hier ist wieder die Sicherheits-Bitzeit mit verrechnet; Ist das so?
     if (scheduledDataFrame != NULL) {
         cancelEvent(scheduledDataFrame);
@@ -157,7 +159,7 @@ void CanBusLogic::handleErrorFrame(cMessage *msg) {
     if (!errored) {
         numErrorFrames++;
         ErrorFrame *ef2 = new ErrorFrame();
-        scheduleAt(simTime() + (12 / (bandwidth)), ef2); //TODO magic number
+        scheduleAt(simTime() + (MAXERRORFRAMESIZE / (bandwidth)), ef2);
         emit(rcvdEFSignal, ef2);
         errored = true;
         send(msg->dup(), "gate$o");
