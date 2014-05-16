@@ -16,9 +16,6 @@ network worstCase
         }
         node[2]: CanNode;
     connections:
-//        for i=0..sizeof(bus.gate) {
-//            bus.gate++ <--> node[i].gate;
-//        }
         bus.gate[0] <--> node[0].gate;
         bus.gate[1] <--> node[1].gate;
 }
