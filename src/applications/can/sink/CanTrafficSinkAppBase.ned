@@ -21,6 +21,8 @@ import fico4omnet.applications.ISinkApplication;
 // Received data frames are processed in this module. When the input buffer receives a frame, 
 // the application gets informed about this. As soon as the application is idle it requests the next frame
 // from the buffer.
+//
+// In the parameter "idIncomingFrames" all frames are defined which will be received by this node. 
 // 
 //
 simple CanTrafficSinkAppBase like ISinkApplication

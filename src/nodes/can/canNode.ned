@@ -23,11 +23,16 @@ import fico4omnet.applications.can.source.CanTrafficSourceAppBase;
 import fico4omnet.applications.can.sink.CanTrafficSinkAppBase;
 
 //
-// Participants in the network. 
 //
-// Generates data, remote and error frames.
+// The node consists of several submodules which have different tasks. The source applications generate data and remote frames,
+// the sink applications process incoming frames, the buffers save the data and remote frames while the portmodule is responsible
+// for receiving and sending data and remote frames.
+//
+// It is possible to generate any number of source applications which forward their frames all to the same buffer.
 //
 //
+//
+
 module CanNode
 {
     parameters:

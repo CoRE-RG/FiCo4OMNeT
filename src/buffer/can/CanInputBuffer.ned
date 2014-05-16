@@ -13,6 +13,12 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
+
+//
+// Incoming frames are forwarded from the port to the input buffer. As soon as a frame is received
+// a message is sent to the sink application. The sink application afterwards requests a frame and
+// the buffer delivers it to the application. 
+//
 package fico4omnet.buffer.can;
 
 import fico4omnet.buffer.can.CanBuffer;

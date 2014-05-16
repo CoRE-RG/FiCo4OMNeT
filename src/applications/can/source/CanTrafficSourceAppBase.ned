@@ -22,7 +22,7 @@ import fico4omnet.applications.ISourceApplication;
 // of 0 is only forwarded when a remote frame from another node is received. All relevant parameters
 // for the frames are defined in the ini file. 
 // 
-//
+// 
 //
 simple CanTrafficSourceAppBase like ISourceApplication
 {

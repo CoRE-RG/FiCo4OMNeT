@@ -20,6 +20,13 @@ CAN
 
 - (added by Stefan) TODOs
 
+- (added by Stefan) check parameters
+
+- (added by Stefan) documentation parameters
+
+- (added by Stefan) startup time
+
+- (added by Stefan) check arbitration with the same ID
 
 
 FlexRay
