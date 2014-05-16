@@ -33,7 +33,6 @@ module CanNode
     parameters:
         int numSourceApps = default(1);						// Number of source apps in this node
         int errorperc = default(0);							// If errors are enabled: percentage of errors
-        string node = default("0");							// Name of the node
         @display("i=block/app2;bgb=248,222");
 
     gates:

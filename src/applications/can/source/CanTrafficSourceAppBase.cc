@@ -57,7 +57,6 @@ void CanTrafficSourceAppBase::initialRemoteFrameCreation() {
 
         for (unsigned int i = 0; i < remoteFrameIDs.size(); i++) {
             CanDataFrame *can_msg = new CanDataFrame("remoteFrame");
-            can_msg->setNode(getParentModule()->par("node"));
             can_msg->setCanID(checkAndReturnID(remoteFrameIDs.at(i)));
             can_msg->setLength(
                     calculateLength(
@@ -96,7 +95,6 @@ void CanTrafficSourceAppBase::initialDataFrameCreation() {
 
         for (unsigned int i = 0; i < dataFrameIDs.size(); i++) {
             CanDataFrame *can_msg = new CanDataFrame("message");
-            can_msg->setNode(getParentModule()->par("node"));
             can_msg->setCanID(checkAndReturnID(dataFrameIDs.at(i)));
             can_msg->setLength(
                     calculateLength(
