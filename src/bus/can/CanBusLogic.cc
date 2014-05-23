@@ -162,8 +162,6 @@ void CanBusLogic::handleDataFrame(cMessage *msg) {
     int length = df->getLength();
     double nextidle;
     nextidle = (double) length / (bandwidth);
-    ev << "nextidle: " << nextidle << endl;
-    //TODO Der naechste Idle-Zustand ist eigentlich die (berechnete Zeit - 1), aber hier ist wieder die Sicherheits-Bitzeit mit verrechnet; Ist das so?
     if (scheduledDataFrame != NULL) {
         cancelEvent(scheduledDataFrame);
     }
@@ -201,8 +199,7 @@ void CanBusLogic::registerForArbitration(int id, cModule *node,
     ids.push_back(new CanID(id, node, signInTime, rtr));
     if (idle) {
         cMessage *self = new cMessage("idle_signin");
-        EV << "scheudle at: " << (simTime() + (1 / (bandwidth))) << "\n";
-        scheduleAt(simTime() + (1 / (bandwidth)), self); //TODO +1?
+        scheduleAt(simTime() + (1 / (bandwidth)), self);
         idle = false;
         busytimestamp = simTime();
         char buf[64];

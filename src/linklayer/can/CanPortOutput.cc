@@ -85,11 +85,11 @@ void CanPortOutput::handleMessage(cMessage *msg) {
             int senderr = intuniform(0, 99);
             if (senderr < errorperc) {
                 ErrorFrame *errself = new ErrorFrame("senderror");
-                int pos = intuniform(0, df->getLength() - MAXERRORFRAMESIZE); //TODO Position zwischen 0 - L�nge des Frames (abz�glich ((EOF und ACK-Delimiter)+1))
+                int pos = intuniform(0, df->getLength() - MAXERRORFRAMESIZE);
                 errself->setKind(intuniform(0, 1)); //0: Bit-Error, 1: Form-Error
                 errself->setCanID(df->getCanID());
                 if (pos > 0)
-                    pos--;  //TODO wegen der verschobenen Sendezeiten
+                    pos--;
                 errself->setPos(pos);
                 if (scheduledErrorFrame != NULL && scheduledErrorFrame->isScheduled()) {
                     cancelEvent(scheduledErrorFrame);
