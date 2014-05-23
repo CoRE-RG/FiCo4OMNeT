@@ -30,11 +30,16 @@
 
 namespace FiCo4OMNeT {
 
-Define_Module(CanTrafficSourceAppBase);
+Define_Module(CanTrafficSourceAppBase)
+;
 
 void CanTrafficSourceAppBase::initialize() {
-    canVersion = getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->par("version").stdstringValue();
-    bitStuffingPercentage = getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->par("bitStuffingPercentage");
+    canVersion =
+            getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->par(
+                    "version").stdstringValue();
+    bitStuffingPercentage =
+            getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->par(
+                    "bitStuffingPercentage");
     checkParameterValues();
 
     initialDataFrameCreation();
@@ -44,7 +49,7 @@ void CanTrafficSourceAppBase::initialize() {
 void CanTrafficSourceAppBase::checkParameterValues() {
     if (bitStuffingPercentage < 0 || bitStuffingPercentage > 1) {
         EV<< "The value for the parameter \"bitStuffingPercentage\" is not permitted. Permitted values are from 0 to 1.";
-        endSimulation();
+        throw cRuntimeError("Invalid window size %d; must be >=1", windowSize);
     }
     if (canVersion.compare("2.0A") != 0 && canVersion.compare("2.0B") != 0) {
         EV << "The value for the parameter \"canVersion\" is not permitted. Permitted values are \"2.0B\" and \"2.0A\".";
@@ -69,6 +74,14 @@ void CanTrafficSourceAppBase::initialRemoteFrameCreation() {
                 par("dataLengthRemoteFrames"), ",");
 
         for (unsigned int i = 0; i < remoteFrameIDs.size(); i++) {
+            if (!dataLengthRemoteFramesTokenizer.hasMoreTokens()) {
+                EV<< "No more values for the data length for the next remote frame ID. Configuration in the ini file is not correct.";
+                endSimulation();
+            }
+            if (!remoteFramesPeriodicityTokenizer.hasMoreTokens()) {
+                EV<< "No more values for the period for the next remote frame ID. Configuration in the ini file is not correct.";
+                endSimulation();
+            }
             CanDataFrame *can_msg = new CanDataFrame("remoteFrame");
             can_msg->setCanID(checkAndReturnID(remoteFrameIDs.at(i)));
             can_msg->setLength(
@@ -85,6 +98,12 @@ void CanTrafficSourceAppBase::initialRemoteFrameCreation() {
             }
 
         }
+        if (dataLengthRemoteFramesTokenizer.hasMoreTokens()) {
+            EV<< "There are more values defined for the data length. Please check your configuration files.";
+        }
+        if (remoteFramesPeriodicityTokenizer.hasMoreTokens()) {
+            EV<< "There are more values defined for the period. Please check your configuration files.";
+        }
     }
 }
 
@@ -96,8 +115,7 @@ void CanTrafficSourceAppBase::registerRemoteFrameAtPort(int canID) {
 
 void CanTrafficSourceAppBase::initialDataFrameCreation() {
     if (par("idDataFrames").stdstringValue() != "0") {
-        cStringTokenizer dataFrameIDsTokenizer(
-                par("idDataFrames"), ",");
+        cStringTokenizer dataFrameIDsTokenizer(par("idDataFrames"), ",");
         std::vector<int> dataFrameIDs = dataFrameIDsTokenizer.asIntVector();
 
         cStringTokenizer dataFramesPeriodicityTokenizer(
@@ -107,6 +125,15 @@ void CanTrafficSourceAppBase::initialDataFrameCreation() {
                 par("dataLengthDataFrames"), ",");
 
         for (unsigned int i = 0; i < dataFrameIDs.size(); i++) {
+
+            if (!dataLengthDataFramesTokenizer.hasMoreTokens()) {
+                EV<< "No more values for the data length for the next data frame ID. Configuration in the ini file is not correct.";
+                endSimulation();
+            }
+            if (!dataFramesPeriodicityTokenizer.hasMoreTokens()) {
+                EV<< "No more values for the period for the next data frame ID. Configuration in the ini file is not correct.";
+                endSimulation();
+            }
             CanDataFrame *can_msg = new CanDataFrame("message");
             can_msg->setCanID(checkAndReturnID(dataFrameIDs.at(i)));
             can_msg->setLength(
@@ -120,13 +147,19 @@ void CanTrafficSourceAppBase::initialDataFrameCreation() {
                 scheduleAt(simTime() + (can_msg->getPeriod() / 1000.) + SimTime(par("periodInaccurracy").doubleValue()), can_msg);
             }
         }
+        if (dataLengthDataFramesTokenizer.hasMoreTokens()) {
+            EV<< "There are more values defined for the data length. Please check your configuration files.";
+        }
+        if (dataFramesPeriodicityTokenizer.hasMoreTokens()) {
+            EV<< "There are more values defined for the period. Please check your configuration files.";
+        }
     }
 }
 
 void CanTrafficSourceAppBase::registerDataFrameAtPort(int canID) {
     CanPortInput* port = (CanPortInput*) getParentModule()->getSubmodule(
             "canNodePort")->getSubmodule("canPortInput");
-    port->registerOutgoingDataFrame(canID,this->gate("remoteIn"));
+    port->registerOutgoingDataFrame(canID, this->gate("remoteIn"));
 }
 
 int CanTrafficSourceAppBase::checkAndReturnID(int id) {
@@ -163,7 +196,9 @@ void CanTrafficSourceAppBase::dataFrameTransmission(CanDataFrame *df) {
     CanDataFrame *outgoingFrame;
     if (df->isSelfMessage()) {
         outgoingFrame = df->dup();
-        scheduleAt(simTime() + (df->getPeriod() / 1000.) + SimTime(par("periodInaccurracy").doubleValue()), df);
+        scheduleAt(
+                simTime() + (df->getPeriod() / 1000.)
+                        + SimTime(par("periodInaccurracy").doubleValue()), df);
     } else if (df->arrivedOn("remoteIn")) {
         for (std::vector<CanDataFrame*>::iterator it =
                 outgoingDataFrames.begin(); it != outgoingDataFrames.end();
