@@ -28,6 +28,8 @@ CAN
 
 - (added by Stefan) check arbitration with the same ID
 
+- (added by Stefan) add license text to all files
+
 
 FlexRay
 

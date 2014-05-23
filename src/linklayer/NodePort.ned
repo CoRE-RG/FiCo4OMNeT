@@ -15,6 +15,9 @@
 
 package fico4omnet.linklayer;
 
+//
+// This module establishes the connection between the node and the bus module.
+//
 simple NodePort
 {
     parameters:
