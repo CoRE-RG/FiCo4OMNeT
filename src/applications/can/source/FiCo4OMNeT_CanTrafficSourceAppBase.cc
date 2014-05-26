@@ -48,13 +48,10 @@ void CanTrafficSourceAppBase::initialize() {
 
 void CanTrafficSourceAppBase::checkParameterValues() {
     if (bitStuffingPercentage < 0 || bitStuffingPercentage > 1) {
-        EV<< "The value for the parameter \"bitStuffingPercentage\" is not permitted. Permitted values are from 0 to 1.";
-        //FIXME: PROBLEM
-        //throw cRuntimeError("Invalid window size %d; must be >=1", windowSize);
+        throw cRuntimeError("The value for the parameter \"bitStuffingPercentage\" is not permitted. Permitted values are from 0 to 1.");
     }
     if (canVersion.compare("2.0A") != 0 && canVersion.compare("2.0B") != 0) {
-        EV << "The value for the parameter \"canVersion\" is not permitted. Permitted values are \"2.0B\" and \"2.0A\".";
-        endSimulation();
+        throw cRuntimeError("The value for the parameter \"canVersion\" is not permitted. Permitted values are \"2.0B\" and \"2.0A\".");
     }
 }
 
@@ -76,12 +73,10 @@ void CanTrafficSourceAppBase::initialRemoteFrameCreation() {
 
         for (unsigned int i = 0; i < remoteFrameIDs.size(); i++) {
             if (!dataLengthRemoteFramesTokenizer.hasMoreTokens()) {
-                EV<< "No more values for the data length for the next remote frame ID. Configuration in the ini file is not correct.";
-                endSimulation();
+                throw cRuntimeError("No more values for the data length for the next remote frame ID. Configuration in the ini file is not correct.");
             }
             if (!remoteFramesPeriodicityTokenizer.hasMoreTokens()) {
-                EV<< "No more values for the period for the next remote frame ID. Configuration in the ini file is not correct.";
-                endSimulation();
+                throw cRuntimeError("No more values for the period for the next remote frame ID. Configuration in the ini file is not correct.");
             }
             CanDataFrame *can_msg = new CanDataFrame("remoteFrame");
             can_msg->setCanID(checkAndReturnID(remoteFrameIDs.at(i)));
@@ -128,12 +123,10 @@ void CanTrafficSourceAppBase::initialDataFrameCreation() {
         for (unsigned int i = 0; i < dataFrameIDs.size(); i++) {
 
             if (!dataLengthDataFramesTokenizer.hasMoreTokens()) {
-                EV<< "No more values for the data length for the next data frame ID. Configuration in the ini file is not correct.";
-                endSimulation();
+                throw cRuntimeError("No more values for the data length for the next data frame ID. Configuration in the ini file is not correct.");
             }
             if (!dataFramesPeriodicityTokenizer.hasMoreTokens()) {
-                EV<< "No more values for the period for the next data frame ID. Configuration in the ini file is not correct.";
-                endSimulation();
+                throw cRuntimeError("No more values for the period for the next data frame ID. Configuration in the ini file is not correct.");
             }
             CanDataFrame *can_msg = new CanDataFrame("message");
             can_msg->setCanID(checkAndReturnID(dataFrameIDs.at(i)));
