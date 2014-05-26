@@ -32,9 +32,9 @@
         />
     <feature
         id="FR_common"
-        name="FlexRay Common"
+        name="[NOT READY YET, COMING SOON!] FlexRay Common"
         description = "The common part of FlexRay implementation"
-        initiallyEnabled = "true"
+        initiallyEnabled = "false"
         requires = ""
         labels = ""
         nedPackages = "
@@ -52,9 +52,9 @@
         />
     <feature
         id="FR_examples"
-        name="FlexRay examples"
+        name="[NOT READY YET, COMING SOON!] FlexRay examples"
         description = "Examples for the FlexRay implementation"
-        initiallyEnabled = "true"
+        initiallyEnabled = "false"
         requires = "FR_common"
         labels = ""
         nedPackages = "
