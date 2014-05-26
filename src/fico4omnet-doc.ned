@@ -33,7 +33,9 @@
 // <h2>Related documentation</h2>
 //   - <a href="../doxy/index.html" target="_top">C++ source documentation (Doxygen)</a>
 //
-// <h2>References</h2>
+// <h2>Background information</h2>
+// Informations about the arbitration and the error functionality of a Can network.
+//   - <a href="../neddoc/background.html" target="_top">Background</a>
 //
 // <h2>IMPORTANT</h2>
 // The bus model is continuously being improved: new parts
@@ -55,9 +57,38 @@
 // <a href="mailto:core@informatik.haw-hamburg.de">core@informatik.haw-hamburg.de</a>
 //
 //
+// @page background.html, Background
+// <center><h1>FiCo4OMNeT: Background</h1></center>
 //
+//This page is about some functionalities of the Can framework.
 //
+// <h2>Arbitration</h2>
+//The arbitration in this model is not implemented as specified in the
+//specification. As soon as a node wants to send a message, it registers the CanID
+//at the CanBusLogic. The BusLogic grants the node with the highest priority the
+//permission to send. Once the transmission is completed the BusLogic module
+//grants the permission to the next node with the highest registered CanID. If
+//there are no further messages scheduled, the bus waits until the next
+//registration.
 //
+// <h2>Error Frames</h2>
+//The error functionality can be activated by configuring a value greater than 0 for the 
+//errorperc parameter in the CanNode.
+//There are two kinds of errors: Sending-Errors and Receive-Errors.
+//
+//The parameter errorperc, which can be defined for each node in the ini file,
+//represents the percentage chance that an error will occur. This error will occur
+//at a random time within the transmission. At the given time, the error frame is
+//sent to the bus and subsequently forwarded to all nodes.
+//
+//If a node receives a data or remote frame the errorperc parameter is used to
+//generate a receive error. The error transmission works equally to the send
+//error.
+//
+//As soon as a node receives an error frame the reception of the current data or
+//remote frame is aborted. So the faulty frame is not processed by the node. When
+//the transmission of the error frame is completed a new sending permission is
+//granted to the node with the highest priority.
 //
 
 package fico4omnet;
