@@ -63,8 +63,11 @@
 //This page is about some functionalities of the Can framework.
 //
 // <h2>Arbitration</h2>
-//The arbitration in this model is not implemented as specified in the
-//specification. As soon as a node wants to send a message, it registers the CanID
+//The arbitration in this model is implemented in a simplified version compared to the
+//specification. The frames are transmitted in the correct order but it does not take place
+//on the physical layer. Instead the CanBusLogic manages the arbitration.
+//
+//As soon as a node wants to send a message, it registers the CanID
 //at the CanBusLogic. The BusLogic grants the node with the highest priority the
 //permission to send. Once the transmission is completed the BusLogic module
 //grants the permission to the next node with the highest registered CanID. If
