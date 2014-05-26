@@ -1,5 +1,5 @@
 cplusplus {{
-        #include "SchedulerEvent.h"
+        #include "FiCo4OMNeT_SchedulerEvent.h"
 }}
 
 namespace FiCo4OMNeT;
