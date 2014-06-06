@@ -59,7 +59,6 @@ protected:
      */
     virtual void handleMessage(cMessage *msg);
 
-private:
     /**
      * @brief Number of messages currently in the Buffer
      */
@@ -75,6 +74,7 @@ private:
      */
     int currentFrameID;
 
+private:
     /**
      * @brief Registers the canIDs which will be received by this node.
      */
