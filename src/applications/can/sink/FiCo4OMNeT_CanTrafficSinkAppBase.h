@@ -74,16 +74,17 @@ protected:
      */
     int currentFrameID;
 
+    /**
+     * @brief Requests a frame from buffer.
+     */
+    void requestFrame();
+
 private:
     /**
      * @brief Registers the canIDs which will be received by this node.
      */
     void registerIncomingDataFramesAtPort();
 
-    /**
-     * @brief Requests a frame from buffer.
-     */
-    void requestFrame();
 
     /**
      * @brief The sink processes the frame.
