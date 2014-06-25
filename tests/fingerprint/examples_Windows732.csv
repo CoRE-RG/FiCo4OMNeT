@@ -4,7 +4,7 @@
 /examples/can/bitStuffing/noBitStuffing/,                        -f omnetpp.ini -c General -r 0,                1s,              1ddc-6f5d
 /examples/can/bitStuffing/fiftyPercent/,                         -f omnetpp.ini -c General -r 0,                1s,              60db-00ca
 /examples/can/bitStuffing/worstCase/,                            -f omnetpp.ini -c General -r 0,                1s,              879e-da22
-/examples/can/error1/,                                           -f omnetpp.ini -c General -r 0,                1s,              200d-1f78
+/examples/can/error1/,                                           -f omnetpp.ini -c General -r 0,                1s,              fc0c-9bef
 /examples/can/error2/,                                           -f omnetpp.ini -c General -r 0,                1s,              26ec-9a13
 /examples/can/generator/,                                        -f omnetpp.ini -c General -r 0,                1s,              3782-b3d2
 /examples/can/multipleSourceApps/,                               -f omnetpp.ini -c General -r 0,                1s,              a4de-328e
