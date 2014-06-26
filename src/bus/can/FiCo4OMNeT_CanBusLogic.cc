@@ -216,8 +216,8 @@ void CanBusLogic::checkoutFromArbitration(int id) {
         CanID* tmp = *it;
         if (tmp->getId() == id) {
             ids.remove(tmp);
+            break;
         }
-        break;
     }
 }
 
