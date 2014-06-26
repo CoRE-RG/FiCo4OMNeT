@@ -30,8 +30,7 @@
 
 namespace FiCo4OMNeT {
 
-Define_Module(CanTrafficSourceAppBase)
-;
+Define_Module(CanTrafficSourceAppBase);
 
 void CanTrafficSourceAppBase::initialize() {
     canVersion =
@@ -48,10 +47,12 @@ void CanTrafficSourceAppBase::initialize() {
 
 void CanTrafficSourceAppBase::checkParameterValues() {
     if (bitStuffingPercentage < 0 || bitStuffingPercentage > 1) {
-        throw cRuntimeError("The value for the parameter \"bitStuffingPercentage\" is not permitted. Permitted values are from 0 to 1.");
+        throw cRuntimeError(
+                "The value for the parameter \"bitStuffingPercentage\" is not permitted. Permitted values are from 0 to 1.");
     }
     if (canVersion.compare("2.0A") != 0 && canVersion.compare("2.0B") != 0) {
-        throw cRuntimeError("The value for the parameter \"canVersion\" is not permitted. Permitted values are \"2.0B\" and \"2.0A\".");
+        throw cRuntimeError(
+                "The value for the parameter \"canVersion\" is not permitted. Permitted values are \"2.0B\" and \"2.0A\".");
     }
 }
 
@@ -71,12 +72,17 @@ void CanTrafficSourceAppBase::initialRemoteFrameCreation() {
         cStringTokenizer dataLengthRemoteFramesTokenizer(
                 par("dataLengthRemoteFrames"), ",");
 
+        cStringTokenizer initialRemoteFrameOffsetTokenizer(
+                par("initialRemoteFrameOffset"), ",");
+
         for (unsigned int i = 0; i < remoteFrameIDs.size(); i++) {
             if (!dataLengthRemoteFramesTokenizer.hasMoreTokens()) {
-                throw cRuntimeError("No more values for the data length for the next remote frame ID. Configuration in the ini file is not correct.");
+                throw cRuntimeError(
+                        "No more values for the data length for the next remote frame ID. Configuration in the ini file is not correct.");
             }
             if (!remoteFramesPeriodicityTokenizer.hasMoreTokens()) {
-                throw cRuntimeError("No more values for the period for the next remote frame ID. Configuration in the ini file is not correct.");
+                throw cRuntimeError(
+                        "No more values for the period for the next remote frame ID. Configuration in the ini file is not correct.");
             }
             CanDataFrame *can_msg = new CanDataFrame("remoteFrame");
             can_msg->setCanID(checkAndReturnID(remoteFrameIDs.at(i)));
@@ -88,17 +94,29 @@ void CanTrafficSourceAppBase::initialRemoteFrameCreation() {
                     atoi(remoteFramesPeriodicityTokenizer.nextToken()));
             registerRemoteFrameAtPort(can_msg->getCanID());
             if (can_msg->getPeriod() == 0) {
-                EV<<"Remote frame with ID "<< can_msg->getCanID() << " has no period. Hence it will be ignored.\n";
+                EV << "Remote frame with ID " << can_msg->getCanID()
+                          << " has no period. Hence it will be ignored.\n";
             } else {
-                scheduleAt(simTime() + (can_msg->getPeriod() / 1000.) + SimTime(par("periodInaccurracy").doubleValue()), can_msg);
+                double offset;
+                initialRemoteFrameOffsetTokenizer.hasMoreTokens() ?
+                        offset = atof(
+                                initialRemoteFrameOffsetTokenizer.nextToken()) :
+                        offset = 0;
+                scheduleAt(
+                        simTime() + SimTime(offset)
+                                + SimTime(
+                                        par("periodInaccurracy").doubleValue()),
+                        can_msg);
             }
 
         }
         if (dataLengthRemoteFramesTokenizer.hasMoreTokens()) {
-            EV<< "There are more values defined for the data length. Please check your configuration files.";
+            EV
+                      << "There are more values defined for the data length. Please check your configuration files.";
         }
         if (remoteFramesPeriodicityTokenizer.hasMoreTokens()) {
-            EV<< "There are more values defined for the period. Please check your configuration files.";
+            EV
+                      << "There are more values defined for the period. Please check your configuration files.";
         }
     }
 }
@@ -120,13 +138,18 @@ void CanTrafficSourceAppBase::initialDataFrameCreation() {
         cStringTokenizer dataLengthDataFramesTokenizer(
                 par("dataLengthDataFrames"), ",");
 
+        cStringTokenizer initialDataFrameOffsetTokenizer(
+                        par("initialDataFrameOffset"), ",");
+
         for (unsigned int i = 0; i < dataFrameIDs.size(); i++) {
 
             if (!dataLengthDataFramesTokenizer.hasMoreTokens()) {
-                throw cRuntimeError("No more values for the data length for the next data frame ID. Configuration in the ini file is not correct.");
+                throw cRuntimeError(
+                        "No more values for the data length for the next data frame ID. Configuration in the ini file is not correct.");
             }
             if (!dataFramesPeriodicityTokenizer.hasMoreTokens()) {
-                throw cRuntimeError("No more values for the period for the next data frame ID. Configuration in the ini file is not correct.");
+                throw cRuntimeError(
+                        "No more values for the period for the next data frame ID. Configuration in the ini file is not correct.");
             }
             CanDataFrame *can_msg = new CanDataFrame("message");
             can_msg->setCanID(checkAndReturnID(dataFrameIDs.at(i)));
@@ -138,14 +161,25 @@ void CanTrafficSourceAppBase::initialDataFrameCreation() {
             outgoingDataFrames.push_back(can_msg);
             registerDataFrameAtPort(can_msg->getCanID());
             if (can_msg->getPeriod() != 0) {
-                scheduleAt(simTime() + (can_msg->getPeriod() / 1000.) + SimTime(par("periodInaccurracy").doubleValue()), can_msg);
+                double offset;
+                initialDataFrameOffsetTokenizer.hasMoreTokens() ?
+                        offset = atof(
+                                initialDataFrameOffsetTokenizer.nextToken()) :
+                        offset = 0;
+                scheduleAt(
+                        simTime() + SimTime(offset)
+                                + SimTime(
+                                        par("periodInaccurracy").doubleValue()),
+                        can_msg);
             }
         }
         if (dataLengthDataFramesTokenizer.hasMoreTokens()) {
-            EV<< "There are more values defined for the data length. Please check your configuration files.";
+            EV
+                      << "There are more values defined for the data length. Please check your configuration files.";
         }
         if (dataFramesPeriodicityTokenizer.hasMoreTokens()) {
-            EV<< "There are more values defined for the period. Please check your configuration files.";
+            EV
+                      << "There are more values defined for the period. Please check your configuration files.";
         }
     }
 }
@@ -159,11 +193,11 @@ void CanTrafficSourceAppBase::registerDataFrameAtPort(int canID) {
 int CanTrafficSourceAppBase::checkAndReturnID(int id) {
     if (canVersion.compare("2.0A") == 0) {
         if (id < 0 || id > VERSIONAMAX) {
-            EV<< "ID " << id << " not valid." << endl;
+            EV << "ID " << id << " not valid." << endl;
             endSimulation();
         }
     } else {
-        if(id < 0 || id > VERSIONBMAX) {
+        if (id < 0 || id > VERSIONBMAX) {
             EV << "ID " << id << " not valid." << endl;
             endSimulation();
         }
