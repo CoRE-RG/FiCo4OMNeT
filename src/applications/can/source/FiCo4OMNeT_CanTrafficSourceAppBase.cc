@@ -115,9 +115,6 @@ void CanTrafficSourceAppBase::initialRemoteFrameCreation() {
                         + SimTime(
                                 par("periodInaccurracy").doubleValue()),
                         can_msg);
-                EV<<"rf scheduled at: " << simTime() + SimTime(offset)
-                + SimTime(
-                        par("periodInaccurracy").doubleValue()) << "\n";
             }
 
         }
@@ -187,9 +184,6 @@ void CanTrafficSourceAppBase::initialDataFrameCreation() {
                                 + SimTime(
                                         par("periodInaccurracy").doubleValue()),
                         can_msg);
-                EV<<"df scheduled at: " << simTime() + SimTime(offset)
-                + SimTime(
-                        par("periodInaccurracy").doubleValue()) << "\n";
             } else {
                 if (initialDataFrameOffsetTokenizer.hasMoreTokens()) {
                     initialDataFrameOffsetTokenizer.nextToken();
