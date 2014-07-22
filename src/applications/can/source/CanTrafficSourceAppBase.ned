@@ -45,9 +45,11 @@ simple CanTrafficSourceAppBase like ISourceApplication
         string idDataFrames = default("0");					// The Data Frames ID(s) - String parameter (int) separated with commas
         string periodicityDataFrames = default("0");		// data Frame period(s) for sending of messages - String parameter (int) separated with commas
         string dataLengthDataFrames = default("0");			// Datafield-length - String parameter (int) separated with commas
+        string initialDataFrameOffset = default("0");		// Offset for the first transmission of the data frames - String parameter (double) separated with commas
         string idRemoteFrames = default("0");				// The Remote Frame ID(s) - String parameter (int) separated with commas
         string periodicityRemoteFrames = default("0"); 		// Remote Frame period(s) for sending of messages - String parameter (int) separated with commas
         string dataLengthRemoteFrames = default("0");		// Datafield-length - String parameter (int) separated with commas
+        string initialRemoteFrameOffset = default("0");		// Offset for the first transmission of the remote frames - String parameter (double) separated with commas
         double periodInaccurracy @unit(s) = default(0s);
     gates:
         output out @labels(DataFrame);
