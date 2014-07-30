@@ -60,8 +60,8 @@ void FRScheduler::handleMessage(cMessage *msg) {
         additionalMinislotsChB = 0;
         if (vCycleCounter == gCycleCountMax) {
             vCycleCounter = 0;
-            registerStaticSlots();
-            registerDynamicSlots();
+//            registerStaticSlots();
+//            registerDynamicSlots();
         } else {
             vCycleCounter++;
         }

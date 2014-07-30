@@ -27,8 +27,8 @@ void FRPortInput::handleMessage(cMessage *msg) {
 
     if (msg->isSelfMessage()) {
         send(msg, "out");
-    } else {
-        receivedExternMessage(dynamic_cast<FRFrame*>(msg));
+    } else if (FRFrame *frame = dynamic_cast<FRFrame*>(msg)){
+        receivedExternMessage(frame);
     }
 }
 

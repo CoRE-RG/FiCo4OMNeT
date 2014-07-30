@@ -33,11 +33,34 @@ void FROutputBuffer::sendingCompleted(int id) {
     deleteFrame(id);
 }
 
-void FROutputBuffer::handleMessage(cMessage *msg){
-    if (SchedulerActionTimeEvent *event = dynamic_cast<SchedulerActionTimeEvent *> (msg)){
+void FROutputBuffer::handleMessage(cMessage *msg) {
+    if (SchedulerActionTimeEvent *event =
+            dynamic_cast<SchedulerActionTimeEvent *>(msg)) {
         deliverFrame(event->getFrameID());
     } else {
         FRBuffer::handleMessage(msg);
+        if (FRFrame * frame = dynamic_cast<FRFrame*>(msg)) {
+            FRScheduler *frScheduler =
+                    (FRScheduler*) (getParentModule()->getSubmodule(
+                            "frScheduler"));
+            SchedulerActionTimeEvent *event;
+            if (frame->getKind() == STATIC_EVENT) {
+                event = new SchedulerActionTimeEvent("Static Event",
+                        STATIC_EVENT);
+            } else if (frame->getKind() == DYNAMIC_EVENT) {
+                event = new SchedulerActionTimeEvent("Dynamic Event",
+                        DYNAMIC_EVENT);
+            } else {
+                throw cRuntimeError("The FROutputBuffer %s received a wrong message.", this->getFullPath().c_str());
+            }
+            event->setFrameID(frame->getFrameID());
+            //            event->setAction_time(                                    //TODO Im Scheduler!!!!!!!!!!
+            //                    getDynamicSlotActionTime(event->getFrameID())
+            //                            + cycleNr * getCycleTicks());
+            event->setChannel(frame->getChannel());
+            event->setDestinationGate(this->gate("schedulerIn"));
+            frScheduler->registerEvent(event);
+        }
     }
 }
 

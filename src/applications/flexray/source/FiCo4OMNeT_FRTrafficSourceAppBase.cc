@@ -24,6 +24,7 @@ void FRTrafficSourceAppBase::initialize() {
     //dynamic frames in Liste
     getParentModule()->subscribe("newCycle", this);
     setUpStaticFrames();
+    setUpDynamicFrames();
 }
 
 void FRTrafficSourceAppBase::handleMessage(cMessage *msg) {

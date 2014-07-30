@@ -34,10 +34,11 @@ void FRPortOutput::initializeStatisticValues() {
 }
 
 void FRPortOutput::handleMessage(cMessage *msg) {
-    FRFrame *frMsg = dynamic_cast<FRFrame *>(msg);
+    if (FRFrame *frMsg = dynamic_cast<FRFrame *>(msg)) {
     colorBusy();
     //TODO stats
     send(frMsg, "out");
+    }
 }
 
 void FRPortOutput::sendingCompleted() {

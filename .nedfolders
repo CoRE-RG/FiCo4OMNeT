@@ -1,10 +1,2 @@
 examples
 src
--fico4omnet.bus.flexray
--fico4omnet.linklayer.flexray
--fico4omnet.applications.flexray
--fico4omnet.scheduler.flexray
--fico4omnet.examples.flexray
--fico4omnet.nodes.flexray
--fico4omnet.buffer.flexray
--fico4omnet.synchronisation.flexray
