@@ -49,6 +49,11 @@ class FRScheduler : public cSimpleModule {
         cGate *gateFRApp;
 
         /**
+         *
+         */
+        simsignal_t newCycle;
+
+        /**
          * @brief caches new cycle message
          */
         cMessage* newCyclemsg;
@@ -84,7 +89,7 @@ class FRScheduler : public cSimpleModule {
         /**
          * @brief counter for the current cycle
          */
-        unsigned int vCycleCounter;
+        int vCycleCounter;
 
         /**
          * @brief caches duration_microtick parameter
@@ -166,7 +171,7 @@ class FRScheduler : public cSimpleModule {
 
 
 	protected:
-        static simsignal_t newCycle;
+//        static simsignal_t newCycle;
 
         /**
 		 * Signal that is emitted every time the drift (Difference of configured and actual tick length) changes
@@ -188,15 +193,15 @@ class FRScheduler : public cSimpleModule {
          */
         virtual void handleMessage(cMessage *msg);
 
-        /**
-         * @brief Registers all dynamic slots for this node for the next gCycleCountMax cycles.
-         */
-        virtual void registerDynamicSlots();
-
-        /**
-         * @brief Registers all static slots for this node for the next gCycleCountMax cycles.
-         */
-        virtual void registerStaticSlots();
+//        /**
+//         * @brief Registers all dynamic slots for this node for the next gCycleCountMax cycles.
+//         */
+//        virtual void registerDynamicSlots();
+//
+//        /**
+//         * @brief Registers all static slots for this node for the next gCycleCountMax cycles.
+//         */
+//        virtual void registerStaticSlots();
 
         /**
          * @brief Returns the number of microticks per macrotick

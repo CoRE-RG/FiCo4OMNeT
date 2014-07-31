@@ -26,15 +26,12 @@ void FRTrafficSinkAppBase::initialize() {
 }
 
 void FRTrafficSinkAppBase::handleMessage(cMessage *msg) {
-//    std::string msgClass = msg->getClassName();
     if (msg->arrivedOn("controllerIn")) {
         bufferMessageCounter++;
         if (idle) {
             requestFrame();
         }
-//    } else if (msgClass.compare("CanDataFrame") == 0) {
     } else if (FRFrame * frame = dynamic_cast<FRFrame *>(msg)) {
-//        FRFrame *frame = check_and_cast<FRFrame *>(msg);
         int i = frame->getFrameID();
         currentFrameID = i;
         bufferMessageCounter--;

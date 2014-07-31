@@ -45,11 +45,6 @@ module FRNode
         double maxDriftChange @unit(s) = default(0);
         double maxDrift @unit(s) = default(0);
 
-        string staticSlotsChA = default("");
-        string staticSlotsChB = default("");
-        string dynamicSlotsChA = default("");
-        string dynamicSlotsChB = default("");
-        int syncFrame = default(0);
 //        @node;
 
     gates:

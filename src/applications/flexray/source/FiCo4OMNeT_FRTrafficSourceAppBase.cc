@@ -20,9 +20,8 @@ namespace FiCo4OMNeT {
 Define_Module(FRTrafficSourceAppBase);
 
 void FRTrafficSourceAppBase::initialize() {
-    //static frames in Buffer & in Liste
-    //dynamic frames in Liste
     getParentModule()->subscribe("newCycle", this);
+//    subscribe("newCycle", this);
     setUpStaticFrames();
     setUpDynamicFrames();
 }
@@ -42,7 +41,7 @@ void FRTrafficSourceAppBase::setUpStaticFrames() {
     FRFrame *frMsg;
     int cycleNr;
     int gNumberOfStaticSlots = getParentModule()->par("gNumberOfStaticSlots");
-    int syncFrame = getParentModule()->par("syncFrame");
+    int syncFrame = par("syncFrame");
     std::list<unsigned int> staticSlotsChA;
     std::list<unsigned int> staticSlotsChB;
 
@@ -92,9 +91,9 @@ void FRTrafficSourceAppBase::setUpStaticFrames() {
 
 void FRTrafficSourceAppBase::setUpDynamicFrames() {
 
-    cStringTokenizer tokenizerChA(getParentModule()->par("dynamicSlotsChA"));
+    cStringTokenizer tokenizerChA(par("dynamicSlotsChA"));
     dynamicFrameCreation(tokenizerChA, 0);
-    cStringTokenizer tokenizerChB(getParentModule()->par("dynamicSlotsChB"));
+    cStringTokenizer tokenizerChB(par("dynamicSlotsChB"));
     dynamicFrameCreation(tokenizerChB, 1);
 }
 
@@ -146,7 +145,6 @@ int FRTrafficSourceAppBase::calculateLength(int dataLength) {
 }
 
 void FRTrafficSourceAppBase::frameGenerationForNewCycle() {
-    //dynamische frames f�r den aktuellen zyklus erstellen und an Buffer weiterleiten
     FRFrame *tmp;
     for (std::vector<FRFrame*>::iterator it = outgoingDynamicFrames.begin();
             it != outgoingDynamicFrames.end(); ++it) {
