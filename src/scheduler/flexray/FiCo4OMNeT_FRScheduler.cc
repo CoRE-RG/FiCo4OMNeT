@@ -17,7 +17,7 @@
 
 namespace FiCo4OMNeT {
 
-Define_Module( FRScheduler);
+Define_Module(FRScheduler);
 
 //simsignal_t FRScheduler::newCycle = SIMSIGNAL_NULL;
 
@@ -35,7 +35,8 @@ void FRScheduler::initialize() {
     gNumberOfMinislots = getParentModule()->par("gNumberOfMinislots");
     gNumberOfStaticSlots = getParentModule()->par("gNumberOfStaticSlots");
     gdActionPointOffset = getParentModule()->par("gdActionPointOffset"); //[MT]
-    gdMinislotActionPointOffset = getParentModule()->par("gdMinislotActionPointOffset"); //[MT]
+    gdMinislotActionPointOffset = getParentModule()->par(
+            "gdMinislotActionPointOffset"); //[MT]
     bandwidth = getParentModule()->par("bandwidth").doubleValue();
 //    syncFrame = getParentModule()->par("syncFrame");
 
@@ -77,7 +78,7 @@ void FRScheduler::handleMessage(cMessage *msg) {
         scheduleAt(lastCycleStart + (getCycleTicks() - gdNIT) * gdMacrotick,
                 new SchedulerEvent("NIT", NIT_EVENT));
         newCyclemsg = msg;
-        EV << "NEW CYCLE!! New Macrotick = " << gdMacrotick
+        EV << vCycleCounter << " NEW CYCLE!! New Macrotick = " << gdMacrotick
                   << "!! Next cycle in "
                   << lastCycleStart + gdMacrotick * getCycleTicks() << "\n";
     } else if (msg->isSelfMessage() && msg->getKind() == NIT_EVENT) {
@@ -101,96 +102,6 @@ void FRScheduler::handleMessage(cMessage *msg) {
         sendDirect(event, event->getDestinationGate());
     }
 }
-
-//void FRScheduler::registerStaticSlots() {
-//    SchedulerActionTimeEvent *event;
-//    std::list<unsigned int> staticSlotsChA;
-//    std::list<unsigned int> staticSlotsChB;
-//    int cycleNr;
-//
-//    const char *slots = par("staticSlotsChA");
-//    cStringTokenizer tokenizerChA(slots);
-//    while (tokenizerChA.hasMoreTokens()) {
-//        staticSlotsChA.push_back(atoi(tokenizerChA.nextToken()));
-//    }
-//
-//    slots = par("staticSlotsChB");
-//    cStringTokenizer tokenizerChB(slots);
-//    while (tokenizerChB.hasMoreTokens()) {
-//        staticSlotsChB.push_back(atoi(tokenizerChB.nextToken()));
-//    }
-//
-//    while (!staticSlotsChA.empty() || !staticSlotsChB.empty()) {
-//        event = new SchedulerActionTimeEvent("Static Event", STATIC_EVENT);
-//        event->setDestinationGate(gateFRApp);
-//        event->setSyncFrameIndicator(false);
-//        if ((staticSlotsChA.front() == staticSlotsChB.front())
-//                && !staticSlotsChA.empty() && !staticSlotsChB.empty()) {
-//            cycleNr = ceil((staticSlotsChA.front() - 1) / gNumberOfStaticSlots);
-//            event->setChannel(2);
-//            event->setFrameID(
-//                    staticSlotsChA.front() - cycleNr * gNumberOfStaticSlots);
-//            staticSlotsChA.pop_front();
-//            staticSlotsChB.pop_front();
-//        } else if ((staticSlotsChA.front() < staticSlotsChB.front()
-//                && !staticSlotsChA.empty()) || staticSlotsChB.empty()) {
-//            cycleNr = ceil((staticSlotsChA.front() - 1) / gNumberOfStaticSlots);
-//            event->setChannel(0);
-//            event->setFrameID(
-//                    staticSlotsChA.front() - cycleNr * gNumberOfStaticSlots);
-//            staticSlotsChA.pop_front();
-//        } else {
-//            cycleNr = ceil((staticSlotsChB.front() - 1) / gNumberOfStaticSlots);
-//            event->setChannel(1);
-//            event->setFrameID(
-//                    staticSlotsChB.front() - cycleNr * gNumberOfStaticSlots);
-//            staticSlotsChB.pop_front();
-//        }
-//        event->setAction_time(
-//                getStaticSlotActionTime(event->getFrameID())
-//                        + cycleNr * getCycleTicks());
-//        if (event->getFrameID() == syncFrame) {
-//            event->setSyncFrameIndicator(true);
-//        }
-//        registerEvent(event);
-//    }
-//}
-//
-//void FRScheduler::registerDynamicSlots() {
-//    const char *slots = getParentModule()->par("dynamicSlotsChA");
-//    int slot;
-//    int cycleNr;
-//    cStringTokenizer tokenizerChA(slots);
-//    while (tokenizerChA.hasMoreTokens()) {
-//        slot = atoi(tokenizerChA.nextToken());
-//        cycleNr = ceil((slot - 1) / gNumberOfMinislots);
-//        SchedulerActionTimeEvent *event = new SchedulerActionTimeEvent(
-//                "Dynamic Event", DYNAMIC_EVENT);
-//        event->setFrameID(getDynamicSlot(slot - cycleNr * gNumberOfMinislots));
-//        event->setAction_time(
-//                getDynamicSlotActionTime(event->getFrameID())
-//                        + cycleNr * getCycleTicks());
-//        event->setChannel(0);
-//        event->setDestinationGate(gateFRApp);
-//        registerEvent(event);
-//    }
-//
-//    slots = getParentModule()->par("dynamicSlotsChB");
-//    cStringTokenizer tokenizerChB(slots);
-//    while (tokenizerChB.hasMoreTokens()) {
-//        slot = atoi(tokenizerChB.nextToken());
-//        cycleNr = ceil((slot - 1) / gNumberOfMinislots);
-//        SchedulerActionTimeEvent *event = new SchedulerActionTimeEvent(
-//                "Dynamic Event", DYNAMIC_EVENT);
-//        event->setFrameID(getDynamicSlot(slot - cycleNr * gNumberOfMinislots));
-//        event->setAction_time(
-//                getDynamicSlotActionTime(event->getFrameID())
-//                        + cycleNr * getCycleTicks());
-//        event->setChannel(1);
-//        event->setDestinationGate(gateFRApp);
-//        registerEvent(event);
-//    }
-//}
 
 double FRScheduler::getMicroPerMacro() {
     return (double) (pMicroPerCycle + zRateCorrection)
@@ -224,6 +135,21 @@ bool FRScheduler::registerEvent(SchedulerEvent *event) {
     if (event->getKind() == STATIC_EVENT || DYNAMIC_EVENT) {
         SchedulerActionTimeEvent *actionTimeEvent =
                 (SchedulerActionTimeEvent*) event;
+        if (event->getKind() == DYNAMIC_EVENT) {
+            actionTimeEvent->setAction_time(
+                    getDynamicSlotActionTime(actionTimeEvent->getFrameID()));
+
+        } else {
+            actionTimeEvent->setAction_time(
+                    getStaticSlotActionTime(actionTimeEvent->getFrameID()));
+        }
+
+        if (vCycleCounter <= actionTimeEvent->getCycleNr()) {
+            actionTimeEvent->setAction_time(actionTimeEvent->getAction_time() + (actionTimeEvent->getCycleNr() - vCycleCounter) * getCycleTicks());
+        } else {
+            actionTimeEvent->setAction_time(actionTimeEvent->getAction_time() + (gCycleCountMax - vCycleCounter + actionTimeEvent->getCycleNr()) * getCycleTicks());
+        }
+
         if (actionTimeEvent->getAction_time() > getTicks()) {
             scheduleAt(
                     lastCycleStart
@@ -311,7 +237,8 @@ unsigned int FRScheduler::getCycleCounter() {
 }
 
 unsigned int FRScheduler::getSlotCounter() {
-    Enter_Method_Silent();
+    Enter_Method_Silent
+    ();
     return ((simTime() - lastCycleStart) / (gdStaticSlot * gdMacrotick)).dbl()
             + 1; // works only for static segment
 }
@@ -321,7 +248,8 @@ unsigned int FRScheduler::getDynamicSlot(int slot) {
 }
 
 void FRScheduler::dynamicFrameReceived(int64 bitLength, unsigned int channel) {
-    Enter_Method_Silent();
+    Enter_Method_Silent
+    ();
     int neededMinislots = ceil(
             ceil(
                     ((double) bitLength / ((double) bandwidth * 1024 * 1024))
@@ -344,7 +272,8 @@ void FRScheduler::dynamicFrameReceived(int64 bitLength, unsigned int channel) {
                         - vCycleCounter * getCycleTicks()) > getTicks()
                         && actionTimeEvent->getChannel() == channel
                         && actionTimeEvent->getArrivalTime()
-                                < lastCycleStart + getCycleTicks() * gdMacrotick) {
+                                < lastCycleStart
+                                        + getCycleTicks() * gdMacrotick) {
                     cancelEvent(actionTimeEvent);
                     if (channel == 0) {
                         actionTimeEvent->setAction_time(
@@ -364,15 +293,17 @@ void FRScheduler::dynamicFrameReceived(int64 bitLength, unsigned int channel) {
                                     - gdMinislot + gdMinislotActionPointOffset
                                     + 1) {
                         //TODO FIXEN
-                        SimTime sched = lastCycleStart + actionTimeEvent->getAction_time()* gdMacrotick;
-                        if(sched>simTime()){
+                        SimTime sched = lastCycleStart
+                                + actionTimeEvent->getAction_time()
+                                        * gdMacrotick;
+                        if (sched > simTime()) {
                             scheduleAt(
                                     lastCycleStart
                                             + actionTimeEvent->getAction_time()
-                                                    * gdMacrotick, actionTimeEvent);
-                        }
-                        else{
-                            scheduleAt(simTime(),actionTimeEvent);
+                                                    * gdMacrotick,
+                                    actionTimeEvent);
+                        } else {
+                            scheduleAt(simTime(), actionTimeEvent);
                         }
                         //ENDE FIXEN
 

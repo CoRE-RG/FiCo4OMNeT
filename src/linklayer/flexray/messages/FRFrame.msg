@@ -27,3 +27,19 @@ packet FRFrame {
     int channel;
     bool syncFrameIndicator;
 }
+
+
+//
+// Enum for different SchedulerEvent messages 
+//
+// @see SchedulerEvent
+//
+// @author Till Steinbach
+enum Channel {//0 = A; 1 = B; 2 = A&B
+    // Event that signals the beginning of a new cycle
+    CHANNEL_A=0;
+    // Event with a specified action time
+    CHANNEL_B=1;
+    // Event that is triggered after a specified amount of time
+    CHANNEL_AB=2;
+}

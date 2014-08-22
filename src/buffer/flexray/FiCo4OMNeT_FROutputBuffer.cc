@@ -34,9 +34,11 @@ void FROutputBuffer::sendingCompleted(int id) {
 }
 
 void FROutputBuffer::handleMessage(cMessage *msg) {
+    take(msg);
     if (SchedulerActionTimeEvent *event =
             dynamic_cast<SchedulerActionTimeEvent *>(msg)) {
         deliverFrame(event->getFrameID());
+        delete msg;
     } else {
         FRBuffer::handleMessage(msg);
         if (FRFrame * frame = dynamic_cast<FRFrame*>(msg)) {
@@ -58,6 +60,7 @@ void FROutputBuffer::handleMessage(cMessage *msg) {
             //                    getDynamicSlotActionTime(event->getFrameID())
             //                            + cycleNr * getCycleTicks());
             event->setChannel(frame->getChannel());
+            event->setCycleNr(frame->getCycleNumber());
             event->setDestinationGate(this->gate("schedulerIn"));
             frScheduler->registerEvent(event);
         }

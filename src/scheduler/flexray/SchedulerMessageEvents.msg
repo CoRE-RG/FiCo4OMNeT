@@ -17,6 +17,7 @@ message SchedulerActionTimeEvent extends SchedulerEvent {
         // Action time in cycle for the event in number of ticks
         unsigned int action_time;
         unsigned int frameID;
+        unsigned int cycleNr;
         unsigned int channel;
         bool syncFrameIndicator;
 }

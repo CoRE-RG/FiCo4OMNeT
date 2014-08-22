@@ -24,8 +24,8 @@ void FRInputBuffer::putFrame(cMessage* msg) {
     if (getFrame(frame->getFrameID()) != NULL) {
         deleteFrame(frame->getFrameID());
     } else {
-        cModule *sinkApp = getParentModule()->getSubmodule("sinkApp");
-        sendDirect(new cMessage("Message in buffer"), sinkApp, "controllerIn");
+        cModule *frSinkApp = getParentModule()->getSubmodule("frSinkApp");
+        sendDirect(new cMessage("Message in buffer"), frSinkApp, "controllerIn");
     }
     frames.push_back(frame);
 }

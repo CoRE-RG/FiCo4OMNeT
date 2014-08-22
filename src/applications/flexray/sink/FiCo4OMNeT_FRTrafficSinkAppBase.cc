@@ -38,7 +38,7 @@ void FRTrafficSinkAppBase::handleMessage(cMessage *msg) {
         startWorkOnFrame(0); //TODO working time
     } else if (msg->isSelfMessage()) {
         FRInputBuffer *buffer =
-                (FRInputBuffer*) (getParentModule()->getSubmodule("bufferIn"));
+                (FRInputBuffer*) (getParentModule()->getSubmodule("inputBuffer"));
         buffer->deleteFrame(currentFrameID);
         if (bufferMessageCounter > 0) {
             requestFrame();
@@ -51,7 +51,7 @@ void FRTrafficSinkAppBase::handleMessage(cMessage *msg) {
 
 void FRTrafficSinkAppBase::requestFrame() {
     FRInputBuffer *buffer = (FRInputBuffer*) (getParentModule()->getSubmodule(
-            "bufferIn"));
+            "inputBuffer"));
     buffer->deliverNextFrame();
     idle = false;
 }

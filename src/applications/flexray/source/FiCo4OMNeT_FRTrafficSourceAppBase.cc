@@ -64,7 +64,7 @@ void FRTrafficSourceAppBase::setUpStaticFrames() {
             cycleNr = ceil((staticSlotsChA.front() - 1) / gNumberOfStaticSlots);
             frMsg = createFRFrame(
                     staticSlotsChA.front() - cycleNr * gNumberOfStaticSlots,
-                    cycleNr, 2, false, STATIC_EVENT);
+                    cycleNr, CHANNEL_AB, false, STATIC_EVENT);
             staticSlotsChA.pop_front();
             staticSlotsChB.pop_front();
 
@@ -73,13 +73,13 @@ void FRTrafficSourceAppBase::setUpStaticFrames() {
             cycleNr = ceil((staticSlotsChA.front() - 1) / gNumberOfStaticSlots);
             frMsg = createFRFrame(
                     staticSlotsChA.front() - cycleNr * gNumberOfStaticSlots,
-                    cycleNr, 0, false, STATIC_EVENT);
+                    cycleNr, CHANNEL_A, false, STATIC_EVENT);
             staticSlotsChA.pop_front();
         } else {
             cycleNr = ceil((staticSlotsChB.front() - 1) / gNumberOfStaticSlots);
             frMsg = createFRFrame(
                     staticSlotsChB.front() - cycleNr * gNumberOfStaticSlots,
-                    cycleNr, 1, false, STATIC_EVENT);
+                    cycleNr, CHANNEL_B, false, STATIC_EVENT);
             staticSlotsChB.pop_front();
         }
         if (frMsg->getFrameID() == syncFrame) {
@@ -92,9 +92,9 @@ void FRTrafficSourceAppBase::setUpStaticFrames() {
 void FRTrafficSourceAppBase::setUpDynamicFrames() {
 
     cStringTokenizer tokenizerChA(par("dynamicSlotsChA"));
-    dynamicFrameCreation(tokenizerChA, 0);
+    dynamicFrameCreation(tokenizerChA, CHANNEL_A);
     cStringTokenizer tokenizerChB(par("dynamicSlotsChB"));
-    dynamicFrameCreation(tokenizerChB, 1);
+    dynamicFrameCreation(tokenizerChB, CHANNEL_B);
 }
 
 void FRTrafficSourceAppBase::dynamicFrameCreation(cStringTokenizer tokenizer,
@@ -145,19 +145,20 @@ int FRTrafficSourceAppBase::calculateLength(int dataLength) {
 }
 
 void FRTrafficSourceAppBase::frameGenerationForNewCycle() {
+    Enter_Method_Silent();
     FRFrame *tmp;
     for (std::vector<FRFrame*>::iterator it = outgoingDynamicFrames.begin();
             it != outgoingDynamicFrames.end(); ++it) {
         tmp = *it;
         if (tmp->getCycleNumber() == vCycleCounter) {
-            transmitFrame(tmp);
+            transmitFrame(tmp->dup());
         }
     }
     for (std::vector<FRFrame*>::iterator it = outgoingStaticFrames.begin();
             it != outgoingStaticFrames.end(); ++it) {
         tmp = *it;
         if (tmp->getCycleNumber() == vCycleCounter) {
-            transmitFrame(tmp);
+            transmitFrame(tmp->dup());
         }
     }
 }

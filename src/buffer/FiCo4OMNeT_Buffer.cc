@@ -37,7 +37,7 @@ void Buffer::initialize(){
 void Buffer::handleMessage(cMessage *msg) {
     if (msg->arrivedOn("in")) {
         putFrame(msg);
-        recordPacketReceived(msg);
+//        recordPacketReceived(msg);
     }
 }
 
