@@ -32,6 +32,7 @@ namespace FiCo4OMNeT {
 
 void Buffer::initialize(){
     initializeStatistics();
+    EV<<"trololool\n";
 }
 
 void Buffer::handleMessage(cMessage *msg) {

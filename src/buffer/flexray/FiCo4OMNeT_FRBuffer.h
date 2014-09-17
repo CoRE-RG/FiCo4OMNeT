@@ -102,7 +102,7 @@ private:
     /**
      *
      */
-//    virtual void sendToDestinationGates(FRFrame *msg);
+    virtual void sendToDestinationGates(FRFrame *msg);
 };
 
 }
