@@ -21,6 +21,7 @@
 #include <omnetpp.h>
 #include <limits>
 #include "FiCo4OMNeT_BusPort.h"
+#include "SchedulerMessage_m.h"
 
 namespace FiCo4OMNeT {
 
@@ -58,6 +59,15 @@ protected:
     virtual void handleMessage(cMessage *msg);
 
 private:
+    /**
+     * @brief Signal for received data frames.
+     */
+    simsignal_t rcvdStaticFrameSignal;
+
+    /**
+     * @brief Signal for received remote frames.
+     */
+    simsignal_t rcvdDynamicFrameSignal;
     /**
      * @brief Colors the connections of the bus to represent it is busy.
      */

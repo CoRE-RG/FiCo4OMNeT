@@ -97,6 +97,7 @@ void Buffer::initializeStatistics()
 
 void Buffer::recordPacketSent(cMessage *frame)
 {
+    EV << "wuwuwuwuwuwu1234567890ß\n";
     emit(txPkSignal, frame);
 }
 

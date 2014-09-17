@@ -69,8 +69,8 @@ void FRBuffer::deliverNextFrame() {
     sendToDestinationGates(frames.front()->dup());
 }
 
-void FRBuffer::sendToDestinationGates(FRFrame *df) {
-    send(df,"out");
-}
+//void FRBuffer::sendToDestinationGates(FRFrame *df) {
+//    send(df,"out");
+//}
 
 }

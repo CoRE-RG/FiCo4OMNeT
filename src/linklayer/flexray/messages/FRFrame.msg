@@ -30,11 +30,9 @@ packet FRFrame {
 
 
 //
-// Enum for different SchedulerEvent messages 
+// Enum for all possible channel combinations 
 //
-// @see SchedulerEvent
-//
-// @author Till Steinbach
+// @author Stefan Buschmann
 enum Channel {//0 = A; 1 = B; 2 = A&B
     // Event that signals the beginning of a new cycle
     CHANNEL_A=0;
