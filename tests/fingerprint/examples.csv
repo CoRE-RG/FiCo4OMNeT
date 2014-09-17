@@ -9,3 +9,13 @@
 /examples/can/generator/,                                        -f omnetpp.ini -c General -r 0,                1s,              3782-b3d2
 /examples/can/multipleSourceApps/,                               -f omnetpp.ini -c General -r 0,                1s,              a4de-328e
 /examples/can/simpleNewLayout/,                                  -f omnetpp.ini -c General -r 0,                1s,              1ddc-6f5d
+
+# FlexRay
+/examples/flexray/dynamic/,                                      -f omnetpp.ini -c General -r 0,                1s,              6d49-05ff
+/examples/flexray/performanceA/,                                 -f omnetpp.ini -c General -r 0,                1s,              9454-a0f2
+/examples/flexray/performanceB/,                                 -f omnetpp.ini -c General -r 0,                1s,              d69b-ad56
+/examples/flexray/performanceC/,                                 -f omnetpp.ini -c General -r 0,                1s,              1c4c-ebc0
+/examples/flexray/performanceD/,                                 -f omnetpp.ini -c General -r 0,                1s,              688a-893f
+/examples/flexray/performanceE/,                                 -f omnetpp.ini -c General -r 0,                1s,              bd7a-b7e4
+/examples/flexray/small_network/,                                -f omnetpp.ini -c General -r 0,                1s,              3d33-9644
+/examples/flexray/syncnodes/,                                    -f omnetpp.ini -c General -r 0,                1s,              45c2-74b1

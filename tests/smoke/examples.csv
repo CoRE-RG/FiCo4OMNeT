@@ -8,3 +8,13 @@
 /examples/can/generator/,                                        -f omnetpp.ini -c General -r 0
 /examples/can/multipleSourceApps/,                               -f omnetpp.ini -c General -r 0
 /examples/can/simpleNewLayout/,                                  -f omnetpp.ini -c General -r 0
+
+# FlexRay
+/examples/flexray/dynamic/,                                      -f omnetpp.ini -c General -r 0
+/examples/flexray/performanceA/,                                 -f omnetpp.ini -c General -r 0
+/examples/flexray/performanceB/,                                 -f omnetpp.ini -c General -r 0
+/examples/flexray/performanceC/,                                 -f omnetpp.ini -c General -r 0
+/examples/flexray/performanceD/,                                 -f omnetpp.ini -c General -r 0
+/examples/flexray/performanceE/,                                 -f omnetpp.ini -c General -r 0
+/examples/flexray/small_network/,                                -f omnetpp.ini -c General -r 0
+/examples/flexray/syncnodes/,                                    -f omnetpp.ini -c General -r 0
