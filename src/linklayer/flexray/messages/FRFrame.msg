@@ -22,8 +22,7 @@ packet FRFrame {
     byteLength = 8;
     int frameID;
     int cycleNumber;
-    //TODO: size umstellen auf bitlength
-    int size;
+    int payloadLength; //The payload segment size is encoded in this field by setting it to the number of payload data bytes divided by two
     int channel;
     bool syncFrameIndicator;
 }

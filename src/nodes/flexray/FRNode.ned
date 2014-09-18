@@ -28,6 +28,9 @@ module FRNode
     parameters:
         @display("bgb=331,272;i=device/device");
         int pChannels = default(2); //0 = A; 1 = B; 2 = A&B
+        
+        int gPayloadLengthStatic = default(0);
+        int cPayloadLengthMax = default(0);
 
         int gCycleCountMax = default(63); // [7,9,...,63]
         double pdMicrotick @unit(s) = default(12.5ns); //[ns]

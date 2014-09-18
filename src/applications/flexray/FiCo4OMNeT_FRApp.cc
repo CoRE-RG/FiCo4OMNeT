@@ -79,14 +79,14 @@ FRFrame* FRApp::createFRFrame(int frameID, int cycleNumber, int channel,
 	msg->setSyncFrameIndicator(syncFrameIndicator);
 	msg->setKind(kind);
 	if (kind == DYNAMIC_EVENT) {
-        msg->setSize(randomSize());
+//        msg->setSize(randomSize()); TODO parameter heiﬂt neu
 //        if (channel == 0) {
 //            std::cout << "ID" << msg->getFrameID() << "," << simTime() << "," << simTime()-lastcreate << endl;
 //            lastcreate = simTime();
 //        }
     }
 	cPacket *payload = new cPacket();
-	payload->setBitLength(msg->getSize());
+//	payload->setBitLength(msg->getSize()); TODO parameter heiﬂt neu
 	msg->encapsulate(payload);
 	return msg;
 }

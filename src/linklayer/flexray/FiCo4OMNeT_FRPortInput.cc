@@ -38,7 +38,7 @@ void FRPortInput::receivedExternMessage(FRFrame *msg) {
             (FRScheduler*) (getParentModule()->getParentModule()->getSubmodule(
                     "frScheduler"));
     if (frMsg->getKind() == DYNAMIC_EVENT) {
-        frScheduler->dynamicFrameReceived(frMsg->getSize(),
+        frScheduler->dynamicFrameReceived(frMsg->getByteLength(),
                 frMsg->getChannel());
     } else {
         if (frScheduler->getSlotCounter()
@@ -56,7 +56,7 @@ void FRPortInput::receivedExternMessage(FRFrame *msg) {
             bubble("static frame in wrong slot");
         }
     }
-    scheduleAt(simTime() + calculateScheduleTiming(frMsg->getSize()), frMsg);
+    scheduleAt(simTime() + calculateScheduleTiming(frMsg->getByteLength()), frMsg);
 }
 
 double FRPortInput::calculateScheduleTiming(int length) {

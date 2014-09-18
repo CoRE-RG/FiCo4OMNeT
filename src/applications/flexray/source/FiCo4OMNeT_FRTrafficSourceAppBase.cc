@@ -121,11 +121,16 @@ FRFrame* FRTrafficSourceAppBase::createFRFrame(int frameID, int cycleNumber,
     msg->setChannel(channel);
     msg->setSyncFrameIndicator(syncFrameIndicator);
     msg->setKind(kind);
-    if (kind == DYNAMIC_EVENT) {
-//        msg->setSize(randomSize());
-    }
+
     cPacket *payload = new cPacket();
-    payload->setBitLength(msg->getSize());
+    if (kind == DYNAMIC_EVENT) {
+        payload->setByteLength(randomSize());
+    } else if (kind == STATIC_EVENT) {
+        int staticSlotLength = getParentModule()->par("gPayloadLengthStatic");
+        payload->setByteLength(staticSlotLength);
+    }
+    msg->setPayloadLength(payload->getByteLength());
+    payload->setByteLength(msg->getPayloadLength());
     msg->encapsulate(payload);
     return msg;
 }
@@ -161,6 +166,10 @@ void FRTrafficSourceAppBase::frameGenerationForNewCycle() {
             transmitFrame(tmp->dup());
         }
     }
+}
+
+int FRTrafficSourceAppBase::randomSize(){
+    return 2*(intuniform(0,getParentModule()->par("cPayloadLengthMax")));
 }
 
 void FRTrafficSourceAppBase::transmitFrame(FRFrame *frMsg){
