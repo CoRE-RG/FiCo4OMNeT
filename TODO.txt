@@ -29,3 +29,4 @@ CAN
 
 FlexRay
 
+- (added by Stefan) Packet size is not yet configured for both static and dynamic frames.

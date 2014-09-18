@@ -32,13 +32,12 @@ namespace FiCo4OMNeT {
 
 void Buffer::initialize(){
     initializeStatistics();
-    EV<<"trololool\n";
 }
 
 void Buffer::handleMessage(cMessage *msg) {
     if (msg->arrivedOn("in")) {
         putFrame(msg);
-//        recordPacketReceived(msg);
+        recordPacketReceived(msg);
     }
 }
 
@@ -98,7 +97,6 @@ void Buffer::initializeStatistics()
 
 void Buffer::recordPacketSent(cMessage *frame)
 {
-    EV << "wuwuwuwuwuwu1234567890ß\n";
     emit(txPkSignal, frame);
 }
 

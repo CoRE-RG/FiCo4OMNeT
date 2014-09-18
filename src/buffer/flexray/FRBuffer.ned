@@ -26,7 +26,5 @@ moduleinterface FRBuffer extends Buffer
         //End-to-end latency
         //@statistic[latency](title="End-to-end latency"; unit=s; record=stats,histogram,vector);
 
-
-
         bool MOB;//If true frames with the same ID will be overwritten.
 }
