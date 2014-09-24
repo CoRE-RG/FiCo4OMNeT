@@ -125,6 +125,7 @@ FRFrame* FRTrafficSourceAppBase::createFRFrame(int frameID, int cycleNumber,
     cPacket *payload = new cPacket();
     if (kind == DYNAMIC_EVENT) {
         payload->setByteLength(randomSize());
+        EV<<"randomsize: " << payload->getByteLength() << "\n";
     } else if (kind == STATIC_EVENT) {
         int staticSlotLength = getParentModule()->par("gPayloadLengthStatic");
         payload->setByteLength(staticSlotLength);

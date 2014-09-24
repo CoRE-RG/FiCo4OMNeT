@@ -32,7 +32,7 @@ simple FRScheduler
         int gNumberOfStaticSlots = default(2);
         int gdActionPointOffset = default(1); //[MT]
         int gdMinislotActionPointOffset = default(1); //[MT]
-        double busSpeed @unit(Mbps) = default(10Mbps); //[MBit/s]
+        double busSpeed @unit(bps) = default(10000000bps); //[MBit/s]
         
         double maxDriftChange @unit(s) = default(0);
         double maxDrift @unit(s) = default(0);

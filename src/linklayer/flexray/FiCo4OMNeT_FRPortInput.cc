@@ -21,6 +21,7 @@ Define_Module(FRPortInput);
 
 void FRPortInput::initialize() {
     bandwidth = getParentModule()->getParentModule()->par("bandwidth");
+    EV<<bandwidth<<"\n";
 }
 
 void FRPortInput::handleMessage(cMessage *msg) {
@@ -54,12 +55,14 @@ void FRPortInput::receivedExternMessage(FRFrame *msg) {
         } else {
             EV<< "received static frame in wrong slot!\n";
             bubble("static frame in wrong slot");
+            //TODO signal for stats
         }
     }
-    scheduleAt(simTime() + calculateScheduleTiming(frMsg->getByteLength()), frMsg);
+    scheduleAt(simTime() + calculateScheduleTiming(frMsg->getBitLength()), frMsg);
 }
 
 double FRPortInput::calculateScheduleTiming(int length) {
+
     return ((double) length) / bandwidth;
 }
 

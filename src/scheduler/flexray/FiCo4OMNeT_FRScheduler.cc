@@ -250,10 +250,14 @@ unsigned int FRScheduler::getDynamicSlot(int slot) {
 void FRScheduler::dynamicFrameReceived(int64 bitLength, unsigned int channel) {
     Enter_Method_Silent
     ();
+//    int neededMinislots = ceil(
+//                ceil(
+//                        ((double) bitLength / ((double) bandwidth * 1024 * 1024))
+//                                / gdMacrotick) / gdMinislot);
     int neededMinislots = ceil(
-            ceil(
-                    ((double) bitLength / ((double) bandwidth * 1024 * 1024))
-                            / gdMacrotick) / gdMinislot);
+                ceil(
+                        ((double) bitLength / bandwidth)
+                                / gdMacrotick) / gdMinislot);
     EV << "needed minislots: " << neededMinislots << "\n";
     if (channel == 0) {
         additionalMinislotsChA += neededMinislots - 1;

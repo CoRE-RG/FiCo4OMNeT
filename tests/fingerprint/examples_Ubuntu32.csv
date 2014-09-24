@@ -11,11 +11,11 @@
 /examples/can/simpleNewLayout/,                                  -f omnetpp.ini -c General -r 0,                1s,              1ddc-6f5d
 
 # FlexRay
-/examples/flexray/dynamic/,                                      -f omnetpp.ini -c General -r 0,                1s,              6d49-05ff
-/examples/flexray/performanceA/,                                 -f omnetpp.ini -c General -r 0,                1s,              9454-a0f2
-/examples/flexray/performanceB/,                                 -f omnetpp.ini -c General -r 0,                1s,              d69b-ad56
-/examples/flexray/performanceC/,                                 -f omnetpp.ini -c General -r 0,                1s,              1c4c-ebc0
-/examples/flexray/performanceD/,                                 -f omnetpp.ini -c General -r 0,                1s,              688a-893f
-/examples/flexray/performanceE/,                                 -f omnetpp.ini -c General -r 0,                1s,              bd7a-b7e4
-/examples/flexray/small_network/,                                -f omnetpp.ini -c General -r 0,                1s,              3d33-9644
-/examples/flexray/syncnodes/,                                    -f omnetpp.ini -c General -r 0,                1s,              45c2-74b1
+/examples/flexray/dynamic/,                                      -f omnetpp.ini -c General -r 0,                1s,              53f8-4179
+/examples/flexray/performanceA/,                                 -f omnetpp.ini -c General -r 0,                1s,              85a0-da40
+/examples/flexray/performanceB/,                                 -f omnetpp.ini -c General -r 0,                1s,              5c3c-3f7f
+/examples/flexray/performanceC/,                                 -f omnetpp.ini -c General -r 0,                1s,              6d6e-c1f7
+/examples/flexray/performanceD/,                                 -f omnetpp.ini -c General -r 0,                1s,              4a02-0ea6
+/examples/flexray/performanceE/,                                 -f omnetpp.ini -c General -r 0,                1s,              0199-ddb8
+/examples/flexray/small_network/,                                -f omnetpp.ini -c General -r 0,                1s,              d29d-a74e
+/examples/flexray/syncnodes/,                                    -f omnetpp.ini -c General -r 0,                1s,              615e-a422
