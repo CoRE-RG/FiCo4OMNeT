@@ -43,6 +43,7 @@ simple CanPortInput
         @statistic[receivedCompleteDF](title="complete data frames received"; source=receivedCompleteDF; record=count; interpolationmode=none);
         @statistic[receivedCompleteRF](title="complete remote frames received"; source=receivedCompleteRF; record=count; interpolationmode=none);
         
+        @statistic[latency](title="End-to-end latency"; source="timestampAge(receivedCompleteDF)"; unit=s; record=stats,histogram,vector; interpolationmode=linear);
     gates:
         output out @loose;
         input in @loose;

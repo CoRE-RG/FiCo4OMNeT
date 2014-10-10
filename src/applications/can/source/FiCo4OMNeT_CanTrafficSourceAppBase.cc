@@ -243,6 +243,7 @@ void CanTrafficSourceAppBase::dataFrameTransmission(CanDataFrame *df) {
     CanDataFrame *outgoingFrame;
     if (df->isSelfMessage()) {
         outgoingFrame = df->dup();
+
         scheduleAt(
                 simTime() + (df->getPeriod() / 1000.)
                         + SimTime(par("periodInaccurracy").doubleValue()), df);
@@ -259,6 +260,7 @@ void CanTrafficSourceAppBase::dataFrameTransmission(CanDataFrame *df) {
         delete df;
     }
     outgoingFrame->setStartTime(simTime());
+    outgoingFrame->setTimestamp(simTime());
     send(outgoingFrame, "out");
 }
 
