@@ -17,12 +17,12 @@ package fico4omnet.linklayer.flexray;
 
 simple FRPortInput
 {
-//    parameters:
-//        @signal[receivedCompleteDF](type=CanDataFrame);
-//        @signal[receivedCompleteRF](type=CanDataFrame);
-//        
-//        @statistic[receivedCompleteDF](title="complete data frames received"; source=receivedCompleteDF; record=count; interpolationmode=none);
-//        @statistic[receivedCompleteRF](title="complete remote frames received"; source=receivedCompleteRF; record=count; interpolationmode=none);
+    parameters:
+        @signal[receivedCompleteSF](type=FRFrame);
+        @signal[receivedCompleteDF](type=FRFrame);
+        
+        @statistic[receivedCompleteSF](title="complete static frames received"; source=receivedCompleteSF; record=count; interpolationmode=none);
+        @statistic[receivedCompleteDF](title="complete dynamic frames received"; source=receivedCompleteDF; record=count; interpolationmode=none);
         
     gates:
         output out @loose;

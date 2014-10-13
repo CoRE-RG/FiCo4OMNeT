@@ -21,14 +21,23 @@ Define_Module(FRPortInput);
 
 void FRPortInput::initialize() {
     bandwidth = getParentModule()->getParentModule()->par("bandwidth");
-    EV<<bandwidth<<"\n";
+
+    rcvdSFSignal = registerSignal("receivedCompleteSF");
+    rcvdDFSignal = registerSignal("receivedCompleteDF");
 }
 
 void FRPortInput::handleMessage(cMessage *msg) {
 
     if (msg->isSelfMessage()) {
+        if (FRFrame *frMsg = dynamic_cast<FRFrame*>(msg)) {
+            if (frMsg->getKind() == STATIC_EVENT) {
+                emit(rcvdSFSignal, frMsg);
+            } else if (frMsg->getKind() == DYNAMIC_EVENT) {
+                emit(rcvdDFSignal, frMsg);
+            }
+        }
         send(msg, "out");
-    } else if (FRFrame *frame = dynamic_cast<FRFrame*>(msg)){
+    } else if (FRFrame *frame = dynamic_cast<FRFrame*>(msg)) {
         receivedExternMessage(frame);
     }
 }
@@ -53,12 +62,13 @@ void FRPortInput::receivedExternMessage(FRFrame *msg) {
                         frScheduler->calculateDeviationValue(), true);
             }
         } else {
-            EV<< "received static frame in wrong slot!\n";
+            EV << "received static frame in wrong slot!\n";
             bubble("static frame in wrong slot");
             //TODO signal for stats
         }
     }
-    scheduleAt(simTime() + calculateScheduleTiming(frMsg->getBitLength()), frMsg);
+    scheduleAt(simTime() + calculateScheduleTiming(frMsg->getBitLength()),
+            frMsg);
 }
 
 double FRPortInput::calculateScheduleTiming(int length) {

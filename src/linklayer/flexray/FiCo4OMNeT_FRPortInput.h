@@ -52,6 +52,16 @@ private:
     double bandwidth;
 
     /**
+     * @brief Simsignal for received static frames.
+     */
+    simsignal_t rcvdSFSignal;
+
+    /**
+     * @brief Simsignal for received dynamic frames.
+     */
+    simsignal_t rcvdDFSignal;
+
+    /**
      * @brief Handles the received message.
      */
     virtual void receivedExternMessage(FRFrame *msg);
