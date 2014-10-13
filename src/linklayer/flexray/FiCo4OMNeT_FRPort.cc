@@ -24,7 +24,7 @@ void FRPort::handleMessage(cMessage *msg) {
 	FRScheduler *frScheduler = (FRScheduler*) (getParentModule()->getSubmodule(
 			"frScheduler"));
 	if (frMsg->getKind() == DYNAMIC_EVENT) {
-		frScheduler->dynamicFrameReceived(frMsg->getSize(), frMsg->getChannel());
+		frScheduler->dynamicFrameReceived(frMsg->getByteLength(), frMsg->getChannel());
 		//ev << frMsg->getFrameID() << "," << simTime() << "," << simTime()-msg->getCreationTime() << endl;
 	} else {
 		if (frScheduler->getSlotCounter() == (unsigned int)frMsg->getFrameID()) {

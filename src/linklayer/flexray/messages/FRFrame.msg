@@ -22,8 +22,21 @@ packet FRFrame {
     byteLength = 8;
     int frameID;
     int cycleNumber;
-    //TODO: size umstellen auf bitlength
-    int size;
+    int payloadLength; //The payload segment size is encoded in this field by setting it to the number of payload data bytes divided by two
     int channel;
     bool syncFrameIndicator;
+}
+
+
+//
+// Enum for all possible channel combinations 
+//
+// @author Stefan Buschmann
+enum Channel {//0 = A; 1 = B; 2 = A&B
+    // Event that signals the beginning of a new cycle
+    CHANNEL_A=0;
+    // Event with a specified action time
+    CHANNEL_B=1;
+    // Event that is triggered after a specified amount of time
+    CHANNEL_AB=2;
 }

@@ -3,6 +3,7 @@
 namespace FiCo4OMNeT {
 
 void FRBuffer::initialize(){
+    Buffer::initialize();
 }
 
 void FRBuffer::registerDestinationGate() {
@@ -69,8 +70,9 @@ void FRBuffer::deliverNextFrame() {
     sendToDestinationGates(frames.front()->dup());
 }
 
-void FRBuffer::sendToDestinationGates(FRFrame *df) {
-    send(df,"out");
-}
+//void FRBuffer::sendToDestinationGates(FRFrame *df) {
+//    send(df,"out");
+//    recordPacketSent(df);
+//}
 
 }

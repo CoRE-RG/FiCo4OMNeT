@@ -22,6 +22,13 @@ simple FRTrafficSourceAppBase like ISourceApplication
     parameters:
         @class(FRTrafficSourceAppBase);
         @display("i=block/source");
+        
+        string staticSlotsChA = default("");
+        string staticSlotsChB = default("");
+        string dynamicSlotsChA = default("");
+        string dynamicSlotsChB = default("");
+        int syncFrame = default(0);
+        
     gates:
         output out;
         input schedulerIn @directIn;

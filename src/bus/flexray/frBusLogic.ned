@@ -25,6 +25,12 @@ simple FRBusLogic
 {
     parameters:
     	@display("i=block/app");
+    	
+    	@signal[receivedStaticFrame](type=FRFrame);
+        @signal[receivedDynamicFrame](type=FRFrame);
+        
+        @statistic[receivedStaticFrame](title="static frames received"; source=receivedStaticFrame; record=count; interpolationmode=none);
+        @statistic[receivedDynamicFrame](title="dynamic frames received"; source=receivedDynamicFrame; record=count; interpolationmode=none);
 
     gates:
         inout gateChA;

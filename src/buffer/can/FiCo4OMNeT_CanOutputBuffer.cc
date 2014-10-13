@@ -42,6 +42,7 @@ void CanOutputBuffer::putFrame(cMessage* msg) {
     }
     frames.push_back(frame);
     registerForArbitration(frame->getCanID(), frame->getRtr());
+    emit(rxPkSignal, msg);
 }
 
 void CanOutputBuffer::registerForArbitration(int id, bool rtr) {

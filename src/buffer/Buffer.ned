@@ -31,12 +31,12 @@ moduleinterface Buffer
 {
     parameters:
         @display("i=block/buffer");
-        //Statistic of the amount of packets that were sent by the buffer
-        @signal[rxPk](type=cMessage);
-        @statistic[rxPk](title="RX Packets"; source=rxPk; record=count,"sum(packetBytes)","vector(packetBytes)"; interpolationmode=none);
-        //Statistic of the amount of packets that were sent by the buffer
-        @signal[txPk](type=cMessage);
-        @statistic[txPk](title="TX Packets"; source=txPk; record=count,"sum(packetBytes)","vector(packetBytes)"; interpolationmode=none);
+//        //Statistic of the amount of packets that were sent by the buffer
+//        @signal[rxPk](type=cMessage);
+//        @statistic[rxPk](title="RX Packets"; source=rxPk; record=count,"sum(packetBytes)","vector(packetBytes)"; interpolationmode=none);
+//        //Statistic of the amount of packets that were sent by the buffer
+//        @signal[txPk](type=cMessage);
+//        @statistic[txPk](title="TX Packets"; source=txPk; record=count,"sum(packetBytes)","vector(packetBytes)"; interpolationmode=none);
 
         //Comma seperated list of gates where the frames of the buffer are delivered
         string destination_gates;

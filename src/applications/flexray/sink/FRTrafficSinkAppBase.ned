@@ -24,4 +24,5 @@ simple FRTrafficSinkAppBase like ISinkApplication
         @display("i=block/sink");
     gates:
         input in;
+        input controllerIn @directIn;
 }

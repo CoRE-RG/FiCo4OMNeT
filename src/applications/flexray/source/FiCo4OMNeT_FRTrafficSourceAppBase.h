@@ -102,6 +102,14 @@ private:
      */
     void frameGenerationForNewCycle();
 
+    /**
+     * @brief Creates a random size for a dynamic frame.
+     */
+    int randomSize();
+
+    /**
+     * @brief Transmits the frame to the connected buffer.
+     */
     void transmitFrame(FRFrame *frMsg);
 };
 

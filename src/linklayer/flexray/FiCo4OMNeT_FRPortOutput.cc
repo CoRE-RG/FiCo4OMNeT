@@ -34,10 +34,21 @@ void FRPortOutput::initializeStatisticValues() {
 }
 
 void FRPortOutput::handleMessage(cMessage *msg) {
-    FRFrame *frMsg = dynamic_cast<FRFrame *>(msg);
-    colorBusy();
+    if (FRFrame *frMsg = dynamic_cast<FRFrame *>(msg)) {
+//    colorBusy();
     //TODO stats
-    send(frMsg, "out");
+        if (frMsg->getChannel() == CHANNEL_A) {
+            send(frMsg->dup(), "outChA");
+        } else if (frMsg->getChannel() == CHANNEL_B) {
+            send(frMsg->dup(), "outChB");
+        } else if (frMsg->getChannel() == CHANNEL_AB) {
+            frMsg->setChannel(CHANNEL_A);
+            send(frMsg->dup(), "outChA");
+            frMsg->setChannel(CHANNEL_B);
+            send(frMsg->dup(), "outChB");
+        }
+    }
+    delete msg;
 }
 
 void FRPortOutput::sendingCompleted() {

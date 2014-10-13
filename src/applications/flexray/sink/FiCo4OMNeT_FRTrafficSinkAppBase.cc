@@ -26,22 +26,19 @@ void FRTrafficSinkAppBase::initialize() {
 }
 
 void FRTrafficSinkAppBase::handleMessage(cMessage *msg) {
-//    std::string msgClass = msg->getClassName();
     if (msg->arrivedOn("controllerIn")) {
         bufferMessageCounter++;
         if (idle) {
             requestFrame();
         }
-//    } else if (msgClass.compare("CanDataFrame") == 0) {
     } else if (FRFrame * frame = dynamic_cast<FRFrame *>(msg)) {
-//        FRFrame *frame = check_and_cast<FRFrame *>(msg);
         int i = frame->getFrameID();
         currentFrameID = i;
         bufferMessageCounter--;
         startWorkOnFrame(0); //TODO working time
     } else if (msg->isSelfMessage()) {
         FRInputBuffer *buffer =
-                (FRInputBuffer*) (getParentModule()->getSubmodule("bufferIn"));
+                (FRInputBuffer*) (getParentModule()->getSubmodule("inputBuffer"));
         buffer->deleteFrame(currentFrameID);
         if (bufferMessageCounter > 0) {
             requestFrame();
@@ -54,7 +51,7 @@ void FRTrafficSinkAppBase::handleMessage(cMessage *msg) {
 
 void FRTrafficSinkAppBase::requestFrame() {
     FRInputBuffer *buffer = (FRInputBuffer*) (getParentModule()->getSubmodule(
-            "bufferIn"));
+            "inputBuffer"));
     buffer->deliverNextFrame();
     idle = false;
 }

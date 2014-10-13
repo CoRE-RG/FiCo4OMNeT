@@ -28,6 +28,9 @@ module FRNode
     parameters:
         @display("bgb=331,272;i=device/device");
         int pChannels = default(2); //0 = A; 1 = B; 2 = A&B
+        
+        int gPayloadLengthStatic = default(0);
+        int cPayloadLengthMax = default(0);
 
         int gCycleCountMax = default(63); // [7,9,...,63]
         double pdMicrotick @unit(s) = default(12.5ns); //[ns]
@@ -40,16 +43,11 @@ module FRNode
         int gNumberOfStaticSlots = default(2);
         int gdActionPointOffset = default(1); //[MT]
         int gdMinislotActionPointOffset = default(1); //[MT]
-        double bandwidth @unit(Mbps) = default(10Mbps); //[MBit/s]
+        double bandwidth @unit(bps) = default(10000000bps); //[MBit/s]
 
         double maxDriftChange @unit(s) = default(0);
         double maxDrift @unit(s) = default(0);
 
-        string staticSlotsChA = default("");
-        string staticSlotsChB = default("");
-        string dynamicSlotsChA = default("");
-        string dynamicSlotsChB = default("");
-        int syncFrame = default(0);
 //        @node;
 
     gates:

@@ -49,7 +49,7 @@ private:
     /**
      * @brief Bandwidth of the network.
      */
-    int bandwidth;
+    double bandwidth;
 
     /**
      * @brief Handles the received message.

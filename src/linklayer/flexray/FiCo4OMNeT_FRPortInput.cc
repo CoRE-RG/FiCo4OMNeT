@@ -21,14 +21,15 @@ Define_Module(FRPortInput);
 
 void FRPortInput::initialize() {
     bandwidth = getParentModule()->getParentModule()->par("bandwidth");
+    EV<<bandwidth<<"\n";
 }
 
 void FRPortInput::handleMessage(cMessage *msg) {
 
     if (msg->isSelfMessage()) {
         send(msg, "out");
-    } else {
-        receivedExternMessage(dynamic_cast<FRFrame*>(msg));
+    } else if (FRFrame *frame = dynamic_cast<FRFrame*>(msg)){
+        receivedExternMessage(frame);
     }
 }
 
@@ -38,7 +39,7 @@ void FRPortInput::receivedExternMessage(FRFrame *msg) {
             (FRScheduler*) (getParentModule()->getParentModule()->getSubmodule(
                     "frScheduler"));
     if (frMsg->getKind() == DYNAMIC_EVENT) {
-        frScheduler->dynamicFrameReceived(frMsg->getSize(),
+        frScheduler->dynamicFrameReceived(frMsg->getByteLength(),
                 frMsg->getChannel());
     } else {
         if (frScheduler->getSlotCounter()
@@ -46,7 +47,7 @@ void FRPortInput::receivedExternMessage(FRFrame *msg) {
             if (frMsg->getSyncFrameIndicator()) {
                 FRSync *frSync =
                         (FRSync*) (getParentModule()->getParentModule()->getSubmodule(
-                                "frSync")); //TODO in init. geht das?
+                                "frSync"));
                 frSync->storeDeviationValue(frMsg->getFrameID(),
                         frMsg->getCycleNumber() % 2, frMsg->getChannel(),
                         frScheduler->calculateDeviationValue(), true);
@@ -54,12 +55,14 @@ void FRPortInput::receivedExternMessage(FRFrame *msg) {
         } else {
             EV<< "received static frame in wrong slot!\n";
             bubble("static frame in wrong slot");
+            //TODO signal for stats
         }
     }
-    scheduleAt(simTime() + calculateScheduleTiming(frMsg->getSize()), frMsg);
+    scheduleAt(simTime() + calculateScheduleTiming(frMsg->getBitLength()), frMsg);
 }
 
 double FRPortInput::calculateScheduleTiming(int length) {
+
     return ((double) length) / bandwidth;
 }
 

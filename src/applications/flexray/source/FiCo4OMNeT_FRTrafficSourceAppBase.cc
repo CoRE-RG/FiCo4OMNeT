@@ -20,10 +20,10 @@ namespace FiCo4OMNeT {
 Define_Module(FRTrafficSourceAppBase);
 
 void FRTrafficSourceAppBase::initialize() {
-    //static frames in Buffer & in Liste
-    //dynamic frames in Liste
     getParentModule()->subscribe("newCycle", this);
+//    subscribe("newCycle", this);
     setUpStaticFrames();
+    setUpDynamicFrames();
 }
 
 void FRTrafficSourceAppBase::handleMessage(cMessage *msg) {
@@ -41,7 +41,7 @@ void FRTrafficSourceAppBase::setUpStaticFrames() {
     FRFrame *frMsg;
     int cycleNr;
     int gNumberOfStaticSlots = getParentModule()->par("gNumberOfStaticSlots");
-    int syncFrame = getParentModule()->par("syncFrame");
+    int syncFrame = par("syncFrame");
     std::list<unsigned int> staticSlotsChA;
     std::list<unsigned int> staticSlotsChB;
 
@@ -64,7 +64,7 @@ void FRTrafficSourceAppBase::setUpStaticFrames() {
             cycleNr = ceil((staticSlotsChA.front() - 1) / gNumberOfStaticSlots);
             frMsg = createFRFrame(
                     staticSlotsChA.front() - cycleNr * gNumberOfStaticSlots,
-                    cycleNr, 2, false, STATIC_EVENT);
+                    cycleNr, CHANNEL_AB, false, STATIC_EVENT);
             staticSlotsChA.pop_front();
             staticSlotsChB.pop_front();
 
@@ -73,13 +73,13 @@ void FRTrafficSourceAppBase::setUpStaticFrames() {
             cycleNr = ceil((staticSlotsChA.front() - 1) / gNumberOfStaticSlots);
             frMsg = createFRFrame(
                     staticSlotsChA.front() - cycleNr * gNumberOfStaticSlots,
-                    cycleNr, 0, false, STATIC_EVENT);
+                    cycleNr, CHANNEL_A, false, STATIC_EVENT);
             staticSlotsChA.pop_front();
         } else {
             cycleNr = ceil((staticSlotsChB.front() - 1) / gNumberOfStaticSlots);
             frMsg = createFRFrame(
                     staticSlotsChB.front() - cycleNr * gNumberOfStaticSlots,
-                    cycleNr, 1, false, STATIC_EVENT);
+                    cycleNr, CHANNEL_B, false, STATIC_EVENT);
             staticSlotsChB.pop_front();
         }
         if (frMsg->getFrameID() == syncFrame) {
@@ -91,10 +91,10 @@ void FRTrafficSourceAppBase::setUpStaticFrames() {
 
 void FRTrafficSourceAppBase::setUpDynamicFrames() {
 
-    cStringTokenizer tokenizerChA(getParentModule()->par("dynamicSlotsChA"));
-    dynamicFrameCreation(tokenizerChA, 0);
-    cStringTokenizer tokenizerChB(getParentModule()->par("dynamicSlotsChB"));
-    dynamicFrameCreation(tokenizerChB, 1);
+    cStringTokenizer tokenizerChA(par("dynamicSlotsChA"));
+    dynamicFrameCreation(tokenizerChA, CHANNEL_A);
+    cStringTokenizer tokenizerChB(par("dynamicSlotsChB"));
+    dynamicFrameCreation(tokenizerChB, CHANNEL_B);
 }
 
 void FRTrafficSourceAppBase::dynamicFrameCreation(cStringTokenizer tokenizer,
@@ -121,11 +121,17 @@ FRFrame* FRTrafficSourceAppBase::createFRFrame(int frameID, int cycleNumber,
     msg->setChannel(channel);
     msg->setSyncFrameIndicator(syncFrameIndicator);
     msg->setKind(kind);
-    if (kind == DYNAMIC_EVENT) {
-//        msg->setSize(randomSize());
-    }
+
     cPacket *payload = new cPacket();
-    payload->setBitLength(msg->getSize());
+    if (kind == DYNAMIC_EVENT) {
+        payload->setByteLength(randomSize());
+        EV<<"randomsize: " << payload->getByteLength() << "\n";
+    } else if (kind == STATIC_EVENT) {
+        int staticSlotLength = getParentModule()->par("gPayloadLengthStatic");
+        payload->setByteLength(staticSlotLength);
+    }
+    msg->setPayloadLength(payload->getByteLength());
+    payload->setByteLength(msg->getPayloadLength());
     msg->encapsulate(payload);
     return msg;
 }
@@ -145,22 +151,26 @@ int FRTrafficSourceAppBase::calculateLength(int dataLength) {
 }
 
 void FRTrafficSourceAppBase::frameGenerationForNewCycle() {
-    //dynamische frames f�r den aktuellen zyklus erstellen und an Buffer weiterleiten
+    Enter_Method_Silent();
     FRFrame *tmp;
     for (std::vector<FRFrame*>::iterator it = outgoingDynamicFrames.begin();
             it != outgoingDynamicFrames.end(); ++it) {
         tmp = *it;
         if (tmp->getCycleNumber() == vCycleCounter) {
-            transmitFrame(tmp);
+            transmitFrame(tmp->dup());
         }
     }
     for (std::vector<FRFrame*>::iterator it = outgoingStaticFrames.begin();
             it != outgoingStaticFrames.end(); ++it) {
         tmp = *it;
         if (tmp->getCycleNumber() == vCycleCounter) {
-            transmitFrame(tmp);
+            transmitFrame(tmp->dup());
         }
     }
+}
+
+int FRTrafficSourceAppBase::randomSize(){
+    return 2*(intuniform(0,getParentModule()->par("cPayloadLengthMax")));
 }
 
 void FRTrafficSourceAppBase::transmitFrame(FRFrame *frMsg){
