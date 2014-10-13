@@ -1,10 +1,16 @@
 .settings/
 /out
 *_m.*
+
+#results
+/examples/*/results/
+/examples/*/*/results/
+/examples/*/*/*/results/
 *.vci
 *.vec
 *.sca
 *.anf
+
 *.tkenvrc
 *.tkenvlog
 /doc/doxy/
@@ -15,3 +21,4 @@ src/Makefile
 *.dylib
 *.dll
 /tests/*/work/
+*.UPDATED
