@@ -27,6 +27,7 @@
 									<listOptionValue builtIn="false" value="WITH_AS6802_COMMON"/>
 									<listOptionValue builtIn="false" value="WITH_TTE_API"/>
 									<listOptionValue builtIn="false" value="WITH_CAN_COMMON"/>
+									<listOptionValue builtIn="false" value="WITH_FR_COMMON"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.476395463" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
@@ -35,6 +36,7 @@
 									<listOptionValue builtIn="false" value="WITH_AS6802_COMMON"/>
 									<listOptionValue builtIn="false" value="WITH_TTE_API"/>
 									<listOptionValue builtIn="false" value="WITH_CAN_COMMON"/>
+									<listOptionValue builtIn="false" value="WITH_FR_COMMON"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.699650478" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
@@ -59,6 +61,7 @@
 									<listOptionValue builtIn="false" value="WITH_AS6802_COMMON"/>
 									<listOptionValue builtIn="false" value="WITH_TTE_API"/>
 									<listOptionValue builtIn="false" value="WITH_CAN_COMMON"/>
+									<listOptionValue builtIn="false" value="WITH_FR_COMMON"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1601758975" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
@@ -67,6 +70,7 @@
 									<listOptionValue builtIn="false" value="WITH_AS6802_COMMON"/>
 									<listOptionValue builtIn="false" value="WITH_TTE_API"/>
 									<listOptionValue builtIn="false" value="WITH_CAN_COMMON"/>
+									<listOptionValue builtIn="false" value="WITH_FR_COMMON"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.902240948" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
@@ -86,6 +90,7 @@
 									<listOptionValue builtIn="false" value="WITH_AS6802_COMMON"/>
 									<listOptionValue builtIn="false" value="WITH_TTE_API"/>
 									<listOptionValue builtIn="false" value="WITH_CAN_COMMON"/>
+									<listOptionValue builtIn="false" value="WITH_FR_COMMON"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1396767531" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
@@ -94,6 +99,7 @@
 									<listOptionValue builtIn="false" value="WITH_AS6802_COMMON"/>
 									<listOptionValue builtIn="false" value="WITH_TTE_API"/>
 									<listOptionValue builtIn="false" value="WITH_CAN_COMMON"/>
+									<listOptionValue builtIn="false" value="WITH_FR_COMMON"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1291355576" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
@@ -106,7 +112,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="examples"/>
-						<entry excluding="synchronisation/flexray|scheduler/flexray|nodes/flexray|linklayer/flexray|bus/flexray|buffer/flexray|applications/flexray" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -138,6 +144,7 @@
 									<listOptionValue builtIn="false" value="WITH_AS6802_COMMON"/>
 									<listOptionValue builtIn="false" value="WITH_TTE_API"/>
 									<listOptionValue builtIn="false" value="WITH_CAN_COMMON"/>
+									<listOptionValue builtIn="false" value="WITH_FR_COMMON"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.293960457" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
@@ -146,6 +153,7 @@
 									<listOptionValue builtIn="false" value="WITH_AS6802_COMMON"/>
 									<listOptionValue builtIn="false" value="WITH_TTE_API"/>
 									<listOptionValue builtIn="false" value="WITH_CAN_COMMON"/>
+									<listOptionValue builtIn="false" value="WITH_FR_COMMON"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1493920076" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
@@ -170,6 +178,7 @@
 									<listOptionValue builtIn="false" value="WITH_AS6802_COMMON"/>
 									<listOptionValue builtIn="false" value="WITH_TTE_API"/>
 									<listOptionValue builtIn="false" value="WITH_CAN_COMMON"/>
+									<listOptionValue builtIn="false" value="WITH_FR_COMMON"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1347572356" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
@@ -178,6 +187,7 @@
 									<listOptionValue builtIn="false" value="WITH_AS6802_COMMON"/>
 									<listOptionValue builtIn="false" value="WITH_TTE_API"/>
 									<listOptionValue builtIn="false" value="WITH_CAN_COMMON"/>
+									<listOptionValue builtIn="false" value="WITH_FR_COMMON"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.681309552" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
@@ -197,6 +207,7 @@
 									<listOptionValue builtIn="false" value="WITH_AS6802_COMMON"/>
 									<listOptionValue builtIn="false" value="WITH_TTE_API"/>
 									<listOptionValue builtIn="false" value="WITH_CAN_COMMON"/>
+									<listOptionValue builtIn="false" value="WITH_FR_COMMON"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1691417685" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
@@ -205,6 +216,7 @@
 									<listOptionValue builtIn="false" value="WITH_AS6802_COMMON"/>
 									<listOptionValue builtIn="false" value="WITH_TTE_API"/>
 									<listOptionValue builtIn="false" value="WITH_CAN_COMMON"/>
+									<listOptionValue builtIn="false" value="WITH_FR_COMMON"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1005976985" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
@@ -217,7 +229,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="examples"/>
-						<entry excluding="synchronisation/flexray|scheduler/flexray|nodes/flexray|linklayer/flexray|bus/flexray|buffer/flexray|applications/flexray" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
