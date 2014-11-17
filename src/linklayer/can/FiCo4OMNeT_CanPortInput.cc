@@ -30,8 +30,7 @@
 
 namespace FiCo4OMNeT {
 
-Define_Module(CanPortInput)
-;
+Define_Module(CanPortInput);
 
 void CanPortInput::initialize() {
     bandwidth =
@@ -87,7 +86,7 @@ void CanPortInput::receiveMessage(CanDataFrame *df) {
     delete (scheduledDataFrame);
     scheduledDataFrame = df->dup();
     scheduleAt((simTime() + calculateScheduleTiming(frameLength)),
-    scheduledDataFrame);
+            scheduledDataFrame);
 }
 
 void CanPortInput::generateReceiveError(CanDataFrame *df) {
@@ -108,6 +107,10 @@ void CanPortInput::generateReceiveError(CanDataFrame *df) {
 
 bool CanPortInput::checkExistence(CanDataFrame *df) {
     if (df->getRtr()) {
+        if (checkIncomingDataFrames(df->getCanID())
+                && !checkOutgoingRemoteFrames(df->getCanID())) { // Remote frames will be forwarded to the sink app
+            return true;
+        }
         return checkOutgoingDataFrames(df->getCanID());
     } else {
         return checkIncomingDataFrames(df->getCanID());
@@ -125,7 +128,7 @@ bool CanPortInput::checkOutgoingDataFrames(int id) {
 
 bool CanPortInput::checkOutgoingRemoteFrames(int id) {
     for (std::vector<int>::iterator it = outgoingRemoteFrameIDs.begin();
-    it != outgoingRemoteFrameIDs.end(); ++it) {
+            it != outgoingRemoteFrameIDs.end(); ++it) {
         if (*it == id) {
             return true;
         }
@@ -135,7 +138,7 @@ bool CanPortInput::checkOutgoingRemoteFrames(int id) {
 
 bool CanPortInput::checkIncomingDataFrames(int id) {
     for (std::vector<int>::iterator it = incomingDataFrameIDs.begin();
-    it != incomingDataFrameIDs.end(); ++it) {
+            it != incomingDataFrameIDs.end(); ++it) {
         if (*it == id) {
             return true;
         }
@@ -148,6 +151,16 @@ double CanPortInput::calculateScheduleTiming(int length) {
 }
 
 void CanPortInput::forwardDataFrame(CanDataFrame *df) {
+    for (std::vector<int>::iterator it = incomingDataFrameIDs.begin();
+            it != incomingDataFrameIDs.end(); ++it) {
+        if (*it == df->getCanID()) {
+            EV << "timestamp: " << df->getTimestamp() << "   actual time: "
+                      << simTime() << "\n";
+            emit(rcvdDFSignal, df);
+            send(df, "out");
+            break;
+        }
+    }
     if (df->getRtr()) {
         std::map<int, cGate*>::iterator it;
         it = outgoingDataFrameIDs.find(df->getCanID());
@@ -155,16 +168,27 @@ void CanPortInput::forwardDataFrame(CanDataFrame *df) {
             emit(rcvdRFSignal, df);
             sendDirect(df, it->second);
         }
-    } else {
-        for (std::vector<int>::iterator it = incomingDataFrameIDs.begin();
-        it != incomingDataFrameIDs.end(); ++it) {
-            if (*it == df->getCanID()) {
-                emit(rcvdDFSignal, df);
-                send(df, "out");
-                break;
-            }
-        }
     }
+
+//    if (df->getRtr() && !checkOutgoingDataFrames(df->getCanID())) {
+//        std::map<int, cGate*>::iterator it;
+//        it = outgoingDataFrameIDs.find(df->getCanID());
+//        if (it != outgoingDataFrameIDs.end()) {
+//            emit(rcvdRFSignal, df);
+//            sendDirect(df, it->second);
+//        }
+//    } else {
+//        for (std::vector<int>::iterator it = incomingDataFrameIDs.begin();
+//                it != incomingDataFrameIDs.end(); ++it) {
+//            if (*it == df->getCanID()) {
+//                EV << "timestamp: " << df->getTimestamp() << "   actual time: "
+//                          << simTime() << "\n";
+//                emit(rcvdDFSignal, df);
+//                send(df, "out");
+//                break;
+//            }
+//        }
+//    }
 }
 
 void CanPortInput::forwardOwnErrorFrame(ErrorFrame *ef) {
@@ -174,7 +198,7 @@ void CanPortInput::forwardOwnErrorFrame(ErrorFrame *ef) {
 
 void CanPortInput::handleExternErrorFrame(ErrorFrame *ef) {
     CanPortOutput* portOutput =
-    (CanPortOutput*) getParentModule()->getSubmodule("canPortOutput");
+            (CanPortOutput*) getParentModule()->getSubmodule("canPortOutput");
     portOutput->sendingCompleted();
 
     if ((checkOutgoingDataFrames(ef->getCanID())
@@ -192,7 +216,7 @@ void CanPortInput::handleExternErrorFrame(ErrorFrame *ef) {
     }
 
     if (scheduledErrorFrame != NULL && scheduledErrorFrame->isScheduled()
-    && ef->getCanID() == scheduledErrorFrame->getCanID()) {
+            && ef->getCanID() == scheduledErrorFrame->getCanID()) {
         cancelAndDelete(scheduledErrorFrame);
         scheduledErrorFrame = NULL;
     }
