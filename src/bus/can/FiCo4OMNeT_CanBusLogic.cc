@@ -68,6 +68,10 @@ void CanBusLogic::finish() {
     recordScalar("%Errors", errpercentage);
 }
 
+int CanBusLogic::getSendingNodeID(){
+    return sendingNode->getId();
+}
+
 void CanBusLogic::handleMessage(cMessage *msg) {
     if (msg->isSelfMessage()) {
         if (dynamic_cast<CanDataFrame *>(msg)) {
@@ -209,12 +213,12 @@ void CanBusLogic::registerForArbitration(int id, cModule *node,
     }
 }
 
-void CanBusLogic::checkoutFromArbitration(int id) {
+void CanBusLogic::checkoutFromArbitration(int canID) {
     Enter_Method_Silent
     ();
     for (std::list<CanID*>::iterator it = ids.begin(); it != ids.end(); ++it) {
         CanID* tmp = *it;
-        if (tmp->getId() == id) {
+        if (tmp->getId() == canID) {
             ids.remove(tmp);
             break;
         }

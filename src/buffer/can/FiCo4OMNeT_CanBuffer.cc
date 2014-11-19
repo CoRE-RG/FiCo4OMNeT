@@ -45,12 +45,12 @@ void CanBuffer::registerDestinationGate() {
     }
 }
 
-CanDataFrame* CanBuffer::getFrame(int id) {
+CanDataFrame* CanBuffer::getFrame(int canID) {
     for (std::list<CanDataFrame*>::iterator it = frames.begin();
             it != frames.end(); ++it) {
         CanDataFrame* tmp = *it;
         int i = tmp->getCanID();
-            if ((i == id)) {
+            if ((i == canID)) {
             return tmp;
         }
     }
@@ -62,16 +62,16 @@ void CanBuffer::putFrame(cMessage* msg){
     frames.push_back(frame);
 }
 
-void CanBuffer::deleteFrame(int id) {
+void CanBuffer::deleteFrame(int canID) {
     Enter_Method_Silent();
-    CanDataFrame *tmp = getFrame(id);
+    CanDataFrame *tmp = getFrame(canID);
     frames.remove(tmp);
     delete tmp;
 }
 
-void CanBuffer::deliverFrame(int id) {
+void CanBuffer::deliverFrame(int canID) {
     Enter_Method_Silent();
-    sendToDestinationGates(getFrame(id)->dup());
+    sendToDestinationGates(getFrame(canID)->dup());
 }
 
 void CanBuffer::deliverPrioFrame() {

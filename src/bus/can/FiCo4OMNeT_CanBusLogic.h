@@ -61,6 +61,12 @@ public:
      */
     virtual void checkoutFromArbitration(int id);
 
+    int getCurrentSendingId() const {
+        return currentSendingID;
+    }
+
+    int getSendingNodeID();
+
 protected:
     /**
      * @brief collects data for the  results

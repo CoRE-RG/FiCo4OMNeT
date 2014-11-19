@@ -36,7 +36,7 @@ void CanOutputBuffer::putFrame(cMessage* msg) {
     CanDataFrame *frame = dynamic_cast<CanDataFrame *>(msg);
     if (MOB == true) {
         if (getFrame(frame->getCanID()) != NULL) {
-            deleteFrame(frame->getCanID());
+//            deleteFrame(frame->getCanID());
             checkoutFromArbitration(frame->getCanID());
         }
     }
@@ -52,11 +52,14 @@ void CanOutputBuffer::registerForArbitration(int id, bool rtr) {
     canBusLogic->registerForArbitration(id, this, simTime(), rtr);
 }
 
-void CanOutputBuffer::checkoutFromArbitration(int id) {
+void CanOutputBuffer::checkoutFromArbitration(int canID) {
     CanBusLogic *canBusLogic =
             (CanBusLogic*) (getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->getSubmodule(
                     "canBusLogic"));
-    canBusLogic->checkoutFromArbitration(id);
+    if (canBusLogic->getCurrentSendingId() != canID && canBusLogic->getSendingNodeID() != this->getId()) { //TODO was ist mit remote frames?
+        canBusLogic->checkoutFromArbitration(canID);
+        deleteFrame(canID);
+    }
 
 }
 
