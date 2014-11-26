@@ -32,11 +32,14 @@ namespace FiCo4OMNeT {
 
 Define_Module(CanOutputBuffer);
 
+CanOutputBuffer::~CanOutputBuffer(){
+    frames.clear();
+}
+
 void CanOutputBuffer::putFrame(cMessage* msg) {
     CanDataFrame *frame = dynamic_cast<CanDataFrame *>(msg);
     if (MOB == true) {
         if (getFrame(frame->getCanID()) != NULL) {
-//            deleteFrame(frame->getCanID());
             checkoutFromArbitration(frame->getCanID());
         }
     }

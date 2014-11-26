@@ -50,6 +50,10 @@ class CanOutputBuffer: public CanBuffer {
 
 public:
     /**
+     *
+     */
+    virtual ~CanOutputBuffer();
+    /**
      * @brief Is called by the bus logic to permit the frame transmission.
      */
     virtual void receiveSendingPermission(int id);
