@@ -31,7 +31,7 @@
 
 #include <omnetpp.h>
 #include "FiCo4OMNeT_CanBuffer.h"
-
+#include "FiCo4OMNeT_CanPortInput.h"
 
 namespace FiCo4OMNeT {
 /**
@@ -41,7 +41,7 @@ namespace FiCo4OMNeT {
  *
  * @author Stefan Buschmann
  */
-class CanInputBuffer :public CanBuffer{
+class CanInputBuffer: public CanBuffer {
 
 public:
     /**
@@ -51,6 +51,18 @@ public:
      *
      */
     virtual void putFrame(cMessage* msg);
+
+protected:
+    /**
+     * @brief Initialization of the module.
+     */
+    virtual void initialize();
+
+private:
+    /**
+     * @brief Registers the canIDs which will be received by this node.
+     */
+    void registerIncomingDataFramesAtPort();
 };
 
 }

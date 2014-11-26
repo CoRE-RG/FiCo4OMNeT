@@ -27,81 +27,121 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "FiCo4OMNeT_Buffer.h"
+#include "FiCo4OMNeT_HelperFunctions.h"
 
 namespace FiCo4OMNeT {
 
-void Buffer::initialize(){
+void Buffer::initialize() {
     initializeStatistics();
+    registerDestinationGate();
+
 }
 
 void Buffer::handleMessage(cMessage *msg) {
-    if (msg->arrivedOn("in")) {
+    if (msg->arrivedOn("in") || msg->arrivedOn("directIn")) {
         putFrame(msg);
         recordPacketReceived(msg);
     }
 }
 
 void Buffer::registerDestinationGate() { //TODO needs upgrade for multiple sink apps
-    cStringTokenizer destinationGatesTokenizer(
-            getParentModule()->par("destinationGates"), ",");
-    while (destinationGatesTokenizer.hasMoreTokens()) {
-        destinationGates.push_back(
-                (cGate *) getParentModule()->getSubmodule("sinkApp")->gate(
-                        destinationGatesTokenizer.nextToken()));
+//    cStringTokenizer destinationGatesTokenizer(
+//            getParentModule()->par("destinationGates"), ",");
+//    while (destinationGatesTokenizer.hasMoreTokens()) {
+//        destinationGates.push_back(
+//                (cGate *) getParentModule()->getSubmodule("sinkApp")->gate(
+//                        destinationGatesTokenizer.nextToken()));
+//    }
+
+    destinationGates.clear();
+    std::vector<std::string> destinationGatePaths = cStringTokenizer(
+            par("destinationGates").stringValue(), ",").asVector();
+    for (std::vector<std::string>::const_iterator destinationGatePath =
+            destinationGatePaths.begin();
+            destinationGatePath != destinationGatePaths.end();
+            destinationGatePath++) {
+
+        cGate* gate = gateByFullPath((*destinationGatePath));
+//        if (!gate)
+//        {
+//            gate = gateByShortPath((*destinationGatePath), this);
+//        }
+        if (gate) {
+//            if (findContainingNode(gate->getOwnerModule()) != findContainingNode(this))
+//            {
+//                throw cRuntimeError(
+//                        "Configuration problem of destination_gates: Gate: %s is not in node %s! Maybe a copy-paste problem?",
+//                        (*destinationGatePath).c_str(), findContainingNode(this)->getFullName());
+//            }
+            destinationGates.push_back(gate);
+        } else {
+            throw cRuntimeError(
+                    "Configuration problem of destination_gates: Gate: %s could not be resolved!",
+                    (*destinationGatePath).c_str());
+        }
     }
 }
 
 cMessage* Buffer::getFrame(int objectId) {
-    for (std::list<cMessage*>::iterator it = frames.begin();
-            it != frames.end(); ++it) {
+    for (std::list<cMessage*>::iterator it = frames.begin(); it != frames.end();
+            ++it) {
         cMessage* tmp = *it;
         int i = tmp->getId();
-            if ((i == objectId)) {
+        if ((i == objectId)) {
             return tmp;
         }
     }
     return NULL;
 }
 
-void Buffer::putFrame(cMessage* frame){
+void Buffer::putFrame(cMessage* frame) {
     frames.push_back(frame);
 }
 
 void Buffer::deleteFrame(int objectId) {
-    Enter_Method_Silent();
+    Enter_Method_Silent
+    ();
     cMessage *tmp = getFrame(objectId);
     frames.remove(tmp);
     delete tmp;
 }
 
 void Buffer::deliverFrame(int id) {
-    Enter_Method_Silent();
+    Enter_Method_Silent
+    ();
     sendToDestinationGates(getFrame(id)->dup());
 }
 
 void Buffer::deliverNextFrame() {
-    Enter_Method_Silent();
+    Enter_Method_Silent
+    ();
     sendToDestinationGates(frames.front()->dup());
 }
 
 void Buffer::sendToDestinationGates(cMessage *df) {
     recordPacketSent(df);
-    send(df,"out");
+
+    for (std::list<cGate*>::const_iterator dgate = destinationGates.begin();
+            dgate != destinationGates.end(); ++dgate) {
+        sendDirect(df->dup(), 0, 0, *dgate);
+    }
+    if (gate("out")->isConnected()) {
+        send(df->dup(), "out");
+    }
+
+    delete df;
 }
 
-void Buffer::initializeStatistics()
-{
+void Buffer::initializeStatistics() {
     txPkSignal = registerSignal("txPk");
     rxPkSignal = registerSignal("rxPk");
 }
 
-void Buffer::recordPacketSent(cMessage *frame)
-{
+void Buffer::recordPacketSent(cMessage *frame) {
     emit(txPkSignal, frame);
 }
 
-void Buffer::recordPacketReceived(cMessage *frame)
-{
+void Buffer::recordPacketReceived(cMessage *frame) {
     emit(rxPkSignal, frame);
 }
 

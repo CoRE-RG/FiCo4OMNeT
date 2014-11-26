@@ -42,10 +42,12 @@ simple CanInputBuffer like CanBuffer
         @display("i=block/buffer");
         //Comma seperated list of gates where the frames of the buffer are delivered
         string destination_gates = default("");
-        bool MOB = default(true); //If true frames with the same ID will be overwritten.
+        bool MOB = default(true); 						//If true frames with the same ID will be overwritten.
+        string idIncomingFrames = default("0");			// The Incoming Frame ID(s) - String parameter (int) separated with commas
+        
     gates:
         //The buffers Input
         input in[] @loose @labels(DataFrame);
-        //The buffers Output @warning CURRENTLY NOT USED!
+        //The buffers Output
         output out @loose @labels(DataFrame);
 }

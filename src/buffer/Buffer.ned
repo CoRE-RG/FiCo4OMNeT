@@ -43,6 +43,7 @@ moduleinterface Buffer
     gates:
         //The buffers Input
         input in[] @loose;
+        input directIn[] @directIn;
         //The buffers Output @warning CURRENTLY NOT USED!
         output out @loose;
 }

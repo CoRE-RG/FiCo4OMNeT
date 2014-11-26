@@ -43,7 +43,8 @@ void CanPortInput::initialize() {
 
     rcvdDFSignal = registerSignal("receivedCompleteDF");
     rcvdRFSignal = registerSignal("receivedCompleteRF");
-    WATCH_VECTOR(incomingDataFrameIDs);
+    WATCH_MAP(incomingDataFrameIDs);
+
 }
 
 void CanPortInput::handleMessage(cMessage *msg) {
@@ -137,11 +138,18 @@ bool CanPortInput::checkOutgoingRemoteFrames(int id) {
 }
 
 bool CanPortInput::checkIncomingDataFrames(int id) {
-    for (std::vector<int>::iterator it = incomingDataFrameIDs.begin();
-            it != incomingDataFrameIDs.end(); ++it) {
-        if (*it == id) {
-            return true;
-        }
+//    for (std::vector<int>::iterator it = incomingDataFrameIDs.begin();
+//            it != incomingDataFrameIDs.end(); ++it) {
+//        if (*it == id) {
+//            return true;
+//        }
+//    }
+//    return false;
+
+    std::map<int, cGate*>::iterator it;
+    it = incomingDataFrameIDs.find(id);
+    if (it != incomingDataFrameIDs.end()) {
+        return true;
     }
     return false;
 }
@@ -151,16 +159,24 @@ double CanPortInput::calculateScheduleTiming(int length) {
 }
 
 void CanPortInput::forwardDataFrame(CanDataFrame *df) {
-    for (std::vector<int>::iterator it = incomingDataFrameIDs.begin();
-            it != incomingDataFrameIDs.end(); ++it) {
-        if (*it == df->getCanID()) {
-            EV << "timestamp: " << df->getTimestamp() << "   actual time: "
-                      << simTime() << "\n";
-            emit(rcvdDFSignal, df);
-            send(df, "out");
-            break;
-        }
+//    for (std::map<int, cGate*>::iterator it = incomingDataFrameIDs.begin();
+//            it != incomingDataFrameIDs.end(); ++it) {
+//        if (*it == df->getCanID()) {
+////            EV << "timestamp: " << df->getTimestamp() << "   actual time: "
+////                      << simTime() << "\n";
+//            emit(rcvdDFSignal, df);
+//            send(df, "out");
+//            break;
+//        }
+//    }
+
+    std::map<int, cGate*>::iterator it;
+    it = incomingDataFrameIDs.find(df->getCanID());
+    if (it != incomingDataFrameIDs.end()) {
+        emit(rcvdDFSignal, df);
+        send(df, it->second);
     }
+
     if (df->getRtr()) {
         std::map<int, cGate*>::iterator it;
         it = outgoingDataFrameIDs.find(df->getCanID());
@@ -232,10 +248,11 @@ void CanPortInput::registerOutgoingRemoteFrame(int canID) {
     it = outgoingRemoteFrameIDs.insert(it, canID);
 }
 
-void CanPortInput::registerIncomingDataFrame(int canID) {
-    std::vector<int>::iterator it;
-    it = incomingDataFrameIDs.begin();
-    it = incomingDataFrameIDs.insert(it, canID);
+void CanPortInput::registerIncomingDataFrame(int canID, cGate* gate) {
+//    std::vector<int>::iterator it;
+//    it = incomingDataFrameIDs.begin();
+//    it = incomingDataFrameIDs.insert(it, canID);
+    incomingDataFrameIDs.insert(std::pair<int, cGate*>(canID, gate));
 }
 
 }

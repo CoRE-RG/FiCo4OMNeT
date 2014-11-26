@@ -32,6 +32,25 @@ namespace FiCo4OMNeT {
 
 Define_Module(CanInputBuffer);
 
+void CanInputBuffer::initialize(){
+    registerIncomingDataFramesAtPort();
+    CanBuffer::initialize();
+}
+
+void CanInputBuffer::registerIncomingDataFramesAtPort() {
+    CanPortInput* port = (CanPortInput*) getParentModule()->getSubmodule(
+            "canNodePort")->getSubmodule("canPortInput");
+    cStringTokenizer idIncomingFramesTokenizer(par("idIncomingFrames"), ",");
+
+    while (idIncomingFramesTokenizer.hasMoreTokens()){
+        std::stringstream strValue;
+        int intValue;
+        strValue << idIncomingFramesTokenizer.nextToken();
+        strValue >> intValue;
+        port->registerIncomingDataFrame(intValue, this->gate("directIn"));
+    }
+}
+
 void CanInputBuffer::putFrame(cMessage* msg) {
     CanDataFrame *frame = dynamic_cast<CanDataFrame *>(msg);
     if (MOB == true) {

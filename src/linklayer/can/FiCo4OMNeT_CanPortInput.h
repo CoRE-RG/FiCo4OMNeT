@@ -59,7 +59,7 @@ public:
     /**
      * @brief Sink Applications can register the CanIDs which they are interested in.
      */
-    virtual void registerIncomingDataFrame(int canID);
+    virtual void registerIncomingDataFrame(int canID, cGate* gate);
 
 protected:
     /**
@@ -97,9 +97,9 @@ private:
     int dataFramesReceived;
 
     /**
-     * @brief Vector with IDs of useful incoming data frames
+     * @brief Map with IDs and corresponding inputBuffer-gate of useful incoming data frames
      */
-    std::vector<int> incomingDataFrameIDs;
+    std::map<int,cGate*> incomingDataFrameIDs;
 
     /**
      * @brief Map with IDs and corresponding sourceApp-gates of useful incoming remote frames

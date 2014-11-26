@@ -32,6 +32,7 @@ import fico4omnet.linklayer.can.CanNodePort;
 import fico4omnet.buffer.can.CanInputBuffer;
 import fico4omnet.buffer.can.CanOutputBuffer;
 import fico4omnet.applications.ISourceApplication;
+import fico4omnet.applications.ISinkApplication;
 import fico4omnet.applications.can.source.CanTrafficSourceAppBase;
 import fico4omnet.applications.can.sink.CanTrafficSinkAppBase;
 
@@ -50,6 +51,8 @@ module CanNode
 {
     parameters:
         int numSourceApps = default(1);						// Number of source apps in this node
+        int numSinkApps = default(1);						// Number of source apps in this node
+        int numInputBuffer = default(1);					// Number of input buffer in this node
         int errorperc = default(0);							// If errors are enabled: percentage of errors
         @display("i=block/app2;bgb=248,222");
 
@@ -62,7 +65,7 @@ module CanNode
             gates:
                 phygate;
         }
-        bufferIn: CanInputBuffer {
+        bufferIn[numInputBuffer]: CanInputBuffer {
             @display("p=203,102");
             gates:
                 in[1];
@@ -75,15 +78,16 @@ module CanNode
         sourceApp[numSourceApps]: <default("CanTrafficSourceAppBase")> like ISourceApplication {
             @display("p=98,32,row,70");
         }
-        sinkApp: CanTrafficSinkAppBase {
+        sinkApp[numSinkApps]: <default("CanTrafficSinkAppBase")> like ISinkApplication {
             @display("p=203,32");
         }
     connections:
         canNodePort.phygate <--> gate;
         canNodePort.upperLayerIn <-- bufferOut.out;
-        canNodePort.upperLayerOut --> bufferIn.in[0];
-        sinkApp.in <-- bufferIn.out;
-
+//        canNodePort.upperLayerOut --> bufferIn.in[0];
+//		for i=0..numInputBuffer-1 {
+//            canNodePort.upperLayerOut[i] <-- bufferIn.out[i];
+//        }
         for i=0..numSourceApps-1 {
             sourceApp[i].out --> bufferOut.in[i];
         }

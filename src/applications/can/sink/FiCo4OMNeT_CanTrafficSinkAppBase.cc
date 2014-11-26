@@ -37,22 +37,22 @@ void CanTrafficSinkAppBase::initialize() {
     idle = true;
     currentFrameID = 0;
     bufferMessageCounter = 0;
-    registerIncomingDataFramesAtPort();
+//    registerIncomingDataFramesAtPort();
 }
 
-void CanTrafficSinkAppBase::registerIncomingDataFramesAtPort() {
-    CanPortInput* port = (CanPortInput*) getParentModule()->getSubmodule(
-            "canNodePort")->getSubmodule("canPortInput");
-    cStringTokenizer idIncomingFramesTokenizer(par("idIncomingFrames"), ",");
-
-    while (idIncomingFramesTokenizer.hasMoreTokens()){
-        std::stringstream strValue;
-        int intValue;
-        strValue << idIncomingFramesTokenizer.nextToken();
-        strValue >> intValue;
-        port->registerIncomingDataFrame(intValue);
-    }
-}
+//void CanTrafficSinkAppBase::registerIncomingDataFramesAtPort() {
+//    CanPortInput* port = (CanPortInput*) getParentModule()->getSubmodule(
+//            "canNodePort")->getSubmodule("canPortInput");
+//    cStringTokenizer idIncomingFramesTokenizer(par("idIncomingFrames"), ",");
+//
+//    while (idIncomingFramesTokenizer.hasMoreTokens()){
+//        std::stringstream strValue;
+//        int intValue;
+//        strValue << idIncomingFramesTokenizer.nextToken();
+//        strValue >> intValue;
+//        port->registerIncomingDataFrame(intValue);
+//    }
+//}
 
 void CanTrafficSinkAppBase::handleMessage(cMessage *msg) {
     if (msg->arrivedOn("controllerIn")) {
