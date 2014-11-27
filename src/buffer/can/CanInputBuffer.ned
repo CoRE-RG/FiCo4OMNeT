@@ -41,7 +41,7 @@ simple CanInputBuffer like CanBuffer
     parameters:
         @display("i=block/buffer");
         //Comma seperated list of gates where the frames of the buffer are delivered
-        string destination_gates = default("");
+        string destination_gates = default("sinkApp[0].dataIn");
         bool MOB = default(true); 						//If true frames with the same ID will be overwritten.
         string idIncomingFrames = default("0");			// The Incoming Frame ID(s) - String parameter (int) separated with commas
         
