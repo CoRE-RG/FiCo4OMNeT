@@ -48,6 +48,7 @@ simple CanInputBuffer like CanBuffer
     gates:
         //The buffers Input
         input in[] @loose @labels(DataFrame);
+        input directIn @directIn;
         //The buffers Output
         output out @loose @labels(DataFrame);
 }

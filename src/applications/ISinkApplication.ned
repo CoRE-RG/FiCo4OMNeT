@@ -35,6 +35,6 @@ moduleinterface ISinkApplication
 {
     parameters:
         @display("i=block/sink");
-    gates:
-        input in;
+    //gates:
+        //input in;
 }

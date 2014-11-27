@@ -57,15 +57,17 @@ void CanInputBuffer::putFrame(cMessage* msg) {
         if (getFrame(frame->getCanID()) != NULL) {
             deleteFrame(frame->getCanID());
         } else {
-            cModule *sinkApp = (cModule*)gate("out")->getPathEndGate()->getOwner();
-            sendDirect(new cMessage("Message in buffer"), sinkApp,
-                    "controllerIn");
+//            cModule *sinkApp = (cModule*)gate("out")->getPathEndGate()->getOwner();
+//            sendDirect(new cMessage("Message in buffer"), sinkApp,
+//                    "controllerIn");
+            sendToDestinationGates(frame);
         }
     } else {
-        cModule *sinkApp = (cModule*)gate("out")->getPathEndGate()->getOwner();
-        sendDirect(new cMessage("Message in buffer"), sinkApp, "controllerIn");
+//        cModule *sinkApp = (cModule*)gate("out")->getPathEndGate()->getOwner();
+//        sendDirect(new cMessage("Message in buffer"), sinkApp, "controllerIn");
+        sendToDestinationGates(frame);
     }
-    frames.push_back(frame);
+//    frames.push_back(frame); wird zur Zeit nicht zwischengespeichert
 }
 
 }

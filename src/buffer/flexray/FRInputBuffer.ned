@@ -38,6 +38,7 @@ simple FRInputBuffer like FRBuffer
     gates:
         //The buffers Input
         input in[] @loose @labels(DataFrame);
+        input directIn @directIn;
         //The buffers Output @warning CURRENTLY NOT USED!
         output out @loose @labels(DataFrame);
 }

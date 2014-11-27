@@ -59,7 +59,7 @@ public:
     /**
      * @brief This method registers the gate for the reception of the messages.
      */
-    virtual void registerDestinationGate();
+//    virtual void registerDestinationGate();
 
     /**
      *

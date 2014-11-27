@@ -55,17 +55,17 @@ void Buffer::registerDestinationGate() { //TODO needs upgrade for multiple sink 
 
     destinationGates.clear();
     std::vector<std::string> destinationGatePaths = cStringTokenizer(
-            par("destinationGates").stringValue(), ",").asVector();
+            par("destination_gates").stringValue(), ",").asVector();
     for (std::vector<std::string>::const_iterator destinationGatePath =
             destinationGatePaths.begin();
             destinationGatePath != destinationGatePaths.end();
             destinationGatePath++) {
 
         cGate* gate = gateByFullPath((*destinationGatePath));
-//        if (!gate)
-//        {
-//            gate = gateByShortPath((*destinationGatePath), this);
-//        }
+        if (!gate)
+        {
+            gate = gateByShortPath((*destinationGatePath), this);
+        }
         if (gate) {
 //            if (findContainingNode(gate->getOwnerModule()) != findContainingNode(this))
 //            {

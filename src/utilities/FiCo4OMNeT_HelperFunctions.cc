@@ -33,19 +33,51 @@ cGate* gateByFullPath(const std::string &path)
     return NULL;
 }
 
-//cGate* gateByShortPath(const std::string &nameAndGate, cModule *from)
-//{
-//    std::size_t pos = nameAndGate.rfind('.');
-//    if (pos != std::string::npos)
-//    {
-//        std::string modulePath = nameAndGate.substr(0, pos);
-//        std::string gateName = nameAndGate.substr(pos + 1);
-//        cModule* module = findModuleWhereverInNode(modulePath.c_str(), from);
-//        if (module)
-//        {
-//            return module->gate(gateName.c_str());
-//        }
-//    }
-//    return NULL;
-//}
+cGate* gateByShortPath(const std::string &nameAndGate, cModule *from)
+{
+    std::size_t pos = nameAndGate.rfind('.');
+    if (pos != std::string::npos)
+    {
+        std::string modulePath = nameAndGate.substr(0, pos);
+        std::string gateName = nameAndGate.substr(pos + 1);
+        cModule* module = findModuleWhereverInNode(modulePath.c_str(), from);
+        if (module)
+        {
+            return module->gate(gateName.c_str());
+        }
+    }
+    return NULL;
+}
+
+cModule *findModuleWhereverInNode(const char *name, cModule *from)
+{
+    cModule *mod = NULL;
+    for (cModule *curmod=from; curmod; curmod=curmod->getParentModule())
+    {
+        mod = findSubmodRecursive(curmod, name);
+        if (mod || _isNetworkNode(curmod))
+            break;
+    }
+    return mod;
+}
+
+static cModule *findSubmodRecursive(cModule *curmod, const char *name)
+{
+    for (cModule::SubmoduleIterator i(curmod); !i.end(); i++)
+    {
+        cModule *submod = i();
+        if (!strcmp(submod->getFullName(), name))
+            return submod;
+        cModule *foundmod = findSubmodRecursive(submod, name);
+        if (foundmod)
+            return foundmod;
+    }
+    return NULL;
+}
+
+inline bool _isNetworkNode(cModule *mod)
+{
+    cProperties *props = mod->getProperties();
+    return props && props->getAsBool("node");
+}
 }

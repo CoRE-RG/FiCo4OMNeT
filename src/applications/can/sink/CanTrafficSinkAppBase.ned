@@ -44,8 +44,17 @@ simple CanTrafficSinkAppBase like ISinkApplication
         @class(CanTrafficSinkAppBase);
         @display("i=block/sink");
 //        string idIncomingFrames = default("0");				// The Incoming Frame ID(s) - String parameter (int) separated with commas
+
+        @signal[receivedCompleteDF](type=CanDataFrame);
+        @signal[receivedCompleteRF](type=CanDataFrame);
+        
+        @statistic[receivedCompleteDFApp](title="sink app data frame"; source=receivedCompleteDF; record=count; interpolationmode=none);
+        @statistic[receivedCompleteRFApp](title="sink app remote frame"; source=receivedCompleteRF; record=count; interpolationmode=none);
+        
+        @statistic[latencyDFApp](title="End-to-end latency of data frames"; source="timestampAge(receivedCompleteDF)"; unit=s; record=stats,histogram,vector; interpolationmode=linear);
+        @statistic[latencyRFApp](title="End-to-end latency of remote frames"; source="timestampAge(receivedCompleteRF)"; unit=s; record=stats,histogram,vector; interpolationmode=linear);
     gates:
-//        input in @labels(DataFrame);
+        //input in @labels(DataFrame);
         input controllerIn @directIn;
         input dataIn @directIn;
         

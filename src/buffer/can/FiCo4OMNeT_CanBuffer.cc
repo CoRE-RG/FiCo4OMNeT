@@ -35,15 +35,15 @@ void CanBuffer::initialize(){
     MOB = par("MOB");
 }
 
-void CanBuffer::registerDestinationGate() {
-    cStringTokenizer destinationGatesTokenizer(
-            getParentModule()->par("destinationGates"), ",");
-    while (destinationGatesTokenizer.hasMoreTokens()) {
-        destinationGates.push_back(
-                (cGate *) getParentModule()->getSubmodule("sinkApp")->gate(
-                        destinationGatesTokenizer.nextToken()));
-    }
-}
+//void CanBuffer::registerDestinationGate() {
+//    cStringTokenizer destinationGatesTokenizer(
+//            getParentModule()->par("destinationGates"), ",");
+//    while (destinationGatesTokenizer.hasMoreTokens()) {
+//        destinationGates.push_back(
+//                (cGate *) getParentModule()->getSubmodule("sinkApp")->gate(
+//                        destinationGatesTokenizer.nextToken()));
+//    }
+//}
 
 CanDataFrame* CanBuffer::getFrame(int canID) {
     for (std::list<CanDataFrame*>::iterator it = frames.begin();

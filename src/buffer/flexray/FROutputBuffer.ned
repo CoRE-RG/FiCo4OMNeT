@@ -38,6 +38,7 @@ simple FROutputBuffer like FRBuffer
     gates:
         //The buffers Input
         input in[] @loose @labels(DataFrame);
+        input directIn @directIn;
         //The buffers Output
         output out @loose @labels(DataFrame);
 		//Input for information about reaching a slot

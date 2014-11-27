@@ -93,6 +93,16 @@ private:
      */
     void startWorkOnFrame(float workTime);
 
+    /**
+     * @brief Simsignal for received data frames.
+     */
+    simsignal_t rcvdDFSignal;
+
+    /**
+     * @brief Simsignal for received remote frames.
+     */
+    simsignal_t rcvdRFSignal;
+
 };
 
 }

@@ -37,6 +37,9 @@ void CanTrafficSinkAppBase::initialize() {
     idle = true;
     currentFrameID = 0;
     bufferMessageCounter = 0;
+
+    rcvdDFSignal = registerSignal("receivedCompleteDF");
+    rcvdRFSignal = registerSignal("receivedCompleteRF");
 //    registerIncomingDataFramesAtPort();
 }
 
@@ -64,6 +67,11 @@ void CanTrafficSinkAppBase::handleMessage(cMessage *msg) {
         int i = frame->getCanID();
         currentFrameID = i;
         bufferMessageCounter--;
+        if (frame->getRtr()) {
+            emit(rcvdRFSignal, frame);
+        } else {
+            emit(rcvdDFSignal, frame);
+        }
         startWorkOnFrame(0);
     } else if (msg->isSelfMessage()) {
         CanInputBuffer *buffer =
@@ -86,8 +94,11 @@ void CanTrafficSinkAppBase::requestFrame() {
 }
 
 void CanTrafficSinkAppBase::startWorkOnFrame(float workTime) {
-    cMessage *msg = new cMessage("workFinished");
-    scheduleAt(simTime() + workTime, msg);
+
+
+
+//    cMessage *msg = new cMessage("workFinished");
+//    scheduleAt(simTime() + workTime, msg);
 }
 
 }

@@ -174,7 +174,7 @@ void CanPortInput::forwardDataFrame(CanDataFrame *df) {
     it = incomingDataFrameIDs.find(df->getCanID());
     if (it != incomingDataFrameIDs.end()) {
         emit(rcvdDFSignal, df);
-        send(df, it->second);
+        sendDirect(df, it->second);
     }
 
     if (df->getRtr()) {
