@@ -78,7 +78,7 @@ protected:
     virtual void registerForArbitration(int id, bool rtr);
 
     /**
-     * @brief Unregister from arbitration at the bus.
+     * @brief Unregister from arbitration at the bus. It will be checked whether the frame is currently sent.
      */
     virtual void checkoutFromArbitration(int id);
 };
