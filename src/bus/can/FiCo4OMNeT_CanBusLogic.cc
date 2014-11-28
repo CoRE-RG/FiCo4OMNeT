@@ -69,7 +69,11 @@ void CanBusLogic::finish() {
 }
 
 int CanBusLogic::getSendingNodeID(){
-    return sendingNode->getId();
+    if (sendingNode != NULL) {
+        return sendingNode->getId();
+    } else {
+        return NULL;
+    }
 }
 
 void CanBusLogic::handleMessage(cMessage *msg) {
@@ -115,7 +119,7 @@ void CanBusLogic::grantSendingPermission() {
     for (std::list<CanID*>::iterator it = ids.begin(); it != ids.end(); ++it) {
         CanID *id = *it;
         if (id->getId() == currentSendingID) {
-            if (id->getRtr() == false) { //Data-Frame
+            if (id->getRtr() == false && id->getNode() != sendingNode) { //Data-Frame
                 sendingNode = (CanOutputBuffer*) id->getNode();
                 currsit = id->getSignInTime();
                 sendcount++;
