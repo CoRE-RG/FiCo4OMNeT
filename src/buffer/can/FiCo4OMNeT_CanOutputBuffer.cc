@@ -72,10 +72,10 @@ void CanOutputBuffer::receiveSendingPermission(int id) {
     deliverFrame(id);
 }
 
-void CanOutputBuffer::sendingCompleted(int id) {
+void CanOutputBuffer::sendingCompleted() {
     Enter_Method_Silent
     ();
-    deleteFrame(id);
+    deleteFrame(currentFrame);
     CanPortOutput* portOutput = check_and_cast<CanPortOutput*>(
             getParentModule()->getSubmodule("canNodePort")->getSubmodule(
                     "canPortOutput"));

@@ -69,9 +69,16 @@ void CanBuffer::deleteFrame(int canID) {
     delete tmp;
 }
 
+void CanBuffer::deleteFrame(CanDataFrame* frame) {
+    Enter_Method_Silent();
+    frames.remove(frame);
+    delete frame;
+}
+
 void CanBuffer::deliverFrame(int canID) {
     Enter_Method_Silent();
-    sendToDestinationGates(getFrame(canID)->dup());
+    currentFrame = getFrame(canID);
+    sendToDestinationGates(currentFrame->dup());
 }
 
 void CanBuffer::deliverPrioFrame() {

@@ -83,6 +83,11 @@ public:
     virtual void deleteFrame(int id);
 
     /**
+     * @brief Deletes the frame with the corresponding id from the frames collection.
+     */
+    virtual void deleteFrame(CanDataFrame* frame);
+
+    /**
      * @brief Forwards the frame with the corresponding id to all destination gates.
      */
     virtual void deliverFrame(int id);
@@ -117,6 +122,12 @@ protected:
      * @brief If the message object buffer (MOB) is true frames with the same ID will be overwritten.
      */
     bool MOB;
+
+    /**
+     * @brief Currently delivered frame.
+     */
+    CanDataFrame* currentFrame;
+
 };
 
 }

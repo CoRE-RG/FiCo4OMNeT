@@ -61,7 +61,7 @@ public:
     /**
      * @brief Is called when the frame transmission is completed.
      */
-    virtual void sendingCompleted(int id);
+    virtual void sendingCompleted();
 
     /**
      * @brief Puts the frame into the collection and informs the connected gates about the receiption.

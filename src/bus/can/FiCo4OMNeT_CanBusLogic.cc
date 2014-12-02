@@ -124,10 +124,11 @@ void CanBusLogic::grantSendingPermission() {
         }
     }
     if (sendcount > 1) {
-        std::ostringstream oss;
-        oss << "More than one node sends with the same ID " << currentSendingID
-                << ". This behavior is not allowed.";
-        throw cRuntimeError(oss.str().c_str());
+        cComponent::bubble("More than one node sends with the same ID.");
+//        std::ostringstream oss;
+//        oss << "More than one node sends with the same ID " << currentSendingID
+//                << ". This behavior is not allowed.";
+//        throw cRuntimeError(oss.str().c_str());
     }
     if (sendingNode != NULL) {
         CanOutputBuffer* controller = check_and_cast<CanOutputBuffer *>(
@@ -149,7 +150,7 @@ void CanBusLogic::grantSendingPermission() {
 void CanBusLogic::sendingCompleted() {
     colorIdle();
     CanOutputBuffer* controller = check_and_cast<CanOutputBuffer*>(sendingNode);
-    controller->sendingCompleted(currentSendingID);
+    controller->sendingCompleted();
     for (unsigned int it = 0; it != eraseids.size(); it++) {
         ids.erase(eraseids.at(it));
     }
