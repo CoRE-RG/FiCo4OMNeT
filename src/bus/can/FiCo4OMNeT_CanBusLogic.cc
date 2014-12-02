@@ -69,7 +69,10 @@ void CanBusLogic::finish() {
 }
 
 int CanBusLogic::getSendingNodeID(){
-    return sendingNode->getId();
+    if (sendingNode != NULL) {
+        return sendingNode->getId();
+    }
+    return NULL;
 }
 
 void CanBusLogic::handleMessage(cMessage *msg) {
