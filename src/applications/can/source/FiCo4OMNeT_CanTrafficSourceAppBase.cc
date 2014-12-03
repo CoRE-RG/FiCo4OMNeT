@@ -58,8 +58,9 @@ void CanTrafficSourceAppBase::checkParameterValues() {
 }
 
 void CanTrafficSourceAppBase::handleMessage(cMessage *msg) {
-    CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
-    dataFrameTransmission(df);
+//    CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
+    dataFrameTransmission(dynamic_cast<CanDataFrame*>(msg->dup()));
+    delete msg;
 }
 
 void CanTrafficSourceAppBase::initialRemoteFrameCreation() {
@@ -257,6 +258,8 @@ void CanTrafficSourceAppBase::dataFrameTransmission(CanDataFrame *df) {
                 break;
             }
         }
+        delete df;
+    } else {
         delete df;
     }
     outgoingFrame->setStartTime(simTime());

@@ -65,6 +65,11 @@ protected:
      */
     virtual void handleMessage(cMessage *msg);
 
+    /**
+     * @brief Calculates the length for the data frame.
+     */
+    int calculateLength(int datalength);
+
 private:
     /**
      * @brief Overhead for a data frame.
@@ -133,11 +138,6 @@ private:
      * @brief Checks whether the CAN-ID matches the restrictions of the CAN version.
      */
     int checkAndReturnID(int id);
-
-    /**
-     * @brief Calculates the length for the data frame.
-     */
-    int calculateLength(int datalength);
 
     /**
      * @brief Calculates the additional bits needed for the chosen bitstuffing method.
