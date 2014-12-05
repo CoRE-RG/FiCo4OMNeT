@@ -115,17 +115,22 @@ void CanBusLogic::grantSendingPermission() {
     }
 
     int sendcount = 0;
+    bool nodeFound = false;
     for (std::list<CanID*>::iterator it = ids.begin(); it != ids.end(); ++it) {
         CanID *id = *it;
         if (id->getId() == currentSendingID) {
-            if (id->getRtr() == false) { //Data-Frame
+            if (id->getRtr() == false && !nodeFound) { //Data-Frame
+                nodeFound = true;
                 sendingNode = (CanOutputBuffer*) id->getNode();
                 currsit = id->getSignInTime();
                 sendcount++;
+                eraseids.push_back(it);
+            } else if (id->getRtr() == true) {
+                eraseids.push_back(it);
             }
-            eraseids.push_back(it);
         }
     }
+
     if (sendcount > 1) {
         cComponent::bubble("More than one node sends with the same ID.");
 //        std::ostringstream oss;
