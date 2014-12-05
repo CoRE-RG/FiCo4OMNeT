@@ -30,7 +30,9 @@ simple FRBusLogic
         @signal[receivedDynamicFrame](type=FRFrame);
         
         @statistic[receivedStaticFrame](title="static frames received"; source=receivedStaticFrame; record=count; interpolationmode=none);
+        @statistic[ID-StaticFrame](title="IDs static frames received"; source="ID(receivedStaticFrame)"; record=histogram?,vector?; interpolationmode=none);
         @statistic[receivedDynamicFrame](title="dynamic frames received"; source=receivedDynamicFrame; record=count; interpolationmode=none);
+        @statistic[ID-DynamicFrame](title="IDs dynamic frames received"; source="ID(receivedDynamicFrame)"; record=histogram?,vector?; interpolationmode=none);
 
     gates:
         inout gateChA;

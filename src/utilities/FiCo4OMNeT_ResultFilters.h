@@ -16,6 +16,15 @@ class TimestampAgeFilter : public cObjectResultFilter
         virtual void receiveSignal(cResultFilter *prev, simtime_t_cref t, cObject *object);
 };
 
+/**
+ * Filter that expects a CanDataFrame, ErrorFrame or FRFrame and outputs its ID
+ */
+class IDFilter : public cObjectResultFilter
+{
+    public:
+        virtual void receiveSignal(cResultFilter *prev, simtime_t_cref t, cObject *object);
+};
+
 }
 
 #endif

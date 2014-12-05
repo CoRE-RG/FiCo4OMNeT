@@ -44,8 +44,11 @@ simple CanBusLogic
         @signal[receivedEF](type=ErrorFrame);
         
         @statistic[receivedDF](title="data frames received"; source=receivedDF; record=count; interpolationmode=none);
+        @statistic[ID-DF](title="IDs data frames received"; source="ID(receivedDF)"; record=histogram?,vector; interpolationmode=none);
         @statistic[receivedRF](title="remote frames received"; source=receivedRF; record=count; interpolationmode=none);
+        @statistic[ID-RF](title="IDs remote frames received"; source="ID(receivedRF)"; record=histogram?,vector?; interpolationmode=none);
         @statistic[receivedEF](title="error frames received"; source=receivedEF; record=count; interpolationmode=none);
+        @statistic[ID-EF](title="IDs error frames received"; source="ID(receivedEF)"; record=histogram?,vector?; interpolationmode=none);
     gates:
         inout gate;
 }
