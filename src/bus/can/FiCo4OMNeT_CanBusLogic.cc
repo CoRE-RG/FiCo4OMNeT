@@ -44,6 +44,9 @@ CanBusLogic::CanBusLogic() {
     idle = true;
 
     scheduledDataFrame = new CanDataFrame();
+
+    numFramesSent = 0;
+    numBitsSent = 0;
 }
 CanBusLogic::~CanBusLogic() {
     if(scheduledDataFrame){
@@ -77,6 +80,13 @@ void CanBusLogic::finish() {
     double errpercentage = (numErrorFrames
             / (double) (numDataFrames + numRemoteFrames)) * 100;
     recordScalar("%Errors", errpercentage);
+
+
+    simtime_t t = simTime();
+    if(t > 0){
+        recordScalar("frames/sec", numFramesSent / t);
+        recordScalar("bits/sec", numBitsSent / t);
+    }
 }
 
 int CanBusLogic::getSendingNodeID() {
@@ -200,6 +210,8 @@ void CanBusLogic::handleDataFrame(cMessage *msg) {
         numDataFrames++;
     }
     send(msg->dup(), "gate$o");
+    numFramesSent++;
+    numBitsSent+=df->getLength();
 }
 
 void CanBusLogic::handleErrorFrame(cMessage *msg) {
@@ -213,6 +225,10 @@ void CanBusLogic::handleErrorFrame(cMessage *msg) {
         emit(rcvdEFSignal, ef2);
         errored = true;
         send(msg->dup(), "gate$o");
+
+        //TODO Errorframes statistic?!?!
+        //numFramesSent++;
+        //numBitsSent+=df->getLength();
     }
 }
 

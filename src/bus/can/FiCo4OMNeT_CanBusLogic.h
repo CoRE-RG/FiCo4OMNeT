@@ -226,6 +226,16 @@ private:
     int currentSendingID;
 
     /**
+     * @brief Total number of frames transmitted over the bus.
+     */
+    unsigned long numFramesSent;
+
+    /**
+     * @brief Total number of bits transmitted over the bus.
+     */
+    unsigned long numBitsSent;
+
+    /**
      * @brief Currently scheduled Data Frame
      */
     CanDataFrame *scheduledDataFrame;
