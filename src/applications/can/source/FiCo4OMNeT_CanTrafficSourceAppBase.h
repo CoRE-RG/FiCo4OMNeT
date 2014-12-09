@@ -47,6 +47,16 @@ namespace FiCo4OMNeT {
  */
 class CanTrafficSourceAppBase: public cSimpleModule {
 
+public:
+    /**
+     * @brief Constructor of CanTrafficSourceAppBase
+     */
+    CanTrafficSourceAppBase();
+    /**
+     * @brief Destructor of CanTrafficSourceAppBase
+     */
+    ~CanTrafficSourceAppBase();
+
 protected:
     /**
      * @brief Initialization of the module.
@@ -117,7 +127,7 @@ private:
     /**
      * @brief Collection including all
      */
-    std::vector<CanDataFrame*> outgoingDataFrames;
+    std::list<CanDataFrame*> outgoingDataFrames;
 
     /**
      * @brief Creates a data frame which will be queued in the buffer.

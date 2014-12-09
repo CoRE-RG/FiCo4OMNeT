@@ -33,6 +33,20 @@ namespace FiCo4OMNeT {
 Define_Module(CanTrafficSourceAppBase)
 ;
 
+CanTrafficSourceAppBase::CanTrafficSourceAppBase()
+{
+
+}
+
+CanTrafficSourceAppBase::~CanTrafficSourceAppBase()
+{
+    for (std::list<CanDataFrame*>::iterator it =  outgoingDataFrames.begin(); it != outgoingDataFrames.end(); ++it)
+    {
+        cancelAndDelete((*it));
+    }
+    outgoingDataFrames.clear();
+}
+
 void CanTrafficSourceAppBase::initialize() {
     canVersion =
             getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->par(
@@ -248,7 +262,7 @@ void CanTrafficSourceAppBase::dataFrameTransmission(CanDataFrame *df) {
                 simTime() + (df->getPeriod() / 1000.)
                         + SimTime(par("periodInaccurracy").doubleValue()), df);
     } else if (df->arrivedOn("remoteIn")) {
-        for (std::vector<CanDataFrame*>::iterator it =
+        for (std::list<CanDataFrame*>::iterator it =
                 outgoingDataFrames.begin(); it != outgoingDataFrames.end();
                 ++it) {
             CanDataFrame *tmp = *it;
