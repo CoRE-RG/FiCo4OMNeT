@@ -51,6 +51,15 @@ namespace FiCo4OMNeT {
 class CanBusLogic: public cSimpleModule {
 public:
     /**
+     * Constructor of CanBusLogic
+     */
+    CanBusLogic();
+
+    /**
+     * Destructor of CanBusLogic
+     */
+    ~CanBusLogic();
+    /**
      * @brief Registers the frame of the node for the arbitration.
      */
     virtual void registerForArbitration(int id, cModule *node,
