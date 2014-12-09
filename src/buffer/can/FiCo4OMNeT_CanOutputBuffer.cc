@@ -33,6 +33,10 @@ namespace FiCo4OMNeT {
 Define_Module(CanOutputBuffer);
 
 CanOutputBuffer::~CanOutputBuffer(){
+    for (std::list<CanDataFrame*>::iterator it =  frames.begin(); it != frames.end(); ++it)
+    {
+            cancelAndDelete((*it));
+    }
     frames.clear();
 }
 
