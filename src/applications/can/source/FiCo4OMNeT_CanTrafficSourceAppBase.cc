@@ -33,6 +33,20 @@ namespace FiCo4OMNeT {
 Define_Module(CanTrafficSourceAppBase)
 ;
 
+CanTrafficSourceAppBase::CanTrafficSourceAppBase()
+{
+
+}
+
+CanTrafficSourceAppBase::~CanTrafficSourceAppBase()
+{
+    for (std::list<CanDataFrame*>::iterator it =  outgoingDataFrames.begin(); it != outgoingDataFrames.end(); ++it)
+    {
+        cancelAndDelete((*it));
+    }
+    outgoingDataFrames.clear();
+}
+
 void CanTrafficSourceAppBase::initialize() {
     canVersion =
             getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->par(
@@ -58,9 +72,8 @@ void CanTrafficSourceAppBase::checkParameterValues() {
 }
 
 void CanTrafficSourceAppBase::handleMessage(cMessage *msg) {
-//    CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
-    dataFrameTransmission(dynamic_cast<CanDataFrame*>(msg->dup()));
-    delete msg;
+    CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
+    dataFrameTransmission(df);
 }
 
 void CanTrafficSourceAppBase::initialRemoteFrameCreation() {
@@ -249,7 +262,7 @@ void CanTrafficSourceAppBase::dataFrameTransmission(CanDataFrame *df) {
                 simTime() + (df->getPeriod() / 1000.)
                         + SimTime(par("periodInaccurracy").doubleValue()), df);
     } else if (df->arrivedOn("remoteIn")) {
-        for (std::vector<CanDataFrame*>::iterator it =
+        for (std::list<CanDataFrame*>::iterator it =
                 outgoingDataFrames.begin(); it != outgoingDataFrames.end();
                 ++it) {
             CanDataFrame *tmp = *it;
@@ -258,8 +271,6 @@ void CanTrafficSourceAppBase::dataFrameTransmission(CanDataFrame *df) {
                 break;
             }
         }
-        delete df;
-    } else {
         delete df;
     }
     outgoingFrame->setStartTime(simTime());
