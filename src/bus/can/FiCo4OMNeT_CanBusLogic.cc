@@ -32,10 +32,7 @@ namespace FiCo4OMNeT {
 
 Define_Module(CanBusLogic);
 
-void CanBusLogic::initialize() {
-    rcvdDFSignal = registerSignal("receivedDF");
-    rcvdRFSignal = registerSignal("receivedRF");
-    rcvdEFSignal = registerSignal("receivedEF");
+CanBusLogic::CanBusLogic() {
     numDataFrames = 0;
     numRemoteFrames = 0;
     numErrorFrames = 0;
@@ -45,11 +42,25 @@ void CanBusLogic::initialize() {
     errpos = INT_MAX;
     errored = false;
     idle = true;
+
+    scheduledDataFrame = new CanDataFrame();
+}
+CanBusLogic::~CanBusLogic() {
+    if(scheduledDataFrame){
+        cancelAndDelete(scheduledDataFrame);
+    }
+}
+
+void CanBusLogic::initialize() {
+    rcvdDFSignal = registerSignal("receivedDF");
+    rcvdRFSignal = registerSignal("receivedRF");
+    rcvdEFSignal = registerSignal("receivedEF");
+
     char buf[64];
     sprintf(buf, "state: idle");
     bubble("state: idle");
     getDisplayString().setTagArg("tt", 0, buf);
-    scheduledDataFrame = new CanDataFrame();
+
 
     bandwidth = getParentModule()->par("bandwidth");
 }
@@ -68,7 +79,7 @@ void CanBusLogic::finish() {
     recordScalar("%Errors", errpercentage);
 }
 
-int CanBusLogic::getSendingNodeID(){
+int CanBusLogic::getSendingNodeID() {
     if (sendingNode != NULL) {
         return sendingNode->getId();
     } else {
