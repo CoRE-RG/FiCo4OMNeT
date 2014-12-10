@@ -77,6 +77,13 @@ public:
     int getSendingNodeID();
 
 protected:
+
+    enum BusState
+    {
+        IDLE = 0,
+        TRANSMITTING = 1
+    };
+
     /**
      * @brief collects data for the  results
      *
@@ -129,6 +136,11 @@ private:
      * @brief Signal for received error frames.
      */
     simsignal_t rcvdEFSignal;
+
+    /**
+     * @brief Signal for the current state of the bus.
+     */
+    simsignal_t stateSignal;
 
     /**
      * amount of time that the bus was in busy-state

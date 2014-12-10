@@ -58,6 +58,7 @@ void CanBusLogic::initialize() {
     rcvdDFSignal = registerSignal("receivedDF");
     rcvdRFSignal = registerSignal("receivedRF");
     rcvdEFSignal = registerSignal("receivedEF");
+    stateSignal = registerSignal("state");
 
     char buf[64];
     sprintf(buf, "state: idle");
@@ -102,6 +103,7 @@ void CanBusLogic::handleMessage(cMessage *msg) {
             sendingCompleted();
         } else if (dynamic_cast<ErrorFrame *>(msg)) {
             colorIdle();
+            emit(stateSignal, IDLE);
             if (scheduledDataFrame != NULL) {
                 cancelEvent(scheduledDataFrame);
             }
@@ -178,6 +180,7 @@ void CanBusLogic::grantSendingPermission() {
 
 void CanBusLogic::sendingCompleted() {
     colorIdle();
+    emit(stateSignal, IDLE);
     CanOutputBuffer* controller = check_and_cast<CanOutputBuffer*>(sendingNode);
     controller->sendingCompleted();
     for (unsigned int it = 0; it != eraseids.size(); it++) {
@@ -193,7 +196,7 @@ void CanBusLogic::sendingCompleted() {
 
 void CanBusLogic::handleDataFrame(cMessage *msg) {
     CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
-    int length = df->getLength();
+    int length = df->getBitLength();
     double nextidle;
     nextidle = (double) length / (bandwidth);
     if (scheduledDataFrame != NULL) {
@@ -211,7 +214,7 @@ void CanBusLogic::handleDataFrame(cMessage *msg) {
     }
     send(msg->dup(), "gate$o");
     numFramesSent++;
-    numBitsSent+=df->getLength();
+    numBitsSent+=df->getBitLength();
 }
 
 void CanBusLogic::handleErrorFrame(cMessage *msg) {
@@ -246,6 +249,7 @@ void CanBusLogic::registerForArbitration(int id, cModule *node,
         sprintf(buf, "state: busy");
         bubble("state: busy");
         getDisplayString().setTagArg("tt", 0, buf);
+        emit(stateSignal, TRANSMITTING);
     }
 }
 

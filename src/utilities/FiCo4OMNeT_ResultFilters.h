@@ -25,6 +25,21 @@ class IDFilter : public cObjectResultFilter
         virtual void receiveSignal(cResultFilter *prev, simtime_t_cref t, cObject *object);
 };
 
+/**
+ * Filter that expects a CanDataFrame, ErrorFrame or FRFrame and outputs its ID
+ */
+class LowHighRatioFilter : public cNumericResultFilter
+{
+    private:
+        simtime_t low;
+        simtime_t high;
+        double last;
+        simtime_t last_time;
+    public:
+        LowHighRatioFilter();
+        virtual bool process(simtime_t& t, double& value);
+};
+
 }
 
 #endif

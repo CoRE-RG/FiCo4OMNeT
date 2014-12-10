@@ -85,7 +85,7 @@ void CanPortOutput::handleMessage(cMessage *msg) {
             int senderr = intuniform(0, 99);
             if (senderr < errorperc) {
                 ErrorFrame *errself = new ErrorFrame("senderror");
-                int pos = intuniform(0, df->getLength() - MAXERRORFRAMESIZE);
+                int pos = intuniform(0, df->getBitLength() - MAXERRORFRAMESIZE);
                 errself->setKind(intuniform(0, 1)); //0: Bit-Error, 1: Form-Error
                 errself->setCanID(df->getCanID());
                 if (pos > 0)

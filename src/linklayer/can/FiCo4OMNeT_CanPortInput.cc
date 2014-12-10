@@ -80,7 +80,7 @@ void CanPortInput::handleMessage(cMessage *msg) {
 }
 
 void CanPortInput::receiveMessage(CanDataFrame *df) {
-    int frameLength = df->getLength();
+    int frameLength = df->getBitLength();
     if (scheduledDataFrame != NULL) {
         cancelEvent(scheduledDataFrame);
     }
@@ -92,7 +92,7 @@ void CanPortInput::receiveMessage(CanDataFrame *df) {
 
 void CanPortInput::generateReceiveError(CanDataFrame *df) {
     ErrorFrame *errorMsg = new ErrorFrame("receiveError");
-    int pos = intuniform(0, df->getLength() - MAXERRORFRAMESIZE);
+    int pos = intuniform(0, df->getBitLength() - MAXERRORFRAMESIZE);
     errorMsg->setKind(intuniform(2, 3)); //2: CRC-error, 3: Bit-Stuffing-error
     errorMsg->setCanID(df->getCanID());
     if (pos > 0)

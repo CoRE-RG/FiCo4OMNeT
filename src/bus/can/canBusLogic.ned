@@ -42,6 +42,7 @@ simple CanBusLogic
         @signal[receivedDF](type=CanDataFrame);
         @signal[receivedRF](type=CanDataFrame);
         @signal[receivedEF](type=ErrorFrame);
+        @signal[state];
         
         @statistic[receivedDF](title="data frames received"; source=receivedDF; record=count; interpolationmode=none);
         @statistic[ID-DF](title="IDs data frames received"; source="ID(receivedDF)"; record=histogram?,vector; interpolationmode=none);
@@ -49,6 +50,9 @@ simple CanBusLogic
         @statistic[ID-RF](title="IDs remote frames received"; source="ID(receivedRF)"; record=histogram?,vector?; interpolationmode=none);
         @statistic[receivedEF](title="error frames received"; source=receivedEF; record=count; interpolationmode=none);
         @statistic[ID-EF](title="IDs error frames received"; source="ID(receivedEF)"; record=histogram?,vector?; interpolationmode=none);
+        @statistic[bitPerSec](title="Bit/sec"; unit="bps"; source="sumPerDuration(packetBits(receivedEF))"; record=last);
+        @statistic[framesPerSec](title="Frames/sec"; unit="fps"; source="sumPerDuration(constant1(receivedEF))"; record=last);
+        @statistic[utilization](title="Utilization"; unit="%"; source="lowHighRatio(state)*100"; record=last);
     gates:
         inout gate;
 }

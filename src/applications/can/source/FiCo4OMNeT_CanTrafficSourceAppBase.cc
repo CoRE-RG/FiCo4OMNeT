@@ -105,7 +105,7 @@ void CanTrafficSourceAppBase::initialRemoteFrameCreation() {
             }
             CanDataFrame *can_msg = new CanDataFrame("remoteFrame");
             can_msg->setCanID(checkAndReturnID(remoteFrameIDs.at(i)));
-            can_msg->setLength(
+            can_msg->setBitLength(
                     calculateLength(
                             atoi(dataLengthRemoteFramesTokenizer.nextToken())));
             can_msg->setRtr(true);
@@ -180,7 +180,7 @@ void CanTrafficSourceAppBase::initialDataFrameCreation() {
             }
             CanDataFrame *can_msg = new CanDataFrame("message");
             can_msg->setCanID(checkAndReturnID(dataFrameIDs.at(i)));
-            can_msg->setLength(
+            can_msg->setBitLength(
                     calculateLength(
                             atoi(dataLengthDataFramesTokenizer.nextToken())));
             can_msg->setPeriod(

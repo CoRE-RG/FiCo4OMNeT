@@ -49,4 +49,29 @@ void IDFilter::receiveSignal(cResultFilter *prev, simtime_t_cref t, cObject *obj
 #endif
 }
 
+Register_ResultFilter("lowHighRatio", LowHighRatioFilter);
+
+LowHighRatioFilter::LowHighRatioFilter()
+{
+    low = 0;
+    high = 0;
+    last = 0;
+    last_time = 0;
+}
+
+bool LowHighRatioFilter::process(simtime_t& t, double& value)
+{
+    if(this->last>0)
+        high += (t-this->last_time);
+    else
+        low += (t-this->last_time);
+    this->last = value;
+    this->last_time = t;
+    if((high+low)>0)
+        value = high/(high+low);
+    else
+        value = 0;
+    return true;
+}
+
 }
