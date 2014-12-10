@@ -115,6 +115,7 @@ void CanBusLogic::handleMessage(cMessage *msg) {
         grantSendingPermission();
     } else if (dynamic_cast<CanDataFrame *>(msg)) {
         colorBusy();
+        emit(stateSignal, TRANSMITTING);
         handleDataFrame(msg);
     } else if (dynamic_cast<ErrorFrame *>(msg)) {
         colorError();
