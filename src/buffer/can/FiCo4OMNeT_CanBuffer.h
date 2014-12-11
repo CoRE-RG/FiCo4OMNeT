@@ -102,6 +102,11 @@ public:
      */
     virtual void deliverNextFrame();
 
+    /**
+     * @brief Returns the currentFrame.
+     */
+    virtual CanDataFrame* getCurrentFrame();
+
 protected:
     /**
      * Stores the Gates to that the messages are delivered

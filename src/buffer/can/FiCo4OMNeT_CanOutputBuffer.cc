@@ -80,6 +80,7 @@ void CanOutputBuffer::sendingCompleted() {
     Enter_Method_Silent
     ();
     deleteFrame(currentFrame);
+    currentFrame = NULL;
     CanPortOutput* portOutput = check_and_cast<CanPortOutput*>(
             getParentModule()->getSubmodule("canNodePort")->getSubmodule(
                     "canPortOutput"));

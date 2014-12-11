@@ -143,13 +143,15 @@ void CanBusLogic::grantSendingPermission() {
     for (std::list<CanID*>::iterator it = ids.begin(); it != ids.end(); ++it) {
         CanID *id = *it;
         if (id->getId() == currentSendingID) {
-            if (id->getRtr() == false && !nodeFound) { //Data-Frame
-                nodeFound = true;
-                sendingNode = (CanOutputBuffer*) id->getNode();
-                currsit = id->getSignInTime();
+            if (id->getRtr() == false) { //Data-Frame
                 sendcount++;
-                eraseids.push_back(it);
-            } else if (id->getRtr() == true) {
+                if (!nodeFound) {
+                    nodeFound = true;
+                    sendingNode = (CanOutputBuffer*) id->getNode();
+                    currsit = id->getSignInTime();
+                    eraseids.push_back(it);
+                }
+            } else {
                 eraseids.push_back(it);
             }
         }

@@ -59,7 +59,8 @@ void CanPortInput::handleMessage(cMessage *msg) {
             scheduledDataFrame = NULL;
         }
     } else if (CanDataFrame *df = dynamic_cast<CanDataFrame *>(msg)) {
-        if (checkExistence(df)) {
+//        if (checkExistence(df)) {
+            if (checkExistence(df) && !amITheSendingNode()) {
             int rcverr = intuniform(0, 99);
             if (rcverr < errorperc) {
                 generateReceiveError(df);
@@ -253,6 +254,14 @@ void CanPortInput::registerIncomingDataFrame(int canID, cGate* gate) {
 //    it = incomingDataFrameIDs.begin();
 //    it = incomingDataFrameIDs.insert(it, canID);
     incomingDataFrameIDs.insert(std::pair<int, cGate*>(canID, gate));
+}
+
+bool CanPortInput::amITheSendingNode(){
+    CanOutputBuffer* outputBuffer =
+                (CanOutputBuffer*) getParentModule()->getParentModule()->getSubmodule("bufferOut");
+    CanDataFrame* frame = outputBuffer->getCurrentFrame();
+    bool boobs = outputBuffer->getCurrentFrame() != NULL;
+    return (outputBuffer->getCurrentFrame() != NULL);
 }
 
 }

@@ -51,6 +51,13 @@ simple CanTrafficSourceAppBase like ISourceApplication
         string dataLengthRemoteFrames = default("0");		// Datafield-length - String parameter (int) separated with commas
         string initialRemoteFrameOffset = default("0");		// Offset for the first transmission of the remote frames - String parameter (double) separated with commas
         double periodInaccurracy @unit(s) = default(0s);
+        
+        @signal[sentDF](type=CanDataFrame);
+        @signal[sentRF](type=CanDataFrame);
+        
+        @statistic[sentDFApp](title="source app data frame"; source=sentDF; record=count; interpolationmode=none);
+        @statistic[sentRFApp](title="source app remote frame"; source=sentRF; record=count; interpolationmode=none);
+        
     gates:
         output out @labels(DataFrame);
         input remoteIn @directIn;

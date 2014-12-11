@@ -34,6 +34,7 @@
 #include "CanDataFrame_m.h"
 #include "ErrorFrame_m.h"
 #include "FiCo4OMNeT_CanPortOutput.h"
+#include "FiCo4OMNeT_CanOutputBuffer.h"
 
 namespace FiCo4OMNeT {
 
@@ -181,6 +182,11 @@ private:
      * @brief Called when a error frame is received.
      */
     virtual void handleExternErrorFrame(ErrorFrame *ef);
+
+    /**
+     * @brief Returns true when this node is the current sending node.
+     */
+    virtual bool amITheSendingNode();
 };
 
 }

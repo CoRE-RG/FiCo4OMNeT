@@ -33,6 +33,7 @@ namespace FiCo4OMNeT {
 void CanBuffer::initialize(){
     Buffer::initialize();
     MOB = par("MOB");
+    currentFrame = NULL;
 }
 
 //void CanBuffer::registerDestinationGate() {
@@ -100,5 +101,9 @@ void CanBuffer::deliverPrioFrame() {
 void CanBuffer::deliverNextFrame() {
     Enter_Method_Silent();
     sendToDestinationGates(frames.front()->dup());
+}
+
+CanDataFrame* CanBuffer::getCurrentFrame(){
+    return currentFrame;
 }
 }

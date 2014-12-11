@@ -110,6 +110,16 @@ private:
     static const int VERSIONBMAX = 536870911;
 
     /**
+     * @brief Simsignal for received data frames.
+     */
+    simsignal_t sentDFSignal;
+
+    /**
+     * @brief Simsignal for received remote frames.
+     */
+    simsignal_t sentRFSignal;
+
+    /**
      * @brief The version of CAN used in this network. 2.0A or 2.0B
      */
     std::string canVersion;

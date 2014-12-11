@@ -54,6 +54,8 @@ void CanTrafficSourceAppBase::initialize() {
     bitStuffingPercentage =
             getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->par(
                     "bitStuffingPercentage");
+    sentDFSignal = registerSignal("sentDF");
+    sentRFSignal = registerSignal("sentRF");
     checkParameterValues();
 
     initialDataFrameCreation();
@@ -272,6 +274,11 @@ void CanTrafficSourceAppBase::dataFrameTransmission(CanDataFrame *df) {
             }
         }
         delete df;
+    }
+    if (df->getRtr()) {
+        emit(sentRFSignal, df);
+    } else {
+        emit(sentDFSignal, df);
     }
     outgoingFrame->setStartTime(simTime());
     outgoingFrame->setTimestamp(simTime());
