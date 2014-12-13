@@ -40,6 +40,19 @@ class LowHighRatioFilter : public cNumericResultFilter
         virtual bool process(simtime_t& t, double& value);
 };
 
+
+class RmNaNFilter : public cNumericResultFilter
+{
+    private:
+        bool hadValues;
+    public:
+        RmNaNFilter();
+        virtual bool process(simtime_t& t, double& value);
+    protected:
+        virtual void finish(cResultFilter * prev);
+};
+
+
 }
 
 #endif

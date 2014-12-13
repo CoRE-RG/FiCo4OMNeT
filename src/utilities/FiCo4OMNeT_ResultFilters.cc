@@ -74,4 +74,26 @@ bool LowHighRatioFilter::process(simtime_t& t, double& value)
     return true;
 }
 
+Register_ResultFilter("rmNaN", RmNaNFilter);
+
+RmNaNFilter::RmNaNFilter()
+{
+    this->hadValues = false;
+}
+
+bool RmNaNFilter::process(simtime_t& t, double& value)
+{
+    if(!this->hadValues){
+        this->hadValues = true;
+    }
+    return true;
+}
+
+void RmNaNFilter::finish(cResultFilter * prev)
+{
+    if(!this->hadValues){
+        fire(this, simTime(), (unsigned long)0);
+    }
+}
+
 }
