@@ -9,40 +9,35 @@ namespace FiCo4OMNeT {
 
 Register_ResultFilter("timestampAge", TimestampAgeFilter);
 
-void TimestampAgeFilter::receiveSignal(cResultFilter *prev, simtime_t_cref t, cObject *object)
-{
-    if (dynamic_cast<cMessage *>(object))
-    {
-        cMessage *msg = (cMessage *)object;
+void TimestampAgeFilter::receiveSignal(cResultFilter *prev, simtime_t_cref t,
+        cObject *object) {
+    if (dynamic_cast<cMessage *>(object)) {
+        cMessage *msg = (cMessage *) object;
         fire(this, t, t - msg->getTimestamp());
     }
 }
 
 Register_ResultFilter("ID", IDFilter);
 
-void IDFilter::receiveSignal(cResultFilter *prev, simtime_t_cref t, cObject *object)
-{
+void IDFilter::receiveSignal(cResultFilter *prev, simtime_t_cref t,
+        cObject *object) {
 #ifdef WITH_CAN_COMMON
-    if (CanDataFrame* dataFrame = dynamic_cast<CanDataFrame *>(object))
-    {
+    if (CanDataFrame* dataFrame = dynamic_cast<CanDataFrame *>(object)) {
         fire(this, t, (unsigned long) dataFrame->getCanID());
         return;
     }
-    if (ErrorFrame* errorFrame = dynamic_cast<ErrorFrame *>(object))
-    {
+    if (ErrorFrame* errorFrame = dynamic_cast<ErrorFrame *>(object)) {
         fire(this, t, (unsigned long) errorFrame->getCanID());
         return;
     }
-    if (ErrorFrame* errorFrame = dynamic_cast<ErrorFrame *>(object))
-    {
+    if (ErrorFrame* errorFrame = dynamic_cast<ErrorFrame *>(object)) {
         fire(this, t, (unsigned long) errorFrame->getCanID());
         return;
     }
 #endif
 
 #ifdef WITH_FR_COMMON
-    if (FRFrame* frFrame = dynamic_cast<FRFrame *>(object))
-    {
+    if (FRFrame* frFrame = dynamic_cast<FRFrame *>(object)) {
         fire(this, t, (unsigned long) frFrame->getFrameID());
         return;
     }
@@ -51,27 +46,38 @@ void IDFilter::receiveSignal(cResultFilter *prev, simtime_t_cref t, cObject *obj
 
 Register_ResultFilter("lowHighRatio", LowHighRatioFilter);
 
-LowHighRatioFilter::LowHighRatioFilter()
-{
+LowHighRatioFilter::LowHighRatioFilter() {
     low = 0;
     high = 0;
     last = 0;
     last_time = 0;
 }
 
-bool LowHighRatioFilter::process(simtime_t& t, double& value)
-{
-    if(this->last>0)
-        high += (t-this->last_time);
+bool LowHighRatioFilter::process(simtime_t& t, double& value) {
+    if (this->last > 0)
+        high += (t - this->last_time);
     else
-        low += (t-this->last_time);
+        low += (t - this->last_time);
     this->last = value;
     this->last_time = t;
-    if((high+low)>0)
-        value = high/(high+low);
+    if ((high + low) > 0)
+        value = high / (high + low);
     else
         value = 0;
     return true;
+}
+
+Register_ResultFilter("removeNaN", RemoveNaNFilter);
+
+bool RemoveNaNFilter::process(simtime_t& t, double& value)
+{
+    return true;
+}
+
+void RemoveNaNFilter::addDelegate(cResultListener *delegate)
+{
+    cNumericResultFilter::addDelegate(delegate);
+    delegate->receiveSignal(this, 0, (long)0);
 }
 
 }
