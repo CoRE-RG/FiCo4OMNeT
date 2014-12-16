@@ -15,6 +15,10 @@ void TimestampAgeFilter::receiveSignal(cResultFilter *prev, simtime_t_cref t,
         cMessage *msg = (cMessage *) object;
         fire(this, t, t - msg->getTimestamp());
     }
+    else
+    {
+        fire(this, t, msg);
+    }
 }
 
 Register_ResultFilter("ID", IDFilter);
@@ -42,6 +46,7 @@ void IDFilter::receiveSignal(cResultFilter *prev, simtime_t_cref t,
         return;
     }
 #endif
+    fire(this, t, object);
 }
 
 Register_ResultFilter("lowHighRatio", LowHighRatioFilter);
