@@ -18,7 +18,7 @@ void TimestampAgeFilter::receiveSignal(cResultFilter *prev, simtime_t_cref t, cO
     }
     else
     {
-        fire(this, t, msg);
+        fire(this, t, object);
     }
 }
 
