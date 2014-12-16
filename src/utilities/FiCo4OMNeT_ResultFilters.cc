@@ -67,17 +67,26 @@ bool LowHighRatioFilter::process(simtime_t& t, double& value) {
     return true;
 }
 
-Register_ResultFilter("removeNaN", RemoveNaNFilter);
+Register_ResultFilter("rmNaN", RmNaNFilter);
 
-bool RemoveNaNFilter::process(simtime_t& t, double& value)
+RmNaNFilter::RmNaNFilter()
 {
+    this->hadValues = false;
+}
+
+bool RmNaNFilter::process(simtime_t& t, double& value)
+{
+    if(!this->hadValues){
+        this->hadValues = true;
+    }
     return true;
 }
 
-void RemoveNaNFilter::addDelegate(cResultListener *delegate)
+void RmNaNFilter::finish(cResultFilter * prev)
 {
-    cNumericResultFilter::addDelegate(delegate);
-    delegate->receiveSignal(this, 0, (long)0);
+    if(!this->hadValues){
+        fire(this, simTime(), (unsigned long)0);
+    }
 }
 
 }

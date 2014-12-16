@@ -123,6 +123,11 @@ private:
     static const int MAXERRORFRAMESIZE = 12;
 
     /**
+     * @brief Signal for received frames.
+     */
+    simsignal_t rcvdSignal;
+
+    /**
      * @brief Signal for received data frames.
      */
     simsignal_t rcvdDFSignal;

@@ -39,6 +39,7 @@ simple CanBusLogic
     parameters:
     	@display("i=block/app");
     	
+        @signal[received](type=CanDataFrame);
         @signal[receivedDF](type=CanDataFrame);
         @signal[receivedRF](type=CanDataFrame);
         @signal[receivedEF](type=ErrorFrame);
@@ -50,11 +51,13 @@ simple CanBusLogic
         @statistic[ID-RF](title="IDs remote frames received"; source="ID(receivedRF)"; record=histogram?,vector?; interpolationmode=none);
         @statistic[receivedEF](title="error frames received"; source=receivedEF; record=count; interpolationmode=none);
         @statistic[ID-EF](title="IDs error frames received"; source="ID(receivedEF)"; record=histogram?,vector?; interpolationmode=none);
-        @statistic[bitPerSec](title="Bit/sec"; unit="bps"; source="(packetBits(receivedDF)+packetBits(receivedRF))"; record=last);
-        //@statistic[framesPerSec](title="Frames/sec"; unit="fps"; source="sumPerDuration(removeNaN(constant1(receivedDF)))"; record=last);
+
+		@statistic[framesPerSec](title="Frames/sec"; unit="fps"; source="sumPerDuration(constant1(received))"; record=last);
+        @statistic[bitsPerSec](title="Bits/sec"; unit="bps"; source="sumPerDuration(packetBits(receivedDF))"; record=last);
+        //@statistic[framesPerSec](title="Frames/sec"; unit="fps"; source="rmNaN(sumPerDuration(constant1(receivedDF)))+rmNaN(sumPerDuration(constant1(receivedRF)))"; record=last);
+        //@statistic[bitsPerSec](title="Bits/sec"; unit="bps"; source="rmNaN(sumPerDuration(packetBits(receivedDF)))+rmNaN(sumPerDuration(packetBits(receivedRF)))"; record=last);
         @statistic[utilization](title="Utilization"; unit="%"; source="lowHighRatio(state)*100"; record=last);
-        @statistic[test](title="Test"; unit=""; source="count(removeNaN(packetBits(receivedEF)))"; record=last);
-        //@statistic[errorsPercent](title="Errors %"; unit="%"; source="removeNaN(count(receivedEF))/((removeNaN(count(receivedDF))+removeNaN(count(receivedRF)))*100)"; record=last);
+        
     gates:
         inout gate;
 }

@@ -45,6 +45,19 @@ public:
     virtual void addDelegate(cResultListener *delegate);
 };
 
+
+class RmNaNFilter : public cNumericResultFilter
+{
+    private:
+        bool hadValues;
+    public:
+        RmNaNFilter();
+        virtual bool process(simtime_t& t, double& value);
+    protected:
+        virtual void finish(cResultFilter * prev);
+};
+
+
 }
 
 #endif

@@ -55,6 +55,7 @@ CanBusLogic::~CanBusLogic() {
 }
 
 void CanBusLogic::initialize() {
+    rcvdSignal = registerSignal("received");
     rcvdDFSignal = registerSignal("receivedDF");
     rcvdRFSignal = registerSignal("receivedRF");
     rcvdEFSignal = registerSignal("receivedEF");
@@ -208,6 +209,7 @@ void CanBusLogic::handleDataFrame(cMessage *msg) {
     delete (scheduledDataFrame);
     scheduledDataFrame = df->dup();
     scheduleAt(simTime() + nextidle, scheduledDataFrame);
+    emit(rcvdSignal, df);
     if (df->getRtr()) {
         emit(rcvdRFSignal, df);
         numRemoteFrames++;
