@@ -44,14 +44,7 @@ void Buffer::handleMessage(cMessage *msg) {
     }
 }
 
-void Buffer::registerDestinationGate() { //TODO needs upgrade for multiple sink apps
-//    cStringTokenizer destinationGatesTokenizer(
-//            getParentModule()->par("destinationGates"), ",");
-//    while (destinationGatesTokenizer.hasMoreTokens()) {
-//        destinationGates.push_back(
-//                (cGate *) getParentModule()->getSubmodule("sinkApp")->gate(
-//                        destinationGatesTokenizer.nextToken()));
-//    }
+void Buffer::registerDestinationGate() {
 
     destinationGates.clear();
     std::vector<std::string> destinationGatePaths = cStringTokenizer(
@@ -67,12 +60,6 @@ void Buffer::registerDestinationGate() { //TODO needs upgrade for multiple sink 
             gate = gateByShortPath((*destinationGatePath), this);
         }
         if (gate) {
-//            if (findContainingNode(gate->getOwnerModule()) != findContainingNode(this))
-//            {
-//                throw cRuntimeError(
-//                        "Configuration problem of destination_gates: Gate: %s is not in node %s! Maybe a copy-paste problem?",
-//                        (*destinationGatePath).c_str(), findContainingNode(this)->getFullName());
-//            }
             destinationGates.push_back(gate);
         } else {
             throw cRuntimeError(

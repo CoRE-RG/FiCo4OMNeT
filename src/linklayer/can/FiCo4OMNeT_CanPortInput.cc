@@ -259,8 +259,6 @@ void CanPortInput::registerIncomingDataFrame(int canID, cGate* gate) {
 bool CanPortInput::amITheSendingNode(){
     CanOutputBuffer* outputBuffer =
                 (CanOutputBuffer*) getParentModule()->getParentModule()->getSubmodule("bufferOut");
-    CanDataFrame* frame = outputBuffer->getCurrentFrame();
-    bool boobs = outputBuffer->getCurrentFrame() != NULL;
     return (outputBuffer->getCurrentFrame() != NULL);
 }
 

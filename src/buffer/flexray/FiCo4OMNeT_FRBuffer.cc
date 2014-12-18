@@ -6,15 +6,15 @@ void FRBuffer::initialize(){
     Buffer::initialize();
 }
 
-void FRBuffer::registerDestinationGate() {
-    cStringTokenizer destinationGatesTokenizer(
-            getParentModule()->par("destinationGates"), ",");
-    while (destinationGatesTokenizer.hasMoreTokens()) {
-        destinationGates.push_back(
-                (cGate *) getParentModule()->getSubmodule("sinkApp")->gate(
-                        destinationGatesTokenizer.nextToken()));
-    }
-}
+//void FRBuffer::registerDestinationGate() {
+//    cStringTokenizer destinationGatesTokenizer(
+//            getParentModule()->par("destinationGates"), ",");
+//    while (destinationGatesTokenizer.hasMoreTokens()) {
+//        destinationGates.push_back(
+//                (cGate *) getParentModule()->getSubmodule("sinkApp")->gate(
+//                        destinationGatesTokenizer.nextToken()));
+//    }
+//}
 
 FRFrame* FRBuffer::getFrame(int frameId) {
     for (std::list<FRFrame*>::iterator it = frames.begin();
