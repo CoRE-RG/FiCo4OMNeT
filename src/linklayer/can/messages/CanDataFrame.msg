@@ -36,7 +36,7 @@ packet CanDataFrame{
 	int canID;			// ID of the message
     //int length;			// length of the message in bit
 	bool rtr;			// true if remote-frame
-	char data[8];		// if payload is activated, this contains the data
+	char data[];		// if payload is activated, this contains the data
 	simtime_t startTime;// for stats collection purposes
 	int period;			// Periodicy of the message 
 }

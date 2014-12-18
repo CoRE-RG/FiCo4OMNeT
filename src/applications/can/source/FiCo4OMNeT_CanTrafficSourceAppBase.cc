@@ -107,9 +107,10 @@ void CanTrafficSourceAppBase::initialRemoteFrameCreation() {
             }
             CanDataFrame *can_msg = new CanDataFrame("remoteFrame");
             can_msg->setCanID(checkAndReturnID(remoteFrameIDs.at(i)));
+            int dataFieldLength = atoi(dataLengthRemoteFramesTokenizer.nextToken());
             can_msg->setBitLength(
-                    calculateLength(
-                            atoi(dataLengthRemoteFramesTokenizer.nextToken())));
+                    calculateLength(dataFieldLength));
+            can_msg->setDataArraySize(dataFieldLength);
             can_msg->setRtr(true);
             can_msg->setPeriod(
                     atoi(remoteFramesPeriodicityTokenizer.nextToken()));
@@ -182,9 +183,10 @@ void CanTrafficSourceAppBase::initialDataFrameCreation() {
             }
             CanDataFrame *can_msg = new CanDataFrame("message");
             can_msg->setCanID(checkAndReturnID(dataFrameIDs.at(i)));
+            int dataFieldLength = atoi(dataLengthDataFramesTokenizer.nextToken());
             can_msg->setBitLength(
-                    calculateLength(
-                            atoi(dataLengthDataFramesTokenizer.nextToken())));
+                    calculateLength(dataFieldLength));
+            can_msg->setDataArraySize(dataFieldLength);
             can_msg->setPeriod(
                     atoi(dataFramesPeriodicityTokenizer.nextToken()));
             outgoingDataFrames.push_back(can_msg);
@@ -257,6 +259,13 @@ int CanTrafficSourceAppBase::calculateStuffingBits(int dataLength,
 
 void CanTrafficSourceAppBase::dataFrameTransmission(CanDataFrame *df) {
     CanDataFrame *outgoingFrame;
+
+    if (df->getRtr()) {
+        emit(sentRFSignal, df);
+    } else {
+        emit(sentDFSignal, df);
+    }
+
     if (df->isSelfMessage()) {
         outgoingFrame = df->dup();
 
@@ -274,11 +283,6 @@ void CanTrafficSourceAppBase::dataFrameTransmission(CanDataFrame *df) {
             }
         }
         delete df;
-    }
-    if (df->getRtr()) {
-        emit(sentRFSignal, df);
-    } else {
-        emit(sentDFSignal, df);
     }
     outgoingFrame->setStartTime(simTime());
     outgoingFrame->setTimestamp(simTime());
