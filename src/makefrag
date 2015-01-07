@@ -1,0 +1,62 @@
+# USAGE:
+# Set Environment Variables:
+# EXTENDED_WARNINGS=1
+# for stricter warnings and
+#
+# WARNINGS_ERROR=1
+# for -Werror
+
+CFLAGS += -std=c++11
+
+UNAME_S := $(shell uname -s)
+
+#Currently forcing clang interface on OS X! Otherwise OMNeT++ will use gcc wrapper of clang
+ifeq ($(UNAME_S),Darwin)
+	CC = clang
+	CXX = clang++
+endif
+
+#Special Flags for OS X
+ifeq ($(UNAME_S),Darwin)
+    LDFLAGS += -headerpad_max_install_names 
+endif
+
+#Warnings generate errors
+ifdef WARNINGS_ERROR
+	CFLAGS += -Werror
+endif
+
+ifdef EXTENDED_WARNINGS
+#Stricter warnings in clang and gcc:
+ifeq ($(CC),clang)
+	#clang
+    CFLAGS += -Wall -Wunused -Wextra -Weverything
+    CFLAGS += -Wno-padded -Wno-global-constructors -Wno-exit-time-destructors -Wno-weak-vtables
+    CFLAGS += -Wno-c++98-compat-pedantic -Wno-unknown-pragmas
+    CFLAGS += -Wno-error=unused-parameter -Wno-error=header-hygiene -Wno-error=documentation -Wno-error=c++98-compat-pedantic
+    CFLAGS += -Wno-error=shadow -Wno-error=missing-noreturn -Wno-error=unreachable-code -Wno-error=unreachable-code-return -Wno-error=old-style-cast
+    CFLAGS += -Wno-error=conversion -Wno-error=unreachable-code-break -Wno-error=documentation-unknown-command 
+else ifeq ($(CC),gcc)
+	#gcc
+    CFLAGS += -Wall -Wunused -Wextra -Winit-self -Wswitch-enum -Wuninitialized -Wfloat-equal -Wsuggest-attribute=pure
+    CFLAGS += -Wsuggest-attribute=const -Wsuggest-attribute=noreturn -Wsuggest-attribute=format -Wconversion
+    CFLAGS += -Wuseless-cast -Wshadow -Wno-unknown-pragmas
+    CFLAGS += -Wno-error=unused-parameter -Wno-error=conversion -Wno-error=suggest-attribute=noreturn -Wno-error=shadow
+    #CFLAGS += -ansi -pedantic-errors
+endif
+	
+# use -isystem instead of -I flag, to hide warnings in these files
+RELPRJDOTS = $(subst o,,$(subst o ,/,$(patsubst %,..o,$(subst /, ,$(PROJECTRELATIVE_PATH)))))
+ifneq (,$(findstring MSYS,$(shell uname -s)))
+    # on windows we need this hack for pathes like -Id:/...
+    override COPTS := $(shell echo '$(subst -I$(RELPRJDOTS)/.,-isystem $(RELPRJDOTS)/.,$(COPTS))' |sed -e 's/-I\($(subst \| ,\|,$(addsuffix \|,$(filter %:,$(subst :,: ,$(patsubst -I%,%,$(COPTS))))) \/)\)/-isystem \1/g')
+else
+    # on unix we can use this
+    override COPTS := $(subst -I/,-isystem /,$(subst -I$(RELPRJDOTS)/.,-isystem $(RELPRJDOTS)/.,$(COPTS)))
+endif
+$(info Replaced COPTS -I directives with -isystem directive: $(COPTS))
+endif
+
+
+
+
