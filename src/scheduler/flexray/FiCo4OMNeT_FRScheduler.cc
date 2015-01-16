@@ -45,7 +45,7 @@ void FRScheduler::initialize() {
     newCycle = registerSignal("newCycle");
     scheduleAt(simTime(), new SchedulerEvent("NEW_CYCLE", NEW_CYCLE));
     lastCycleStart = simTime();
-    pMicroPerCycle = (getCycleTicks() * gdMacrotick) / pdMicrotick;
+    pMicroPerCycle = (unsigned int)((getCycleTicks() * gdMacrotick) / pdMicrotick);
 
     zRateCorrection = 0;
     zOffsetCorrection = 0;
@@ -69,7 +69,7 @@ void FRScheduler::handleMessage(cMessage *msg) {
         }
         changeDrift();
         adjustMacrotick();
-        emit(newCycle, vCycleCounter);
+        emit(newCycle, (long)(vCycleCounter));
         cycles++;
         lastCycleStart = simTime();
         lastCycleTicks += getCycleTicks();
@@ -114,10 +114,10 @@ void FRScheduler::adjustMacrotick() {
 
 unsigned int FRScheduler::getTicks() {
     if (simTime() >= lastCycleStart) {
-        return round(((simTime() - lastCycleStart) / gdMacrotick).dbl());
+        return (unsigned int)(round(((simTime() - lastCycleStart) / gdMacrotick).dbl()));
     } else {
-        return cycleTicks
-                - round(((lastCycleStart - simTime()) / gdMacrotick).dbl());
+        return (unsigned int) (cycleTicks
+                - round(((lastCycleStart - simTime()) / gdMacrotick).dbl()));
     }
 }
 
@@ -213,8 +213,8 @@ void FRScheduler::correctNewCycle() {
                     + zOffsetCorrection * currentTick, newCyclemsg);
 }
 
-void FRScheduler::setFRAppGate(cGate *gate) {
-    gateFRApp = gate;
+void FRScheduler::setFRAppGate(cGate *appGate) {
+    gateFRApp = appGate;
 }
 
 unsigned int FRScheduler::getStaticSlotActionTime(int frameID) {
@@ -239,7 +239,7 @@ unsigned int FRScheduler::getCycleCounter() {
 unsigned int FRScheduler::getSlotCounter() {
     Enter_Method_Silent
     ();
-    return ((simTime() - lastCycleStart) / (gdStaticSlot * gdMacrotick)).dbl()
+    return (unsigned int)((simTime() - lastCycleStart) / (gdStaticSlot * gdMacrotick)).dbl()
             + 1; // works only for static segment
 }
 
@@ -254,10 +254,10 @@ void FRScheduler::dynamicFrameReceived(int64 bitLength, unsigned int channel) {
 //                ceil(
 //                        ((double) bitLength / ((double) bandwidth * 1024 * 1024))
 //                                / gdMacrotick) / gdMinislot);
-    int neededMinislots = ceil(
+    int neededMinislots = (int) (ceil(
                 ceil(
                         ((double) bitLength / bandwidth)
-                                / gdMacrotick) / gdMinislot);
+                                / gdMacrotick) / gdMinislot));
     EV << "needed minislots: " << neededMinislots << "\n";
     if (channel == 0) {
         additionalMinislotsChA += neededMinislots - 1;
@@ -330,11 +330,11 @@ void FRScheduler::dynamicFrameReceived(int64 bitLength, unsigned int channel) {
 }
 
 int FRScheduler::calculateDeviationValue() {
-    return ((simTime()
+    return (int)(((simTime()
             - (lastCycleStart
                     + ((getSlotCounter() - 1) * gdStaticSlot
                             + gdActionPointOffset) * gdMacrotick)).dbl())
-            / currentTick;
+            / currentTick);
 }
 
 }

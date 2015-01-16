@@ -15,7 +15,7 @@
 
 #include "FiCo4OMNeT_FRSync.h"
 #include "FiCo4OMNeT_FRScheduler.h"
-#include "SchedulerMessageEvents_m.h"
+#include "../../scheduler/flexray/SchedulerMessageEvents_m.h"
 
 namespace FiCo4OMNeT {
 

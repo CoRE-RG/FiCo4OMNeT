@@ -19,7 +19,7 @@
 #include <omnetpp.h>
 #include <string.h>
 #include <clistener.h>
-#include <SchedulerMessage_m.h>
+#include "../../../scheduler/flexray/SchedulerMessage_m.h"
 #include "FiCo4OMNeT_FRBuffer.h"
 #include "FRFrame_m.h"
 

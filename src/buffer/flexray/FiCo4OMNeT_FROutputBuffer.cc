@@ -45,7 +45,6 @@ void FROutputBuffer::handleMessage(cMessage *msg) {
             FRScheduler *frScheduler =
                     (FRScheduler*) (getParentModule()->getSubmodule(
                             "frScheduler"));
-            SchedulerActionTimeEvent *event;
             if (frame->getKind() == STATIC_EVENT) {
                 event = new SchedulerActionTimeEvent("Static Event",
                         STATIC_EVENT);

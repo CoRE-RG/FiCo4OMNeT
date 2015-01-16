@@ -61,7 +61,7 @@ cModule *findModuleWhereverInNode(const char *name, cModule *from)
     return mod;
 }
 
-static cModule *findSubmodRecursive(cModule *curmod, const char *name)
+cModule *findSubmodRecursive(cModule *curmod, const char *name)
 {
     for (cModule::SubmoduleIterator i(curmod); !i.end(); i++)
     {

@@ -89,7 +89,7 @@ class FRScheduler : public cSimpleModule {
         /**
          * @brief counter for the current cycle
          */
-        int vCycleCounter;
+        unsigned int vCycleCounter;
 
         /**
          * @brief caches duration_microtick parameter
