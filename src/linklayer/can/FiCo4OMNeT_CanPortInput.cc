@@ -81,7 +81,7 @@ void CanPortInput::handleMessage(cMessage *msg) {
 }
 
 void CanPortInput::receiveMessage(CanDataFrame *df) {
-    int frameLength = df->getBitLength();
+    int64_t frameLength = df->getBitLength();
     if (scheduledDataFrame != NULL) {
         cancelEvent(scheduledDataFrame);
     }
@@ -89,6 +89,7 @@ void CanPortInput::receiveMessage(CanDataFrame *df) {
     scheduledDataFrame = df->dup();
     scheduleAt((simTime() + calculateScheduleTiming(frameLength)),
             scheduledDataFrame);
+    //delete df?;
 }
 
 void CanPortInput::generateReceiveError(CanDataFrame *df) {
@@ -179,11 +180,11 @@ void CanPortInput::forwardDataFrame(CanDataFrame *df) {
     }
 
     if (df->getRtr()) {
-        std::map<int, cGate*>::iterator it;
-        it = outgoingDataFrameIDs.find(df->getCanID());
-        if (it != outgoingDataFrameIDs.end()) {
+        std::map<int, cGate*>::iterator it2;
+        it2 = outgoingDataFrameIDs.find(df->getCanID());
+        if (it2 != outgoingDataFrameIDs.end()) {
             emit(rcvdRFSignal, df);
-            sendDirect(df, it->second);
+            sendDirect(df, it2->second);
         }
     }
 

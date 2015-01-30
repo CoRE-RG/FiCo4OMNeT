@@ -61,7 +61,7 @@ void FRTrafficSourceAppBase::setUpStaticFrames() {
         frMsg = new FRFrame();
         if ((staticSlotsChA.front() == staticSlotsChB.front())
                 && !staticSlotsChA.empty() && !staticSlotsChB.empty()) {
-            cycleNr = ceil((staticSlotsChA.front() - 1) / gNumberOfStaticSlots);
+            cycleNr = (int)ceil((staticSlotsChA.front() - 1) / gNumberOfStaticSlots);
             frMsg = createFRFrame(
                     staticSlotsChA.front() - cycleNr * gNumberOfStaticSlots,
                     cycleNr, CHANNEL_AB, false, STATIC_EVENT);
@@ -70,13 +70,13 @@ void FRTrafficSourceAppBase::setUpStaticFrames() {
 
         } else if ((staticSlotsChA.front() < staticSlotsChB.front()
                 && !staticSlotsChA.empty()) || staticSlotsChB.empty()) {
-            cycleNr = ceil((staticSlotsChA.front() - 1) / gNumberOfStaticSlots);
+            cycleNr = (int)ceil((staticSlotsChA.front() - 1) / gNumberOfStaticSlots);
             frMsg = createFRFrame(
                     staticSlotsChA.front() - cycleNr * gNumberOfStaticSlots,
                     cycleNr, CHANNEL_A, false, STATIC_EVENT);
             staticSlotsChA.pop_front();
         } else {
-            cycleNr = ceil((staticSlotsChB.front() - 1) / gNumberOfStaticSlots);
+            cycleNr = (int)ceil((staticSlotsChB.front() - 1) / gNumberOfStaticSlots);
             frMsg = createFRFrame(
                     staticSlotsChB.front() - cycleNr * gNumberOfStaticSlots,
                     cycleNr, CHANNEL_B, false, STATIC_EVENT);
@@ -105,7 +105,7 @@ void FRTrafficSourceAppBase::dynamicFrameCreation(cStringTokenizer tokenizer,
     FRFrame *frMsg;
     while (tokenizer.hasMoreTokens()) {
         slot = atoi(tokenizer.nextToken());
-        cycleNr = ceil((slot - 1) / gNumberOfMinislots);
+        cycleNr = (int)ceil((slot - 1) / gNumberOfMinislots);
         frMsg = createFRFrame(
                 getDynamicSlot(slot - cycleNr * gNumberOfMinislots), cycleNr,
                 channel, false, DYNAMIC_EVENT);

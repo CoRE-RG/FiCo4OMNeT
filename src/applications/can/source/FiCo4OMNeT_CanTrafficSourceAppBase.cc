@@ -121,6 +121,7 @@ void CanTrafficSourceAppBase::initialRemoteFrameCreation() {
                 if (initialRemoteFrameOffsetTokenizer.hasMoreTokens()) {
                     initialRemoteFrameOffsetTokenizer.nextToken();
                 }
+                delete can_msg;
             } else {
                 double offset;
                 initialRemoteFrameOffsetTokenizer.hasMoreTokens() ?
@@ -253,7 +254,7 @@ int CanTrafficSourceAppBase::calculateLength(int dataLength) {
 
 int CanTrafficSourceAppBase::calculateStuffingBits(int dataLength,
         int arbFieldLength) {
-    return (((CONTROLBITSFORBITSTUFFING + arbFieldLength + (dataLength * 8) - 1)
+    return (int)(((CONTROLBITSFORBITSTUFFING + arbFieldLength + (dataLength * 8) - 1)
             / 4) * bitStuffingPercentage);
 }
 

@@ -175,9 +175,7 @@ void CanBusLogic::grantSendingPermission() {
         busytime += timetaken;
         EV << "Busytime: " << busytime << "\n";
         idle = true;
-        char buf[64];
-        sprintf(buf, "state: idle");
-        getDisplayString().setTagArg("tt", 0, buf);
+        getDisplayString().setTagArg("tt", 0, "state: idle");
         bubble("state: idle");
     }
 }
@@ -189,6 +187,7 @@ void CanBusLogic::sendingCompleted() {
     controller->sendingCompleted();
     for (unsigned int it = 0; it != eraseids.size(); it++) {
         ids.erase(eraseids.at(it));
+        delete *(eraseids.at(it));
     }
     eraseids.clear();
     errored = false;
@@ -200,7 +199,7 @@ void CanBusLogic::sendingCompleted() {
 
 void CanBusLogic::handleDataFrame(cMessage *msg) {
     CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
-    int length = df->getBitLength();
+    int64_t length = df->getBitLength();
     double nextidle;
     nextidle = (double) length / (bandwidth);
     if (scheduledDataFrame != NULL) {
@@ -219,7 +218,7 @@ void CanBusLogic::handleDataFrame(cMessage *msg) {
     }
     send(msg->dup(), "gate$o");
     numFramesSent++;
-    numBitsSent+=df->getBitLength();
+    numBitsSent += df->getBitLength();
 }
 
 void CanBusLogic::handleErrorFrame(cMessage *msg) {
@@ -250,10 +249,8 @@ void CanBusLogic::registerForArbitration(int id, cModule *node,
         scheduleAt(simTime() + (1 / (bandwidth)), self);
         idle = false;
         busytimestamp = simTime();
-        char buf[64];
-        sprintf(buf, "state: busy");
         bubble("state: busy");
-        getDisplayString().setTagArg("tt", 0, buf);
+        getDisplayString().setTagArg("tt", 0, "state: busy");
         emit(stateSignal, TRANSMITTING);
     }
 }
@@ -265,6 +262,7 @@ void CanBusLogic::checkoutFromArbitration(int canID) {
         CanID* tmp = *it;
         if (tmp->getId() == canID) {
             ids.remove(tmp);
+            delete tmp;
             break;
         }
     }
