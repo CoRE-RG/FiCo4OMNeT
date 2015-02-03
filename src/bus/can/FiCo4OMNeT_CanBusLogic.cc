@@ -95,7 +95,7 @@ int CanBusLogic::getSendingNodeID() {
     if (sendingNode != NULL) {
         return sendingNode->getId();
     }
-    return NULL;
+    return -1;
 }
 
 void CanBusLogic::handleMessage(cMessage *msg) {
@@ -218,7 +218,7 @@ void CanBusLogic::handleDataFrame(cMessage *msg) {
     }
     send(msg->dup(), "gate$o");
     numFramesSent++;
-    numBitsSent += df->getBitLength();
+    numBitsSent += ((unsigned long)df->getBitLength());
 }
 
 void CanBusLogic::handleErrorFrame(cMessage *msg) {

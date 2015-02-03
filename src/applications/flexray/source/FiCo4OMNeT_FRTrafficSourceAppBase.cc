@@ -27,6 +27,7 @@ void FRTrafficSourceAppBase::initialize() {
 }
 
 void FRTrafficSourceAppBase::handleMessage(cMessage *msg) {
+    msg = (cMessage*)msg;
     //alle static frames + random (?) dynamic frames
 }
 
@@ -114,7 +115,7 @@ void FRTrafficSourceAppBase::dynamicFrameCreation(cStringTokenizer tokenizer,
 }
 
 FRFrame* FRTrafficSourceAppBase::createFRFrame(int frameID, int cycleNumber,
-        int channel, bool syncFrameIndicator, int kind) {
+        int channel, bool syncFrameIndicator, short kind) {
     FRFrame *msg = new FRFrame();
     msg->setFrameID(frameID);
     msg->setCycleNumber(cycleNumber);
@@ -130,7 +131,7 @@ FRFrame* FRTrafficSourceAppBase::createFRFrame(int frameID, int cycleNumber,
         int staticSlotLength = getParentModule()->par("gPayloadLengthStatic");
         payload->setByteLength(staticSlotLength);
     }
-    msg->setPayloadLength(payload->getByteLength());
+    msg->setPayloadLength( ((int)payload->getByteLength()) );
     payload->setByteLength(msg->getPayloadLength());
     msg->encapsulate(payload);
     return msg;
@@ -147,7 +148,7 @@ int FRTrafficSourceAppBase::calculateLength(int dataLength) {
 //        arbFieldLength += ARBITRATIONFIELD29BIT;
 //    }
 //    return (arbFieldLength + DATAFRAMECONTROLBITS + (dataLength * 8) + calculateStuffingBits(dataLength, arbFieldLength));
-    return 0;
+    return dataLength * 0;
 }
 
 void FRTrafficSourceAppBase::frameGenerationForNewCycle() {

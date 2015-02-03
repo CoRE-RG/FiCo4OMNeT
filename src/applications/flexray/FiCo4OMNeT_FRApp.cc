@@ -71,7 +71,7 @@ void FRApp::handleMessage(cMessage *msg) {
 
 
 FRFrame* FRApp::createFRFrame(int frameID, int cycleNumber, int channel,
-		bool syncFrameIndicator, int kind) {
+		bool syncFrameIndicator, short kind) {
 	FRFrame *msg = new FRFrame();
 	msg->setFrameID(frameID);
 	msg->setCycleNumber(cycleNumber);

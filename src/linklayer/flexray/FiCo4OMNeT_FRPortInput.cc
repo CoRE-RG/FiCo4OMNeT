@@ -67,7 +67,7 @@ void FRPortInput::receivedExternMessage(FRFrame *msg) {
             //TODO signal for stats
         }
     }
-    scheduleAt(simTime() + calculateScheduleTiming(frMsg->getBitLength()),
+    scheduleAt(simTime() + calculateScheduleTiming( ((int)frMsg->getBitLength()) ),
             frMsg);
 }
 

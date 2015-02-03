@@ -87,22 +87,22 @@ class CanID {
 		* message-ID
 		*
 		*/
-		int id;
+		int id_;
 		/**
 		* Related node to this ID
 		*
 		*/
-		cModule *node;
+		cModule *node_;
 		/**
 		* Point of time the node started to send an arbitration-message
 		*
 		*/
-		simtime_t signInTime;
+		simtime_t signInTime_;
 		/**
 		* false = data-frame; true = remote-frame
 		*
 		*/
-		bool rtr;
+		bool rtr_;
 };
 
 }

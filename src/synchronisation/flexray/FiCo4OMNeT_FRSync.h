@@ -61,7 +61,7 @@ class FRSync : public cSimpleModule
          *
          * @param stage the stages. Module registers events when stage==1
          */
-        virtual void initialize(int stage);
+        virtual void initialize();
 
         /**
          * @brief Returns the clock correction value.

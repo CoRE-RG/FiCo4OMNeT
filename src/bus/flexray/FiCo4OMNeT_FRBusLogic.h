@@ -21,7 +21,7 @@
 #include <omnetpp.h>
 #include <limits>
 #include "FiCo4OMNeT_BusPort.h"
-#include "../../scheduler/flexray/SchedulerMessage_m.h"
+#include "flexray/SchedulerMessage_m.h"
 
 namespace FiCo4OMNeT {
 

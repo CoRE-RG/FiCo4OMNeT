@@ -81,7 +81,7 @@ void CanPortInput::handleMessage(cMessage *msg) {
 }
 
 void CanPortInput::receiveMessage(CanDataFrame *df) {
-    int64_t frameLength = df->getBitLength();
+    int frameLength = ((int)df->getBitLength());
     if (scheduledDataFrame != NULL) {
         cancelEvent(scheduledDataFrame);
     }
@@ -89,23 +89,22 @@ void CanPortInput::receiveMessage(CanDataFrame *df) {
     scheduledDataFrame = df->dup();
     scheduleAt((simTime() + calculateScheduleTiming(frameLength)),
             scheduledDataFrame);
-    //delete df?;
 }
 
 void CanPortInput::generateReceiveError(CanDataFrame *df) {
     ErrorFrame *errorMsg = new ErrorFrame("receiveError");
-    int pos = intuniform(0, df->getBitLength() - MAXERRORFRAMESIZE);
+    int errorPos = intuniform(0, ((int)df->getBitLength()) - MAXERRORFRAMESIZE);
     errorMsg->setKind(intuniform(2, 3)); //2: CRC-error, 3: Bit-Stuffing-error
     errorMsg->setCanID(df->getCanID());
-    if (pos > 0)
-        pos--;
-    errorMsg->setPos(pos);
+    if (errorPos > 0)
+        errorPos--;
+    errorMsg->setPos(errorPos);
     if (scheduledErrorFrame != NULL) {
         cancelEvent(scheduledErrorFrame);
     }
     delete (scheduledErrorFrame);
     scheduledErrorFrame = errorMsg;
-    scheduleAt((simTime() + calculateScheduleTiming(pos)), scheduledErrorFrame);
+    scheduleAt((simTime() + calculateScheduleTiming(errorPos)), scheduledErrorFrame);
 }
 
 bool CanPortInput::checkExistence(CanDataFrame *df) {
@@ -240,8 +239,8 @@ void CanPortInput::handleExternErrorFrame(ErrorFrame *ef) {
     }
 }
 
-void CanPortInput::registerOutgoingDataFrame(int canID, cGate* gate) {
-    outgoingDataFrameIDs.insert(std::pair<int, cGate*>(canID, gate));
+void CanPortInput::registerOutgoingDataFrame(int canID, cGate* outGate) {
+    outgoingDataFrameIDs.insert(std::pair<int, cGate*>(canID, outGate));
 }
 
 void CanPortInput::registerOutgoingRemoteFrame(int canID) {
@@ -250,11 +249,11 @@ void CanPortInput::registerOutgoingRemoteFrame(int canID) {
     it = outgoingRemoteFrameIDs.insert(it, canID);
 }
 
-void CanPortInput::registerIncomingDataFrame(int canID, cGate* gate) {
+void CanPortInput::registerIncomingDataFrame(int canID, cGate* inGate) {
 //    std::vector<int>::iterator it;
 //    it = incomingDataFrameIDs.begin();
 //    it = incomingDataFrameIDs.insert(it, canID);
-    incomingDataFrameIDs.insert(std::pair<int, cGate*>(canID, gate));
+    incomingDataFrameIDs.insert(std::pair<int, cGate*>(canID, inGate));
 }
 
 bool CanPortInput::amITheSendingNode(){

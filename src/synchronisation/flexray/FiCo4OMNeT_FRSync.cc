@@ -15,27 +15,28 @@
 
 #include "FiCo4OMNeT_FRSync.h"
 #include "FiCo4OMNeT_FRScheduler.h"
-#include "../../scheduler/flexray/SchedulerMessageEvents_m.h"
+#include "FiCo4OMNeT_SchedulerMessageEvents_m.h"
 
 namespace FiCo4OMNeT {
 
 Define_Module( FRSync);
 
-void FRSync::initialize(int stage) {
-	pOffsetCorrectionOut = par("pOffsetCorrectionOut");
-	pRateCorrectionOut = par("pRateCorrectionOut");
-	pClusterDriftDamping = par("pClusterDriftDamping");
-	zOffsetCorrection = 0;
-	zRateCorrection = 0;
-	// Allocate memory
-	T_DevTable = new T_DevValid**[2];
-	for (int i = 0; i < 2; ++i) {
-		T_DevTable[i] = new T_DevValid*[2];
 
-		for (int j = 0; j < 2; ++j)
-			T_DevTable[i][j] = new T_DevValid[MAXSYNCNODES];
-	}
-	resetTables();
+void FRSync::initialize() {
+    pOffsetCorrectionOut = par("pOffsetCorrectionOut");
+    pRateCorrectionOut = par("pRateCorrectionOut");
+    pClusterDriftDamping = par("pClusterDriftDamping");
+    zOffsetCorrection = 0;
+    zRateCorrection = 0;
+    // Allocate memory
+    T_DevTable = new T_DevValid**[2];
+    for (int i = 0; i < 2; ++i) {
+        T_DevTable[i] = new T_DevValid*[2];
+
+        for (int j = 0; j < 2; ++j)
+            T_DevTable[i][j] = new T_DevValid[MAXSYNCNODES];
+    }
+    resetTables();
 }
 
 int FRSync::offsetCorrectionCalculation(int vCycleCounter) {

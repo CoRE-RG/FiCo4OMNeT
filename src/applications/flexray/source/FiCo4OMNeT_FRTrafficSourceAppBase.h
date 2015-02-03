@@ -19,7 +19,7 @@
 #include <omnetpp.h>
 #include <string.h>
 #include <clistener.h>
-#include "../../../scheduler/flexray/SchedulerMessage_m.h"
+#include "FiCo4OMNeT_SchedulerMessage_m.h"
 #include "FiCo4OMNeT_FRBuffer.h"
 #include "FRFrame_m.h"
 
@@ -88,7 +88,7 @@ private:
      *
      */
     FRFrame* createFRFrame(int frameID, int cycleNumber, int channel,
-            bool syncFrameIndicator, int kind);
+            bool syncFrameIndicator, short kind);
 
     int getDynamicSlot(int slot);
 

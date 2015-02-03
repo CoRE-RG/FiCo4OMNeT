@@ -20,7 +20,7 @@
 #include <string.h>
 #include <omnetpp.h>
 #include "FiCo4OMNeT_FRBuffer.h"
-#include "../../scheduler/flexray/SchedulerMessageEvents_m.h"
+#include "FiCo4OMNeT_SchedulerMessageEvents_m.h"
 #include "FiCo4OMNeT_FRScheduler.h"
 
 namespace FiCo4OMNeT {

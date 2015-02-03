@@ -49,19 +49,7 @@ cGate* gateByShortPath(const std::string &nameAndGate, cModule *from)
     return NULL;
 }
 
-cModule *findModuleWhereverInNode(const char *name, cModule *from)
-{
-    cModule *mod = NULL;
-    for (cModule *curmod=from; curmod; curmod=curmod->getParentModule())
-    {
-        mod = findSubmodRecursive(curmod, name);
-        if (mod || _isNetworkNode(curmod))
-            break;
-    }
-    return mod;
-}
-
-cModule *findSubmodRecursive(cModule *curmod, const char *name)
+static cModule *findSubmodRecursive(cModule *curmod, const char *name)
 {
     for (cModule::SubmoduleIterator i(curmod); !i.end(); i++)
     {
@@ -73,6 +61,18 @@ cModule *findSubmodRecursive(cModule *curmod, const char *name)
             return foundmod;
     }
     return NULL;
+}
+
+cModule *findModuleWhereverInNode(const char *name, cModule *from)
+{
+    cModule *mod = NULL;
+    for (cModule *curmod=from; curmod; curmod=curmod->getParentModule())
+    {
+        mod = findSubmodRecursive(curmod, name);
+        if (mod || _isNetworkNode(curmod))
+            break;
+    }
+    return mod;
 }
 
 inline bool _isNetworkNode(cModule *mod)

@@ -18,8 +18,8 @@
 
 #include <omnetpp.h>
 
-#include "flexray/SchedulerMessage_m.h"
-#include "flexray/SchedulerMessageEvents_m.h"
+#include "FiCo4OMNeT_SchedulerMessage_m.h"
+#include "FiCo4OMNeT_SchedulerMessageEvents_m.h"
 #include "FiCo4OMNeT_SchedulerEvent.h"
 #include "FiCo4OMNeT_FRSync.h"
 #include "FiCo4OMNeT_FRApp.h"

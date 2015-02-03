@@ -18,8 +18,8 @@
 
 #include <iostream>
 #include "FRFrame_m.h"
-#include "flexray/SchedulerMessage_m.h"
-#include "flexray/SchedulerMessageEvents_m.h"
+#include "FiCo4OMNeT_SchedulerMessage_m.h"
+#include "FiCo4OMNeT_SchedulerMessageEvents_m.h"
 #include "FiCo4OMNeT_SchedulerEvent.h"
 #include "FiCo4OMNeT_FRScheduler.h"
 #include "FiCo4OMNeT_FRPort.h"
@@ -50,7 +50,7 @@ class FRApp : public cSimpleModule {
         /**
          * @brief Creates FlexRay-message
          */
-        virtual FRFrame* createFRFrame(int frameID, int cycleNumber, int channel, bool syncFrameIndicator, int kind);
+        virtual FRFrame* createFRFrame(int frameID, int cycleNumber, int channel, bool syncFrameIndicator, short kind);
 
 	private:
         int maxRandom;
