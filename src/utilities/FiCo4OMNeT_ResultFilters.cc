@@ -11,6 +11,7 @@ Register_ResultFilter("timestampAge", TimestampAgeFilter);
 
 void TimestampAgeFilter::receiveSignal(cResultFilter *prev, simtime_t_cref t,
         cObject *object) {
+    (void)prev;
     if (dynamic_cast<cMessage *>(object)) {
         cMessage *msg = (cMessage *) object;
         fire(this, t, t - msg->getTimestamp());
@@ -25,6 +26,7 @@ Register_ResultFilter("ID", IDFilter);
 
 void IDFilter::receiveSignal(cResultFilter *prev, simtime_t_cref t,
         cObject *object) {
+    (void)prev;
 #ifdef WITH_CAN_COMMON
     if (CanDataFrame* dataFrame = dynamic_cast<CanDataFrame *>(object)) {
         fire(this, t, (unsigned long) dataFrame->getCanID());
@@ -81,6 +83,8 @@ RmNaNFilter::RmNaNFilter()
 
 bool RmNaNFilter::process(simtime_t& t, double& value)
 {
+    (void)t;
+    (void)value;
     if(!this->hadValues){
         this->hadValues = true;
     }
@@ -89,6 +93,7 @@ bool RmNaNFilter::process(simtime_t& t, double& value)
 
 void RmNaNFilter::finish(cResultFilter * prev)
 {
+    (void)prev;
     if(!this->hadValues){
         fire(this, simTime(), (unsigned long)0);
     }

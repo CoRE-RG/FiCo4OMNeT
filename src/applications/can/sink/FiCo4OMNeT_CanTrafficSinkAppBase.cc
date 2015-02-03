@@ -95,7 +95,7 @@ void CanTrafficSinkAppBase::requestFrame() {
 
 void CanTrafficSinkAppBase::startWorkOnFrame(float workTime) {
 
-
+    (void)workTime;
 
 //    cMessage *msg = new cMessage("workFinished");
 //    scheduleAt(simTime() + workTime, msg);

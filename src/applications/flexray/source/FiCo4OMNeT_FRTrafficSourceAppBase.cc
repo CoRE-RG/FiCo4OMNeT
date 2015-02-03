@@ -27,11 +27,14 @@ void FRTrafficSourceAppBase::initialize() {
 }
 
 void FRTrafficSourceAppBase::handleMessage(cMessage *msg) {
+    (void)msg;
     //alle static frames + random (?) dynamic frames
 }
 
 void FRTrafficSourceAppBase::receiveSignal(cComponent *source,
         simsignal_t signalID, long l) {
+    (void)source;
+    (void)signalID;
     //Nachrichten an Buffer bei NEW_CYCLE
     vCycleCounter = l;
     frameGenerationForNewCycle();

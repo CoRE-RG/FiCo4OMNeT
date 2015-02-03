@@ -42,8 +42,7 @@ void FRPortInput::handleMessage(cMessage *msg) {
     }
 }
 
-void FRPortInput::receivedExternMessage(FRFrame *msg) {
-    FRFrame *frMsg = dynamic_cast<FRFrame*>(msg);
+void FRPortInput::receivedExternMessage(FRFrame *frMsg) {
     FRScheduler *frScheduler =
             (FRScheduler*) (getParentModule()->getParentModule()->getSubmodule(
                     "frScheduler"));
