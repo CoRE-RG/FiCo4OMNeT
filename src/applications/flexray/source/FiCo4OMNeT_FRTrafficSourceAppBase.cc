@@ -27,7 +27,6 @@ void FRTrafficSourceAppBase::initialize() {
 }
 
 void FRTrafficSourceAppBase::handleMessage(cMessage *msg) {
-    msg = (cMessage*)msg;
     //alle static frames + random (?) dynamic frames
 }
 
