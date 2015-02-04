@@ -45,7 +45,7 @@ void FRScheduler::initialize() {
     newCycle = registerSignal("newCycle");
     scheduleAt(simTime(), new SchedulerEvent("NEW_CYCLE", NEW_CYCLE));
     lastCycleStart = simTime();
-    pMicroPerCycle = (unsigned int)((getCycleTicks() * gdMacrotick) / pdMicrotick);
+    pMicroPerCycle = static_cast<unsigned int>((getCycleTicks() * gdMacrotick) / pdMicrotick);
 
     zRateCorrection = 0;
     zOffsetCorrection = 0;
@@ -69,7 +69,7 @@ void FRScheduler::handleMessage(cMessage *msg) {
         }
         changeDrift();
         adjustMacrotick();
-        emit(newCycle, (long)(vCycleCounter));
+        emit(newCycle, static_cast<long> (vCycleCounter));
         cycles++;
         lastCycleStart = simTime();
         lastCycleTicks += getCycleTicks();
@@ -82,7 +82,7 @@ void FRScheduler::handleMessage(cMessage *msg) {
                   << "!! Next cycle in "
                   << lastCycleStart + gdMacrotick * getCycleTicks() << "\n";
     } else if (msg->isSelfMessage() && msg->getKind() == NIT_EVENT) {
-        FRSync *frSync = (FRSync*) (getParentModule()->getSubmodule("frSync"));
+        FRSync *frSync = dynamic_cast<FRSync*> (getParentModule()->getSubmodule("frSync"));
         if (vCycleCounter % 2 == 0) {
             frSync->offsetCorrectionCalculation(vCycleCounter);
         } else {
@@ -97,15 +97,15 @@ void FRScheduler::handleMessage(cMessage *msg) {
         delete msg;
     } else if (msg->isSelfMessage()
             && (msg->getKind() == STATIC_EVENT || DYNAMIC_EVENT)) {
-        SchedulerEvent *event = (SchedulerEvent*) msg;
+        SchedulerEvent *event = dynamic_cast<SchedulerEvent*> (msg);
         registeredEvents.remove(event);
         sendDirect(event, event->getDestinationGate());
     }
 }
 
 double FRScheduler::getMicroPerMacro() {
-    return (double) (pMicroPerCycle + zRateCorrection)
-            / (double) getCycleTicks();
+    return static_cast<double> (static_cast<int> (pMicroPerCycle) + zRateCorrection)
+            / static_cast<double> (getCycleTicks());
 }
 
 void FRScheduler::adjustMacrotick() {
@@ -114,9 +114,9 @@ void FRScheduler::adjustMacrotick() {
 
 unsigned int FRScheduler::getTicks() {
     if (simTime() >= lastCycleStart) {
-        return (unsigned int)(round(((simTime() - lastCycleStart) / gdMacrotick).dbl()));
+        return static_cast<unsigned int> (round(((simTime() - lastCycleStart) / gdMacrotick).dbl()));
     } else {
-        return (unsigned int) (cycleTicks
+        return static_cast<unsigned int> (cycleTicks
                 - round(((lastCycleStart - simTime()) / gdMacrotick).dbl()));
     }
 }
@@ -125,7 +125,7 @@ unsigned long FRScheduler::getTotalTicks() {
     return lastCycleTicks + getTicks();
 }
 
-unsigned int FRScheduler::getCycles() {
+unsigned long FRScheduler::getCycles() {
     return cycles;
 }
 
@@ -134,7 +134,7 @@ bool FRScheduler::registerEvent(SchedulerEvent *event) {
     registeredEvents.push_back(event);
     if (event->getKind() == STATIC_EVENT || DYNAMIC_EVENT) {
         SchedulerActionTimeEvent *actionTimeEvent =
-                (SchedulerActionTimeEvent*) event;
+                dynamic_cast<SchedulerActionTimeEvent*> (event);
         if (event->getKind() == DYNAMIC_EVENT) {
             actionTimeEvent->setAction_time(
                     getDynamicSlotActionTime(actionTimeEvent->getFrameID()));
@@ -184,7 +184,7 @@ void FRScheduler::correctEvents() {
             registeredEvent++) {
         if ((*registeredEvent)->getKind() == DYNAMIC_EVENT || STATIC_EVENT) {
             SchedulerActionTimeEvent *actionTimeEvent =
-                    (SchedulerActionTimeEvent*) *registeredEvent;
+                    dynamic_cast<SchedulerActionTimeEvent*> (*registeredEvent);
             cancelEvent(actionTimeEvent);
             if (actionTimeEvent->getAction_time() > getTicks()) {
                 scheduleAt(
@@ -217,11 +217,17 @@ void FRScheduler::setFRAppGate(cGate *appGate) {
     gateFRApp = appGate;
 }
 
-unsigned int FRScheduler::getStaticSlotActionTime(int frameID) {
-    return ((frameID - 1) * gdStaticSlot) + gdActionPointOffset;
+unsigned int FRScheduler::getStaticSlotActionTime(unsigned int frameID) {
+    unsigned int ret;
+    if (frameID > 0) {
+        ret = ((frameID - 1) * gdStaticSlot) + gdActionPointOffset;
+    } else {
+        ret = (frameID * gdStaticSlot) + gdActionPointOffset;
+    }
+    return ret;
 }
 
-unsigned int FRScheduler::getDynamicSlotActionTime(int frameID) {
+unsigned int FRScheduler::getDynamicSlotActionTime(unsigned int frameID) {
     return (((frameID - gNumberOfStaticSlots - 1) * gdMinislot)
             + (gNumberOfStaticSlots * gdStaticSlot))
             + gdMinislotActionPointOffset;

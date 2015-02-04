@@ -20,16 +20,16 @@ namespace FiCo4OMNeT {
 
 void FRPort::handleMessage(cMessage *msg) {
 	take(msg);
-	FRFrame *frMsg = (FRFrame*) msg;
-	FRScheduler *frScheduler = (FRScheduler*) (getParentModule()->getSubmodule(
+	FRFrame *frMsg = dynamic_cast<FRFrame*> (msg);
+	FRScheduler *frScheduler = dynamic_cast<FRScheduler*> (getParentModule()->getSubmodule(
 			"frScheduler"));
 	if (frMsg->getKind() == DYNAMIC_EVENT) {
-		frScheduler->dynamicFrameReceived(frMsg->getByteLength(), frMsg->getChannel());
+		frScheduler->dynamicFrameReceived(frMsg->getByteLength(), static_cast<unsigned int> (frMsg->getChannel()));
 		//ev << frMsg->getFrameID() << "," << simTime() << "," << simTime()-msg->getCreationTime() << endl;
 	} else {
-		if (frScheduler->getSlotCounter() == (unsigned int)frMsg->getFrameID()) {
+		if (frScheduler->getSlotCounter() == static_cast<unsigned int> (frMsg->getFrameID())){
 			if (frMsg->getSyncFrameIndicator()) {
-				FRSync *frSync = (FRSync*) (getParentModule()->getSubmodule(
+				FRSync *frSync = dynamic_cast<FRSync*> (getParentModule()->getSubmodule(
 						"frSync"));
 				frSync->storeDeviationValue(frMsg->getFrameID(),
 						frMsg->getCycleNumber() % 2, frMsg->getChannel(),
@@ -40,7 +40,7 @@ void FRPort::handleMessage(cMessage *msg) {
 			bubble("static frame in wrong slot");
 		}
 	}
-	FRApp *frApp = (FRApp*) (getParentModule()->getSubmodule(par("appName").stringValue()));
+	FRApp *frApp = dynamic_cast<FRApp*> (getParentModule()->getSubmodule(par("appName").stringValue()));
 	sendDirect(frMsg,frApp->gate("frameIn"));
 }
 

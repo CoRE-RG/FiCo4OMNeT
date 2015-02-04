@@ -233,7 +233,7 @@ class FRScheduler : public cSimpleModule {
          *
          * @return Number of cycles since simulation start
          */
-        virtual unsigned int getCycles();
+        virtual unsigned long getCycles();
 
         /**
          * Register a new event in the scheduler. May fail if ActionTimeEvent is out of schedule
@@ -272,12 +272,12 @@ class FRScheduler : public cSimpleModule {
         /**
          * @brief Returns the number of macroticks for the given static slot in a cycle.
          */
-        virtual unsigned int getStaticSlotActionTime(int slot);
+        virtual unsigned int getStaticSlotActionTime(unsigned int slot);
 
         /**
          * @brief Returns the number of macroticks for the given dynamic slot in a cycle.
          */
-        virtual unsigned int getDynamicSlotActionTime(int slot);
+        virtual unsigned int getDynamicSlotActionTime(unsigned int slot);
 
         /**
          * @brief Returns the number of macroticks in a cycle.

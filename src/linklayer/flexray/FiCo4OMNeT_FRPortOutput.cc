@@ -21,21 +21,22 @@ Define_Module(FRPortOutput);
 
 void FRPortOutput::initialize() {
     bandwidth = getParentModule()->getParentModule()->par("bandwidth");
-    initializeStatisticValues();
+//    initializeStatisticValues();
 }
 
 void FRPortOutput::finish() {
 //    collectStats();
 }
 
-void FRPortOutput::initializeStatisticValues() {
-//    sentDFSignal = registerSignal("sentDF");
-//    sentRFSignal = registerSignal("sentRF");
-}
+//void FRPortOutput::initializeStatisticValues() {
+//    sentStaticChASignal = registerSignal("sentDF");
+//    sentDynamicChASignal = registerSignal("sentRF");
+//    sentStaticChBSignal = registerSignal("sentDF");
+//    sentDynamicChBSignal = registerSignal("sentRF");
+//}
 
 void FRPortOutput::handleMessage(cMessage *msg) {
     if (FRFrame *frMsg = dynamic_cast<FRFrame *>(msg)) {
-//    colorBusy();
     //TODO stats
         if (frMsg->getChannel() == CHANNEL_A) {
             send(frMsg->dup(), "outChA");

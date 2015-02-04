@@ -78,7 +78,7 @@ class FRSync : public cSimpleModule
         /**
 		 * @brief Returns the offset correction value zOffsetCorrection
 		 */
-		virtual int offsetCorrectionCalculation(int vCycleCounter);
+		virtual int offsetCorrectionCalculation(unsigned int vCycleCounter);
 
 		/**
 		 * @brief Returns the rate correction value zRateCorrection

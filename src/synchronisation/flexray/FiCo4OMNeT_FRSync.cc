@@ -39,7 +39,7 @@ void FRSync::initialize() {
     resetTables();
 }
 
-int FRSync::offsetCorrectionCalculation(int vCycleCounter) {
+int FRSync::offsetCorrectionCalculation(unsigned int vCycleCounter) {
 	std::list<int> zsMListAB;
 	T_EvenOdd zEO;
 	if (vCycleCounter % 2 == 0) {

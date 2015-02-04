@@ -44,17 +44,17 @@ void FRPortInput::handleMessage(cMessage *msg) {
 
 void FRPortInput::receivedExternMessage(FRFrame *frMsg) {
     FRScheduler *frScheduler =
-            (FRScheduler*) (getParentModule()->getParentModule()->getSubmodule(
+            dynamic_cast<FRScheduler*> (getParentModule()->getParentModule()->getSubmodule(
                     "frScheduler"));
     if (frMsg->getKind() == DYNAMIC_EVENT) {
         frScheduler->dynamicFrameReceived(frMsg->getByteLength(),
-                frMsg->getChannel());
+                static_cast<unsigned int> (frMsg->getChannel()));
     } else {
         if (frScheduler->getSlotCounter()
-                == (unsigned int) frMsg->getFrameID()) {
+                == static_cast<unsigned int> (frMsg->getFrameID())){
             if (frMsg->getSyncFrameIndicator()) {
                 FRSync *frSync =
-                        (FRSync*) (getParentModule()->getParentModule()->getSubmodule(
+                        dynamic_cast<FRSync*> (getParentModule()->getParentModule()->getSubmodule(
                                 "frSync"));
                 frSync->storeDeviationValue(frMsg->getFrameID(),
                         frMsg->getCycleNumber() % 2, frMsg->getChannel(),
@@ -66,13 +66,12 @@ void FRPortInput::receivedExternMessage(FRFrame *frMsg) {
             //TODO signal for stats
         }
     }
-    scheduleAt(simTime() + calculateScheduleTiming( ((int)frMsg->getBitLength()) ),
-            frMsg);
+    scheduleAt(simTime() + calculateScheduleTiming(static_cast<int> (frMsg->getBitLength())), frMsg);
 }
 
 double FRPortInput::calculateScheduleTiming(int length) {
 
-    return ((double) length) / bandwidth;
+    return static_cast<double> (length) / bandwidth;
 }
 
 }
