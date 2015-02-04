@@ -78,7 +78,7 @@ protected:
     /**
      * @brief Calculates the length for the data frame.
      */
-    int calculateLength(int datalength);
+    unsigned int calculateLength(unsigned int datalength);
 
 private:
     /**

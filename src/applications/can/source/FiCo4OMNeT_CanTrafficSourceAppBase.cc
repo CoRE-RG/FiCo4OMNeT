@@ -107,7 +107,7 @@ void CanTrafficSourceAppBase::initialRemoteFrameCreation() {
             }
             CanDataFrame *can_msg = new CanDataFrame("remoteFrame");
             can_msg->setCanID(checkAndReturnID(remoteFrameIDs.at(i)));
-            int dataFieldLength = atoi(dataLengthRemoteFramesTokenizer.nextToken());
+            unsigned int dataFieldLength = atoi(dataLengthRemoteFramesTokenizer.nextToken());
             can_msg->setBitLength(
                     calculateLength(dataFieldLength));
             can_msg->setDataArraySize(dataFieldLength);
@@ -149,8 +149,8 @@ void CanTrafficSourceAppBase::initialRemoteFrameCreation() {
 }
 
 void CanTrafficSourceAppBase::registerRemoteFrameAtPort(int canID) {
-    CanPortInput* port = (CanPortInput*) getParentModule()->getSubmodule(
-            "canNodePort")->getSubmodule("canPortInput");
+    CanPortInput* port = dynamic_cast<CanPortInput*> (getParentModule()->getSubmodule(
+            "canNodePort")->getSubmodule("canPortInput"));
     port->registerOutgoingRemoteFrame(canID);
 }
 
@@ -184,7 +184,7 @@ void CanTrafficSourceAppBase::initialDataFrameCreation() {
             }
             CanDataFrame *can_msg = new CanDataFrame("message");
             can_msg->setCanID(checkAndReturnID(dataFrameIDs.at(i)));
-            int dataFieldLength = atoi(dataLengthDataFramesTokenizer.nextToken());
+            unsigned int dataFieldLength = atoi(dataLengthDataFramesTokenizer.nextToken());
             can_msg->setBitLength(
                     calculateLength(dataFieldLength));
             can_msg->setDataArraySize(dataFieldLength);
@@ -223,8 +223,8 @@ void CanTrafficSourceAppBase::initialDataFrameCreation() {
 }
 
 void CanTrafficSourceAppBase::registerDataFrameAtPort(int canID) {
-    CanPortInput* port = (CanPortInput*) getParentModule()->getSubmodule(
-            "canNodePort")->getSubmodule("canPortInput");
+    CanPortInput* port = dynamic_cast<CanPortInput*> (getParentModule()->getSubmodule(
+            "canNodePort")->getSubmodule("canPortInput"));
     port->registerOutgoingDataFrame(canID, this->gate("remoteIn"));
 }
 
@@ -243,8 +243,8 @@ int CanTrafficSourceAppBase::checkAndReturnID(int id) {
     return id;
 }
 
-int CanTrafficSourceAppBase::calculateLength(int dataLength) {
-    int arbFieldLength = 0;
+unsigned int CanTrafficSourceAppBase::calculateLength(unsigned int dataLength) {
+    unsigned int arbFieldLength = 0;
     if (canVersion.compare("2.0B") == 0) {
         arbFieldLength += ARBITRATIONFIELD29BIT;
     }
@@ -254,8 +254,7 @@ int CanTrafficSourceAppBase::calculateLength(int dataLength) {
 
 int CanTrafficSourceAppBase::calculateStuffingBits(int dataLength,
         int arbFieldLength) {
-    return (int)(((CONTROLBITSFORBITSTUFFING + arbFieldLength + (dataLength * 8) - 1)
-            / 4) * bitStuffingPercentage);
+    return (static_cast<int>(((CONTROLBITSFORBITSTUFFING + arbFieldLength + (dataLength * 8) - 1)/ 4) * bitStuffingPercentage));
 }
 
 void CanTrafficSourceAppBase::dataFrameTransmission(CanDataFrame *df) {

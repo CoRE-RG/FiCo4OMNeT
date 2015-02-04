@@ -74,8 +74,7 @@ void CanTrafficSinkAppBase::handleMessage(cMessage *msg) {
         }
         startWorkOnFrame(0);
     } else if (msg->isSelfMessage()) {
-        CanInputBuffer *buffer =
-                (CanInputBuffer*) (getParentModule()->getSubmodule("bufferIn"));
+        CanInputBuffer *buffer = dynamic_cast<CanInputBuffer*> (getParentModule()->getSubmodule("bufferIn"));
         buffer->deleteFrame(currentFrameID);
         if (bufferMessageCounter > 0) {
             requestFrame();
@@ -87,8 +86,7 @@ void CanTrafficSinkAppBase::handleMessage(cMessage *msg) {
 }
 
 void CanTrafficSinkAppBase::requestFrame() {
-    CanInputBuffer *buffer = (CanInputBuffer*) (getParentModule()->getSubmodule(
-            "bufferIn"));
+    CanInputBuffer *buffer = dynamic_cast<CanInputBuffer*> (getParentModule()->getSubmodule("bufferIn"));
     buffer->deliverNextFrame();
     idle = false;
 }
