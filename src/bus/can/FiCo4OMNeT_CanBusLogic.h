@@ -173,31 +173,6 @@ private:
      */
     int errpos;
     /**
-     * Only if this value is set to true, the bus will try to send a new sending permission to a node
-     *
-     */
-    bool stateok;
-    /**
-     * number of errors that occurred on the bus. Will be decreased if an error has benn treated. Must be 0 to let the bus carry on normally
-     *
-     */
-    int errorcount;
-    /**
-     * true if a positive ACK-Message has been received from a node.
-     *
-     */
-    bool ack_rcvd;
-    /**
-     * true if payload shall be used. Initialized from ned-attribute of CAN-Bus
-     *
-     */
-    bool payload;
-    /**
-     * true ich ack-recognition of receiving nodes is activated. Initialized from ned-attribute of CAN-Bus
-     *
-     */
-    bool ack;
-    /**
      * @brief Bandwidth of the bus in Mbps.
      *
      */

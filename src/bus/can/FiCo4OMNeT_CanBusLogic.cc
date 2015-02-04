@@ -80,7 +80,7 @@ void CanBusLogic::finish() {
     recordScalar("#Simulated_Time", simTime());
     recordScalar("%Busload", busload);
     double errpercentage = (numErrorFrames
-            / (double) (numDataFrames + numRemoteFrames)) * 100;
+            / static_cast<double> (numDataFrames + numRemoteFrames)) * 100;
     recordScalar("%Errors", errpercentage);
 
 
@@ -134,7 +134,7 @@ void CanBusLogic::grantSendingPermission() {
         CanID *id = *it;
         if (id->getId() < currentSendingID) {
             currentSendingID = id->getId();
-            sendingNode = (CanOutputBuffer*) id->getNode();
+            sendingNode = dynamic_cast<CanOutputBuffer*> (id->getNode());
             currsit = id->getSignInTime();
         }
     }
@@ -148,7 +148,7 @@ void CanBusLogic::grantSendingPermission() {
                 sendcount++;
                 if (!nodeFound) {
                     nodeFound = true;
-                    sendingNode = (CanOutputBuffer*) id->getNode();
+                    sendingNode = dynamic_cast<CanOutputBuffer*> (id->getNode());
                     currsit = id->getSignInTime();
                     eraseids.push_back(it);
                 }
@@ -201,7 +201,7 @@ void CanBusLogic::handleDataFrame(cMessage *msg) {
     CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
     int64_t length = df->getBitLength();
     double nextidle;
-    nextidle = (double) length / (bandwidth);
+    nextidle = static_cast<double> (length / bandwidth);
     if (scheduledDataFrame != NULL) {
         cancelEvent(scheduledDataFrame);
     }
@@ -218,7 +218,7 @@ void CanBusLogic::handleDataFrame(cMessage *msg) {
     }
     send(msg->dup(), "gate$o");
     numFramesSent++;
-    numBitsSent += ((unsigned long)df->getBitLength());
+    numBitsSent += static_cast<unsigned long> (df->getBitLength());
 }
 
 void CanBusLogic::handleErrorFrame(cMessage *msg) {

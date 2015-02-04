@@ -34,7 +34,7 @@ public:
     /**
      * @brief Puts the frame into the collection and informs the connected gates about the receiption.
      *
-     * @param frame The DataFrame to put in the buffer.
+     * @param msg The DataFrame to put in the buffer.
      *
      */
     virtual void putFrame(cMessage* msg);

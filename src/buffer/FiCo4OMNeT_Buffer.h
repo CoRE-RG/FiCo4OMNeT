@@ -58,7 +58,7 @@ public:
      * null if there is no DataFrame in the buffer.
      *
      */
-    cMessage* getFrame(int id);
+    cMessage* getFrame(long id);
 
     /**
      * @brief Puts the frame into the collection and informs the connected gates about the reception.

@@ -54,14 +54,14 @@ void CanOutputBuffer::putFrame(cMessage* msg) {
 
 void CanOutputBuffer::registerForArbitration(int id, bool rtr) {
     CanBusLogic *canBusLogic =
-            (CanBusLogic*) (getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->getSubmodule(
+            dynamic_cast<CanBusLogic*> (getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->getSubmodule(
                     "canBusLogic"));
     canBusLogic->registerForArbitration(id, this, simTime(), rtr);
 }
 
 void CanOutputBuffer::checkoutFromArbitration(int canID) {
     CanBusLogic *canBusLogic =
-            (CanBusLogic*) (getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->getSubmodule(
+            dynamic_cast<CanBusLogic*> (getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->getSubmodule(
                     "canBusLogic"));
     if (canBusLogic->getCurrentSendingId() != canID && canBusLogic->getSendingNodeID() != this->getId()) { //TODO was ist mit remote frames?
         canBusLogic->checkoutFromArbitration(canID);

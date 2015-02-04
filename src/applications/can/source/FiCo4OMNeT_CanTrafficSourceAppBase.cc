@@ -107,7 +107,7 @@ void CanTrafficSourceAppBase::initialRemoteFrameCreation() {
             }
             CanDataFrame *can_msg = new CanDataFrame("remoteFrame");
             can_msg->setCanID(checkAndReturnID(remoteFrameIDs.at(i)));
-            unsigned int dataFieldLength = atoi(dataLengthRemoteFramesTokenizer.nextToken());
+            unsigned int dataFieldLength = static_cast<unsigned int> (atoi(dataLengthRemoteFramesTokenizer.nextToken()));
             can_msg->setBitLength(
                     calculateLength(dataFieldLength));
             can_msg->setDataArraySize(dataFieldLength);
@@ -184,7 +184,7 @@ void CanTrafficSourceAppBase::initialDataFrameCreation() {
             }
             CanDataFrame *can_msg = new CanDataFrame("message");
             can_msg->setCanID(checkAndReturnID(dataFrameIDs.at(i)));
-            unsigned int dataFieldLength = atoi(dataLengthDataFramesTokenizer.nextToken());
+            unsigned int dataFieldLength = static_cast<unsigned int> (atoi(dataLengthDataFramesTokenizer.nextToken()));
             can_msg->setBitLength(
                     calculateLength(dataFieldLength));
             can_msg->setDataArraySize(dataFieldLength);
@@ -258,7 +258,7 @@ int CanTrafficSourceAppBase::calculateStuffingBits(int dataLength,
 }
 
 void CanTrafficSourceAppBase::dataFrameTransmission(CanDataFrame *df) {
-    CanDataFrame *outgoingFrame;
+    CanDataFrame *outgoingFrame = NULL;
 
     if (df->getRtr()) {
         emit(sentRFSignal, df);
@@ -283,6 +283,8 @@ void CanTrafficSourceAppBase::dataFrameTransmission(CanDataFrame *df) {
             }
         }
         delete df;
+    } else {
+        throw cRuntimeError("CanTrafficSourceApp received an invalid message.");
     }
     outgoingFrame->setStartTime(simTime());
     outgoingFrame->setTimestamp(simTime());

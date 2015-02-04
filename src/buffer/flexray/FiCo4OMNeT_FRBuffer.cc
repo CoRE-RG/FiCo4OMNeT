@@ -21,7 +21,7 @@ FRFrame* FRBuffer::getFrame(int frameId) {
             it != frames.end(); ++it) {
         FRFrame* tmp = *it;
         int i = tmp->getFrameID();
-            if ((i == frameId)) {
+            if (i == frameId) {
             return tmp;
         }
     }
@@ -52,7 +52,7 @@ void FRBuffer::deliverFrame(int frameId) {
 void FRBuffer::deliverPrioFrame() {
     Enter_Method_Silent();
     int prioId = INT_MAX;
-    FRFrame *prioFrame;
+    FRFrame *prioFrame = NULL;
     for (std::list<FRFrame*>::iterator it = frames.begin();
             it != frames.end(); ++it) {
         FRFrame *tmp = *it;

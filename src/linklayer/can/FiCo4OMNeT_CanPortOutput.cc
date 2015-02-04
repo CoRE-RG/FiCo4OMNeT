@@ -85,7 +85,7 @@ void CanPortOutput::handleMessage(cMessage *msg) {
             int senderr = intuniform(0, 99);
             if (senderr < errorperc) {
                 ErrorFrame *errself = new ErrorFrame("senderror");
-                int position = intuniform(0, ((int)df->getBitLength()) - MAXERRORFRAMESIZE);
+                int position = intuniform(0, static_cast<int> (df->getBitLength()) - MAXERRORFRAMESIZE);
                 errself->setKind(intuniform(0, 1)); //0: Bit-Error, 1: Form-Error
                 errself->setCanID(df->getCanID());
                 if (position > 0)
@@ -111,7 +111,7 @@ void CanPortOutput::handleMessage(cMessage *msg) {
 }
 
 double CanPortOutput::calculateScheduleTiming(int length) {
-    return ((double) length) / (bandwidth);
+    return static_cast<double> (length) / (bandwidth);
 }
 
 void CanPortOutput::sendingCompleted(){

@@ -69,12 +69,12 @@ void Buffer::registerDestinationGate() {
     }
 }
 
-cMessage* Buffer::getFrame(int objectId) {
+cMessage* Buffer::getFrame(long objectId) {
     for (std::list<cMessage*>::iterator it = frames.begin(); it != frames.end();
             ++it) {
         cMessage* tmp = *it;
-        int i = tmp->getId();
-        if ((i == objectId)) {
+        long i = tmp->getId();
+        if (i == objectId) {
             return tmp;
         }
     }

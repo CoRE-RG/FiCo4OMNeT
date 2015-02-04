@@ -93,11 +93,6 @@ private:
     simsignal_t rcvdRFSignal;
 
     /**
-     * @brief Number of useful data frames received by this node.
-     */
-    int dataFramesReceived;
-
-    /**
      * @brief Map with IDs and corresponding inputBuffer-gate of useful incoming data frames
      */
     std::map<int,cGate*> incomingDataFrameIDs;

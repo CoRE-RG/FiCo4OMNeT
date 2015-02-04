@@ -38,8 +38,8 @@ void CanInputBuffer::initialize(){
 }
 
 void CanInputBuffer::registerIncomingDataFramesAtPort() {
-    CanPortInput* port = (CanPortInput*) getParentModule()->getSubmodule(
-            "canNodePort")->getSubmodule("canPortInput");
+    CanPortInput* port = dynamic_cast<CanPortInput*> (getParentModule()->getSubmodule(
+            "canNodePort")->getSubmodule("canPortInput"));
     cStringTokenizer idIncomingFramesTokenizer(par("idIncomingFrames"), ",");
 
     while (idIncomingFramesTokenizer.hasMoreTokens()){

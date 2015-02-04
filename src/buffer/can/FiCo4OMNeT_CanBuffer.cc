@@ -51,7 +51,7 @@ CanDataFrame* CanBuffer::getFrame(int canID) {
             it != frames.end(); ++it) {
         CanDataFrame* tmp = *it;
         int i = tmp->getCanID();
-            if ((i == canID)) {
+            if (i == canID) {
             return tmp;
         }
     }
@@ -85,7 +85,7 @@ void CanBuffer::deliverFrame(int canID) {
 void CanBuffer::deliverPrioFrame() {
     Enter_Method_Silent();
     int prioId = INT_MAX;
-    CanDataFrame *prioFrame;
+    CanDataFrame *prioFrame = NULL;
     for (std::list<CanDataFrame*>::iterator it = frames.begin();
             it != frames.end(); ++it) {
         CanDataFrame *tmp = *it;
