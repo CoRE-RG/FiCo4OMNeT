@@ -141,7 +141,7 @@ int FRSync::ftmAlgorithm(std::list<int> zList) {
 
 unsigned int FRSync::getLineNr(int frameID) {
 	std::list<int>::iterator it1 = position.begin();
-	unsigned int zPos = 0;
+	size_t zPos = 0;
 	for (size_t i = 0; i < position.size(); i++) {
 		if (*it1 == frameID) {
 			zPos = i;
@@ -164,7 +164,7 @@ unsigned int FRSync::getLineNr(int frameID) {
 void FRSync::storeDeviationValue(int frameID, int zEO, int zCh, int value,
 		bool valid) {
 	Enter_Method_Silent();
-	unsigned int zPos = getLineNr(frameID);
+	size_t zPos = getLineNr(frameID);
 	if (T_DevTable[zEO][zCh][zPos].valid) {
 		opp_error("multiple sync nodes in slot %d",frameID);
 	} else {
@@ -175,7 +175,7 @@ void FRSync::storeDeviationValue(int frameID, int zEO, int zCh, int value,
 
 void FRSync::storeOwnSyncFrame(int frameID, int zEO){
 	Enter_Method_Silent();
-	unsigned int zPos = getLineNr(frameID);
+	size_t zPos = getLineNr(frameID);
 	if (T_DevTable[zEO][0][zPos].valid && T_DevTable[zEO][1][zPos].valid) {
 		opp_error("multiple sync nodes in slot %d",frameID);
 	} else {

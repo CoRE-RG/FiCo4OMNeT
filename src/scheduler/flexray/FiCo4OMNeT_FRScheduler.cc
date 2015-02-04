@@ -112,12 +112,12 @@ void FRScheduler::adjustMacrotick() {
     gdMacrotick = getMicroPerMacro() * currentTick;
 }
 
-unsigned int FRScheduler::getTicks() {
+unsigned long FRScheduler::getTicks() {
     if (simTime() >= lastCycleStart) {
-        return static_cast<unsigned int> (round(((simTime() - lastCycleStart) / gdMacrotick).dbl()));
+        return static_cast<unsigned long> (round(((simTime() - lastCycleStart) / gdMacrotick).dbl()));
     } else {
-        return static_cast<unsigned int> (cycleTicks
-                - round(((lastCycleStart - simTime()) / gdMacrotick).dbl()));
+        return (cycleTicks
+                - static_cast<unsigned long> (round(((lastCycleStart - simTime()) / gdMacrotick).dbl())));
     }
 }
 
@@ -197,12 +197,7 @@ void FRScheduler::correctEvents() {
             } else if (actionTimeEvent->getAction_time() == getTicks()) {
                 scheduleAt(simTime(), actionTimeEvent);
             }
-        } else if ((*registeredEvent)->getKind() == NIT_EVENT) {
-            cancelEvent(*registeredEvent);
-            scheduleAt(lastCycleStart + (getCycleTicks() - gdNIT) * gdMacrotick,
-                    *registeredEvent);
         }
-
     }
 }
 

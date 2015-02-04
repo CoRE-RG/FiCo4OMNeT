@@ -79,15 +79,15 @@ void CanBusLogic::finish() {
     }
     recordScalar("#Simulated_Time", simTime());
     recordScalar("%Busload", busload);
-    double errpercentage = (numErrorFrames
+    double errpercentage = (static_cast<double> (numErrorFrames)
             / static_cast<double> (numDataFrames + numRemoteFrames)) * 100;
     recordScalar("%Errors", errpercentage);
 
 
     simtime_t t = simTime();
     if(t > 0){
-        recordScalar("frames/sec", numFramesSent / t);
-        recordScalar("bits/sec", numBitsSent / t);
+        recordScalar("frames/sec", static_cast<double> (numFramesSent) / t);
+        recordScalar("bits/sec", static_cast<double> (numBitsSent) / t);
     }
 }
 
@@ -201,7 +201,7 @@ void CanBusLogic::handleDataFrame(cMessage *msg) {
     CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
     int64_t length = df->getBitLength();
     double nextidle;
-    nextidle = static_cast<double> (length / bandwidth);
+    nextidle = static_cast<double> (length) / bandwidth;
     if (scheduledDataFrame != NULL) {
         cancelEvent(scheduledDataFrame);
     }

@@ -22,7 +22,6 @@
 #include "FiCo4OMNeT_SchedulerMessageEvents_m.h"
 #include "FiCo4OMNeT_SchedulerEvent.h"
 #include "FiCo4OMNeT_FRSync.h"
-#include "FiCo4OMNeT_FRApp.h"
 
 namespace FiCo4OMNeT {
 
@@ -214,7 +213,7 @@ class FRScheduler : public cSimpleModule {
          *
          * @return Number of ticks since last cycle start
          */
-        virtual unsigned int getTicks();
+        virtual unsigned long getTicks();
 
         /**
          * @brief Returns the absolute number of ticks
