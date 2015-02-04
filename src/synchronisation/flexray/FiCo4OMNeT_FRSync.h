@@ -59,7 +59,6 @@ class FRSync : public cSimpleModule
          *
          * registers an event in the scheduler to trigger the synchronization
          *
-         * @param stage the stages. Module registers events when stage==1
          */
         virtual void initialize();
 
@@ -71,7 +70,7 @@ class FRSync : public cSimpleModule
         /**
 		 * @brief Returns the line number in witch the Deviation Value has to be stored.
 		 */
-        virtual int getLineNr(int frameID);
+        virtual unsigned int getLineNr(int frameID);
 
 
     public:

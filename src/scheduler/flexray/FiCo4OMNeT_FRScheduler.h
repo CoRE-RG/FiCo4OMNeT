@@ -142,11 +142,6 @@ class FRScheduler : public cSimpleModule {
         unsigned int gdMinislotActionPointOffset; //[MT]
 
         /**
-         * @brief caches sync_frame parameter
-         */
-        unsigned int syncFrame;
-
-        /**
          * @brief caches bus_speed parameter
          */
         double bandwidth; //[MBit/s]
@@ -297,7 +292,7 @@ class FRScheduler : public cSimpleModule {
         /**
          * @brief Returns the slotnumber for the given dynamic slot.
          */
-		virtual unsigned int getDynamicSlot(int slot);
+		virtual unsigned int getDynamicSlot(unsigned int slot);
 
         /**
          * @brief Adjusts the dynamic events in the current cycle when a dynamic frame is received.

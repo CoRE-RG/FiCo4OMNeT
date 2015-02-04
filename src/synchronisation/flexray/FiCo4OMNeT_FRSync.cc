@@ -61,7 +61,7 @@ int FRSync::offsetCorrectionCalculation(unsigned int vCycleCounter) {
 			zsMListAB.push_back(T_DevTable[zEO][B][i].value);
 		}
 	}
-	if ((int) zsMListAB.size() == 0) {
+	if (zsMListAB.size() == 0) {
 		zOffsetCorrection = 0;
 	} else {
 		zOffsetCorrection = ftmAlgorithm(zsMListAB);
@@ -117,7 +117,7 @@ int FRSync::rateCorrectionCalculation() {
 }
 
 int FRSync::ftmAlgorithm(std::list<int> zList) {
-	int zLength = zList.size();
+	size_t zLength = zList.size();
 	std::list<int>::iterator it1, it2;
 	if (zLength == 0) {
 		return 0;
@@ -139,10 +139,10 @@ int FRSync::ftmAlgorithm(std::list<int> zList) {
 	}
 }
 
-int FRSync::getLineNr(int frameID) {
+unsigned int FRSync::getLineNr(int frameID) {
 	std::list<int>::iterator it1 = position.begin();
 	unsigned int zPos = 0;
-	for (unsigned int i = 0; i < position.size(); i++) {
+	for (size_t i = 0; i < position.size(); i++) {
 		if (*it1 == frameID) {
 			zPos = i;
 			i = position.size();
@@ -164,7 +164,7 @@ int FRSync::getLineNr(int frameID) {
 void FRSync::storeDeviationValue(int frameID, int zEO, int zCh, int value,
 		bool valid) {
 	Enter_Method_Silent();
-	int zPos = getLineNr(frameID);
+	unsigned int zPos = getLineNr(frameID);
 	if (T_DevTable[zEO][zCh][zPos].valid) {
 		opp_error("multiple sync nodes in slot %d",frameID);
 	} else {
@@ -175,7 +175,7 @@ void FRSync::storeDeviationValue(int frameID, int zEO, int zCh, int value,
 
 void FRSync::storeOwnSyncFrame(int frameID, int zEO){
 	Enter_Method_Silent();
-	int zPos = getLineNr(frameID);
+	unsigned int zPos = getLineNr(frameID);
 	if (T_DevTable[zEO][0][zPos].valid && T_DevTable[zEO][1][zPos].valid) {
 		opp_error("multiple sync nodes in slot %d",frameID);
 	} else {

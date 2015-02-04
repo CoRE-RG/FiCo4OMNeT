@@ -245,11 +245,11 @@ unsigned int FRScheduler::getCycleCounter() {
 unsigned int FRScheduler::getSlotCounter() {
     Enter_Method_Silent
     ();
-    return (unsigned int)((simTime() - lastCycleStart) / (gdStaticSlot * gdMacrotick)).dbl()
-            + 1; // works only for static segment
+    return static_cast<unsigned int>(((simTime() - lastCycleStart) / (gdStaticSlot * gdMacrotick)).dbl()
+            + 1); // works only for static segment
 }
 
-unsigned int FRScheduler::getDynamicSlot(int slot) {
+unsigned int FRScheduler::getDynamicSlot(unsigned int slot) {
     return slot + gNumberOfStaticSlots;
 }
 
@@ -260,9 +260,9 @@ void FRScheduler::dynamicFrameReceived(int64 bitLength, unsigned int channel) {
 //                ceil(
 //                        ((double) bitLength / ((double) bandwidth * 1024 * 1024))
 //                                / gdMacrotick) / gdMinislot);
-    int neededMinislots = (int) (ceil(
+    int neededMinislots = static_cast<int> (ceil(
                 ceil(
-                        ((double) bitLength / bandwidth)
+                        (static_cast<double> (bitLength) / bandwidth)
                                 / gdMacrotick) / gdMinislot));
     EV << "needed minislots: " << neededMinislots << "\n";
     if (channel == 0) {
@@ -277,7 +277,7 @@ void FRScheduler::dynamicFrameReceived(int64 bitLength, unsigned int channel) {
                 registeredEvent != registeredEvents.end(); registeredEvent++) {
             if ((*registeredEvent)->getKind() == DYNAMIC_EVENT) {
                 SchedulerActionTimeEvent *actionTimeEvent =
-                        (SchedulerActionTimeEvent*) *registeredEvent;
+                        dynamic_cast<SchedulerActionTimeEvent*> (*registeredEvent);
                 if ((actionTimeEvent->getAction_time()
                         - vCycleCounter * getCycleTicks()) > getTicks()
                         && actionTimeEvent->getChannel() == channel
@@ -289,12 +289,12 @@ void FRScheduler::dynamicFrameReceived(int64 bitLength, unsigned int channel) {
                         actionTimeEvent->setAction_time(
                                 getDynamicSlotActionTime(
                                         actionTimeEvent->getFrameID())
-                                        + additionalMinislotsChA * gdMinislot);
+                                        + static_cast<unsigned int> (additionalMinislotsChA) * gdMinislot);
                     } else {
                         actionTimeEvent->setAction_time(
                                 getDynamicSlotActionTime(
                                         actionTimeEvent->getFrameID())
-                                        + additionalMinislotsChB * gdMinislot);
+                                        + static_cast<unsigned int> (additionalMinislotsChB) * gdMinislot);
                     }
                     EV << "getactiontime: " << actionTimeEvent->getAction_time()
                               << "\n";
@@ -327,7 +327,7 @@ void FRScheduler::dynamicFrameReceived(int64 bitLength, unsigned int channel) {
         }
         if (toDelete.size() > 0) {
             for (unsigned int i = 0; i < toDelete.size(); ++i) {
-                registeredEvents.remove((SchedulerEvent*) toDelete.front());
+                registeredEvents.remove(dynamic_cast<SchedulerEvent*> (toDelete.front()));
                 delete toDelete.front();
                 toDelete.pop_front();
             }
@@ -336,7 +336,7 @@ void FRScheduler::dynamicFrameReceived(int64 bitLength, unsigned int channel) {
 }
 
 int FRScheduler::calculateDeviationValue() {
-    return (int)(((simTime()
+    return static_cast<int> (((simTime()
             - (lastCycleStart
                     + ((getSlotCounter() - 1) * gdStaticSlot
                             + gdActionPointOffset) * gdMacrotick)).dbl())
