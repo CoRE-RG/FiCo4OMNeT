@@ -90,7 +90,7 @@ public:
     /**
      * @brief Forwards the frame with the corresponding id to all destination gates.
      */
-    virtual void deliverFrame(unsigned int id);
+    void deliverFrame(unsigned int id);
 
     /**
      * @brief Forwards the frame with the highest priority to all destination gates.
