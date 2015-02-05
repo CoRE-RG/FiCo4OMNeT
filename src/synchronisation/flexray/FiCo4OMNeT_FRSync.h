@@ -70,7 +70,7 @@ class FRSync : public cSimpleModule
         /**
 		 * @brief Returns the line number in witch the Deviation Value has to be stored.
 		 */
-        virtual unsigned int getLineNr(int frameID);
+        virtual size_t getLineNr(int frameID);
 
 
     public:

@@ -228,14 +228,14 @@ void CanTrafficSourceAppBase::registerDataFrameAtPort(int canID) {
     port->registerOutgoingDataFrame(canID, this->gate("remoteIn"));
 }
 
-int CanTrafficSourceAppBase::checkAndReturnID(int id) {
+unsigned int CanTrafficSourceAppBase::checkAndReturnID(unsigned int id) {
     if (canVersion.compare("2.0A") == 0) {
-        if (id < 0 || id > VERSIONAMAX) {
+        if (id > VERSIONAMAX) {
             EV<< "ID " << id << " not valid." << endl;
             endSimulation();
         }
     } else {
-        if (id < 0 || id > VERSIONBMAX) {
+        if (id > VERSIONBMAX) {
             EV << "ID " << id << " not valid." << endl;
             endSimulation();
         }

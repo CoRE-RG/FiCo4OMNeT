@@ -88,26 +88,26 @@ private:
      * identifier extension bit, reserved bit, data length code, CRC, CRC-delimiter, ACK-slot,
      * ACK-delimiter, end of frame and inter frame space.
      */
-    static const int DATAFRAMECONTROLBITS = 47;
+    static const unsigned int DATAFRAMECONTROLBITS = 47;
 
     /**
      * @brief Additional bit needed for the 29 bit ID.
      */
-    static const int ARBITRATIONFIELD29BIT = 20;
+    static const unsigned int ARBITRATIONFIELD29BIT = 20;
 
     /**
      * @brief Number of control bits which are used in bit-stuffing. Just 34 of the 47 are subject to bit-stuffing.
      */
-    static const int CONTROLBITSFORBITSTUFFING = 34;
+    static const unsigned int CONTROLBITSFORBITSTUFFING = 34;
 
     /**
      * @brief Maximum ID value for Version 2.0A.
      */
-    static const int VERSIONAMAX = 2047;
+    static const unsigned int VERSIONAMAX = 2047;
     /**
      * @brief Maximum ID value for Version 2.0B.
      */
-    static const int VERSIONBMAX = 536870911;
+    static const unsigned int VERSIONBMAX = 536870911;
 
     /**
      * @brief Simsignal for received data frames.
@@ -157,7 +157,7 @@ private:
     /**
      * @brief Checks whether the CAN-ID matches the restrictions of the CAN version.
      */
-    int checkAndReturnID(int id);
+    unsigned int checkAndReturnID(unsigned int id);
 
     /**
      * @brief Calculates the additional bits needed for the chosen bitstuffing method.

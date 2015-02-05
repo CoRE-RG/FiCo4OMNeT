@@ -139,7 +139,7 @@ int FRSync::ftmAlgorithm(std::list<int> zList) {
 	}
 }
 
-unsigned int FRSync::getLineNr(int frameID) {
+size_t FRSync::getLineNr(int frameID) {
 	std::list<int>::iterator it1 = position.begin();
 	size_t zPos = 0;
 	for (size_t i = 0; i < position.size(); i++) {
