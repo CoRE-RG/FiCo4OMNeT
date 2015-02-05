@@ -252,9 +252,9 @@ unsigned int CanTrafficSourceAppBase::calculateLength(unsigned int dataLength) {
             + calculateStuffingBits(dataLength, arbFieldLength));
 }
 
-int CanTrafficSourceAppBase::calculateStuffingBits(int dataLength,
-        int arbFieldLength) {
-    return (static_cast<int>(((CONTROLBITSFORBITSTUFFING + arbFieldLength + (dataLength * 8) - 1)/ 4) * bitStuffingPercentage));
+unsigned int CanTrafficSourceAppBase::calculateStuffingBits(unsigned int dataLength,
+        unsigned int arbFieldLength) {
+    return static_cast<unsigned int>(((CONTROLBITSFORBITSTUFFING + arbFieldLength + (dataLength * 8) - 1)/ 4) * bitStuffingPercentage);
 }
 
 void CanTrafficSourceAppBase::dataFrameTransmission(CanDataFrame *df) {

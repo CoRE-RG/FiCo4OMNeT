@@ -162,7 +162,7 @@ private:
     /**
      * @brief Calculates the additional bits needed for the chosen bitstuffing method.
      */
-    int calculateStuffingBits(int dataLength, int arbFieldLength);
+    unsigned int calculateStuffingBits(unsigned int dataLength, unsigned int arbFieldLength);
 
     /**
      * @brief Transmits the data frame to the connected output buffer.
