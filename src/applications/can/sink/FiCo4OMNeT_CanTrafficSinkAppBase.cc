@@ -64,7 +64,7 @@ void CanTrafficSinkAppBase::handleMessage(cMessage *msg) {
             requestFrame();
         }
     } else if (CanDataFrame *frame = dynamic_cast<CanDataFrame *>(msg)) {
-        int i = frame->getCanID();
+        unsigned int i = frame->getCanID();
         currentFrameID = i;
         bufferMessageCounter--;
         if (frame->getRtr()) {

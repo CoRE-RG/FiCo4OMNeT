@@ -137,7 +137,7 @@ private:
     /**
      * @brief Registers the outgoing remote frame at the port.
      */
-    void registerRemoteFrameAtPort(int canID);
+    void registerRemoteFrameAtPort(unsigned int canID);
 
     /**
      * @brief Collection including all
@@ -152,7 +152,7 @@ private:
     /**
      * @brief Registers the outgoing data frames at the port to receive incoming remote frames.
      */
-    void registerDataFrameAtPort(int canID);
+    void registerDataFrameAtPort(unsigned int canID);
 
     /**
      * @brief Checks whether the CAN-ID matches the restrictions of the CAN version.

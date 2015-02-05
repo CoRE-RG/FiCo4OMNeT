@@ -50,17 +50,17 @@ public:
     /**
      * @brief Source Applications can register their CanIDs so that incoming remote frames are forwarded to them.
      */
-    virtual void registerOutgoingDataFrame(int canID, cGate* gate);
+    virtual void registerOutgoingDataFrame(unsigned int canID, cGate* gate);
 
     /**
      * @brief Source Applications can register their remote frame CanIDs.
      */
-    virtual void registerOutgoingRemoteFrame(int canID);
+    virtual void registerOutgoingRemoteFrame(unsigned int canID);
 
     /**
      * @brief Sink Applications can register the CanIDs which they are interested in.
      */
-    virtual void registerIncomingDataFrame(int canID, cGate* gate);
+    virtual void registerIncomingDataFrame(unsigned int canID, cGate* gate);
 
 protected:
     /**
@@ -95,17 +95,17 @@ private:
     /**
      * @brief Map with IDs and corresponding inputBuffer-gate of useful incoming data frames
      */
-    std::map<int,cGate*> incomingDataFrameIDs;
+    std::map<unsigned int,cGate*> incomingDataFrameIDs;
 
     /**
      * @brief Map with IDs and corresponding sourceApp-gates of useful incoming remote frames
      */
-    std::map<int,cGate*> outgoingDataFrameIDs;
+    std::map<unsigned int,cGate*> outgoingDataFrameIDs;
 
     /**
      * @brief Vector with IDs of outgoing remote frames
      */
-    std::vector<int> outgoingRemoteFrameIDs;
+    std::vector<unsigned int> outgoingRemoteFrameIDs;
 
     /**
      * @brief Bandwidth of the bus in Mbps.
@@ -146,17 +146,17 @@ private:
     /**
      * @brief Checks whether the frame with the corresponding ID is sent by this node.
      */
-    virtual bool checkOutgoingDataFrames(int id);
+    virtual bool checkOutgoingDataFrames(unsigned int id);
 
     /**
      * @brief Checks whether the frame with the corresponding ID is sent by this node.
      */
-    virtual bool checkOutgoingRemoteFrames(int id);
+    virtual bool checkOutgoingRemoteFrames(unsigned int id);
 
     /**
      * @brief Checks whether the frame is listed in the relevant incoming frames.
      */
-    virtual bool checkIncomingDataFrames(int id);
+    virtual bool checkIncomingDataFrames(unsigned int id);
 
     /**
      * @brief Calculates when the frame is ready to be forwarded based on the number of bits.

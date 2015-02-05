@@ -75,7 +75,7 @@ protected:
     /**
      * @brief This method registers a frame at the bus for arbitration.
      */
-    virtual void registerForArbitration(int id, bool rtr);
+    virtual void registerForArbitration(unsigned int id, bool rtr);
 
     /**
      * @brief Unregister from arbitration at the bus.

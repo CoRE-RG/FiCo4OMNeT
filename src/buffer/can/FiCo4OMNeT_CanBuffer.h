@@ -67,7 +67,7 @@ public:
      * null if there is no DataFrame in the buffer.
      *
      */
-    CanDataFrame* getFrame(int id);
+    CanDataFrame* getFrame(unsigned int id);
 
     /**
      * @brief Puts the frame into the collection and informs the connected gates about the receiption.
@@ -80,7 +80,7 @@ public:
     /**
      * @brief Deletes the frame with the corresponding id from the frames collection.
      */
-    virtual void deleteFrame(int id);
+    virtual void deleteFrame(unsigned int id);
 
     /**
      * @brief Deletes the frame with the corresponding id from the frames collection.

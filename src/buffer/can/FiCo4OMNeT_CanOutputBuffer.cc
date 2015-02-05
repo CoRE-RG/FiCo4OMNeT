@@ -52,7 +52,7 @@ void CanOutputBuffer::putFrame(cMessage* msg) {
     emit(rxPkSignal, msg);
 }
 
-void CanOutputBuffer::registerForArbitration(int id, bool rtr) {
+void CanOutputBuffer::registerForArbitration(unsigned int id, bool rtr) {
     CanBusLogic *canBusLogic =
             dynamic_cast<CanBusLogic*> (getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->getSubmodule(
                     "canBusLogic"));

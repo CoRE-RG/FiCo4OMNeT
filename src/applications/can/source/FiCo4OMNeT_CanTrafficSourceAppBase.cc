@@ -148,7 +148,7 @@ void CanTrafficSourceAppBase::initialRemoteFrameCreation() {
     }
 }
 
-void CanTrafficSourceAppBase::registerRemoteFrameAtPort(int canID) {
+void CanTrafficSourceAppBase::registerRemoteFrameAtPort(unsigned int canID) {
     CanPortInput* port = dynamic_cast<CanPortInput*> (getParentModule()->getSubmodule(
             "canNodePort")->getSubmodule("canPortInput"));
     port->registerOutgoingRemoteFrame(canID);
@@ -222,7 +222,7 @@ void CanTrafficSourceAppBase::initialDataFrameCreation() {
     }
 }
 
-void CanTrafficSourceAppBase::registerDataFrameAtPort(int canID) {
+void CanTrafficSourceAppBase::registerDataFrameAtPort(unsigned int canID) {
     CanPortInput* port = dynamic_cast<CanPortInput*> (getParentModule()->getSubmodule(
             "canNodePort")->getSubmodule("canPortInput"));
     port->registerOutgoingDataFrame(canID, this->gate("remoteIn"));
