@@ -59,7 +59,7 @@ void CanOutputBuffer::registerForArbitration(unsigned int id, bool rtr) {
     canBusLogic->registerForArbitration(id, this, simTime(), rtr);
 }
 
-void CanOutputBuffer::checkoutFromArbitration(int canID) {
+void CanOutputBuffer::checkoutFromArbitration(unsigned int canID) {
     CanBusLogic *canBusLogic =
             dynamic_cast<CanBusLogic*> (getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->getSubmodule(
                     "canBusLogic"));
@@ -70,7 +70,7 @@ void CanOutputBuffer::checkoutFromArbitration(int canID) {
 
 }
 
-void CanOutputBuffer::receiveSendingPermission(int id) {
+void CanOutputBuffer::receiveSendingPermission(unsigned int id) {
     Enter_Method_Silent
     ();
     deliverFrame(id);

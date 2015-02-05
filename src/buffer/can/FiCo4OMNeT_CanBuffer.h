@@ -80,17 +80,17 @@ public:
     /**
      * @brief Deletes the frame with the corresponding id from the frames collection.
      */
-    virtual void deleteFrame(unsigned int id);
+    void deleteFrame(unsigned int id);
 
     /**
      * @brief Deletes the frame with the corresponding id from the frames collection.
      */
-    virtual void deleteFrame(CanDataFrame* frame);
+    void deleteFrame(CanDataFrame* frame);
 
     /**
      * @brief Forwards the frame with the corresponding id to all destination gates.
      */
-    virtual void deliverFrame(int id);
+    virtual void deliverFrame(unsigned int id);
 
     /**
      * @brief Forwards the frame with the highest priority to all destination gates.

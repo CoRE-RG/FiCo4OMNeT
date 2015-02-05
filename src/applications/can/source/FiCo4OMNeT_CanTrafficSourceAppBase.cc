@@ -106,7 +106,7 @@ void CanTrafficSourceAppBase::initialRemoteFrameCreation() {
                         "No more values for the remote frame offset for the next remote frame ID. Configuration in the ini file may be incorrect.");
             }
             CanDataFrame *can_msg = new CanDataFrame("remoteFrame");
-            can_msg->setCanID(checkAndReturnID(remoteFrameIDs.at(i)));
+            can_msg->setCanID(checkAndReturnID(static_cast<unsigned int> (remoteFrameIDs.at(i))));
             unsigned int dataFieldLength = static_cast<unsigned int> (atoi(dataLengthRemoteFramesTokenizer.nextToken()));
             can_msg->setBitLength(
                     calculateLength(dataFieldLength));
@@ -183,7 +183,7 @@ void CanTrafficSourceAppBase::initialDataFrameCreation() {
                         "No more values for the data frame offset for the next data frame ID. Configuration in the ini file may be incorrect.");
             }
             CanDataFrame *can_msg = new CanDataFrame("message");
-            can_msg->setCanID(checkAndReturnID(dataFrameIDs.at(i)));
+            can_msg->setCanID(checkAndReturnID(static_cast<unsigned int> (dataFrameIDs.at(i))));
             unsigned int dataFieldLength = static_cast<unsigned int> (atoi(dataLengthDataFramesTokenizer.nextToken()));
             can_msg->setBitLength(
                     calculateLength(dataFieldLength));

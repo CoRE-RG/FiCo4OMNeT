@@ -76,7 +76,7 @@ void CanBuffer::deleteFrame(CanDataFrame* frame) {
     delete frame;
 }
 
-void CanBuffer::deliverFrame(int canID) {
+void CanBuffer::deliverFrame(unsigned int canID) {
     Enter_Method_Silent();
     currentFrame = getFrame(canID);
     sendToDestinationGates(currentFrame->dup());

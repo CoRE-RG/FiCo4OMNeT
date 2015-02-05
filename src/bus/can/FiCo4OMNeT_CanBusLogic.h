@@ -62,15 +62,15 @@ public:
     /**
      * @brief Registers the frame of the node for the arbitration.
      */
-    virtual void registerForArbitration(int id, cModule *node,
+    virtual void registerForArbitration(unsigned int id, cModule *node,
             simtime_t signInTime, bool rtr);
 
     /**
      * @brief The request for frame with the corresponding ID will be checked out.
      */
-    virtual void checkoutFromArbitration(int id);
+    virtual void checkoutFromArbitration(unsigned int id);
 
-    int getCurrentSendingId() const {
+    unsigned int getCurrentSendingId() const {
         return currentSendingID;
     }
 
@@ -215,7 +215,7 @@ private:
     /**
      * @brief ID of the message which is currently transmitted.
      */
-    int currentSendingID;
+    unsigned int currentSendingID;
 
     /**
      * @brief Total number of frames transmitted over the bus.

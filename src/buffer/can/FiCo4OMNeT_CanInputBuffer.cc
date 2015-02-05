@@ -44,7 +44,7 @@ void CanInputBuffer::registerIncomingDataFramesAtPort() {
 
     while (idIncomingFramesTokenizer.hasMoreTokens()){
         std::stringstream strValue;
-        int intValue;
+        unsigned int intValue;
         strValue << idIncomingFramesTokenizer.nextToken();
         strValue >> intValue;
         port->registerIncomingDataFrame(intValue, this->gate("directIn"));

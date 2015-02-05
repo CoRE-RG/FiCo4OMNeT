@@ -239,7 +239,7 @@ void CanBusLogic::handleErrorFrame(cMessage *msg) {
     }
 }
 
-void CanBusLogic::registerForArbitration(int id, cModule *node,
+void CanBusLogic::registerForArbitration(unsigned int id, cModule *node,
         simtime_t signInTime, bool rtr) {
     Enter_Method_Silent
     ();
@@ -255,7 +255,7 @@ void CanBusLogic::registerForArbitration(int id, cModule *node,
     }
 }
 
-void CanBusLogic::checkoutFromArbitration(int canID) {
+void CanBusLogic::checkoutFromArbitration(unsigned int canID) {
     Enter_Method_Silent
     ();
     for (std::list<CanID*>::iterator it = ids.begin(); it != ids.end(); ++it) {

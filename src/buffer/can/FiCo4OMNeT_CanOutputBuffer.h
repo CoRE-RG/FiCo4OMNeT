@@ -56,7 +56,7 @@ public:
     /**
      * @brief Is called by the bus logic to permit the frame transmission.
      */
-    virtual void receiveSendingPermission(int id);
+    virtual void receiveSendingPermission(unsigned int id);
 
     /**
      * @brief Is called when the frame transmission is completed.
@@ -80,7 +80,7 @@ protected:
     /**
      * @brief Unregister from arbitration at the bus.
      */
-    virtual void checkoutFromArbitration(int id);
+    virtual void checkoutFromArbitration(unsigned int id);
 };
 
 }

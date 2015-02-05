@@ -52,14 +52,14 @@ class CanID {
 		 * Creates an ID object
 		 *
 		 */
-		CanID(int id, cModule* node, simtime_t signInTime, bool rtr);
+		CanID(unsigned int id, cModule* node, simtime_t signInTime, bool rtr);
 		/**
 	     * @brief Getter for the message-ID 
 		 *
 		 * @return the message-ID of the object 
 		 *
 		 */
-		int getId();
+		unsigned int getId();
 		/**
 	     * @brief Getter for the node of the message
 		 *
@@ -87,7 +87,7 @@ class CanID {
 		* message-ID
 		*
 		*/
-		int id_;
+		unsigned int id_;
 		/**
 		* Related node to this ID
 		*
