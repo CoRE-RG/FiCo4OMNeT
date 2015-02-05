@@ -12,7 +12,7 @@ namespace FiCo4OMNeT {
  */
 class TimestampAgeFilter: public cObjectResultFilter {
 public:
-    virtual void receiveSignal(cResultFilter *prev, simtime_t_cref t,
+    void receiveSignal(cResultFilter *prev, simtime_t_cref t,
             cObject *object);
 };
 
@@ -21,7 +21,7 @@ public:
  */
 class IDFilter: public cObjectResultFilter {
 public:
-    virtual void receiveSignal(cResultFilter *prev, simtime_t_cref t,
+    void receiveSignal(cResultFilter *prev, simtime_t_cref t,
             cObject *object);
 };
 
