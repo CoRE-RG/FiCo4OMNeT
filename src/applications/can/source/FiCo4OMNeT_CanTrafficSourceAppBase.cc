@@ -58,6 +58,9 @@ void CanTrafficSourceAppBase::initialize() {
     sentRFSignal = registerSignal("sentRF");
     checkParameterValues();
 
+    CanClock* canClock =
+            dynamic_cast<CanClock*>(getParentModule()->getSubmodule("canClock"));
+    currentDrift = canClock->getCurrentDrift();
     initialDataFrameCreation();
     initialRemoteFrameCreation();
 }
@@ -132,7 +135,7 @@ void CanTrafficSourceAppBase::initialRemoteFrameCreation() {
                 scheduleAt(
                         simTime() + SimTime(offset)
                         + SimTime(
-                                par("periodInaccurracy").doubleValue()),
+                                par("periodInaccurracy").doubleValue() + currentDrift),
                         can_msg);
             }
 
@@ -203,7 +206,7 @@ void CanTrafficSourceAppBase::initialDataFrameCreation() {
                 scheduleAt(
                         simTime() + SimTime(offset)
                                 + SimTime(
-                                        par("periodInaccurracy").doubleValue()),
+                                        par("periodInaccurracy").doubleValue() + currentDrift),
                         can_msg);
             } else {
                 if (initialDataFrameOffsetTokenizer.hasMoreTokens()) {
@@ -270,10 +273,12 @@ void CanTrafficSourceAppBase::dataFrameTransmission(CanDataFrame *df) {
 
     if (df->isSelfMessage()) {
         outgoingFrame = df->dup();
-
+        CanClock* canClock =
+                dynamic_cast<CanClock*>(getParentModule()->getSubmodule("canClock"));
+        currentDrift = canClock->getCurrentDrift();
         scheduleAt(
                 simTime() + (df->getPeriod() / 1000.)
-                        + SimTime(par("periodInaccurracy").doubleValue()), df);
+                        + SimTime(par("periodInaccurracy").doubleValue() + currentDrift), df);
     } else if (df->arrivedOn("remoteIn")) {
         for (std::list<CanDataFrame*>::iterator it =
                 outgoingDataFrames.begin(); it != outgoingDataFrames.end();

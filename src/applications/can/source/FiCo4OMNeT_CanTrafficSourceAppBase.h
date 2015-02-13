@@ -34,6 +34,7 @@
 #include <string.h>
 #include "FiCo4OMNeT_CanBuffer.h"
 #include "FiCo4OMNeT_CanPortInput.h"
+#include "FiCo4OMNeT_CanClock.h"
 #include "CanDataFrame_m.h"
 
 namespace FiCo4OMNeT {
@@ -128,6 +129,11 @@ private:
      * @brief Value for the percentage distribution for bit stuffing. Valid values 0 to 1.
      */
     double bitStuffingPercentage;
+
+    /**
+     * @brief Current drift of the can clock.
+     */
+    double currentDrift;
 
     /**
      * @brief Creates a data frame which will be queued in the buffer.
