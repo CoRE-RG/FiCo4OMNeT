@@ -40,10 +40,6 @@ void CanTrafficSinkAppBase::initialize() {
 
     rcvdDFSignal = registerSignal("receivedCompleteDF");
     rcvdRFSignal = registerSignal("receivedCompleteRF");
-    rcvdDFSignalFromNode = registerSignal("receivedCompleteDFFromNode");
-    rcvdRFSignalFromNode = registerSignal("receivedCompleteRFFromNode");
-    rcvdDFSignalFromGW = registerSignal("receivedCompleteDFFromGW");
-    rcvdRFSignalFromGW = registerSignal("receivedCompleteRFFromGW");
 //    registerIncomingDataFramesAtPort();
 }
 
@@ -73,18 +69,8 @@ void CanTrafficSinkAppBase::handleMessage(cMessage *msg) {
         bufferMessageCounter--;
         if (frame->getRtr()) {
             emit(rcvdRFSignal, frame);
-            if (frame->getMessageSource() == SOURCE_NODE) {
-                emit(rcvdRFSignalFromNode, frame);
-            } else if (frame->getMessageSource() == SOURCE_GW) {
-                emit(rcvdRFSignalFromGW, frame);
-            }
         } else {
             emit(rcvdDFSignal, frame);
-            if (frame->getMessageSource() == SOURCE_NODE) {
-                emit(rcvdDFSignalFromNode, frame);
-            } else if (frame->getMessageSource() == SOURCE_GW) {
-                emit(rcvdDFSignalFromGW, frame);
-            }
         }
         startWorkOnFrame(0);
     } else if (msg->isSelfMessage()) {

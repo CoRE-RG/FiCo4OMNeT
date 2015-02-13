@@ -103,25 +103,6 @@ private:
      */
     simsignal_t rcvdRFSignal;
 
-    /**
-     * @brief Simsignal for received data frames.
-     */
-    simsignal_t rcvdDFSignalFromNode;
-
-    /**
-     * @brief Simsignal for received remote frames.
-     */
-    simsignal_t rcvdRFSignalFromNode;
-
-    /**
-     * @brief Simsignal for received data frames.
-     */
-    simsignal_t rcvdDFSignalFromGW;
-
-    /**
-     * @brief Simsignal for received remote frames.
-     */
-    simsignal_t rcvdRFSignalFromGW;
 
 };
 
