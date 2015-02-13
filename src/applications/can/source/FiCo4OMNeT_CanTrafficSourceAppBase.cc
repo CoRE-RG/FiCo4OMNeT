@@ -114,6 +114,7 @@ void CanTrafficSourceAppBase::initialRemoteFrameCreation() {
             can_msg->setRtr(true);
             can_msg->setPeriod(
                     atoi(remoteFramesPeriodicityTokenizer.nextToken()));
+            can_msg->setMessageSource(SOURCE_NODE);
             registerRemoteFrameAtPort(can_msg->getCanID());
             if (can_msg->getPeriod() == 0) {
                 EV<< "Remote frame with ID " << can_msg->getCanID()
@@ -190,6 +191,7 @@ void CanTrafficSourceAppBase::initialDataFrameCreation() {
             can_msg->setDataArraySize(dataFieldLength);
             can_msg->setPeriod(
                     atoi(dataFramesPeriodicityTokenizer.nextToken()));
+            can_msg->setMessageSource(SOURCE_NODE);
             outgoingDataFrames.push_back(can_msg);
             registerDataFrameAtPort(can_msg->getCanID());
             if (can_msg->getPeriod() != 0) {
