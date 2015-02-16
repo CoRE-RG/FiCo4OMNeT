@@ -43,6 +43,10 @@ void CanPortInput::initialize() {
 
     rcvdDFSignal = registerSignal("receivedCompleteDF");
     rcvdRFSignal = registerSignal("receivedCompleteRF");
+    rcvdDFSignalFromNode = registerSignal("receivedCompleteDFFromNode");
+    rcvdRFSignalFromNode = registerSignal("receivedCompleteRFFromNode");
+    rcvdDFSignalFromGW = registerSignal("receivedCompleteDFFromGW");
+    rcvdRFSignalFromGW = registerSignal("receivedCompleteRFFromGW");
     WATCH_MAP(incomingDataFrameIDs);
 
 }
@@ -164,6 +168,11 @@ void CanPortInput::forwardDataFrame(CanDataFrame *df) {
     it = incomingDataFrameIDs.find(df->getCanID());
     if (it != incomingDataFrameIDs.end()) {
         emit(rcvdDFSignal, df);
+        if (df->getMessageSource() == SOURCE_NODE) {
+            emit(rcvdDFSignalFromNode, df);
+        } else if (df->getMessageSource() == SOURCE_GW) {
+            emit(rcvdDFSignalFromGW, df);
+        }
         sendDirect(df, it->second);
     }
 
@@ -172,6 +181,11 @@ void CanPortInput::forwardDataFrame(CanDataFrame *df) {
         it2 = outgoingDataFrameIDs.find(df->getCanID());
         if (it2 != outgoingDataFrameIDs.end()) {
             emit(rcvdRFSignal, df);
+            if (df->getMessageSource() == SOURCE_NODE) {
+                emit(rcvdRFSignalFromNode, df);
+            } else if (df->getMessageSource() == SOURCE_GW) {
+                emit(rcvdRFSignalFromGW, df);
+            }
             sendDirect(df, it2->second);
         }
     }

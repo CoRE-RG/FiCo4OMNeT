@@ -93,6 +93,26 @@ private:
     simsignal_t rcvdRFSignal;
 
     /**
+     * @brief Simsignal for received data frames.
+     */
+    simsignal_t rcvdDFSignalFromNode;
+
+    /**
+     * @brief Simsignal for received remote frames.
+     */
+    simsignal_t rcvdRFSignalFromNode;
+
+    /**
+     * @brief Simsignal for received data frames.
+     */
+    simsignal_t rcvdDFSignalFromGW;
+
+    /**
+     * @brief Simsignal for received remote frames.
+     */
+    simsignal_t rcvdRFSignalFromGW;
+
+    /**
      * @brief Map with IDs and corresponding inputBuffer-gate of useful incoming data frames
      */
     std::map<unsigned int,cGate*> incomingDataFrameIDs;
