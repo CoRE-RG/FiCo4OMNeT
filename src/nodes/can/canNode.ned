@@ -35,6 +35,7 @@ import fico4omnet.applications.ISourceApplication;
 import fico4omnet.applications.ISinkApplication;
 import fico4omnet.applications.can.source.CanTrafficSourceAppBase;
 import fico4omnet.applications.can.sink.CanTrafficSinkAppBase;
+import fico4omnet.scheduler.can.CanClock;
 
 //
 //
@@ -81,13 +82,16 @@ module CanNode
         sinkApp[numSinkApps]: <default("CanTrafficSinkAppBase")> like ISinkApplication {
             @display("p=203,32");
         }
+        canClock: CanClock {
+            @display("p=149,102");
+        }
     connections:
         canNodePort.phygate <--> gate;
         canNodePort.upperLayerIn <-- bufferOut.out;
-//        canNodePort.upperLayerOut --> bufferIn.in[0];
-//		for i=0..numInputBuffer-1 {
-//            canNodePort.upperLayerOut[i] <-- bufferIn.out[i];
-//        }
+        //        canNodePort.upperLayerOut --> bufferIn.in[0];
+        //		for i=0..numInputBuffer-1 {
+        //            canNodePort.upperLayerOut[i] <-- bufferIn.out[i];
+        //        }
         for i=0..numSourceApps-1 {
             sourceApp[i].out --> bufferOut.in[i];
         }
