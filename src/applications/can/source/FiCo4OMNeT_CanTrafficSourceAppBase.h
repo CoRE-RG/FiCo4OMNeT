@@ -62,7 +62,8 @@ protected:
     /**
      * @brief Initialization of the module.
      */
-    virtual void initialize();
+    virtual void initialize(int stage);
+    virtual int numInitStages() const { return 2; }
 
     /**
      * @brief This method checks whether the configured values from the ini files are permitted.

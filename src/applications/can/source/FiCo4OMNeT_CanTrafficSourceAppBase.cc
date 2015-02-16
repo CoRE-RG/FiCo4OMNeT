@@ -47,22 +47,26 @@ CanTrafficSourceAppBase::~CanTrafficSourceAppBase()
     outgoingDataFrames.clear();
 }
 
-void CanTrafficSourceAppBase::initialize() {
-    canVersion =
-            getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->par(
-                    "version").stdstringValue();
-    bitStuffingPercentage =
-            getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->par(
-                    "bitStuffingPercentage");
-    sentDFSignal = registerSignal("sentDF");
-    sentRFSignal = registerSignal("sentRF");
-    checkParameterValues();
+void CanTrafficSourceAppBase::initialize(int stage) {
+    if (stage == 0) {
+        canVersion =
+                getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->par(
+                        "version").stdstringValue();
+        bitStuffingPercentage =
+                getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->par(
+                        "bitStuffingPercentage");
+        sentDFSignal = registerSignal("sentDF");
+        sentRFSignal = registerSignal("sentRF");
+        checkParameterValues();
 
-    CanClock* canClock =
-            dynamic_cast<CanClock*>(getParentModule()->getSubmodule("canClock"));
-    currentDrift = canClock->getCurrentDrift();
-    initialDataFrameCreation();
-    initialRemoteFrameCreation();
+    } else if (stage == 1) {
+        CanClock* canClock =
+                dynamic_cast<CanClock*>(getParentModule()->getSubmodule("canClock"));
+        currentDrift = canClock->getCurrentDrift();
+        initialDataFrameCreation();
+        initialRemoteFrameCreation();
+    }
+
 }
 
 void CanTrafficSourceAppBase::checkParameterValues() {

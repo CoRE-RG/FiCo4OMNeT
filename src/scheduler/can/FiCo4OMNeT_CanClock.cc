@@ -33,10 +33,12 @@ namespace FiCo4OMNeT {
 Define_Module(CanClock);
 
 void CanClock::initialize() {
+    clockDriftSignal = registerSignal("clockDrift");
     maxDrift = par("maxDrift");
     maxDriftChange = par("maxDriftChange");
     lastDriftUpdate = simTime();
-    calculateNewDrift();
+//    calculateNewDrift();
+    calculateInitialDrift();
 }
 
 void CanClock::calculateInitialDrift(){
@@ -45,6 +47,7 @@ void CanClock::calculateInitialDrift(){
 
 void CanClock::calculateNewDrift(){
     simtime_t timeSinceLastUpdate = simTime() - lastDriftUpdate;
+    lastDriftUpdate = simTime();
     double maxDriftChangeSinceLastUpdate = maxDriftChange * timeSinceLastUpdate.dbl();
     double newDriftChange = uniform(-maxDriftChangeSinceLastUpdate, maxDriftChangeSinceLastUpdate);
     double newDrift = currentDrift + newDriftChange;
@@ -54,6 +57,7 @@ void CanClock::calculateNewDrift(){
         currentDrift = -maxDrift;
     else
         currentDrift = newDrift;
+    emit(clockDriftSignal,currentDrift);
 }
 
 double CanClock::getCurrentDrift(){

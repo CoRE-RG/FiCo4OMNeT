@@ -20,6 +20,10 @@ simple CanClock
     parameters:
     	@display("i=block/cogwheel");
     	
+    	@signal[clockDrift];
+    	
+    	@statistic[clockDrift](title="clockDrift"; source=clockDrift; unit=s; record=stats,histogram,vector; interpolationmode=linear);
+    	
     	double maxDrift @unit(s) = default(0);
     	double maxDriftChange @unit(s) = default(0);
 }

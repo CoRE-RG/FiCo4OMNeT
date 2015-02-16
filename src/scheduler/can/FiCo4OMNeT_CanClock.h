@@ -37,6 +37,7 @@ namespace FiCo4OMNeT {
 class CanClock : public cSimpleModule {
 
 private:
+    simsignal_t clockDriftSignal;
     double currentDrift;
     double maxDrift;
     double maxDriftChange;
