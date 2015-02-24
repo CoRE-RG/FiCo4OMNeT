@@ -136,11 +136,14 @@ void CanTrafficSourceAppBase::initialRemoteFrameCreation() {
                 offset = atof(
                         initialRemoteFrameOffsetTokenizer.nextToken()) :
                 offset = 0;
-                scheduleAt(
-                        simTime() + SimTime(offset)
-                        + SimTime(
-                                par("periodInaccurracy").doubleValue() + currentDrift),
-                        can_msg);
+                simtime_t scheduleTime = simTime() + SimTime(offset)
+                        + SimTime(par("periodInaccurracy").doubleValue()
+                                + currentDrift);
+                if (scheduleTime >= 0) {
+                    scheduleAt(scheduleTime, can_msg);
+                } else {
+                    scheduleAt(simTime(), can_msg);
+                }
             }
 
         }
@@ -207,11 +210,14 @@ void CanTrafficSourceAppBase::initialDataFrameCreation() {
                         offset = atof(
                                 initialDataFrameOffsetTokenizer.nextToken()) :
                         offset = 0;
-                scheduleAt(
-                        simTime() + SimTime(offset)
-                                + SimTime(
-                                        par("periodInaccurracy").doubleValue() + currentDrift),
-                        can_msg);
+                simtime_t scheduleTime = simTime() + SimTime(offset)
+                        + SimTime(par("periodInaccurracy").doubleValue()
+                                + currentDrift);
+                if (scheduleTime >= 0 ) {
+                    scheduleAt(scheduleTime,can_msg);
+                } else {
+                    scheduleAt(simTime(),can_msg);
+                }
             } else {
                 if (initialDataFrameOffsetTokenizer.hasMoreTokens()) {
                     initialDataFrameOffsetTokenizer.nextToken();

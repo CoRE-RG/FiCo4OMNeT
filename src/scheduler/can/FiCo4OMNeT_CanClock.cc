@@ -42,7 +42,7 @@ void CanClock::initialize() {
 }
 
 void CanClock::calculateInitialDrift(){
-    currentDrift = uniform(-maxDrift, maxDrift);
+    currentDrift = uniform((-maxDrift), maxDrift);
 }
 
 void CanClock::calculateNewDrift(){
