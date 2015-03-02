@@ -26,48 +26,37 @@
 //(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#include "FiCo4OMNeT_CanInputBuffer.h"
+#ifndef FICO4OMNET_CANCLOCK_H_
+#define FICO4OMNET_CANCLOCK_H_
+
+#include <omnetpp.h>
+
 
 namespace FiCo4OMNeT {
 
-Define_Module(CanInputBuffer);
+class CanClock : public cSimpleModule {
 
-void CanInputBuffer::initialize(){
-    registerIncomingDataFramesAtPort();
-    CanBuffer::initialize();
-}
+private:
+    simsignal_t clockDriftSignal;
+    double currentDrift;
+    double maxDrift;
+    double maxDriftChange;
+    simtime_t lastDriftUpdate;
 
-void CanInputBuffer::registerIncomingDataFramesAtPort() {
-    CanPortInput* port = dynamic_cast<CanPortInput*> (getParentModule()->getSubmodule(
-            "canNodePort")->getSubmodule("canPortInput"));
-    cStringTokenizer idIncomingFramesTokenizer(par("idIncomingFrames"), ",");
+    void calculateNewDrift();
 
-    while (idIncomingFramesTokenizer.hasMoreTokens()){
-        std::stringstream strValue;
-        unsigned int intValue;
-        strValue << idIncomingFramesTokenizer.nextToken();
-        strValue >> intValue;
-        port->registerIncomingDataFrame(intValue, this->gate("directIn"));
-    }
-}
+    void calculateInitialDrift();
 
-void CanInputBuffer::putFrame(cMessage* msg) {
-    CanDataFrame *frame = dynamic_cast<CanDataFrame *>(msg);
-    if (MOB == true) {
-        if (getFrame(frame->getCanID()) != NULL) {
-            deleteFrame(frame->getCanID());
-        } else {
-//            cModule *sinkApp = (cModule*)gate("out")->getPathEndGate()->getOwner();
-//            sendDirect(new cMessage("Message in buffer"), sinkApp,
-//                    "controllerIn");
-            sendToDestinationGates(frame);
-        }
-    } else {
-//        cModule *sinkApp = (cModule*)gate("out")->getPathEndGate()->getOwner();
-//        sendDirect(new cMessage("Message in buffer"), sinkApp, "controllerIn");
-        sendToDestinationGates(frame);
-    }
-//    frames.push_back(frame); wird zur Zeit nicht zwischengespeichert
-}
+protected:
+    /**
+     * @brief Initialization of the module.
+     */
+    virtual void initialize();
+
+public:
+    double getCurrentDrift();
+
+};
 
 }
+#endif /* FICO4OMNET_CANCLOCK_H_ */

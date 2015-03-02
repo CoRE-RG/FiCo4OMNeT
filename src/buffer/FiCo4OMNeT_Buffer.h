@@ -58,7 +58,7 @@ public:
      * null if there is no DataFrame in the buffer.
      *
      */
-    cMessage* getFrame(int id);
+    cMessage* getFrame(long id);
 
     /**
      * @brief Puts the frame into the collection and informs the connected gates about the reception.
@@ -71,12 +71,12 @@ public:
     /**
      * @brief Deletes the frame with the corresponding id from the frames collection.
      */
-    virtual void deleteFrame(int id);
+    void deleteFrame(int id);
 
     /**
      * @brief Forwards the frame with the corresponding id to all destination gates.
      */
-    virtual void deliverFrame(int id);
+    void deliverFrame(int id);
 
     /**
      * @brief Forwards the first received frame to all destination gates.

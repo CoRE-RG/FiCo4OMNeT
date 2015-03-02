@@ -26,48 +26,43 @@
 //(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#include "FiCo4OMNeT_CanInputBuffer.h"
+#include "FiCo4OMNeT_CanClock.h"
 
 namespace FiCo4OMNeT {
 
-Define_Module(CanInputBuffer);
+Define_Module(CanClock);
 
-void CanInputBuffer::initialize(){
-    registerIncomingDataFramesAtPort();
-    CanBuffer::initialize();
+void CanClock::initialize() {
+    clockDriftSignal = registerSignal("clockDrift");
+    maxDrift = par("maxDrift");
+    maxDriftChange = par("maxDriftChange");
+    lastDriftUpdate = simTime();
+//    calculateNewDrift();
+    calculateInitialDrift();
 }
 
-void CanInputBuffer::registerIncomingDataFramesAtPort() {
-    CanPortInput* port = dynamic_cast<CanPortInput*> (getParentModule()->getSubmodule(
-            "canNodePort")->getSubmodule("canPortInput"));
-    cStringTokenizer idIncomingFramesTokenizer(par("idIncomingFrames"), ",");
-
-    while (idIncomingFramesTokenizer.hasMoreTokens()){
-        std::stringstream strValue;
-        unsigned int intValue;
-        strValue << idIncomingFramesTokenizer.nextToken();
-        strValue >> intValue;
-        port->registerIncomingDataFrame(intValue, this->gate("directIn"));
-    }
+void CanClock::calculateInitialDrift(){
+    currentDrift = uniform((-maxDrift), maxDrift);
 }
 
-void CanInputBuffer::putFrame(cMessage* msg) {
-    CanDataFrame *frame = dynamic_cast<CanDataFrame *>(msg);
-    if (MOB == true) {
-        if (getFrame(frame->getCanID()) != NULL) {
-            deleteFrame(frame->getCanID());
-        } else {
-//            cModule *sinkApp = (cModule*)gate("out")->getPathEndGate()->getOwner();
-//            sendDirect(new cMessage("Message in buffer"), sinkApp,
-//                    "controllerIn");
-            sendToDestinationGates(frame);
-        }
-    } else {
-//        cModule *sinkApp = (cModule*)gate("out")->getPathEndGate()->getOwner();
-//        sendDirect(new cMessage("Message in buffer"), sinkApp, "controllerIn");
-        sendToDestinationGates(frame);
-    }
-//    frames.push_back(frame); wird zur Zeit nicht zwischengespeichert
+void CanClock::calculateNewDrift(){
+    simtime_t timeSinceLastUpdate = simTime() - lastDriftUpdate;
+    lastDriftUpdate = simTime();
+    double maxDriftChangeSinceLastUpdate = maxDriftChange * timeSinceLastUpdate.dbl();
+    double newDriftChange = uniform(-maxDriftChangeSinceLastUpdate, maxDriftChangeSinceLastUpdate);
+    double newDrift = currentDrift + newDriftChange;
+    if (newDrift > maxDrift)
+        currentDrift = maxDrift;
+    else if (newDrift < -maxDrift)
+        currentDrift = -maxDrift;
+    else
+        currentDrift = newDrift;
+    emit(clockDriftSignal,currentDrift);
+}
+
+double CanClock::getCurrentDrift(){
+    calculateNewDrift();
+    return currentDrift;
 }
 
 }

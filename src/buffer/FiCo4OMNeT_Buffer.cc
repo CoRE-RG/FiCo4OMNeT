@@ -54,13 +54,13 @@ void Buffer::registerDestinationGate() {
             destinationGatePath != destinationGatePaths.end();
             destinationGatePath++) {
 
-        cGate* gate = gateByFullPath((*destinationGatePath));
-        if (!gate)
+        cGate* destinationGate = gateByFullPath((*destinationGatePath));
+        if (!destinationGate)
         {
-            gate = gateByShortPath((*destinationGatePath), this);
+            destinationGate = gateByShortPath((*destinationGatePath), this);
         }
-        if (gate) {
-            destinationGates.push_back(gate);
+        if (destinationGate) {
+            destinationGates.push_back(destinationGate);
         } else {
             throw cRuntimeError(
                     "Configuration problem of destination_gates: Gate: %s could not be resolved!",
@@ -69,12 +69,12 @@ void Buffer::registerDestinationGate() {
     }
 }
 
-cMessage* Buffer::getFrame(int objectId) {
+cMessage* Buffer::getFrame(long objectId) {
     for (std::list<cMessage*>::iterator it = frames.begin(); it != frames.end();
             ++it) {
         cMessage* tmp = *it;
-        int i = tmp->getId();
-        if ((i == objectId)) {
+        long i = tmp->getId();
+        if (i == objectId) {
             return tmp;
         }
     }

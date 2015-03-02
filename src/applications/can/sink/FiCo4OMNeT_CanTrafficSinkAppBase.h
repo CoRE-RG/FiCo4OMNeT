@@ -72,7 +72,7 @@ protected:
     /**
      * @brief The CAN-ID of the message which is currently processed.
      */
-    int currentFrameID;
+    unsigned int currentFrameID;
 
     /**
      * @brief Requests a frame from buffer.
@@ -102,6 +102,7 @@ private:
      * @brief Simsignal for received remote frames.
      */
     simsignal_t rcvdRFSignal;
+
 
 };
 

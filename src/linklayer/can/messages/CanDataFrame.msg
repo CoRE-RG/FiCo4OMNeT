@@ -33,10 +33,20 @@ namespace FiCo4OMNeT;
 // contains information about the sending node, data etc.
 packet CanDataFrame{
 	string node;		// related node
-	int canID;			// ID of the message
+	unsigned int canID;			// ID of the message
     //int length;			// length of the message in bit
 	bool rtr;			// true if remote-frame
 	char data[];		// if payload is activated, this contains the data
 	simtime_t startTime;// for stats collection purposes
-	int period;			// Periodicy of the message 
+	int period;			// Periodicy of the message
+	int messageSource;	// Identifies whether the source is a node or a gateway
+}
+
+//
+// Enum to identify whether the source is a gateway or a node
+//
+// @author Stefan Buschmann
+enum MessageSource {
+    SOURCE_NODE=0;
+    SOURCE_GW=1;
 }

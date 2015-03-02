@@ -20,7 +20,7 @@
 #include <string.h>
 #include <omnetpp.h>
 #include "FiCo4OMNeT_FRBuffer.h"
-#include "../../scheduler/flexray/SchedulerMessageEvents_m.h"
+#include "FiCo4OMNeT_SchedulerMessageEvents_m.h"
 #include "FiCo4OMNeT_FRScheduler.h"
 
 namespace FiCo4OMNeT {
@@ -44,7 +44,7 @@ public:
     /**
      * @brief Puts the frame into the collection and informs the connected gates about the receiption.
      *
-     * @param frame The DataFrame to put in the buffer.
+     * @param msg The DataFrame to put in the buffer.
      *
      */
     virtual void putFrame(cMessage* msg);

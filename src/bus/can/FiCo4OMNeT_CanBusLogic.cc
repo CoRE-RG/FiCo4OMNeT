@@ -79,15 +79,15 @@ void CanBusLogic::finish() {
     }
     recordScalar("#Simulated_Time", simTime());
     recordScalar("%Busload", busload);
-    double errpercentage = (numErrorFrames
-            / (double) (numDataFrames + numRemoteFrames)) * 100;
+    double errpercentage = (static_cast<double> (numErrorFrames)
+            / static_cast<double> (numDataFrames + numRemoteFrames)) * 100;
     recordScalar("%Errors", errpercentage);
 
 
     simtime_t t = simTime();
     if(t > 0){
-        recordScalar("frames/sec", numFramesSent / t);
-        recordScalar("bits/sec", numBitsSent / t);
+        recordScalar("frames/sec", static_cast<double> (numFramesSent) / t);
+        recordScalar("bits/sec", static_cast<double> (numBitsSent) / t);
     }
 }
 
@@ -95,7 +95,7 @@ int CanBusLogic::getSendingNodeID() {
     if (sendingNode != NULL) {
         return sendingNode->getId();
     }
-    return NULL;
+    return -1;
 }
 
 void CanBusLogic::handleMessage(cMessage *msg) {
@@ -134,7 +134,7 @@ void CanBusLogic::grantSendingPermission() {
         CanID *id = *it;
         if (id->getId() < currentSendingID) {
             currentSendingID = id->getId();
-            sendingNode = (CanOutputBuffer*) id->getNode();
+            sendingNode = dynamic_cast<CanOutputBuffer*> (id->getNode());
             currsit = id->getSignInTime();
         }
     }
@@ -148,7 +148,7 @@ void CanBusLogic::grantSendingPermission() {
                 sendcount++;
                 if (!nodeFound) {
                     nodeFound = true;
-                    sendingNode = (CanOutputBuffer*) id->getNode();
+                    sendingNode = dynamic_cast<CanOutputBuffer*> (id->getNode());
                     currsit = id->getSignInTime();
                     eraseids.push_back(it);
                 }
@@ -175,9 +175,7 @@ void CanBusLogic::grantSendingPermission() {
         busytime += timetaken;
         EV << "Busytime: " << busytime << "\n";
         idle = true;
-        char buf[64];
-        sprintf(buf, "state: idle");
-        getDisplayString().setTagArg("tt", 0, buf);
+        getDisplayString().setTagArg("tt", 0, "state: idle");
         bubble("state: idle");
     }
 }
@@ -189,6 +187,7 @@ void CanBusLogic::sendingCompleted() {
     controller->sendingCompleted();
     for (unsigned int it = 0; it != eraseids.size(); it++) {
         ids.erase(eraseids.at(it));
+        delete *(eraseids.at(it));
     }
     eraseids.clear();
     errored = false;
@@ -200,9 +199,9 @@ void CanBusLogic::sendingCompleted() {
 
 void CanBusLogic::handleDataFrame(cMessage *msg) {
     CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
-    int length = df->getBitLength();
+    int64_t length = df->getBitLength();
     double nextidle;
-    nextidle = (double) length / (bandwidth);
+    nextidle = static_cast<double> (length) / bandwidth;
     if (scheduledDataFrame != NULL) {
         cancelEvent(scheduledDataFrame);
     }
@@ -219,7 +218,7 @@ void CanBusLogic::handleDataFrame(cMessage *msg) {
     }
     send(msg->dup(), "gate$o");
     numFramesSent++;
-    numBitsSent+=df->getBitLength();
+    numBitsSent += static_cast<unsigned long> (df->getBitLength());
 }
 
 void CanBusLogic::handleErrorFrame(cMessage *msg) {
@@ -240,7 +239,7 @@ void CanBusLogic::handleErrorFrame(cMessage *msg) {
     }
 }
 
-void CanBusLogic::registerForArbitration(int id, cModule *node,
+void CanBusLogic::registerForArbitration(unsigned int id, cModule *node,
         simtime_t signInTime, bool rtr) {
     Enter_Method_Silent
     ();
@@ -250,21 +249,20 @@ void CanBusLogic::registerForArbitration(int id, cModule *node,
         scheduleAt(simTime() + (1 / (bandwidth)), self);
         idle = false;
         busytimestamp = simTime();
-        char buf[64];
-        sprintf(buf, "state: busy");
         bubble("state: busy");
-        getDisplayString().setTagArg("tt", 0, buf);
+        getDisplayString().setTagArg("tt", 0, "state: busy");
         emit(stateSignal, TRANSMITTING);
     }
 }
 
-void CanBusLogic::checkoutFromArbitration(int canID) {
+void CanBusLogic::checkoutFromArbitration(unsigned int canID) {
     Enter_Method_Silent
     ();
     for (std::list<CanID*>::iterator it = ids.begin(); it != ids.end(); ++it) {
         CanID* tmp = *it;
         if (tmp->getId() == canID) {
             ids.remove(tmp);
+            delete tmp;
             break;
         }
     }

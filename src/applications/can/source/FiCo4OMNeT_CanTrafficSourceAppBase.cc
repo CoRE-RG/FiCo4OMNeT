@@ -47,19 +47,26 @@ CanTrafficSourceAppBase::~CanTrafficSourceAppBase()
     outgoingDataFrames.clear();
 }
 
-void CanTrafficSourceAppBase::initialize() {
-    canVersion =
-            getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->par(
-                    "version").stdstringValue();
-    bitStuffingPercentage =
-            getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->par(
-                    "bitStuffingPercentage");
-    sentDFSignal = registerSignal("sentDF");
-    sentRFSignal = registerSignal("sentRF");
-    checkParameterValues();
+void CanTrafficSourceAppBase::initialize(int stage) {
+    if (stage == 0) {
+        canVersion =
+                getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->par(
+                        "version").stdstringValue();
+        bitStuffingPercentage =
+                getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->par(
+                        "bitStuffingPercentage");
+        sentDFSignal = registerSignal("sentDF");
+        sentRFSignal = registerSignal("sentRF");
+        checkParameterValues();
 
-    initialDataFrameCreation();
-    initialRemoteFrameCreation();
+    } else if (stage == 1) {
+        CanClock* canClock =
+                dynamic_cast<CanClock*>(getParentModule()->getSubmodule("canClock"));
+        currentDrift = canClock->getCurrentDrift();
+        initialDataFrameCreation();
+        initialRemoteFrameCreation();
+    }
+
 }
 
 void CanTrafficSourceAppBase::checkParameterValues() {
@@ -106,14 +113,15 @@ void CanTrafficSourceAppBase::initialRemoteFrameCreation() {
                         "No more values for the remote frame offset for the next remote frame ID. Configuration in the ini file may be incorrect.");
             }
             CanDataFrame *can_msg = new CanDataFrame("remoteFrame");
-            can_msg->setCanID(checkAndReturnID(remoteFrameIDs.at(i)));
-            int dataFieldLength = atoi(dataLengthRemoteFramesTokenizer.nextToken());
+            can_msg->setCanID(checkAndReturnID(static_cast<unsigned int> (remoteFrameIDs.at(i))));
+            unsigned int dataFieldLength = static_cast<unsigned int> (atoi(dataLengthRemoteFramesTokenizer.nextToken()));
             can_msg->setBitLength(
                     calculateLength(dataFieldLength));
             can_msg->setDataArraySize(dataFieldLength);
             can_msg->setRtr(true);
             can_msg->setPeriod(
                     atoi(remoteFramesPeriodicityTokenizer.nextToken()));
+            can_msg->setMessageSource(SOURCE_NODE);
             registerRemoteFrameAtPort(can_msg->getCanID());
             if (can_msg->getPeriod() == 0) {
                 EV<< "Remote frame with ID " << can_msg->getCanID()
@@ -121,17 +129,21 @@ void CanTrafficSourceAppBase::initialRemoteFrameCreation() {
                 if (initialRemoteFrameOffsetTokenizer.hasMoreTokens()) {
                     initialRemoteFrameOffsetTokenizer.nextToken();
                 }
+                delete can_msg;
             } else {
                 double offset;
                 initialRemoteFrameOffsetTokenizer.hasMoreTokens() ?
                 offset = atof(
                         initialRemoteFrameOffsetTokenizer.nextToken()) :
                 offset = 0;
-                scheduleAt(
-                        simTime() + SimTime(offset)
-                        + SimTime(
-                                par("periodInaccurracy").doubleValue()),
-                        can_msg);
+                simtime_t scheduleTime = simTime() + SimTime(offset)
+                        + SimTime(par("periodInaccurracy").doubleValue()
+                                + currentDrift);
+                if (scheduleTime >= 0) {
+                    scheduleAt(scheduleTime, can_msg);
+                } else {
+                    scheduleAt(simTime(), can_msg);
+                }
             }
 
         }
@@ -147,9 +159,9 @@ void CanTrafficSourceAppBase::initialRemoteFrameCreation() {
     }
 }
 
-void CanTrafficSourceAppBase::registerRemoteFrameAtPort(int canID) {
-    CanPortInput* port = (CanPortInput*) getParentModule()->getSubmodule(
-            "canNodePort")->getSubmodule("canPortInput");
+void CanTrafficSourceAppBase::registerRemoteFrameAtPort(unsigned int canID) {
+    CanPortInput* port = dynamic_cast<CanPortInput*> (getParentModule()->getSubmodule(
+            "canNodePort")->getSubmodule("canPortInput"));
     port->registerOutgoingRemoteFrame(canID);
 }
 
@@ -182,13 +194,14 @@ void CanTrafficSourceAppBase::initialDataFrameCreation() {
                         "No more values for the data frame offset for the next data frame ID. Configuration in the ini file may be incorrect.");
             }
             CanDataFrame *can_msg = new CanDataFrame("message");
-            can_msg->setCanID(checkAndReturnID(dataFrameIDs.at(i)));
-            int dataFieldLength = atoi(dataLengthDataFramesTokenizer.nextToken());
+            can_msg->setCanID(checkAndReturnID(static_cast<unsigned int> (dataFrameIDs.at(i))));
+            unsigned int dataFieldLength = static_cast<unsigned int> (atoi(dataLengthDataFramesTokenizer.nextToken()));
             can_msg->setBitLength(
                     calculateLength(dataFieldLength));
             can_msg->setDataArraySize(dataFieldLength);
             can_msg->setPeriod(
                     atoi(dataFramesPeriodicityTokenizer.nextToken()));
+            can_msg->setMessageSource(SOURCE_NODE);
             outgoingDataFrames.push_back(can_msg);
             registerDataFrameAtPort(can_msg->getCanID());
             if (can_msg->getPeriod() != 0) {
@@ -197,11 +210,14 @@ void CanTrafficSourceAppBase::initialDataFrameCreation() {
                         offset = atof(
                                 initialDataFrameOffsetTokenizer.nextToken()) :
                         offset = 0;
-                scheduleAt(
-                        simTime() + SimTime(offset)
-                                + SimTime(
-                                        par("periodInaccurracy").doubleValue()),
-                        can_msg);
+                simtime_t scheduleTime = simTime() + SimTime(offset)
+                        + SimTime(par("periodInaccurracy").doubleValue()
+                                + currentDrift);
+                if (scheduleTime >= 0 ) {
+                    scheduleAt(scheduleTime,can_msg);
+                } else {
+                    scheduleAt(simTime(),can_msg);
+                }
             } else {
                 if (initialDataFrameOffsetTokenizer.hasMoreTokens()) {
                     initialDataFrameOffsetTokenizer.nextToken();
@@ -221,20 +237,20 @@ void CanTrafficSourceAppBase::initialDataFrameCreation() {
     }
 }
 
-void CanTrafficSourceAppBase::registerDataFrameAtPort(int canID) {
-    CanPortInput* port = (CanPortInput*) getParentModule()->getSubmodule(
-            "canNodePort")->getSubmodule("canPortInput");
+void CanTrafficSourceAppBase::registerDataFrameAtPort(unsigned int canID) {
+    CanPortInput* port = dynamic_cast<CanPortInput*> (getParentModule()->getSubmodule(
+            "canNodePort")->getSubmodule("canPortInput"));
     port->registerOutgoingDataFrame(canID, this->gate("remoteIn"));
 }
 
-int CanTrafficSourceAppBase::checkAndReturnID(int id) {
+unsigned int CanTrafficSourceAppBase::checkAndReturnID(unsigned int id) {
     if (canVersion.compare("2.0A") == 0) {
-        if (id < 0 || id > VERSIONAMAX) {
+        if (id > VERSIONAMAX) {
             EV<< "ID " << id << " not valid." << endl;
             endSimulation();
         }
     } else {
-        if (id < 0 || id > VERSIONBMAX) {
+        if (id > VERSIONBMAX) {
             EV << "ID " << id << " not valid." << endl;
             endSimulation();
         }
@@ -242,8 +258,8 @@ int CanTrafficSourceAppBase::checkAndReturnID(int id) {
     return id;
 }
 
-int CanTrafficSourceAppBase::calculateLength(int dataLength) {
-    int arbFieldLength = 0;
+unsigned int CanTrafficSourceAppBase::calculateLength(unsigned int dataLength) {
+    unsigned int arbFieldLength = 0;
     if (canVersion.compare("2.0B") == 0) {
         arbFieldLength += ARBITRATIONFIELD29BIT;
     }
@@ -251,14 +267,13 @@ int CanTrafficSourceAppBase::calculateLength(int dataLength) {
             + calculateStuffingBits(dataLength, arbFieldLength));
 }
 
-int CanTrafficSourceAppBase::calculateStuffingBits(int dataLength,
-        int arbFieldLength) {
-    return (((CONTROLBITSFORBITSTUFFING + arbFieldLength + (dataLength * 8) - 1)
-            / 4) * bitStuffingPercentage);
+unsigned int CanTrafficSourceAppBase::calculateStuffingBits(unsigned int dataLength,
+        unsigned int arbFieldLength) {
+    return static_cast<unsigned int>(((CONTROLBITSFORBITSTUFFING + arbFieldLength + (dataLength * 8) - 1)/ 4) * bitStuffingPercentage);
 }
 
 void CanTrafficSourceAppBase::dataFrameTransmission(CanDataFrame *df) {
-    CanDataFrame *outgoingFrame;
+    CanDataFrame *outgoingFrame = NULL;
 
     if (df->getRtr()) {
         emit(sentRFSignal, df);
@@ -268,10 +283,12 @@ void CanTrafficSourceAppBase::dataFrameTransmission(CanDataFrame *df) {
 
     if (df->isSelfMessage()) {
         outgoingFrame = df->dup();
-
+        CanClock* canClock =
+                dynamic_cast<CanClock*>(getParentModule()->getSubmodule("canClock"));
+        currentDrift = canClock->getCurrentDrift();
         scheduleAt(
                 simTime() + (df->getPeriod() / 1000.)
-                        + SimTime(par("periodInaccurracy").doubleValue()), df);
+                        + SimTime(par("periodInaccurracy").doubleValue() + currentDrift), df);
     } else if (df->arrivedOn("remoteIn")) {
         for (std::list<CanDataFrame*>::iterator it =
                 outgoingDataFrames.begin(); it != outgoingDataFrames.end();
@@ -283,6 +300,8 @@ void CanTrafficSourceAppBase::dataFrameTransmission(CanDataFrame *df) {
             }
         }
         delete df;
+    } else {
+        throw cRuntimeError("CanTrafficSourceApp received an invalid message.");
     }
     outgoingFrame->setStartTime(simTime());
     outgoingFrame->setTimestamp(simTime());

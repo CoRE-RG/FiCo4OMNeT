@@ -23,9 +23,9 @@ void FRBusLogic::handleMessage(cMessage *msg) {
     }
 
     //colorize
-    const char* gate = msg->getArrivalGate()->getBaseName();
+    const char* arrivalGate = msg->getArrivalGate()->getBaseName();
     char outgate[20];
-    strcpy(outgate, gate);
+    strcpy(outgate, arrivalGate);
     strncat(outgate, "$o", 2);
     send(msg, outgate);
 }

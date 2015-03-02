@@ -1,14 +1,17 @@
 #note that the fingerprints provided may not match your architecture. Thus the test may fail although everything is ok
-# workingdir,                                                     args,                                          simtimelimit,    fingerprint
-/examples/can/arbitration/,                                      -f omnetpp.ini -c General -r 0,                1s,              219a-4685
-/examples/can/bitStuffing/noBitStuffing/,                        -f omnetpp.ini -c General -r 0,                1s,              e80f-78b2
-/examples/can/bitStuffing/fiftyPercent/,                         -f omnetpp.ini -c General -r 0,                1s,              7bbd-b71e
-/examples/can/bitStuffing/worstCase/,                            -f omnetpp.ini -c General -r 0,                1s,              d38d-d66c
-/examples/can/error1/,                                           -f omnetpp.ini -c General -r 0,                1s,              307b-b80d
-/examples/can/error2/,                                           -f omnetpp.ini -c General -r 0,                1s,              b51b-c659
-/examples/can/generator/,                                        -f omnetpp.ini -c General -r 0,                1s,              c4a7-8d2d
-/examples/can/multipleSourceApps/,                               -f omnetpp.ini -c General -r 0,                1s,              4731-616d
-/examples/can/simpleNewLayout/,                                  -f omnetpp.ini -c General -r 0,                1s,              e80f-78b2
+# workingdir,                                                     args,                                         simtimelimit,    fingerprint
+/examples/can/arbitration/,                                      -f omnetpp.ini -c General -r 0,                1s,              1077-de06
+/examples/can/bitStuffing/noBitStuffing/,                        -f omnetpp.ini -c General -r 0,                1s,              4362-d651
+/examples/can/bitStuffing/fiftyPercent/,                         -f omnetpp.ini -c General -r 0,                1s,              5351-b01d
+/examples/can/bitStuffing/worstCase/,                            -f omnetpp.ini -c General -r 0,                1s,              da15-d124
+/examples/can/error1/,                                           -f omnetpp.ini -c General -r 0,                1s,              d507-f11a
+/examples/can/error2/,                                           -f omnetpp.ini -c General -r 0,                1s,              3f93-2ae7
+/examples/can/generator/,                                        -f omnetpp.ini -c General -r 0,                1s,              8109-2765
+/examples/can/multipleSourceApps/,                               -f omnetpp.ini -c General -r 0,                1s,              684a-3816
+/examples/can/simpleNewLayout/,                                  -f omnetpp.ini -c General -r 0,                1s,              4362-d651
+/examples/can/bitStuffing/worstCase/,                            -f omnetppDrift.ini -c General -r 0,           1s,              0c81-1ff6
+/examples/can/generatorMulti/,                                   -f omnetppDrift.ini -c General -r 0,           1s,              edf7-5d6c
+/examples/can/multipleSourceApps/,                               -f omnetppDrift.ini -c General -r 0,           1s,              bead-e69a
 
 # FlexRay
 /examples/flexray/dynamic/,                                      -f omnetpp.ini -c General -r 0,                0.5s,            548d-e146

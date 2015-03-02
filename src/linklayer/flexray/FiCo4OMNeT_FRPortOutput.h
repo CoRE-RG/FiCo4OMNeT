@@ -45,25 +45,35 @@ protected:
 
 private:
 
-    /**
-     * @brief Simsignal for sent data frames.
-     */
-    simsignal_t sentDFSignal;
-
-    /**
-     * @brief Simsignal for sent remote frames.
-     */
-    simsignal_t sentRFSignal;
+//    /**
+//     * @brief Simsignal for sent frames in static segment.
+//     */
+//    simsignal_t sentStaticChASignal;
+//
+//    /**
+//     * @brief Simsignal for sent frames in dynamic segment.
+//     */
+//    simsignal_t sentDynamicChASignal;
+//
+//    /**
+//     * @brief Simsignal for sent frames in static segment.
+//     */
+//    simsignal_t sentStaticChBSignal;
+//
+//    /**
+//     * @brief Simsignal for sent frames in dynamic segment.
+//     */
+//    simsignal_t sentDynamicChBSignal;
 
     /**
      * @brief Valid values are between 10000 and 1000000. Initialized from ned-attribute of CAN-Bus.
      */
     int bandwidth;
 
-    /**
-     * @brief Initializes the values needed for the stats collection.
-     */
-    virtual void initializeStatisticValues();
+//    /**
+//     * @brief Initializes the values needed for the stats collection.
+//     */
+//    virtual void initializeStatisticValues();
 
     /**
      * @brief Colors the connection to the bus to represent it is busy.

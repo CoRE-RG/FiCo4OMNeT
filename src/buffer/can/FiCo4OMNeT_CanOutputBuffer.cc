@@ -52,16 +52,16 @@ void CanOutputBuffer::putFrame(cMessage* msg) {
     emit(rxPkSignal, msg);
 }
 
-void CanOutputBuffer::registerForArbitration(int id, bool rtr) {
+void CanOutputBuffer::registerForArbitration(unsigned int id, bool rtr) {
     CanBusLogic *canBusLogic =
-            (CanBusLogic*) (getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->getSubmodule(
+            dynamic_cast<CanBusLogic*> (getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->getSubmodule(
                     "canBusLogic"));
     canBusLogic->registerForArbitration(id, this, simTime(), rtr);
 }
 
-void CanOutputBuffer::checkoutFromArbitration(int canID) {
+void CanOutputBuffer::checkoutFromArbitration(unsigned int canID) {
     CanBusLogic *canBusLogic =
-            (CanBusLogic*) (getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->getSubmodule(
+            dynamic_cast<CanBusLogic*> (getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->getSubmodule(
                     "canBusLogic"));
     if (canBusLogic->getCurrentSendingId() != canID && canBusLogic->getSendingNodeID() != this->getId()) { //TODO was ist mit remote frames?
         canBusLogic->checkoutFromArbitration(canID);
@@ -70,7 +70,7 @@ void CanOutputBuffer::checkoutFromArbitration(int canID) {
 
 }
 
-void CanOutputBuffer::receiveSendingPermission(int id) {
+void CanOutputBuffer::receiveSendingPermission(unsigned int id) {
     Enter_Method_Silent
     ();
     deliverFrame(id);

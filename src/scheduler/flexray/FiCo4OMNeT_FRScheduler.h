@@ -18,11 +18,10 @@
 
 #include <omnetpp.h>
 
-#include "flexray/SchedulerMessage_m.h"
-#include "flexray/SchedulerMessageEvents_m.h"
+#include "FiCo4OMNeT_SchedulerMessage_m.h"
+#include "FiCo4OMNeT_SchedulerMessageEvents_m.h"
 #include "FiCo4OMNeT_SchedulerEvent.h"
 #include "FiCo4OMNeT_FRSync.h"
-#include "FiCo4OMNeT_FRApp.h"
 
 namespace FiCo4OMNeT {
 
@@ -142,11 +141,6 @@ class FRScheduler : public cSimpleModule {
         unsigned int gdMinislotActionPointOffset; //[MT]
 
         /**
-         * @brief caches sync_frame parameter
-         */
-        unsigned int syncFrame;
-
-        /**
          * @brief caches bus_speed parameter
          */
         double bandwidth; //[MBit/s]
@@ -219,7 +213,7 @@ class FRScheduler : public cSimpleModule {
          *
          * @return Number of ticks since last cycle start
          */
-        virtual unsigned int getTicks();
+        virtual unsigned long getTicks();
 
         /**
          * @brief Returns the absolute number of ticks
@@ -233,7 +227,7 @@ class FRScheduler : public cSimpleModule {
          *
          * @return Number of cycles since simulation start
          */
-        virtual unsigned int getCycles();
+        virtual unsigned long getCycles();
 
         /**
          * Register a new event in the scheduler. May fail if ActionTimeEvent is out of schedule
@@ -272,12 +266,12 @@ class FRScheduler : public cSimpleModule {
         /**
          * @brief Returns the number of macroticks for the given static slot in a cycle.
          */
-        virtual unsigned int getStaticSlotActionTime(int slot);
+        virtual unsigned int getStaticSlotActionTime(unsigned int slot);
 
         /**
          * @brief Returns the number of macroticks for the given dynamic slot in a cycle.
          */
-        virtual unsigned int getDynamicSlotActionTime(int slot);
+        virtual unsigned int getDynamicSlotActionTime(unsigned int slot);
 
         /**
          * @brief Returns the number of macroticks in a cycle.
@@ -297,7 +291,7 @@ class FRScheduler : public cSimpleModule {
         /**
          * @brief Returns the slotnumber for the given dynamic slot.
          */
-		virtual unsigned int getDynamicSlot(int slot);
+		virtual unsigned int getDynamicSlot(unsigned int slot);
 
         /**
          * @brief Adjusts the dynamic events in the current cycle when a dynamic frame is received.

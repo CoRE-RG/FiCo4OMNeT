@@ -13,32 +13,17 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef __FICO4OMNET_FRINPUTBUFFER_H_
-#define __FICO4OMNET_FRINPUTBUFFER_H_
+package fico4omnet.scheduler.can;
 
-#include <omnetpp.h>
-#include "FiCo4OMNeT_FRBuffer.h"
-
-namespace FiCo4OMNeT {
-
-/**
- * @brief This buffer holds messages which were received by this node.
- *
- * @ingroup Buffer
- *
- * @author Stefan Buschmann
- */
-class FRInputBuffer :public FRBuffer{
-
-public:
-    /**
-     * @brief Puts the frame into the collection and informs the connected gates about the receiption.
-     *
-     * @param msg The DataFrame to put in the buffer.
-     *
-     */
-    virtual void putFrame(cMessage* msg);
-};
-
+simple CanClock
+{
+    parameters:
+    	@display("i=block/cogwheel");
+    	
+    	@signal[clockDrift];
+    	
+    	@statistic[clockDrift](title="clockDrift"; source=clockDrift; unit=s; record=stats,histogram,vector; interpolationmode=linear);
+    	
+    	double maxDrift @unit(s) = default(0);
+    	double maxDriftChange @unit(s) = default(0);
 }
-#endif /* FRINPUTBUFFER_H_ */

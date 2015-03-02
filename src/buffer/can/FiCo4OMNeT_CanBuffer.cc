@@ -46,12 +46,12 @@ void CanBuffer::initialize(){
 //    }
 //}
 
-CanDataFrame* CanBuffer::getFrame(int canID) {
+CanDataFrame* CanBuffer::getFrame(unsigned int canID) {
     for (std::list<CanDataFrame*>::iterator it = frames.begin();
             it != frames.end(); ++it) {
         CanDataFrame* tmp = *it;
-        int i = tmp->getCanID();
-            if ((i == canID)) {
+        unsigned int i = tmp->getCanID();
+            if (i == canID) {
             return tmp;
         }
     }
@@ -63,7 +63,7 @@ void CanBuffer::putFrame(cMessage* msg){
     frames.push_back(frame);
 }
 
-void CanBuffer::deleteFrame(int canID) {
+void CanBuffer::deleteFrame(unsigned int canID) {
     Enter_Method_Silent();
     CanDataFrame *tmp = getFrame(canID);
     frames.remove(tmp);
@@ -76,7 +76,7 @@ void CanBuffer::deleteFrame(CanDataFrame* frame) {
     delete frame;
 }
 
-void CanBuffer::deliverFrame(int canID) {
+void CanBuffer::deliverFrame(unsigned int canID) {
     Enter_Method_Silent();
     currentFrame = getFrame(canID);
     sendToDestinationGates(currentFrame->dup());
@@ -84,12 +84,12 @@ void CanBuffer::deliverFrame(int canID) {
 
 void CanBuffer::deliverPrioFrame() {
     Enter_Method_Silent();
-    int prioId = INT_MAX;
-    CanDataFrame *prioFrame;
+    unsigned int prioId = INT_MAX;
+    CanDataFrame *prioFrame = NULL;
     for (std::list<CanDataFrame*>::iterator it = frames.begin();
             it != frames.end(); ++it) {
         CanDataFrame *tmp = *it;
-        int i = tmp->getCanID();
+        unsigned int i = tmp->getCanID();
         if ((i < prioId)) {
             prioFrame = tmp;
             prioId = i;

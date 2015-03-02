@@ -62,15 +62,15 @@ public:
     /**
      * @brief Registers the frame of the node for the arbitration.
      */
-    virtual void registerForArbitration(int id, cModule *node,
+    virtual void registerForArbitration(unsigned int id, cModule *node,
             simtime_t signInTime, bool rtr);
 
     /**
      * @brief The request for frame with the corresponding ID will be checked out.
      */
-    virtual void checkoutFromArbitration(int id);
+    virtual void checkoutFromArbitration(unsigned int id);
 
-    int getCurrentSendingId() const {
+    unsigned int getCurrentSendingId() const {
         return currentSendingID;
     }
 
@@ -173,31 +173,6 @@ private:
      */
     int errpos;
     /**
-     * Only if this value is set to true, the bus will try to send a new sending permission to a node
-     *
-     */
-    bool stateok;
-    /**
-     * number of errors that occurred on the bus. Will be decreased if an error has benn treated. Must be 0 to let the bus carry on normally
-     *
-     */
-    int errorcount;
-    /**
-     * true if a positive ACK-Message has been received from a node.
-     *
-     */
-    bool ack_rcvd;
-    /**
-     * true if payload shall be used. Initialized from ned-attribute of CAN-Bus
-     *
-     */
-    bool payload;
-    /**
-     * true ich ack-recognition of receiving nodes is activated. Initialized from ned-attribute of CAN-Bus
-     *
-     */
-    bool ack;
-    /**
      * @brief Bandwidth of the bus in Mbps.
      *
      */
@@ -240,7 +215,7 @@ private:
     /**
      * @brief ID of the message which is currently transmitted.
      */
-    int currentSendingID;
+    unsigned int currentSendingID;
 
     /**
      * @brief Total number of frames transmitted over the bus.

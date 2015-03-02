@@ -59,9 +59,8 @@ class FRSync : public cSimpleModule
          *
          * registers an event in the scheduler to trigger the synchronization
          *
-         * @param stage the stages. Module registers events when stage==1
          */
-        virtual void initialize(int stage);
+        virtual void initialize();
 
         /**
          * @brief Returns the clock correction value.
@@ -71,14 +70,14 @@ class FRSync : public cSimpleModule
         /**
 		 * @brief Returns the line number in witch the Deviation Value has to be stored.
 		 */
-        virtual int getLineNr(int frameID);
+        virtual size_t getLineNr(int frameID);
 
 
     public:
         /**
 		 * @brief Returns the offset correction value zOffsetCorrection
 		 */
-		virtual int offsetCorrectionCalculation(int vCycleCounter);
+		virtual int offsetCorrectionCalculation(unsigned int vCycleCounter);
 
 		/**
 		 * @brief Returns the rate correction value zRateCorrection

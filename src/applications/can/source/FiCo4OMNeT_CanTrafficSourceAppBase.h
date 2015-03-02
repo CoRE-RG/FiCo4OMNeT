@@ -34,6 +34,7 @@
 #include <string.h>
 #include "FiCo4OMNeT_CanBuffer.h"
 #include "FiCo4OMNeT_CanPortInput.h"
+#include "FiCo4OMNeT_CanClock.h"
 #include "CanDataFrame_m.h"
 
 namespace FiCo4OMNeT {
@@ -61,7 +62,8 @@ protected:
     /**
      * @brief Initialization of the module.
      */
-    virtual void initialize();
+    virtual void initialize(int stage);
+    virtual int numInitStages() const { return 2; }
 
     /**
      * @brief This method checks whether the configured values from the ini files are permitted.
@@ -78,7 +80,7 @@ protected:
     /**
      * @brief Calculates the length for the data frame.
      */
-    int calculateLength(int datalength);
+    unsigned int calculateLength(unsigned int datalength);
 
 private:
     /**
@@ -88,26 +90,26 @@ private:
      * identifier extension bit, reserved bit, data length code, CRC, CRC-delimiter, ACK-slot,
      * ACK-delimiter, end of frame and inter frame space.
      */
-    static const int DATAFRAMECONTROLBITS = 47;
+    static const unsigned int DATAFRAMECONTROLBITS = 47;
 
     /**
      * @brief Additional bit needed for the 29 bit ID.
      */
-    static const int ARBITRATIONFIELD29BIT = 20;
+    static const unsigned int ARBITRATIONFIELD29BIT = 20;
 
     /**
      * @brief Number of control bits which are used in bit-stuffing. Just 34 of the 47 are subject to bit-stuffing.
      */
-    static const int CONTROLBITSFORBITSTUFFING = 34;
+    static const unsigned int CONTROLBITSFORBITSTUFFING = 34;
 
     /**
      * @brief Maximum ID value for Version 2.0A.
      */
-    static const int VERSIONAMAX = 2047;
+    static const unsigned int VERSIONAMAX = 2047;
     /**
      * @brief Maximum ID value for Version 2.0B.
      */
-    static const int VERSIONBMAX = 536870911;
+    static const unsigned int VERSIONBMAX = 536870911;
 
     /**
      * @brief Simsignal for received data frames.
@@ -130,6 +132,11 @@ private:
     double bitStuffingPercentage;
 
     /**
+     * @brief Current drift of the can clock.
+     */
+    double currentDrift;
+
+    /**
      * @brief Creates a data frame which will be queued in the buffer.
      */
     void initialRemoteFrameCreation();
@@ -137,7 +144,7 @@ private:
     /**
      * @brief Registers the outgoing remote frame at the port.
      */
-    void registerRemoteFrameAtPort(int canID);
+    void registerRemoteFrameAtPort(unsigned int canID);
 
     /**
      * @brief Collection including all
@@ -152,17 +159,17 @@ private:
     /**
      * @brief Registers the outgoing data frames at the port to receive incoming remote frames.
      */
-    void registerDataFrameAtPort(int canID);
+    void registerDataFrameAtPort(unsigned int canID);
 
     /**
      * @brief Checks whether the CAN-ID matches the restrictions of the CAN version.
      */
-    int checkAndReturnID(int id);
+    unsigned int checkAndReturnID(unsigned int id);
 
     /**
      * @brief Calculates the additional bits needed for the chosen bitstuffing method.
      */
-    int calculateStuffingBits(int dataLength, int arbFieldLength);
+    unsigned int calculateStuffingBits(unsigned int dataLength, unsigned int arbFieldLength);
 
     /**
      * @brief Transmits the data frame to the connected output buffer.

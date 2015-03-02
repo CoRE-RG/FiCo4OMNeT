@@ -101,11 +101,6 @@ private:
     double bandwidth;
 
     /**
-     * true if errors are activated. Initialized from ned-attribute of CAN-Node
-     */
-    bool errorsActivated;
-
-    /**
      * @brief Probability that an error for the received frame will occur.
      *
      */

@@ -11,8 +11,9 @@ Register_ResultFilter("timestampAge", TimestampAgeFilter);
 
 void TimestampAgeFilter::receiveSignal(cResultFilter *prev, simtime_t_cref t,
         cObject *object) {
-    if (dynamic_cast<cMessage *>(object)) {
-        cMessage *msg = (cMessage *) object;
+    (void)prev;
+    if (cMessage *msg = dynamic_cast<cMessage *>(object)) {
+//        cMessage *msg = dynamic_cast<cMessage *> (object);
         fire(this, t, t - msg->getTimestamp());
     }
     else
@@ -25,24 +26,25 @@ Register_ResultFilter("ID", IDFilter);
 
 void IDFilter::receiveSignal(cResultFilter *prev, simtime_t_cref t,
         cObject *object) {
+    (void)prev;
 #ifdef WITH_CAN_COMMON
     if (CanDataFrame* dataFrame = dynamic_cast<CanDataFrame *>(object)) {
-        fire(this, t, (unsigned long) dataFrame->getCanID());
+        fire(this, t, static_cast<unsigned long> (dataFrame->getCanID()));
         return;
     }
     if (ErrorFrame* errorFrame = dynamic_cast<ErrorFrame *>(object)) {
-        fire(this, t, (unsigned long) errorFrame->getCanID());
+        fire(this, t, static_cast<unsigned long> (errorFrame->getCanID()));
         return;
     }
     if (ErrorFrame* errorFrame = dynamic_cast<ErrorFrame *>(object)) {
-        fire(this, t, (unsigned long) errorFrame->getCanID());
+        fire(this, t, static_cast<unsigned long> (errorFrame->getCanID()));
         return;
     }
 #endif
 
 #ifdef WITH_FR_COMMON
     if (FRFrame* frFrame = dynamic_cast<FRFrame *>(object)) {
-        fire(this, t, (unsigned long) frFrame->getFrameID());
+        fire(this, t, static_cast<unsigned long> (frFrame->getFrameID()));
         return;
     }
 #endif
@@ -81,6 +83,8 @@ RmNaNFilter::RmNaNFilter()
 
 bool RmNaNFilter::process(simtime_t& t, double& value)
 {
+    (void)t;
+    (void)value;
     if(!this->hadValues){
         this->hadValues = true;
     }
@@ -89,8 +93,9 @@ bool RmNaNFilter::process(simtime_t& t, double& value)
 
 void RmNaNFilter::finish(cResultFilter * prev)
 {
+    (void)prev;
     if(!this->hadValues){
-        fire(this, simTime(), (unsigned long)0);
+        fire(this, simTime(), static_cast<unsigned long> (0) );
     }
 }
 

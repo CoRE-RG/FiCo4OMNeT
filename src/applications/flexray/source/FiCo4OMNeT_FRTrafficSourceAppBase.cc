@@ -27,13 +27,16 @@ void FRTrafficSourceAppBase::initialize() {
 }
 
 void FRTrafficSourceAppBase::handleMessage(cMessage *msg) {
+    (void)msg;
     //alle static frames + random (?) dynamic frames
 }
 
 void FRTrafficSourceAppBase::receiveSignal(cComponent *source,
         simsignal_t signalID, long l) {
+    (void)source;
+    (void)signalID;
     //Nachrichten an Buffer bei NEW_CYCLE
-    vCycleCounter = l;
+    vCycleCounter = static_cast<int> (l);
     frameGenerationForNewCycle();
 }
 
@@ -42,8 +45,8 @@ void FRTrafficSourceAppBase::setUpStaticFrames() {
     int cycleNr;
     int gNumberOfStaticSlots = getParentModule()->par("gNumberOfStaticSlots");
     int syncFrame = par("syncFrame");
-    std::list<unsigned int> staticSlotsChA;
-    std::list<unsigned int> staticSlotsChB;
+    std::list<int> staticSlotsChA;
+    std::list<int> staticSlotsChB;
 
     const char *slots = par("staticSlotsChA");
     cStringTokenizer tokenizerChA(slots);
@@ -61,7 +64,7 @@ void FRTrafficSourceAppBase::setUpStaticFrames() {
         frMsg = new FRFrame();
         if ((staticSlotsChA.front() == staticSlotsChB.front())
                 && !staticSlotsChA.empty() && !staticSlotsChB.empty()) {
-            cycleNr = ceil((staticSlotsChA.front() - 1) / gNumberOfStaticSlots);
+            cycleNr = static_cast<int> (ceil((staticSlotsChA.front() - 1) / gNumberOfStaticSlots));
             frMsg = createFRFrame(
                     staticSlotsChA.front() - cycleNr * gNumberOfStaticSlots,
                     cycleNr, CHANNEL_AB, false, STATIC_EVENT);
@@ -70,13 +73,13 @@ void FRTrafficSourceAppBase::setUpStaticFrames() {
 
         } else if ((staticSlotsChA.front() < staticSlotsChB.front()
                 && !staticSlotsChA.empty()) || staticSlotsChB.empty()) {
-            cycleNr = ceil((staticSlotsChA.front() - 1) / gNumberOfStaticSlots);
+            cycleNr = static_cast<int> (ceil((staticSlotsChA.front() - 1) / gNumberOfStaticSlots));
             frMsg = createFRFrame(
                     staticSlotsChA.front() - cycleNr * gNumberOfStaticSlots,
                     cycleNr, CHANNEL_A, false, STATIC_EVENT);
             staticSlotsChA.pop_front();
         } else {
-            cycleNr = ceil((staticSlotsChB.front() - 1) / gNumberOfStaticSlots);
+            cycleNr = static_cast<int> (ceil((staticSlotsChB.front() - 1) / gNumberOfStaticSlots));
             frMsg = createFRFrame(
                     staticSlotsChB.front() - cycleNr * gNumberOfStaticSlots,
                     cycleNr, CHANNEL_B, false, STATIC_EVENT);
@@ -105,7 +108,7 @@ void FRTrafficSourceAppBase::dynamicFrameCreation(cStringTokenizer tokenizer,
     FRFrame *frMsg;
     while (tokenizer.hasMoreTokens()) {
         slot = atoi(tokenizer.nextToken());
-        cycleNr = ceil((slot - 1) / gNumberOfMinislots);
+        cycleNr = static_cast<int> (ceil((slot - 1) / gNumberOfMinislots));
         frMsg = createFRFrame(
                 getDynamicSlot(slot - cycleNr * gNumberOfMinislots), cycleNr,
                 channel, false, DYNAMIC_EVENT);
@@ -114,7 +117,7 @@ void FRTrafficSourceAppBase::dynamicFrameCreation(cStringTokenizer tokenizer,
 }
 
 FRFrame* FRTrafficSourceAppBase::createFRFrame(int frameID, int cycleNumber,
-        int channel, bool syncFrameIndicator, int kind) {
+        int channel, bool syncFrameIndicator, short kind) {
     FRFrame *msg = new FRFrame();
     msg->setFrameID(frameID);
     msg->setCycleNumber(cycleNumber);
@@ -130,7 +133,7 @@ FRFrame* FRTrafficSourceAppBase::createFRFrame(int frameID, int cycleNumber,
         int staticSlotLength = getParentModule()->par("gPayloadLengthStatic");
         payload->setByteLength(staticSlotLength);
     }
-    msg->setPayloadLength(payload->getByteLength());
+    msg->setPayloadLength( (static_cast<int>(payload->getByteLength())) );
     payload->setByteLength(msg->getPayloadLength());
     msg->encapsulate(payload);
     return msg;
@@ -147,7 +150,7 @@ int FRTrafficSourceAppBase::calculateLength(int dataLength) {
 //        arbFieldLength += ARBITRATIONFIELD29BIT;
 //    }
 //    return (arbFieldLength + DATAFRAMECONTROLBITS + (dataLength * 8) + calculateStuffingBits(dataLength, arbFieldLength));
-    return 0;
+    return dataLength * 0;
 }
 
 void FRTrafficSourceAppBase::frameGenerationForNewCycle() {

@@ -56,7 +56,7 @@ public:
     /**
      * @brief Is called by the bus logic to permit the frame transmission.
      */
-    virtual void receiveSendingPermission(int id);
+    virtual void receiveSendingPermission(unsigned int id);
 
     /**
      * @brief Is called when the frame transmission is completed.
@@ -66,7 +66,7 @@ public:
     /**
      * @brief Puts the frame into the collection and informs the connected gates about the receiption.
      *
-     * @param frame The DataFrame to put in the buffer.
+     * @param msg The DataFrame to put in the buffer.
      *
      */
     virtual void putFrame(cMessage* msg);
@@ -75,12 +75,12 @@ protected:
     /**
      * @brief This method registers a frame at the bus for arbitration.
      */
-    virtual void registerForArbitration(int id, bool rtr);
+    virtual void registerForArbitration(unsigned int id, bool rtr);
 
     /**
      * @brief Unregister from arbitration at the bus.
      */
-    virtual void checkoutFromArbitration(int id);
+    virtual void checkoutFromArbitration(unsigned int id);
 };
 
 }

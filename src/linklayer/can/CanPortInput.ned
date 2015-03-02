@@ -39,12 +39,24 @@ simple CanPortInput
     parameters:
         @signal[receivedCompleteDF](type=CanDataFrame);
         @signal[receivedCompleteRF](type=CanDataFrame);
+        @signal[receivedCompleteDFFromNode](type=CanDataFrame);
+        @signal[receivedCompleteRFFromNode](type=CanDataFrame);
+        @signal[receivedCompleteDFFromGW](type=CanDataFrame);
+        @signal[receivedCompleteRFFromGW](type=CanDataFrame);
         
         @statistic[receivedCompleteDF](title="complete data frames received"; source=receivedCompleteDF; record=count; interpolationmode=none);
         @statistic[receivedCompleteRF](title="complete remote frames received"; source=receivedCompleteRF; record=count; interpolationmode=none);
+        @statistic[receivedCompleteDFFromNode](title="complete data frames received"; source=receivedCompleteDFFromNode; record=count; interpolationmode=none);
+        @statistic[receivedCompleteRFFromNode](title="complete remote frames received"; source=receivedCompleteRFFromNode; record=count; interpolationmode=none);
+        @statistic[receivedCompleteDFFromGW](title="complete data frames received"; source=receivedCompleteDFFromGW; record=count; interpolationmode=none);
+        @statistic[receivedCompleteRFFromGW](title="complete remote frames received"; source=receivedCompleteRFFromGW; record=count; interpolationmode=none);
         
         @statistic[latencyDF](title="End-to-end latency of data frames"; source="timestampAge(receivedCompleteDF)"; unit=s; record=stats,histogram,vector; interpolationmode=linear);
         @statistic[latencyRF](title="End-to-end latency of remote frames"; source="timestampAge(receivedCompleteRF)"; unit=s; record=stats,histogram,vector; interpolationmode=linear);
+        @statistic[latencyDFFromNode](title="End-to-end latency of data frames"; source="timestampAge(receivedCompleteDFFromNode)"; unit=s; record=stats,histogram,vector; interpolationmode=linear);
+        @statistic[latencyRFFromNode](title="End-to-end latency of remote frames"; source="timestampAge(receivedCompleteRFFromNode)"; unit=s; record=stats,histogram,vector; interpolationmode=linear);
+        @statistic[latencyDFFromGW](title="End-to-end latency of data frames"; source="timestampAge(receivedCompleteDFFromGW)"; unit=s; record=stats,histogram,vector; interpolationmode=linear);
+        @statistic[latencyRFFromGW](title="End-to-end latency of remote frames"; source="timestampAge(receivedCompleteRFFromGW)"; unit=s; record=stats,histogram,vector; interpolationmode=linear);
     gates:
         output out @loose;
         input in @loose;

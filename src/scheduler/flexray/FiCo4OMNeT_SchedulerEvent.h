@@ -1,7 +1,7 @@
 #ifndef __FICO4OMNET_SCHEDULEREVENT_H_
 #define __FICO4OMNET_SCHEDULEREVENT_H_
 
-#include "../../scheduler/flexray/SchedulerMessage_m.h"
+#include "FiCo4OMNeT_SchedulerMessage_m.h"
 
 namespace FiCo4OMNeT {
 

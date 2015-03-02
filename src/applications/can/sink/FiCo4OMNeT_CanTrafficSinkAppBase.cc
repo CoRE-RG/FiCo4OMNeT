@@ -64,7 +64,7 @@ void CanTrafficSinkAppBase::handleMessage(cMessage *msg) {
             requestFrame();
         }
     } else if (CanDataFrame *frame = dynamic_cast<CanDataFrame *>(msg)) {
-        int i = frame->getCanID();
+        unsigned int i = frame->getCanID();
         currentFrameID = i;
         bufferMessageCounter--;
         if (frame->getRtr()) {
@@ -74,8 +74,7 @@ void CanTrafficSinkAppBase::handleMessage(cMessage *msg) {
         }
         startWorkOnFrame(0);
     } else if (msg->isSelfMessage()) {
-        CanInputBuffer *buffer =
-                (CanInputBuffer*) (getParentModule()->getSubmodule("bufferIn"));
+        CanInputBuffer *buffer = dynamic_cast<CanInputBuffer*> (getParentModule()->getSubmodule("bufferIn"));
         buffer->deleteFrame(currentFrameID);
         if (bufferMessageCounter > 0) {
             requestFrame();
@@ -87,15 +86,14 @@ void CanTrafficSinkAppBase::handleMessage(cMessage *msg) {
 }
 
 void CanTrafficSinkAppBase::requestFrame() {
-    CanInputBuffer *buffer = (CanInputBuffer*) (getParentModule()->getSubmodule(
-            "bufferIn"));
+    CanInputBuffer *buffer = dynamic_cast<CanInputBuffer*> (getParentModule()->getSubmodule("bufferIn"));
     buffer->deliverNextFrame();
     idle = false;
 }
 
 void CanTrafficSinkAppBase::startWorkOnFrame(float workTime) {
 
-
+    (void)workTime;
 
 //    cMessage *msg = new cMessage("workFinished");
 //    scheduleAt(simTime() + workTime, msg);
