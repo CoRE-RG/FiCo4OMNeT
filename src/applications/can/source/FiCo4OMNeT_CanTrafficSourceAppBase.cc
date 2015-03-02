@@ -59,7 +59,7 @@ void CanTrafficSourceAppBase::initialize(int stage) {
         sentRFSignal = registerSignal("sentRF");
         checkParameterValues();
 
-    } else if (stage == 1) {
+    } else if (stage == 2) {
         CanClock* canClock =
                 dynamic_cast<CanClock*>(getParentModule()->getSubmodule("canClock"));
         currentDrift = canClock->getCurrentDrift();
