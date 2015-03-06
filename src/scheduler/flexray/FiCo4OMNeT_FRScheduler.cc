@@ -27,7 +27,7 @@ void FRScheduler::initialize() {
     maxDriftChange = getParentModule()->par("maxDriftChange").doubleValue(); //[]
     maxDrift = getParentModule()->par("maxDrift").doubleValue(); //[]
     pdMicrotick = getParentModule()->par("pdMicrotick").doubleValue(); //[ns]
-    gdMacrotick = getParentModule()->par("gdMacrotick").doubleValue(); //[�s]
+    gdMacrotick = getParentModule()->par("gdMacrotick").doubleValue(); //[]
     gdStaticSlot = getParentModule()->par("gdStaticSlot"); //[MT]
     gdMinislot = getParentModule()->par("gdMinislot"); //[MT]
     gdNIT = getParentModule()->par("gdNIT"); //[MT]
@@ -248,7 +248,7 @@ unsigned int FRScheduler::getDynamicSlot(unsigned int slot) {
     return slot + gNumberOfStaticSlots;
 }
 
-void FRScheduler::dynamicFrameReceived(int64 bitLength, unsigned int channel) {
+void FRScheduler::dynamicFrameReceived(int64_t bitLength, unsigned int channel) {
     Enter_Method_Silent
     ();
 //    int neededMinislots = ceil(

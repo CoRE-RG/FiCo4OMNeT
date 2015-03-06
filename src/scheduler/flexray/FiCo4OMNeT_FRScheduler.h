@@ -98,7 +98,7 @@ class FRScheduler : public cSimpleModule {
         /**
          * @brief caches duration_macrotick parameter
          */
-        double gdMacrotick; //[µs]
+        double gdMacrotick; //[]
 
         /**
          * @brief caches duration_static_slot parameter
@@ -148,17 +148,17 @@ class FRScheduler : public cSimpleModule {
         /**
          * @brief number of microticks per cycle
          */
-        unsigned int pMicroPerCycle; //[µT]
+        unsigned int pMicroPerCycle; //[uT]
 
         /**
          * @brief last value of the offset correction
          */
-        int zOffsetCorrection; //[µT]
+        int zOffsetCorrection; //[uT]
 
         /**
          * @brief last value of the rate correction
          */
-        int zRateCorrection; //[µT]
+        int zRateCorrection; //[uT]
 
         int additionalMinislotsChA;
         int additionalMinislotsChB;
@@ -296,7 +296,7 @@ class FRScheduler : public cSimpleModule {
         /**
          * @brief Adjusts the dynamic events in the current cycle when a dynamic frame is received.
          */
-        virtual void dynamicFrameReceived(int64 bitLength, unsigned int channel);
+        virtual void dynamicFrameReceived(int64_t bitLength, unsigned int channel);
 
         /**
          * @brief Returns the deviation to the actionpoint in the current slot.
