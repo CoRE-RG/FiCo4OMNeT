@@ -71,8 +71,8 @@ void CanBusLogic::initialize() {
 }
 
 void CanBusLogic::finish() {
-    ev << "busytime: " << busytime << endl;
-    ev << "simtime: " << simTime() << endl;
+    EV << "busytime: " << busytime << endl;
+    EV << "simtime: " << simTime() << endl;
     simtime_t busload = (busytime / simTime()) * 100;
     if (busload == 0.0 && !idle) {
         busload = 100.0;
