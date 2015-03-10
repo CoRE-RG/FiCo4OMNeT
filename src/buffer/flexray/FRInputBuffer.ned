@@ -15,9 +15,9 @@
 
 package fico4omnet.buffer.flexray;
 
-import fico4omnet.buffer.flexray.FRBuffer;
+import fico4omnet.buffer.flexray.IFRBuffer;
 
-simple FRInputBuffer like FRBuffer
+simple FRInputBuffer like IFRBuffer
 {
     parameters:
         @display("i=block/buffer");

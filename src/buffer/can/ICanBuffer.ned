@@ -28,9 +28,9 @@
 
 package fico4omnet.buffer.can;
 
-import fico4omnet.buffer.Buffer;
+import fico4omnet.buffer.IBuffer;
 
-moduleinterface CanBuffer extends Buffer
+moduleinterface ICanBuffer extends IBuffer
 {
     parameters:
         @display("i=block/buffer");

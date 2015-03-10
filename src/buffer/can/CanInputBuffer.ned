@@ -29,22 +29,29 @@
 
 package fico4omnet.buffer.can;
 
-import fico4omnet.buffer.can.CanBuffer;
+import fico4omnet.buffer.can.ICanBuffer;
 
 //
 // Incoming frames are forwarded from the port to the input buffer. As soon as a frame is received
 // a message is sent to the sink application. The sink application afterwards requests a frame and
 // the buffer delivers it to the application. 
 //
-simple CanInputBuffer like CanBuffer
+simple CanInputBuffer like ICanBuffer
 {
     parameters:
         @display("i=block/buffer");
+        //Statistic of the number of packets that were sent by the buffer
+        @signal[rxPk](type=cMessage);
+        @statistic[rxPk](title="RX Packets"; source=rxPk; record=count,"sum(packetBytes)","vector(packetBytes)"; interpolationmode=none);
+        //Statistic of the amount of packets that were sent by the buffer
+        @signal[txPk](type=cMessage);
+        @statistic[txPk](title="TX Packets"; source=txPk; record=count,"sum(packetBytes)","vector(packetBytes)"; interpolationmode=none);
+
         //Comma seperated list of gates where the frames of the buffer are delivered
         string destination_gates = default("sinkApp[0].dataIn");
         bool MOB = default(true); 						//If true frames with the same ID will be overwritten.
         string idIncomingFrames = default("0");			// The Incoming Frame ID(s) - String parameter (int) separated with commas
-        
+
     gates:
         //The buffers Input
         input in[] @loose @labels(DataFrame);

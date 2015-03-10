@@ -15,9 +15,9 @@
 
 package fico4omnet.buffer.flexray;
 
-import fico4omnet.buffer.Buffer;
+import fico4omnet.buffer.IBuffer;
 
-moduleinterface FRBuffer extends Buffer
+moduleinterface IFRBuffer extends IBuffer
 {
     parameters:
         @display("i=block/buffer");
