@@ -36,7 +36,9 @@ import fico4omnet.nodes.can.CanNode;
 // Can be used for various number of CAN-Nodes, but the design of the network can't be changed. Used for all examples.
 network SimpleNewLayout
 {
-	@display("bgb=550,350,white");
+	parameters: 
+    	@display("bgb=550,350,white");
+	    node[*].sourceApp[*].typename ="CanTrafficSourceAppBase";
     submodules:
         bus: CanBus {
             gates:

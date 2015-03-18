@@ -55,6 +55,7 @@ module CanNode
         int numSinkApps = default(1);						// Number of source apps in this node
         int numInputBuffer = default(1);					// Number of input buffer in this node
         int errorperc = default(0);							// If errors are enabled: percentage of errors
+//        sourceApp[*].typename ="CanTrafficSourceAppBase";
         @display("i=block/app2;bgb=248,222");
 
     gates:
@@ -79,6 +80,9 @@ module CanNode
         sourceApp[numSourceApps]: <default("CanTrafficSourceAppBase")> like ISourceApplication {
             @display("p=98,32,row,70");
         }
+//        sourceApp[numSourceApps]: <> like ISourceApplication {
+//            @display("p=98,32,row,70");
+//        }
         sinkApp[numSinkApps]: <default("CanTrafficSinkAppBase")> like ISinkApplication {
             @display("p=203,32");
         }
