@@ -20,6 +20,7 @@ simple FRScheduler
 {
     parameters:
     	@display("i=block/cogwheel");
+    	@signal[newCycle](type=long);
     	         
         int gCycleCountMax = default(63); // [7,9,...,63]
         double pdMicrotick @unit(s) = default(12.5ns); //[ns]
