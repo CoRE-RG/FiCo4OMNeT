@@ -41,6 +41,7 @@ private:
     double currentDrift;
     double maxDrift;
     double maxDriftChange;
+    bool randomStartDrift;
     simtime_t lastDriftUpdate;
 
     void calculateNewDrift();

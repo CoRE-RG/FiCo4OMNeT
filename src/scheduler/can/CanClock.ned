@@ -26,4 +26,5 @@ simple CanClock
     	
     	double maxDrift @unit(s) = default(0);
     	double maxDriftChange @unit(s) = default(0);
+    	bool randomStartDrift = default(true);
 }
