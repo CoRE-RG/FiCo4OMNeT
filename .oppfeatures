@@ -12,6 +12,8 @@
                        fico4omnet.bus.can
                        fico4omnet.linklayer.can
                        fico4omnet.nodes.can
+					   fico4omnet.scheduler.can
+					   fico4omnet.utilities
                       "
         extraSourceFolders = ""
         compileFlags = "-DWITH_CAN_COMMON"
@@ -45,6 +47,7 @@
                        fico4omnet.nodes.flexray
                        fico4omnet.scheduler.flexray
                        fico4omnet.synchronisation.flexray
+					   fico4omnet.utilities
                       "
         extraSourceFolders = ""
         compileFlags = "-DWITH_FR_COMMON"
