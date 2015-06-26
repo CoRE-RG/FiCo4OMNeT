@@ -11,7 +11,7 @@
 /examples/can/simpleNewLayout/,                                  -f omnetpp.ini -c General -r 0,                1s,              4362-d651
 /examples/can/bitStuffing/worstCase/,                            -f omnetppDrift.ini -c General -r 0,           1s,              0c81-1ff6
 /examples/can/generatorMulti/,                                   -f omnetppDrift.ini -c General -r 0,           1s,              edf7-5d6c
-/examples/can/multipleSourceApps/,                               -f omnetppDrift.ini -c General -r 0,           1s,              56d5-2e8a
+/examples/can/multipleSourceApps/,                               -f omnetppDrift.ini -c General -r 0,           1s,              c59f-daca
 
 # FlexRay
 /examples/flexray/dynamic/,                                      -f omnetpp.ini -c General -r 0,                0.5s,            548d-e146
