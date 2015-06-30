@@ -47,6 +47,10 @@ CanBusLogic::CanBusLogic() {
 
     numFramesSent = 0;
     numBitsSent = 0;
+
+    bandwidth = 0;
+    currentSendingID = 0;
+    sendingNode = nullptr;
 }
 CanBusLogic::~CanBusLogic() {
     if(scheduledDataFrame){

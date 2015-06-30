@@ -61,7 +61,7 @@ int FRSync::offsetCorrectionCalculation(unsigned int vCycleCounter) {
 			zsMListAB.push_back(T_DevTable[zEO][B][i].value);
 		}
 	}
-	if (zsMListAB.size() == 0) {
+	if (zsMListAB.empty()) {
 		zOffsetCorrection = 0;
 	} else {
 		zOffsetCorrection = ftmAlgorithm(zsMListAB);
@@ -97,7 +97,7 @@ int FRSync::rateCorrectionCalculation() {
 		}
 	}
 
-	if (zsMRateAB.size() > 0) {
+	if (!zsMRateAB.empty()) {
 		zRateCorrection += ftmAlgorithm(zsMRateAB);
         if (zRateCorrection >= pClusterDriftDamping) {
             zRateCorrection -= pClusterDriftDamping;
@@ -125,10 +125,10 @@ int FRSync::ftmAlgorithm(std::list<int> zList) {
 		zList.sort();
 		it1 = zList.begin();
 		it2 = zList.end();
-		it2--;
+		--it2;
 		if (zLength > 7) {
-			it1++;
-			it2--;
+			++it1;
+			--it2;
 			it1 = zList.erase(zList.begin(), ++it1);
 			it2 = zList.erase(it2, zList.end());
 		} else if (zLength >= 3) {
@@ -148,7 +148,7 @@ size_t FRSync::getLineNr(int frameID) {
 			i = position.size();
 		} else {
 
-			it1++;
+			++it1;
 			zPos = i + 1;
 		}
 	}

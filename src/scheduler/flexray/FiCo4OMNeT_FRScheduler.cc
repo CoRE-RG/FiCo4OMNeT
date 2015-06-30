@@ -181,7 +181,7 @@ void FRScheduler::changeDrift() {
 void FRScheduler::correctEvents() {
     for (std::list<SchedulerEvent*>::const_iterator registeredEvent =
             registeredEvents.begin(); registeredEvent != registeredEvents.end();
-            registeredEvent++) {
+            ++registeredEvent) {
         if ((*registeredEvent)->getKind() == DYNAMIC_EVENT || STATIC_EVENT) {
             SchedulerActionTimeEvent *actionTimeEvent =
                     dynamic_cast<SchedulerActionTimeEvent*> (*registeredEvent);
@@ -269,7 +269,7 @@ void FRScheduler::dynamicFrameReceived(int64_t bitLength, unsigned int channel) 
         std::list<SchedulerEvent*> toDelete;
         for (std::list<SchedulerEvent*>::const_iterator registeredEvent =
                 registeredEvents.begin();
-                registeredEvent != registeredEvents.end(); registeredEvent++) {
+                registeredEvent != registeredEvents.end(); ++registeredEvent) {
             if ((*registeredEvent)->getKind() == DYNAMIC_EVENT) {
                 SchedulerActionTimeEvent *actionTimeEvent =
                         dynamic_cast<SchedulerActionTimeEvent*> (*registeredEvent);
@@ -320,7 +320,7 @@ void FRScheduler::dynamicFrameReceived(int64_t bitLength, unsigned int channel) 
                 }
             }
         }
-        if (toDelete.size() > 0) {
+        if (!toDelete.empty()) {
             for (unsigned int i = 0; i < toDelete.size(); ++i) {
                 registeredEvents.remove(dynamic_cast<SchedulerEvent*> (toDelete.front()));
                 delete toDelete.front();

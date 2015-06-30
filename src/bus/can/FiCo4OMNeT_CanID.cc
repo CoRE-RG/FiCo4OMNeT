@@ -34,19 +34,19 @@ CanID::CanID(unsigned int id, cModule *node, simtime_t signInTime, bool rtr) :
         id_(id), node_(node), signInTime_(signInTime), rtr_(rtr) {
 }
 
-unsigned int CanID::getId() {
+unsigned int CanID::getId() const{
     return id_;
 }
 
-cModule* CanID::getNode() {
+cModule* CanID::getNode() const{
     return node_;
 }
 
-bool CanID::getRtr() {
+bool CanID::getRtr() const{
     return rtr_;
 }
 
-simtime_t CanID::getSignInTime() {
+simtime_t CanID::getSignInTime() const {
     return signInTime_;
 }
 

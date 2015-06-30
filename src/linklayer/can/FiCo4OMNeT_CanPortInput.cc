@@ -52,7 +52,6 @@ void CanPortInput::initialize() {
 }
 
 void CanPortInput::handleMessage(cMessage *msg) {
-    std::string msgClass = msg->getClassName();
     if (msg->isSelfMessage()) {
         if (ErrorFrame *ef = dynamic_cast<ErrorFrame *>(msg)) {
             forwardOwnErrorFrame(ef);

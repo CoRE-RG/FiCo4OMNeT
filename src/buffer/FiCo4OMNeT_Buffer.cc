@@ -52,7 +52,7 @@ void Buffer::registerDestinationGate() {
     for (std::vector<std::string>::const_iterator destinationGatePath =
             destinationGatePaths.begin();
             destinationGatePath != destinationGatePaths.end();
-            destinationGatePath++) {
+            ++destinationGatePath) {
 
         cGate* destinationGate = gateByFullPath((*destinationGatePath));
         if (!destinationGate)

@@ -59,28 +59,28 @@ class CanID {
 		 * @return the message-ID of the object 
 		 *
 		 */
-		unsigned int getId();
+		unsigned int getId() const;
 		/**
 	     * @brief Getter for the node of the message
 		 *
 		 * @return the related node of this message-ID
 		 *
 		 */
-		cModule* getNode();
+		cModule* getNode() const;
 		/**
 	     * @brief Getter for signInTime
 		 *
 		 * @return the time, when the node first tried to send the message to the bus 
 		 *
 		 */
-		simtime_t getSignInTime();
+		simtime_t getSignInTime() const;
 		/**
 	     * @brief Getter RTR-bit of the message-ID
 		 *
 		 * @return the RTR-bit of the message-ID. 0 = Data-Frame; 1 = Remote-Frame
 		 *
 		 */
-		bool getRtr();
+		bool getRtr() const;
 
 	private:
 		/**

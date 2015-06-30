@@ -35,7 +35,8 @@ Define_Module(CanTrafficSourceAppBase)
 
 CanTrafficSourceAppBase::CanTrafficSourceAppBase()
 {
-
+    this->bitStuffingPercentage = 0;
+    this->currentDrift = 0;
 }
 
 CanTrafficSourceAppBase::~CanTrafficSourceAppBase()
