@@ -11,6 +11,7 @@ namespace FiCo4OMNeT {
  * (t - msg->getCreationTime()).
  */
 class TimestampAgeFilter: public cObjectResultFilter {
+    using cObjectResultFilter::receiveSignal;
 public:
     void receiveSignal(cResultFilter *prev, simtime_t_cref t,
             cObject *object);
@@ -20,6 +21,7 @@ public:
  * Filter that expects a CanDataFrame, ErrorFrame or FRFrame and outputs its ID
  */
 class IDFilter: public cObjectResultFilter {
+    using cObjectResultFilter::receiveSignal;
 public:
     void receiveSignal(cResultFilter *prev, simtime_t_cref t,
             cObject *object);
