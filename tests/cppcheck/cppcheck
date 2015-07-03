@@ -1,1 +1,2 @@
-cppcheck --enable=warning,style,performance,portability,information --suppressions cppcheck-suppressions.txt --inconclusive ../../src
+cd ../..
+cppcheck --enable=warning,style,performance,portability,information --suppressions tests/cppcheck/cppcheck-suppressions.txt --inconclusive src
