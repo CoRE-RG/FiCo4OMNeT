@@ -46,11 +46,11 @@ simple CanBusLogic
         @signal[state];
         
         @statistic[receivedDF](title="data frames received"; source=receivedDF; record=count; interpolationmode=none);
-        @statistic[ID-DF](title="IDs data frames received"; source="ID(receivedDF)"; record=histogram?,vector; interpolationmode=none);
+        @statistic[rxCANIdDF](title="received CAN IDs via DF"; source="ID(receivedDF)"; record=histogram?,vector; interpolationmode=none);
         @statistic[receivedRF](title="remote frames received"; source=receivedRF; record=count; interpolationmode=none);
-        @statistic[ID-RF](title="IDs remote frames received"; source="ID(receivedRF)"; record=histogram?,vector?; interpolationmode=none);
+        @statistic[rxCANIdRF](title="received CAN IDs via RF"; source="ID(receivedRF)"; record=histogram?,vector?; interpolationmode=none);
         @statistic[receivedEF](title="error frames received"; source=receivedEF; record=count; interpolationmode=none);
-        @statistic[ID-EF](title="IDs error frames received"; source="ID(receivedEF)"; record=histogram?,vector?; interpolationmode=none);
+        @statistic[rxCANIdEF](title="received CAN IDs via EF"; source="ID(receivedEF)"; record=histogram?,vector?; interpolationmode=none);
 
 		@statistic[framesPerSec](title="Frames/sec"; unit="fps"; source="sumPerDuration(constant1(received))"; record=last);
         @statistic[bitsPerSec](title="Bits/sec"; unit="bps"; source="sumPerDuration(packetBits(receivedDF))"; record=last);
