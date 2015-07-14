@@ -51,8 +51,8 @@ simple CanPortInput
 //        @statistic[receivedCompleteDFFromGW](title="complete data frames received"; source=receivedCompleteDFFromGW; record=count; interpolationmode=none);
 //        @statistic[receivedCompleteRFFromGW](title="complete remote frames received"; source=receivedCompleteRFFromGW; record=count; interpolationmode=none);
         
-        @statistic[latencyDF](title="End-to-end latency of data frames"; source="timestampAge(receivedCompleteDF)"; unit=s; record=stats,histogram,vector; interpolationmode=linear);
-        @statistic[latencyRF](title="End-to-end latency of remote frames"; source="timestampAge(receivedCompleteRF)"; unit=s; record=stats,histogram,vector; interpolationmode=linear);
+        @statistic[latencyDF](title="End-to-end latency of data frames"; source="timestampAge(receivedCompleteDF)"; unit=s; record=stats,histogram?,vector; interpolationmode=linear);
+        @statistic[latencyRF](title="End-to-end latency of remote frames"; source="timestampAge(receivedCompleteRF)"; unit=s; record=stats,histogram?,vector; interpolationmode=linear);
         @statistic[latencyPayloadDF](title="End-to-end latency of data frame payload"; source="timestampAge(receivedDFPayload)"; unit=s; record=stats,histogram,vector; interpolationmode=linear);
         @statistic[latencyPayloadRF](title="End-to-end latency of remote frame payload"; source="timestampAge(receivedRFPayload)"; unit=s; record=stats,histogram,vector; interpolationmode=linear);
         @statistic[latencyPayloadDFexternalSource](title="End-to-end latency of data frame payload received from an external source"; source="timestampAge(receivedDFPayloadExternalSource)"; unit=s; record=stats,histogram,vector; interpolationmode=linear);

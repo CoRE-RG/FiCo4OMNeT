@@ -55,8 +55,8 @@ simple CanTrafficSourceAppBase like ISourceApplication
         @signal[sentDF](type=CanDataFrame);
         @signal[sentRF](type=CanDataFrame);
         
-        @statistic[sentDFApp](title="source app data frame"; source=sentDF; record=count; interpolationmode=none);
-        @statistic[sentRFApp](title="source app remote frame"; source=sentRF; record=count; interpolationmode=none);
+        @statistic[txDF](title="source app data frame"; source=sentDF; record=count; interpolationmode=none);
+        @statistic[txRF](title="source app remote frame"; source=sentRF; record=count; interpolationmode=none);
         
     gates:
         output out @labels(DataFrame);

@@ -22,7 +22,7 @@ simple CanClock
     	
     	@signal[clockDrift];
     	
-    	@statistic[clockDrift](title="clockDrift"; source=clockDrift; unit=s; record=stats,histogram,vector; interpolationmode=linear);
+    	@statistic[clockDrift](title="clockDrift"; source=clockDrift; unit=s; record=stats,histogram?,vector; interpolationmode=linear);
     	
     	double maxDrift @unit(s) = default(0);
     	double maxDriftChange @unit(s) = default(0);

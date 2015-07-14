@@ -81,12 +81,7 @@ void CanBusLogic::finish() {
     if (busload == 0.0 && !idle) {
         busload = 100.0;
     }
-    recordScalar("#Simulated_Time", simTime());
     recordScalar("%Busload", busload);
-    double errpercentage = (static_cast<double> (numErrorFrames)
-            / static_cast<double> (numDataFrames + numRemoteFrames)) * 100;
-    recordScalar("%Errors", errpercentage);
-
 
     simtime_t t = simTime();
     if(t > 0){

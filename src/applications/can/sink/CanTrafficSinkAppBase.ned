@@ -50,11 +50,11 @@ simple CanTrafficSinkAppBase like ISinkApplication
         @signal[receivedDFPayload](type=cPacket);
         @signal[receivedRFPayload](type=cPacket);
         
-        @statistic[receivedCompleteDFApp](title="sink app data frame"; source=receivedCompleteDF; record=count; interpolationmode=none);
-        @statistic[receivedCompleteRFApp](title="sink app remote frame"; source=receivedCompleteRF; record=count; interpolationmode=none);
+        @statistic[rxDF](title="sink app data frame"; source=receivedCompleteDF; record=count; interpolationmode=none);
+        @statistic[rxRF](title="sink app remote frame"; source=receivedCompleteRF; record=count; interpolationmode=none);
         
-        @statistic[latencyDF](title="End-to-end latency of data frames"; source="timestampAge(receivedCompleteDF)"; unit=s; record=stats,histogram,vector; interpolationmode=linear);
-        @statistic[latencyRF](title="End-to-end latency of remote frames"; source="timestampAge(receivedCompleteRF)"; unit=s; record=stats,histogram,vector; interpolationmode=linear);
+        @statistic[latencyDF](title="End-to-end latency of data frames"; source="timestampAge(receivedCompleteDF)"; unit=s; record=stats,histogram?,vector; interpolationmode=linear);
+        @statistic[latencyRF](title="End-to-end latency of remote frames"; source="timestampAge(receivedCompleteRF)"; unit=s; record=stats,histogram?,vector; interpolationmode=linear);
         @statistic[latencyPayloadDF](title="End-to-end latency of data frame payload"; source="timestampAge(receivedDFPayload)"; unit=s; record=stats,histogram,vector; interpolationmode=linear);
         @statistic[latencyPayloadRF](title="End-to-end latency of remote frame payload"; source="timestampAge(receivedRFPayload)"; unit=s; record=stats,histogram,vector; interpolationmode=linear);
     gates:
