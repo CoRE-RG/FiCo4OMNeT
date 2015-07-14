@@ -103,6 +103,16 @@ private:
      */
     simsignal_t rcvdRFSignal;
 
+    /**
+     * @brief Simsignal for received data frames.
+     */
+    simsignal_t receivedDFPayload;
+
+    /**
+     * @brief Simsignal for received remote frames.
+     */
+    simsignal_t receivedRFPayload;
+
 
 };
 

@@ -92,25 +92,35 @@ private:
      */
     simsignal_t rcvdRFSignal;
 
+//    /**
+//     * @brief Simsignal for received data frames.
+//     */
+//    simsignal_t rcvdDFSignalFromNode;
+//
+//    /**
+//     * @brief Simsignal for received remote frames.
+//     */
+//    simsignal_t rcvdRFSignalFromNode;
+
     /**
      * @brief Simsignal for received data frames.
      */
-    simsignal_t rcvdDFSignalFromNode;
+    simsignal_t receivedDFPayload;
 
     /**
      * @brief Simsignal for received remote frames.
      */
-    simsignal_t rcvdRFSignalFromNode;
+    simsignal_t receivedRFPayload;
 
     /**
-     * @brief Simsignal for received data frames.
+     * @brief Simsignal for received data frames from an external source.
      */
-    simsignal_t rcvdDFSignalFromGW;
+    simsignal_t receivedDFPayloadExternalSource;
 
     /**
-     * @brief Simsignal for received remote frames.
+     * @brief Simsignal for received remote frames from an external source.
      */
-    simsignal_t rcvdRFSignalFromGW;
+    simsignal_t receivedRFPayloadExternalSource;
 
     /**
      * @brief Map with IDs and corresponding inputBuffer-gate of useful incoming data frames

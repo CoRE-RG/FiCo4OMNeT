@@ -40,6 +40,8 @@ void CanTrafficSinkAppBase::initialize() {
 
     rcvdDFSignal = registerSignal("receivedCompleteDF");
     rcvdRFSignal = registerSignal("receivedCompleteRF");
+    receivedDFPayload = registerSignal("receivedDFPayload");
+    receivedRFPayload = registerSignal("receivedRFPayload");
 //    registerIncomingDataFramesAtPort();
 }
 
@@ -67,11 +69,15 @@ void CanTrafficSinkAppBase::handleMessage(cMessage *msg) {
         unsigned int i = frame->getCanID();
         currentFrameID = i;
         bufferMessageCounter--;
+        cPacket* payload_packet = frame->decapsulate();
         if (frame->getRtr()) {
             emit(rcvdRFSignal, frame);
+            emit(receivedRFPayload, payload_packet);
         } else {
             emit(rcvdDFSignal, frame);
+            emit(receivedDFPayload, payload_packet);
         }
+        frame->encapsulate(payload_packet);
         startWorkOnFrame(0);
     } else if (msg->isSelfMessage()) {
         CanInputBuffer *buffer = dynamic_cast<CanInputBuffer*> (getParentModule()->getSubmodule("bufferIn"));

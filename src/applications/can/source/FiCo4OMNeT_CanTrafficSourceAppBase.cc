@@ -118,7 +118,10 @@ void CanTrafficSourceAppBase::initialRemoteFrameCreation() {
             unsigned int dataFieldLength = static_cast<unsigned int> (atoi(dataLengthRemoteFramesTokenizer.nextToken()));
             can_msg->setBitLength(
                     calculateLength(dataFieldLength));
-            can_msg->setDataArraySize(dataFieldLength);
+            cPacket *payload_packet = new cPacket;
+            payload_packet->setTimestamp();
+            payload_packet->setByteLength(dataFieldLength);
+            can_msg->encapsulate(payload_packet);
             can_msg->setRtr(true);
             can_msg->setPeriod(
                     atoi(remoteFramesPeriodicityTokenizer.nextToken()));
@@ -199,7 +202,10 @@ void CanTrafficSourceAppBase::initialDataFrameCreation() {
             unsigned int dataFieldLength = static_cast<unsigned int> (atoi(dataLengthDataFramesTokenizer.nextToken()));
             can_msg->setBitLength(
                     calculateLength(dataFieldLength));
-            can_msg->setDataArraySize(dataFieldLength);
+            cPacket *payload_packet = new cPacket;
+            payload_packet->setTimestamp();
+            payload_packet->setByteLength(dataFieldLength);
+            can_msg->encapsulate(payload_packet);
             can_msg->setPeriod(
                     atoi(dataFramesPeriodicityTokenizer.nextToken()));
             can_msg->setMessageSource(SOURCE_NODE);
@@ -264,7 +270,7 @@ unsigned int CanTrafficSourceAppBase::calculateLength(unsigned int dataLength) {
     if (canVersion.compare("2.0B") == 0) {
         arbFieldLength += ARBITRATIONFIELD29BIT;
     }
-    return (arbFieldLength + DATAFRAMECONTROLBITS + (dataLength * 8)
+    return (arbFieldLength + DATAFRAMECONTROLBITS
             + calculateStuffingBits(dataLength, arbFieldLength));
 }
 
@@ -304,8 +310,10 @@ void CanTrafficSourceAppBase::dataFrameTransmission(CanDataFrame *df) {
     } else {
         throw cRuntimeError("CanTrafficSourceApp received an invalid message.");
     }
-    outgoingFrame->setStartTime(simTime());
     outgoingFrame->setTimestamp(simTime());
+    cPacket* payload_packet = outgoingFrame->decapsulate();
+    payload_packet->setTimestamp(simTime());
+    outgoingFrame->encapsulate(payload_packet);
     send(outgoingFrame, "out");
 }
 

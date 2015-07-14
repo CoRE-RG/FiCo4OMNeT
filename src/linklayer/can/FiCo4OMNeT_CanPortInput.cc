@@ -43,10 +43,12 @@ void CanPortInput::initialize() {
 
     rcvdDFSignal = registerSignal("receivedCompleteDF");
     rcvdRFSignal = registerSignal("receivedCompleteRF");
-    rcvdDFSignalFromNode = registerSignal("receivedCompleteDFFromNode");
-    rcvdRFSignalFromNode = registerSignal("receivedCompleteRFFromNode");
-    rcvdDFSignalFromGW = registerSignal("receivedCompleteDFFromGW");
-    rcvdRFSignalFromGW = registerSignal("receivedCompleteRFFromGW");
+//    rcvdDFSignalFromNode = registerSignal("receivedCompleteDFFromNode");
+//    rcvdRFSignalFromNode = registerSignal("receivedCompleteRFFromNode");
+    receivedDFPayload = registerSignal("receivedDFPayload");
+    receivedRFPayload = registerSignal("receivedRFPayload");
+    receivedDFPayloadExternalSource = registerSignal("receivedDFPayloadExternalSource");
+    receivedRFPayloadExternalSource = registerSignal("receivedRFPayloadExternalSource");
     WATCH_MAP(incomingDataFrameIDs);
 
 }
@@ -167,11 +169,13 @@ void CanPortInput::forwardDataFrame(CanDataFrame *df) {
     it = incomingDataFrameIDs.find(df->getCanID());
     if (it != incomingDataFrameIDs.end()) {
         emit(rcvdDFSignal, df);
+        cPacket* payload_packet = df->decapsulate();
         if (df->getMessageSource() == SOURCE_NODE) {
-            emit(rcvdDFSignalFromNode, df);
+            emit(receivedDFPayload, payload_packet);
         } else if (df->getMessageSource() == SOURCE_GW) {
-            emit(rcvdDFSignalFromGW, df);
+            emit(receivedDFPayloadExternalSource, payload_packet);
         }
+        df->encapsulate(payload_packet);
         sendDirect(df, it->second);
     }
 
@@ -180,11 +184,13 @@ void CanPortInput::forwardDataFrame(CanDataFrame *df) {
         it2 = outgoingDataFrameIDs.find(df->getCanID());
         if (it2 != outgoingDataFrameIDs.end()) {
             emit(rcvdRFSignal, df);
+            cPacket* payload_packet = df->decapsulate();
             if (df->getMessageSource() == SOURCE_NODE) {
-                emit(rcvdRFSignalFromNode, df);
+                emit(receivedRFPayload, payload_packet);
             } else if (df->getMessageSource() == SOURCE_GW) {
-                emit(rcvdRFSignalFromGW, df);
+                emit(receivedRFPayloadExternalSource, payload_packet);
             }
+            df->encapsulate(payload_packet);
             sendDirect(df, it2->second);
         }
     }
