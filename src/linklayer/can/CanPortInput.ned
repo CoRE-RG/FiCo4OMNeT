@@ -41,22 +41,14 @@ simple CanPortInput
         @signal[receivedCompleteRF](type=CanDataFrame);
         @signal[receivedDFPayload](type=cPacket);
         @signal[receivedRFPayload](type=cPacket);
-        @signal[receivedDFPayloadExternalSource](type=cPacket);
-        @signal[receivedRFPayloadExternalSource](type=cPacket);
         
         @statistic[receivedCompleteDF](title="complete data frames received"; source=receivedCompleteDF; record=count; interpolationmode=none);
         @statistic[receivedCompleteRF](title="complete remote frames received"; source=receivedCompleteRF; record=count; interpolationmode=none);
-//        @statistic[receivedCompleteDFFromNode](title="complete data frames received"; source=receivedCompleteDFFromNode; record=count; interpolationmode=none);
-//        @statistic[receivedCompleteRFFromNode](title="complete remote frames received"; source=receivedCompleteRFFromNode; record=count; interpolationmode=none);
-//        @statistic[receivedCompleteDFFromGW](title="complete data frames received"; source=receivedCompleteDFFromGW; record=count; interpolationmode=none);
-//        @statistic[receivedCompleteRFFromGW](title="complete remote frames received"; source=receivedCompleteRFFromGW; record=count; interpolationmode=none);
         
         @statistic[latencyDF](title="End-to-end latency of data frames"; source="timestampAge(receivedCompleteDF)"; unit=s; record=stats,histogram?,vector; interpolationmode=linear);
         @statistic[latencyRF](title="End-to-end latency of remote frames"; source="timestampAge(receivedCompleteRF)"; unit=s; record=stats,histogram?,vector; interpolationmode=linear);
-        @statistic[latencyPayloadDF](title="End-to-end latency of data frame payload"; source="timestampAge(receivedDFPayload)"; unit=s; record=stats,histogram,vector; interpolationmode=linear);
-        @statistic[latencyPayloadRF](title="End-to-end latency of remote frame payload"; source="timestampAge(receivedRFPayload)"; unit=s; record=stats,histogram,vector; interpolationmode=linear);
-        @statistic[latencyPayloadDFexternalSource](title="End-to-end latency of data frame payload received from an external source"; source="timestampAge(receivedDFPayloadExternalSource)"; unit=s; record=stats,histogram,vector; interpolationmode=linear);
-        @statistic[latencyPayloadRFexternalSource](title="End-to-end latency of remote frame payload received from an external source"; source="timestampAge(receivedRFPayloadExternalSource)"; unit=s; record=stats,histogram,vector; interpolationmode=linear);
+        @statistic[latencyPayloadDF](title="End-to-end latency of data frame payload"; source="timestampAge(receivedDFPayload)"; unit=s; record=stats,histogram?,vector; interpolationmode=linear);
+        @statistic[latencyPayloadRF](title="End-to-end latency of remote frame payload"; source="timestampAge(receivedRFPayload)"; unit=s; record=stats,histogram?,vector; interpolationmode=linear);
     gates:
         output out @loose;
         input in @loose;

@@ -43,14 +43,9 @@ void CanPortInput::initialize() {
 
     rcvdDFSignal = registerSignal("receivedCompleteDF");
     rcvdRFSignal = registerSignal("receivedCompleteRF");
-//    rcvdDFSignalFromNode = registerSignal("receivedCompleteDFFromNode");
-//    rcvdRFSignalFromNode = registerSignal("receivedCompleteRFFromNode");
     receivedDFPayload = registerSignal("receivedDFPayload");
     receivedRFPayload = registerSignal("receivedRFPayload");
-    receivedDFPayloadExternalSource = registerSignal("receivedDFPayloadExternalSource");
-    receivedRFPayloadExternalSource = registerSignal("receivedRFPayloadExternalSource");
     WATCH_MAP(incomingDataFrameIDs);
-
 }
 
 void CanPortInput::handleMessage(cMessage *msg) {
@@ -170,11 +165,7 @@ void CanPortInput::forwardDataFrame(CanDataFrame *df) {
     if (it != incomingDataFrameIDs.end()) {
         emit(rcvdDFSignal, df);
         cPacket* payload_packet = df->decapsulate();
-        if (df->getMessageSource() == SOURCE_NODE) {
-            emit(receivedDFPayload, payload_packet);
-        } else if (df->getMessageSource() == SOURCE_GW) {
-            emit(receivedDFPayloadExternalSource, payload_packet);
-        }
+        emit(receivedDFPayload, payload_packet);
         df->encapsulate(payload_packet);
         sendDirect(df, it->second);
     }
@@ -185,11 +176,7 @@ void CanPortInput::forwardDataFrame(CanDataFrame *df) {
         if (it2 != outgoingDataFrameIDs.end()) {
             emit(rcvdRFSignal, df);
             cPacket* payload_packet = df->decapsulate();
-            if (df->getMessageSource() == SOURCE_NODE) {
-                emit(receivedRFPayload, payload_packet);
-            } else if (df->getMessageSource() == SOURCE_GW) {
-                emit(receivedRFPayloadExternalSource, payload_packet);
-            }
+            emit(receivedRFPayload, payload_packet);
             df->encapsulate(payload_packet);
             sendDirect(df, it2->second);
         }
