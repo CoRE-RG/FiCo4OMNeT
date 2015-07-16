@@ -75,19 +75,7 @@ void CanBusLogic::initialize() {
 }
 
 void CanBusLogic::finish() {
-    EV << "busytime: " << busytime << endl;
-    EV << "simtime: " << simTime() << endl;
-    simtime_t busload = (busytime / simTime()) * 100;
-    if (busload == 0.0 && !idle) {
-        busload = 100.0;
-    }
-    recordScalar("%Busload", busload);
 
-    simtime_t t = simTime();
-    if(t > 0){
-        recordScalar("frames/sec", static_cast<double> (numFramesSent) / t);
-        recordScalar("bits/sec", static_cast<double> (numBitsSent) / t);
-    }
 }
 
 int CanBusLogic::getSendingNodeID() {
@@ -159,20 +147,14 @@ void CanBusLogic::grantSendingPermission() {
 
     if (sendcount > 1) {
         cComponent::bubble("More than one node sends with the same ID.");
-//        std::ostringstream oss;
-//        oss << "More than one node sends with the same ID " << currentSendingID
-//                << ". This behavior is not allowed.";
-//        throw cRuntimeError(oss.str().c_str());
     }
     if (sendingNode != NULL) {
         CanOutputBuffer* controller = check_and_cast<CanOutputBuffer *>(
                 sendingNode);
         controller->receiveSendingPermission(currentSendingID);
     } else {
-        EV << "no pending message" << endl;
         simtime_t timetaken = simTime() - busytimestamp;
         busytime += timetaken;
-        EV << "Busytime: " << busytime << "\n";
         idle = true;
         getDisplayString().setTagArg("tt", 0, "state: idle");
         bubble("state: idle");
