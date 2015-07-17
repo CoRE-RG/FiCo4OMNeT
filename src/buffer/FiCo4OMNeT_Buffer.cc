@@ -45,7 +45,6 @@ void Buffer::handleMessage(cMessage *msg) {
 }
 
 void Buffer::registerDestinationGate() {
-
     destinationGates.clear();
     std::vector<std::string> destinationGatePaths = cStringTokenizer(
             par("destination_gates").stringValue(), ",").asVector();

@@ -50,10 +50,10 @@ void BusPort::forward_to_all(cMessage *msg) {
     delete msg;
 }
 
-void BusPort::sendMsgToNode(cMessage *msg, int id){
+void BusPort::sendMsgToNode(cMessage *msg, int gateId){
     Enter_Method_Silent();
     take(msg);
-    send(msg, "phygate$o", id);
+    send(msg, "phygate$o", gateId);
 }
 
 }

@@ -31,7 +31,7 @@ package fico4omnet.bus;
 //
 // The bus port simulates the physical connection between the clients and the bus.
 //
-// Incoming frames are distributed to all connected ndoes.
+// Incoming frames are distributed to all connected nodes.
 //
 simple BusPort
 {

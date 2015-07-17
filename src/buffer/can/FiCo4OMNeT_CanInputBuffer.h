@@ -60,7 +60,7 @@ protected:
 
 private:
     /**
-     * @brief Registers the canIDs which will be received by this node.
+     * @brief Registers the can IDs which will be received by this node.
      */
     void registerIncomingDataFramesAtPort();
 };

@@ -52,11 +52,11 @@ void CanOutputBuffer::putFrame(cMessage* msg) {
     emit(rxPkSignal, msg);
 }
 
-void CanOutputBuffer::registerForArbitration(unsigned int id, bool rtr) {
+void CanOutputBuffer::registerForArbitration(unsigned int canID, bool rtr) {
     CanBusLogic *canBusLogic =
             dynamic_cast<CanBusLogic*> (getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->getSubmodule(
                     "canBusLogic"));
-    canBusLogic->registerForArbitration(id, this, simTime(), rtr);
+    canBusLogic->registerForArbitration(canID, this, simTime(), rtr);
 }
 
 void CanOutputBuffer::checkoutFromArbitration(unsigned int canID) {
@@ -67,13 +67,12 @@ void CanOutputBuffer::checkoutFromArbitration(unsigned int canID) {
         canBusLogic->checkoutFromArbitration(canID);
         deleteFrame(canID);
     }
-
 }
 
-void CanOutputBuffer::receiveSendingPermission(unsigned int id) {
+void CanOutputBuffer::receiveSendingPermission(unsigned int canID) {
     Enter_Method_Silent
     ();
-    deliverFrame(id);
+    deliverFrame(canID);
 }
 
 void CanOutputBuffer::sendingCompleted() {

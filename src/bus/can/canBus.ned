@@ -39,11 +39,13 @@ import fico4omnet.bus.can.CanBusLogic;
 module CanBus
 {
     parameters:
-        bool errorsActivated = default(false);		// activate if errors shall be enabled
-        double bandwidth @unit(bps) = default(1Mbps); //[MBit/s]
-        string version @enum("2.0A", "2.0B") = default("2.0A");					// Version of CAN-Protocol. 2.0A = 11 Bits identifier, 2.0B = 29 Bits identifier
-        double bitStuffingPercentage = default(0);			// Value for the percentage distribution for bit stuffing. Valid values 0 to 1.
         @display("i=block/network");
+        //bandwidth of the bus
+        double bandwidth @unit(bps) = default(1Mbps);
+        //Version of CAN-Protocol. 2.0A = 11 Bits identifier, 2.0B = 29 Bits identifier
+        string version @enum("2.0A", "2.0B") = default("2.0A");					
+        //Value for the percentage distribution for bit stuffing. Valid values 0 to 1.
+        double bitStuffingPercentage = default(0);			
     
     gates:
         inout gate[];

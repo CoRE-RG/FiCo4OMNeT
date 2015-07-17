@@ -39,23 +39,34 @@ simple CanBusLogic
     parameters:
     	@display("i=block/app");
     	
-        @signal[received](type=CanDataFrame);
-        @signal[receivedDF](type=CanDataFrame);
-        @signal[receivedRF](type=CanDataFrame);
-        @signal[receivedEF](type=ErrorFrame);
+    	//Signal for all received frames
+        @signal[rxPk](type=CanDataFrame);
+        //Signal for all received data frames
+        @signal[rxDF](type=CanDataFrame);
+        //Signal for all received remote frames
+        @signal[rxRF](type=CanDataFrame);
+        //Signal for all received error frames
+        @signal[rxEF](type=ErrorFrame);
+        //Signal for the state of the bus - idle or busy
         @signal[state];
         
-        @statistic[receivedDF](title="data frames received"; source=receivedDF; record=count; interpolationmode=none);
-        @statistic[rxCANIdDF](title="received CAN IDs via DF"; source="ID(receivedDF)"; record=histogram?,vector; interpolationmode=none);
-        @statistic[receivedRF](title="remote frames received"; source=receivedRF; record=count; interpolationmode=none);
-        @statistic[rxCANIdRF](title="received CAN IDs via RF"; source="ID(receivedRF)"; record=histogram?,vector?; interpolationmode=none);
-        @statistic[receivedEF](title="error frames received"; source=receivedEF; record=count; interpolationmode=none);
-        @statistic[rxCANIdEF](title="received CAN IDs via EF"; source="ID(receivedEF)"; record=histogram?,vector?; interpolationmode=none);
-
-		@statistic[framesPerSec](title="Frames/sec"; unit="fps"; source="sumPerDuration(constant1(received))"; record=last);
-        @statistic[bitsPerSec](title="Bits/sec"; unit="bps"; source="sumPerDuration(packetBits(receivedDF))"; record=last);
-        //@statistic[framesPerSec](title="Frames/sec"; unit="fps"; source="rmNaN(sumPerDuration(constant1(receivedDF)))+rmNaN(sumPerDuration(constant1(receivedRF)))"; record=last);
-        //@statistic[bitsPerSec](title="Bits/sec"; unit="bps"; source="rmNaN(sumPerDuration(packetBits(receivedDF)))+rmNaN(sumPerDuration(packetBits(receivedRF)))"; record=last);
+        //Statistic about the number of received data frames
+        @statistic[rxDF](title="data frames received"; source=rxDF; record=count; interpolationmode=none);
+        //Statistic about the can IDs received via data frames
+        @statistic[rxCANIdDF](title="received CAN IDs via DF"; source="ID(rxDF)"; record=histogram?,vector?; interpolationmode=none);
+        //Statistic about the number of received remote frames
+        @statistic[rxRF](title="remote frames received"; source=rxRF; record=count; interpolationmode=none);
+        //Statistic about the can IDs received via remote frames 
+        @statistic[rxCANIdRF](title="received CAN IDs via RF"; source="ID(rxRF)"; record=histogram?,vector?; interpolationmode=none);
+        //Statistic about the number of received error frames
+        @statistic[rxEF](title="error frames received"; source=rxEF; record=count; interpolationmode=none);
+        //Statistic about the can IDs received that generated an error
+        @statistic[rxCANIdEF](title="received CAN IDs via EF"; source="ID(rxEF)"; record=histogram?,vector?; interpolationmode=none);
+		//Statistic about the frames per second over the whole simulation time
+		@statistic[framesPerSec](title="Frames/sec"; unit="fps"; source="sumPerDuration(constant1(rxPk))"; record=last);
+		//Statistic about the bits per second over the whole simulation time
+        @statistic[bitsPerSec](title="Bits/sec"; unit="bps"; source="sumPerDuration(packetBits(rxDF))"; record=last);
+        //Statistic about the percentage utilization of the bus. 
         @statistic[utilization](title="Utilization"; unit="%"; source="lowHighRatio(state)*100"; record=last);
         
     gates:

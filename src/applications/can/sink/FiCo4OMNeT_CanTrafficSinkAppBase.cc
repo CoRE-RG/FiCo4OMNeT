@@ -30,34 +30,18 @@
 
 namespace FiCo4OMNeT {
 
-Define_Module(CanTrafficSinkAppBase)
-;
+Define_Module(CanTrafficSinkAppBase);
 
 void CanTrafficSinkAppBase::initialize() {
     idle = true;
     currentFrameID = 0;
     bufferMessageCounter = 0;
 
-    rcvdDFSignal = registerSignal("receivedCompleteDF");
-    rcvdRFSignal = registerSignal("receivedCompleteRF");
-    receivedDFPayload = registerSignal("receivedDFPayload");
-    receivedRFPayload = registerSignal("receivedRFPayload");
-//    registerIncomingDataFramesAtPort();
+    rxDFSignal = registerSignal("rxDF");
+    rxRFSignal = registerSignal("rxRF");
+    rxDFPayloadSignal = registerSignal("rxDFPayload");
+    rxRFPayloadSignal = registerSignal("rxRFPayload");
 }
-
-//void CanTrafficSinkAppBase::registerIncomingDataFramesAtPort() {
-//    CanPortInput* port = (CanPortInput*) getParentModule()->getSubmodule(
-//            "canNodePort")->getSubmodule("canPortInput");
-//    cStringTokenizer idIncomingFramesTokenizer(par("idIncomingFrames"), ",");
-//
-//    while (idIncomingFramesTokenizer.hasMoreTokens()){
-//        std::stringstream strValue;
-//        int intValue;
-//        strValue << idIncomingFramesTokenizer.nextToken();
-//        strValue >> intValue;
-//        port->registerIncomingDataFrame(intValue);
-//    }
-//}
 
 void CanTrafficSinkAppBase::handleMessage(cMessage *msg) {
     if (msg->arrivedOn("controllerIn")) {
@@ -71,11 +55,11 @@ void CanTrafficSinkAppBase::handleMessage(cMessage *msg) {
         bufferMessageCounter--;
         cPacket* payload_packet = frame->decapsulate();
         if (frame->getRtr()) {
-            emit(rcvdRFSignal, frame);
-            emit(receivedRFPayload, payload_packet);
+            emit(rxRFSignal, frame);
+            emit(rxRFPayloadSignal, payload_packet);
         } else {
-            emit(rcvdDFSignal, frame);
-            emit(receivedDFPayload, payload_packet);
+            emit(rxDFSignal, frame);
+            emit(rxDFPayloadSignal, payload_packet);
         }
         frame->encapsulate(payload_packet);
         startWorkOnFrame(0);
@@ -98,11 +82,7 @@ void CanTrafficSinkAppBase::requestFrame() {
 }
 
 void CanTrafficSinkAppBase::startWorkOnFrame(float workTime) {
-
     (void)workTime;
-
-//    cMessage *msg = new cMessage("workFinished");
-//    scheduleAt(simTime() + workTime, msg);
 }
 
 }

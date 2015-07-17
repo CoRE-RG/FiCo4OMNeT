@@ -36,8 +36,8 @@ namespace FiCo4OMNeT {
 
 /**
  * @brief Represents the connection between the bus and all connected nodes.
- * It forwards received frames to the bus logic and outgoing frames are forwarded to all connected nodes.
  *
+ * It forwards received frames to the bus logic and outgoing frames are forwarded to all connected nodes.
  *
  * @ingroup Bus
  *
@@ -47,10 +47,7 @@ class BusPort : public cSimpleModule {
 
     protected:
         /**
-         * @brief Handles all scheduler messages
-         *
-         * Registers self-messages for events sends messages to trigger events in
-         * remote modules.
+         * @brief Messages from bus participants are forwarded to the inner module and messages from the inner module are forwarded to all bus participants.
          *
          * @param msg the incoming message.
          */
@@ -62,14 +59,16 @@ class BusPort : public cSimpleModule {
          *
          * A copy of the Frame is generated and subsequently sent to all participants.
          * The original message will be deleted afterwards.
-         *
          */
         virtual void forward_to_all(cMessage *msg);
 
         /**
          * @brief Sends a message to a single node.
+         *
+         * @param msg message to be sent
+         * @param gateId identifier of the gate
          */
-        virtual void sendMsgToNode(cMessage *msg, int id);
+        virtual void sendMsgToNode(cMessage *msg, int gateId);
 };
 
 }

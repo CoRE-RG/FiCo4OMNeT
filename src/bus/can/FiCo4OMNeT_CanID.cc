@@ -30,24 +30,24 @@
 
 namespace FiCo4OMNeT {
 
-CanID::CanID(unsigned int id, cModule *node, simtime_t signInTime, bool rtr) :
-        id_(id), node_(node), signInTime_(signInTime), rtr_(rtr) {
+CanID::CanID(unsigned int canID, cModule *module, simtime_t signInTime, bool rtr) :
+        canID(canID), module(module), signInTime(signInTime), rtr(rtr) {
 }
 
-unsigned int CanID::getId() const{
-    return id_;
+unsigned int CanID::getCanID() const{
+    return canID;
 }
 
 cModule* CanID::getNode() const{
-    return node_;
+    return module;
 }
 
 bool CanID::getRtr() const{
-    return rtr_;
+    return rtr;
 }
 
 simtime_t CanID::getSignInTime() const {
-    return signInTime_;
+    return signInTime;
 }
 
 }

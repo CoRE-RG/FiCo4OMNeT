@@ -50,13 +50,16 @@ class CanOutputBuffer: public CanBuffer {
 
 public:
     /**
-     *
+     * @brief Destructor
      */
     virtual ~CanOutputBuffer();
+
     /**
      * @brief Is called by the bus logic to permit the frame transmission.
+     *
+     * @param canID The can ID of the frame
      */
-    virtual void receiveSendingPermission(unsigned int id);
+    virtual void receiveSendingPermission(unsigned int canID);
 
     /**
      * @brief Is called when the frame transmission is completed.
@@ -66,7 +69,7 @@ public:
     /**
      * @brief Puts the frame into the collection and informs the connected gates about the receiption.
      *
-     * @param msg The DataFrame to put in the buffer.
+     * @param msg The frame to put in the buffer.
      *
      */
     virtual void putFrame(cMessage* msg);
@@ -74,13 +77,18 @@ public:
 protected:
     /**
      * @brief This method registers a frame at the bus for arbitration.
+     *
+     * @param canID The can ID of the frame
+     * @param rtr Identifier whether the frame is a remote frame
      */
-    virtual void registerForArbitration(unsigned int id, bool rtr);
+    virtual void registerForArbitration(unsigned int canID, bool rtr);
 
     /**
      * @brief Unregister from arbitration at the bus.
+     *
+     * @param canID The can ID of the frame
      */
-    virtual void checkoutFromArbitration(unsigned int id);
+    virtual void checkoutFromArbitration(unsigned int canID);
 };
 
 }

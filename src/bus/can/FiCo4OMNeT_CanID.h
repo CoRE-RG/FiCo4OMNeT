@@ -38,7 +38,7 @@ namespace FiCo4OMNeT {
 
 
 /**
- * @brief Used for the arbitration list of the CAN_Bus node. 
+ * @brief Used by the #CanBusLogic for the arbitration of can frames.
  *
  * This object contains informations about specific message-ID's.
  * The bus can obtain informations about the related node of a message-ID and the configuration of that message-ID. 
@@ -51,22 +51,29 @@ class CanID {
 		 *
 		 * Creates an ID object
 		 *
+		 * @param canID the ID of the can frame
+		 * @param node the module which wants to send the message
+		 * @param signInTime the time the frame was signed in
+		 * @param rtr identifier whether the frame is a remote frame
 		 */
-		CanID(unsigned int id, cModule* node, simtime_t signInTime, bool rtr);
+		CanID(unsigned int canID, cModule* module, simtime_t signInTime, bool rtr);
+
 		/**
-	     * @brief Getter for the message-ID 
+	     * @brief Getter for the can ID
 		 *
-		 * @return the message-ID of the object 
+		 * @return the can ID of the object
 		 *
 		 */
-		unsigned int getId() const;
+		unsigned int getCanID() const;
+
 		/**
 	     * @brief Getter for the node of the message
 		 *
-		 * @return the related node of this message-ID
+		 * @return the related node for this CanID object
 		 *
 		 */
 		cModule* getNode() const;
+
 		/**
 	     * @brief Getter for signInTime
 		 *
@@ -75,34 +82,33 @@ class CanID {
 		 */
 		simtime_t getSignInTime() const;
 		/**
-	     * @brief Getter RTR-bit of the message-ID
+	     * @brief Getter for the RTR-bit of the CanID object
 		 *
-		 * @return the RTR-bit of the message-ID. 0 = Data-Frame; 1 = Remote-Frame
+		 * @return the RTR-bit of the CanID object.
 		 *
 		 */
 		bool getRtr() const;
 
 	private:
 		/**
-		* message-ID
-		*
+		* @brief the can ID
 		*/
-		unsigned int id_;
+		unsigned int canID;
+
 		/**
-		* Related node to this ID
-		*
+		* @brief Related module which wants to send the message
 		*/
-		cModule *node_;
+		cModule *module;
+
 		/**
-		* Point of time the node started to send an arbitration-message
-		*
+		* @brief Point of time when the frame was signed in
 		*/
-		simtime_t signInTime_;
+		simtime_t signInTime;
+
 		/**
-		* false = data-frame; true = remote-frame
-		*
+		* @brief identifier whether the frame is a data or remote frame.
 		*/
-		bool rtr_;
+		bool rtr;
 };
 
 }

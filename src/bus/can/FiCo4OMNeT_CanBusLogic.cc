@@ -119,8 +119,8 @@ void CanBusLogic::grantSendingPermission() {
 
     for (std::list<CanID*>::iterator it = ids.begin(); it != ids.end(); ++it) {
         CanID *id = *it;
-        if (id->getId() < currentSendingID) {
-            currentSendingID = id->getId();
+        if (id->getCanID() < currentSendingID) {
+            currentSendingID = id->getCanID();
             sendingNode = dynamic_cast<CanOutputBuffer*> (id->getNode());
             currsit = id->getSignInTime();
         }
@@ -130,7 +130,7 @@ void CanBusLogic::grantSendingPermission() {
     bool nodeFound = false;
     for (std::list<CanID*>::iterator it = ids.begin(); it != ids.end(); ++it) {
         CanID *id = *it;
-        if (id->getId() == currentSendingID) {
+        if (id->getCanID() == currentSendingID) {
             if (id->getRtr() == false) { //Data-Frame
                 sendcount++;
                 if (!nodeFound) {
@@ -213,18 +213,14 @@ void CanBusLogic::handleErrorFrame(cMessage *msg) {
         emit(rcvdEFSignal, ef2);
         errored = true;
         send(msg->dup(), "gate$o");
-
-        //TODO Errorframes statistic?!?!
-        //numFramesSent++;
-        //numBitsSent+=df->getLength();
     }
 }
 
-void CanBusLogic::registerForArbitration(unsigned int id, cModule *node,
+void CanBusLogic::registerForArbitration(unsigned int canID, cModule *module,
         simtime_t signInTime, bool rtr) {
     Enter_Method_Silent
     ();
-    ids.push_back(new CanID(id, node, signInTime, rtr));
+    ids.push_back(new CanID(canID, module, signInTime, rtr));
     if (idle) {
         cMessage *self = new cMessage("idle_signin");
         scheduleAt(simTime() + (1 / (bandwidth)), self);
@@ -241,7 +237,7 @@ void CanBusLogic::checkoutFromArbitration(unsigned int canID) {
     ();
     for (std::list<CanID*>::iterator it = ids.begin(); it != ids.end(); ++it) {
         CanID* tmp = *it;
-        if (tmp->getId() == canID) {
+        if (tmp->getCanID() == canID) {
             ids.remove(tmp);
             delete tmp;
             break;
@@ -310,4 +306,3 @@ void CanBusLogic::colorError() {
 }
 
 }
-//TEST FR!!!!!!!!!!!!

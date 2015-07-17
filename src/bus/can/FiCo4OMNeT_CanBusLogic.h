@@ -43,6 +43,8 @@ namespace FiCo4OMNeT {
 /**
  * @brief Represents the logic of the bus. It handles the arbitration for the network and provides several statistic values.
  *
+ * Since it is not effectively possible to realize the arbitration as it is specified, the bus module grants sending permissions to the node with the highest priority frame.
+ * Every node has the possibility to register the frames it wants to send at the bus and wait until it is its turn to transmit the message.
  *
  * @ingroup Bus
  *
@@ -51,29 +53,47 @@ namespace FiCo4OMNeT {
 class CanBusLogic: public cSimpleModule {
 public:
     /**
-     * Constructor of CanBusLogic
+     * @brief Constructor of CanBusLogic
      */
     CanBusLogic();
 
     /**
-     * Destructor of CanBusLogic
+     * @brief Destructor of CanBusLogic
      */
     ~CanBusLogic();
+
     /**
      * @brief Registers the frame of the node for the arbitration.
+     *
+     * @param canID the ID of the can frame
+     * @param node the module which wants to send the message
+     * @param signInTime the time the frame was signed in
+     * @param rtr identifier whether the frame is a remote frame
      */
-    virtual void registerForArbitration(unsigned int id, cModule *node,
+    virtual void registerForArbitration(unsigned int canID, cModule *module,
             simtime_t signInTime, bool rtr);
 
     /**
      * @brief The request for frame with the corresponding ID will be checked out.
+     *
+     * @param canID the ID of the can frame that should be checked out
      */
-    virtual void checkoutFromArbitration(unsigned int id);
+    virtual void checkoutFromArbitration(unsigned int canID);
 
+    /**
+     * @brief getter for #currentSendingID
+     *
+     * @return the can ID of the frame that is currently transmitted.
+     */
     unsigned int getCurrentSendingId() const {
         return currentSendingID;
     }
 
+    /**
+     * @brief Returns the object ID of the currently transmitting module.
+     *
+     * @return object ID  of the currently transmitting module
+     */
     int getSendingNodeID();
 
 protected:
