@@ -37,15 +37,34 @@ namespace FiCo4OMNeT {
 class CanClock : public cSimpleModule {
 
 private:
+    /**
+     * @brief Signal to emit the current drift.
+     */
     simsignal_t clockDriftSignal;
+    /**
+     * @brief contains the current drift
+     */
     double currentDrift;
+    /**
+     * @brief The drift of the clock can not exceed this value (positive and negative).
+     */
     double maxDrift;
+    /**
+     * @brief Within one second the drift of the clock can not change for more than this value (positive and negative).
+     */
     double maxDriftChange;
-    bool randomStartDrift;
+    /**
+     * @brief This holds the time when the last drift change was applied.
+     */
     simtime_t lastDriftUpdate;
 
+    /**
+     * @brief Calculates the new drift based on #currentDrift, #maxDrift, #maxDriftChange and #lastDriftUpdate
+     */
     void calculateNewDrift();
-
+    /**
+     * @brief If an initial Drift is activated in the ini, a random drift is calculated.
+     */
     void calculateInitialDrift();
 
 protected:
@@ -55,6 +74,11 @@ protected:
     virtual void initialize();
 
 public:
+    /**
+     * @brief getter for the current drift
+     *
+     * @return returns the current drift of the clock
+     */
     double getCurrentDrift();
 
 };

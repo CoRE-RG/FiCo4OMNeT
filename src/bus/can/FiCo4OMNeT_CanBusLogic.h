@@ -171,12 +171,12 @@ private:
      * amount of time that the bus was in busy-state
      *
      */
-    simtime_t busytime;
+    simtime_t busytime; //TODO clean this up
     /**
      * simtime in the moment of the change from state idle to state busy
      *
      */
-    simtime_t busytimestamp;
+    simtime_t busytimestamp;//TODO clean this up
     /**
      * The sign-in-time of the current data-frame. Used for forwarding to the node so that they can collect data about the elapsed time.
      *
@@ -206,7 +206,7 @@ private:
      * List of message-IDs that want to send a message. Used like a priority queue.
      *
      */
-    std::list<CanID*> ids; //Die Nachrichten-IDs der Knoten, die senden wollen
+    std::list<CanID*> ids;
 
     /**
      * Vector with CanIDs which are currently scheduled for arbitration and will be deleted after transmission.
@@ -270,23 +270,23 @@ private:
     /**
      * @brief Is called when a data frame is received.
      *
-     *
+     * @param msg received can data frame
      */
     virtual void handleDataFrame(cMessage *msg);
 
     /**
      * @brief Is called when an error frame is received.
      *
-     *
+     * @param msg received error frame
      */
     virtual void handleErrorFrame(cMessage *msg);
 
     /**
-     * @brief Colors the connections of the bus to represent it is busy.
+     * @brief Colors the connections of the bus to represent it as busy.
      */
     virtual void colorBusy();
     /**
-     * @brief Colors the connections of the bus to represent it is idle.
+     * @brief Colors the connections of the bus to represent it as idle.
      */
     virtual void colorIdle();
     /**

@@ -39,11 +39,9 @@ import fico4omnet.scheduler.can.CanClock;
 
 //
 //
-// The node consists of several submodules which have different tasks. The source applications generate data and remote frames,
-// the sink applications process incoming frames, the buffers save the data and remote frames while the portmodule is responsible
-// for receiving and sending data and remote frames.
-//
-// It is possible to generate any number of source applications which forward their frames all to the same buffer.
+//The node consists of several submodules which have different tasks. The source applications generate data and remote frames,
+//the sink applications process incoming frames, the buffers save the data and remote frames while the portmodule is responsible
+//for receiving and sending data and remote frames.
 //
 //
 //
@@ -51,11 +49,15 @@ import fico4omnet.scheduler.can.CanClock;
 module CanNode
 {
     parameters:
-        int numSourceApps = default(1);						// Number of source apps in this node
-        int numSinkApps = default(1);						// Number of source apps in this node
-        int numInputBuffer = default(1);					// Number of input buffer in this node
-        int errorperc = default(0);							// If errors are enabled: percentage of errors
-//        sourceApp[*].typename ="CanTrafficSourceAppBase";
+        //Number of source apps in this node
+        int numSourceApps = default(1);
+        //Number of sink apps in this node
+        int numSinkApps = default(1);
+        //Number of input buffer in this node
+        int numInputBuffer = default(1);
+        //percentage of errors
+        int errorperc = default(0);
+
         @display("i=block/app2;bgb=248,222");
 
     gates:
@@ -80,9 +82,6 @@ module CanNode
         sourceApp[numSourceApps]: <default("CanTrafficSourceAppBase")> like ISourceApplication {
             @display("p=98,32,row,70");
         }
-//        sourceApp[numSourceApps]: <> like ISourceApplication {
-//            @display("p=98,32,row,70");
-//        }
         sinkApp[numSinkApps]: <default("CanTrafficSinkAppBase")> like ISinkApplication {
             @display("p=203,32");
         }
@@ -92,10 +91,6 @@ module CanNode
     connections:
         canNodePort.phygate <--> gate;
         canNodePort.upperLayerIn <-- bufferOut.out;
-        //        canNodePort.upperLayerOut --> bufferIn.in[0];
-        //		for i=0..numInputBuffer-1 {
-        //            canNodePort.upperLayerOut[i] <-- bufferIn.out[i];
-        //        }
         for i=0..numSourceApps-1 {
             sourceApp[i].out --> bufferOut.in[i];
         }

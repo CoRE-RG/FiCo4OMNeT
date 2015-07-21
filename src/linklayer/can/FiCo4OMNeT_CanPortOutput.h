@@ -44,6 +44,9 @@ namespace FiCo4OMNeT {
  */
 class CanPortOutput: public cSimpleModule {
 public:
+    /**
+     * @brief Destructor
+     */
     virtual ~CanPortOutput();
 
     /**
@@ -123,6 +126,10 @@ private:
 
     /**
      * @brief Calculates when the frame is ready to be forwarded based on the number of bits.
+     *
+     * @param length length of the frame in bit
+     *
+     * @return the duration in seconds until frame transmission is completed
      */
     virtual double calculateScheduleTiming(int length);
 

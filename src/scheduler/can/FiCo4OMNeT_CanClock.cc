@@ -36,13 +36,12 @@ void CanClock::initialize() {
     clockDriftSignal = registerSignal("clockDrift");
     maxDrift = par("maxDrift");
     maxDriftChange = par("maxDriftChange");
-    randomStartDrift = par("randomStartDrift").boolValue();
     lastDriftUpdate = simTime();
-//    calculateNewDrift();
     calculateInitialDrift();
 }
 
 void CanClock::calculateInitialDrift(){
+    bool randomStartDrift = par("randomStartDrift").boolValue();
     if (randomStartDrift) {
         currentDrift = uniform((-maxDrift), maxDrift);
     }

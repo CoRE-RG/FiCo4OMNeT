@@ -36,15 +36,23 @@ package fico4omnet.linklayer.can;
 simple CanPortOutput
 {
     parameters:
-        @signal[sentDF](type=CanDataFrame);
-        @signal[sentRF](type=CanDataFrame);
-        @signal[receiveError](type=ErrorFrame);
-        @signal[sendError](type=ErrorFrame);
+        //Signal for transmitted data frames
+        @signal[txDF](type=CanDataFrame);
+        //Signal for transmitted remote frames
+        @signal[txRF](type=CanDataFrame);
+        //Signal for transmitted error frames
+        @signal[txEF](type=ErrorFrame);
+        //Signal for received error frames
+        @signal[rxEF](type=ErrorFrame);
 
-        @statistic[sentDF](title="sent data frames"; source=sentDF; record=count; interpolationmode=none);
-        @statistic[sentRF](title="sent remote frames"; source=sentRF; record=count; interpolationmode=none);
-        @statistic[receiveError](title="receive errors"; source=receiveError; record=count; interpolationmode=none);
-        @statistic[sendError](title="sent errors"; source=sendError; record=count; interpolationmode=none);
+		//Statistic about the number of transmitted data frames.
+        @statistic[txDF](title="sent data frames"; source=txDF; record=count);
+        //Statistic about the number of transmitted remote frames.
+        @statistic[txRF](title="sent remote frames"; source=txRF; record=count);
+        //Statistic about the number of transmitted error frames.
+        @statistic[txEF](title="sent errors"; source=txEF; record=count);
+        //Statistic about the number of received error frames.
+        @statistic[rxEF](title="receive errors"; source=rxEF; record=count);
 
     gates:
         output out @loose;

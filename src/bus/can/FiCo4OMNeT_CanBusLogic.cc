@@ -70,7 +70,6 @@ void CanBusLogic::initialize() {
     bubble("state: idle");
     getDisplayString().setTagArg("tt", 0, buf);
 
-
     bandwidth = getParentModule()->par("bandwidth");
 }
 
@@ -109,7 +108,6 @@ void CanBusLogic::handleMessage(cMessage *msg) {
         colorError();
         handleErrorFrame(msg);
     }
-
     delete msg;
 }
 

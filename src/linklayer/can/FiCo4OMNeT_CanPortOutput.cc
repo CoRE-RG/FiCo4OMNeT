@@ -50,9 +50,7 @@ void CanPortOutput::handleReceivedErrorFrame() {
 void CanPortOutput::initialize() {
     bandwidth = getParentModule()->getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->par("bandwidth");
     errorperc = getParentModule()->getParentModule()->par("errorperc");
-
     scheduledErrorFrame = new ErrorFrame();
-
     initializeStatisticValues();
 }
 
