@@ -7,6 +7,8 @@
 # for -Werror
 
 CFLAGS += -std=c++11
+# For compatibility (4.6 to 5.0)
+CFLAGS += -DAUTOIMPORT_NAMESPACE
 
 UNAME_S := $(shell uname -s)
 

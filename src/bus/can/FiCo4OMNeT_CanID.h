@@ -32,7 +32,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <omnetpp.h>
-#include <cmodule.h>
 
 namespace FiCo4OMNeT {
 

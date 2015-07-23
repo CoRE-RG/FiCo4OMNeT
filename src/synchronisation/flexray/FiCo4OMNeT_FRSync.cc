@@ -156,7 +156,7 @@ size_t FRSync::getLineNr(int frameID) {
 		position.push_back(frameID);
 	}
 	if (zPos > MAXSYNCNODES-1) {
-		opp_error("too many sync nodes");
+		throw cRuntimeError("too many sync nodes");
 	}
 	return zPos;
 }
@@ -166,7 +166,7 @@ void FRSync::storeDeviationValue(int frameID, int zEO, int zCh, int value,
 	Enter_Method_Silent();
 	size_t zPos = getLineNr(frameID);
 	if (T_DevTable[zEO][zCh][zPos].valid) {
-		opp_error("multiple sync nodes in slot %d",frameID);
+		throw cRuntimeError("multiple sync nodes in slot %d",frameID);
 	} else {
 		T_DevTable[zEO][zCh][zPos].value = value;
 		T_DevTable[zEO][zCh][zPos].valid = valid;
@@ -177,7 +177,7 @@ void FRSync::storeOwnSyncFrame(int frameID, int zEO){
 	Enter_Method_Silent();
 	size_t zPos = getLineNr(frameID);
 	if (T_DevTable[zEO][0][zPos].valid && T_DevTable[zEO][1][zPos].valid) {
-		opp_error("multiple sync nodes in slot %d",frameID);
+		throw cRuntimeError("multiple sync nodes in slot %d",frameID);
 	} else {
 			T_DevTable[zEO][0][zPos].value = 0;
 			T_DevTable[zEO][0][zPos].valid = true;

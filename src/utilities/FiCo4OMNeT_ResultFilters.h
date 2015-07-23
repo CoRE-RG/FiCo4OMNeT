@@ -2,7 +2,7 @@
 #define __FICO4OMNET_RESULTFILTERS_H
 
 //OMNeT++
-#include "cresultfilter.h"
+#include "omnetpp.h"
 
 namespace FiCo4OMNeT {
 

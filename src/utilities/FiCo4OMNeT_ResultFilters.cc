@@ -1,6 +1,6 @@
 #include "FiCo4OMNeT_ResultFilters.h"
 
-#include "cmessage.h"
+#include "omnetpp.h"
 #include "CanDataFrame_m.h"
 #include "ErrorFrame_m.h"
 #include "FRFrame_m.h"

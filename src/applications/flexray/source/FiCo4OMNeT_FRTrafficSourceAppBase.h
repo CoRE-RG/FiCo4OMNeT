@@ -18,7 +18,6 @@
 
 #include <omnetpp.h>
 #include <string.h>
-#include <clistener.h>
 #include "FiCo4OMNeT_SchedulerMessage_m.h"
 #include "FiCo4OMNeT_FRBuffer.h"
 #include "FRFrame_m.h"

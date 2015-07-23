@@ -250,7 +250,7 @@ void CanBusLogic::checkoutFromArbitration(unsigned int canID) {
 }
 
 void CanBusLogic::colorBusy() {
-    if (ev.isGUI()) {
+    if (getEnvir()->isGUI()) {
         for (int gateIndex = 0;
                 gateIndex
                         < getParentModule()->gate("gate$o", 0)->getVectorSize();
@@ -270,7 +270,7 @@ void CanBusLogic::colorBusy() {
 }
 
 void CanBusLogic::colorIdle() {
-    if (ev.isGUI()) {
+    if (getEnvir()->isGUI()) {
         for (int gateIndex = 0;
                 gateIndex
                         < getParentModule()->gate("gate$o", 0)->getVectorSize();
@@ -290,7 +290,7 @@ void CanBusLogic::colorIdle() {
 }
 
 void CanBusLogic::colorError() {
-    if (ev.isGUI()) {
+    if (getEnvir()->isGUI()) {
         for (int gateIndex = 0;
                 gateIndex
                         < getParentModule()->gate("gate$o", 0)->getVectorSize();
