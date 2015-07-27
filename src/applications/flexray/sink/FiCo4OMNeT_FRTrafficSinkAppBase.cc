@@ -19,10 +19,11 @@ namespace FiCo4OMNeT {
 
 Define_Module(FRTrafficSinkAppBase);
 
-void FRTrafficSinkAppBase::initialize() {
-    idle = true;
-    currentFrameID = 0;
-    bufferMessageCounter = 0;
+FRTrafficSinkAppBase::FRTrafficSinkAppBase(){
+    this->bufferMessageCounter = 0;
+    this->idle = true;
+    this->currentFrameID = 0;
+
 }
 
 void FRTrafficSinkAppBase::handleMessage(cMessage *msg) {

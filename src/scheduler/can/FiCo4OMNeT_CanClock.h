@@ -55,6 +55,10 @@ protected:
     virtual void initialize();
 
 public:
+    /**
+     * @brief Constructor
+     */
+    CanClock();
     double getCurrentDrift();
 
 };

@@ -19,6 +19,37 @@ namespace FiCo4OMNeT {
 
 Define_Module(FRScheduler);
 
+FRScheduler::FRScheduler(){
+    this->lastCycleStart = 0;
+    this->lastCycleTicks = 0;
+    this->gateFRApp = nullptr;
+    this->newCyclemsg = nullptr;
+    this->maxDriftChange = 0;
+    this->maxDrift = 0;
+    this->currentTick = 0;
+    this->cycleTicks = 0;
+    this->cycles = 0;
+    this->gCycleCountMax = 0;
+    this->vCycleCounter = 0;
+    this->pdMicrotick = 0;
+    this->gdMacrotick = 0;
+    this->gdStaticSlot = 0;
+    this->gdMinislot = 0;
+    this->gdNIT = 0;
+    this->gdSymbolWindow = 0;
+    this->gNumberOfMinislots = 0;
+    this->gNumberOfStaticSlots = 0;
+    this->gdActionPointOffset = 0;
+    this->gdMinislotActionPointOffset = 0;
+    this->bandwidth = 0;
+    this->pMicroPerCycle = 0;
+    this->zOffsetCorrection = 0;
+    this->zRateCorrection = 0;
+    this->additionalMinislotsChA = 0;
+    this->additionalMinislotsChB = 0;
+
+}
+
 //simsignal_t FRScheduler::newCycle = SIMSIGNAL_NULL;
 
 void FRScheduler::initialize() {
@@ -46,9 +77,6 @@ void FRScheduler::initialize() {
     scheduleAt(simTime(), new SchedulerEvent("NEW_CYCLE", NEW_CYCLE));
     lastCycleStart = simTime();
     pMicroPerCycle = static_cast<unsigned int>((getCycleTicks() * gdMacrotick) / pdMicrotick);
-
-    zRateCorrection = 0;
-    zOffsetCorrection = 0;
 
 //    FRApp *frApp = (FRApp*) (getParentModule()->getSubmodule("frApp"));
 //    frApp->setMaxRandom(

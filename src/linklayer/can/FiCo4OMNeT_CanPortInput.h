@@ -48,6 +48,11 @@ namespace FiCo4OMNeT {
 class CanPortInput: public cSimpleModule {
 public:
     /**
+     * @brief Constructor
+     */
+    CanPortInput();
+
+    /**
      * @brief Source Applications can register their CanIDs so that incoming remote frames are forwarded to them.
      */
     virtual void registerOutgoingDataFrame(unsigned int canID, cGate* gate);

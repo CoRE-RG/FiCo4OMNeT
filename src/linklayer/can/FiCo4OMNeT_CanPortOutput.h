@@ -44,6 +44,11 @@ namespace FiCo4OMNeT {
  */
 class CanPortOutput: public cSimpleModule {
 public:
+    /**
+     * @brief Constructor
+     */
+    CanPortOutput();
+
     virtual ~CanPortOutput();
 
     /**

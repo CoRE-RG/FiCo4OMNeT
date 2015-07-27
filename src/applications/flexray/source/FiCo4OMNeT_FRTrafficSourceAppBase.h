@@ -35,6 +35,10 @@ namespace FiCo4OMNeT {
 class FRTrafficSourceAppBase: public cSimpleModule, cListener {
 
 public:
+    /**
+     * @brief Constructor
+     */
+    FRTrafficSourceAppBase();
 
     virtual void receiveSignal(cComponent *source, simsignal_t signalID, long l);
 

@@ -31,12 +31,12 @@ namespace FiCo4OMNeT {
  * @author Stefan Buschmann
  */
 class FRTrafficSinkAppBase : public cSimpleModule{
-
-protected:
+public:
     /**
-     * @brief Initialization of the module.
+     * @brief Constructor
      */
-    virtual void initialize();
+    FRTrafficSinkAppBase();
+protected:
 
     /**
      * @brief Collects incoming message and writes statistics.

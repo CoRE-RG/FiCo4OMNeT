@@ -19,6 +19,11 @@ namespace FiCo4OMNeT {
 
 Define_Module(FRTrafficSourceAppBase);
 
+FRTrafficSourceAppBase::FRTrafficSourceAppBase(){
+    this->vCycleCounter = 0;
+
+}
+
 void FRTrafficSourceAppBase::initialize() {
     getParentModule()->subscribe("newCycle", this);
 //    subscribe("newCycle", this);

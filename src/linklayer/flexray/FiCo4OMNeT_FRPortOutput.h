@@ -24,6 +24,11 @@ namespace FiCo4OMNeT {
 class FRPortOutput: public cSimpleModule {
 public:
     /**
+     * @brief Constructor
+     */
+    FRPortOutput();
+
+    /**
      * @brief Is called when the transmission of a frame is completed.
      */
     virtual void sendingCompleted();

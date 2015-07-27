@@ -209,6 +209,11 @@ class FRScheduler : public cSimpleModule {
 
     public:
         /**
+         * @brief Constructor
+         */
+        FRScheduler();
+
+        /**
          * @brief Returns the current number of ticks
          *
          * @return Number of ticks since last cycle start

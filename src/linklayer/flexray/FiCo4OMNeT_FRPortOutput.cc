@@ -19,6 +19,10 @@ namespace FiCo4OMNeT {
 
 Define_Module(FRPortOutput);
 
+FRPortOutput::FRPortOutput(){
+    this->bandwidth = 0;
+}
+
 void FRPortOutput::initialize() {
     bandwidth = getParentModule()->getParentModule()->par("bandwidth");
 //    initializeStatisticValues();

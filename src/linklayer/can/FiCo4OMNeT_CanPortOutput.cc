@@ -32,6 +32,12 @@ namespace FiCo4OMNeT {
 
 Define_Module(CanPortOutput);
 
+CanPortOutput::CanPortOutput(){
+    this->bandwidth = 0;
+    this->errorperc = 0;
+    this->scheduledErrorFrame = nullptr;
+    this->errorReceived = false;
+}
 
 CanPortOutput::~CanPortOutput(){
     cancelAndDelete(scheduledErrorFrame);

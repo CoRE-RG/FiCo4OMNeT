@@ -32,6 +32,15 @@ namespace FiCo4OMNeT {
 
 Define_Module(CanClock);
 
+CanClock::CanClock(){
+    this->clockDriftSignal = 0;
+    this->currentDrift = 0;
+    this->maxDrift = 0;
+    this->maxDriftChange = 0;
+    this->randomStartDrift = true;
+    this->lastDriftUpdate = 0;
+}
+
 void CanClock::initialize() {
     clockDriftSignal = registerSignal("clockDrift");
     maxDrift = par("maxDrift");

@@ -32,14 +32,20 @@ namespace FiCo4OMNeT {
 
 Define_Module(CanPortInput);
 
+CanPortInput::CanPortInput(){
+    this->bandwidth = 0;
+    this->errorperc = 0;
+    this->scheduledDataFrame = nullptr;
+    this->scheduledErrorFrame = nullptr;
+}
+
 void CanPortInput::initialize() {
     bandwidth =
             getParentModule()->getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->par(
                     "bandwidth");
     errorperc = getParentModule()->getParentModule()->par("errorperc");
 
-    scheduledDataFrame = NULL;
-    scheduledErrorFrame = NULL;
+
 
     rcvdDFSignal = registerSignal("receivedCompleteDF");
     rcvdRFSignal = registerSignal("receivedCompleteRF");
