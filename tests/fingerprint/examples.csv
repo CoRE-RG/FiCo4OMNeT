@@ -15,10 +15,10 @@
 
 # FlexRay
 /examples/flexray/dynamic/,                                      -f omnetpp.ini -c General -r 0,                0.5s,            548d-e146
-/examples/flexray/performanceA/,                                 -f omnetpp.ini -c General -r 0,                0.5s,            81eb-a058
-/examples/flexray/performanceB/,                                 -f omnetpp.ini -c General -r 0,                0.5s,            e70c-2d76
-/examples/flexray/performanceC/,                                 -f omnetpp.ini -c General -r 0,                0.5s,            73ea-ed62
-/examples/flexray/performanceD/,                                 -f omnetpp.ini -c General -r 0,                0.5s,            77d0-8e28
-/examples/flexray/performanceE/,                                 -f omnetpp.ini -c General -r 0,                0.5s,            5bd2-110c
+/examples/flexray/performanceA/,                                 -f omnetpp.ini -c General -r 0,                0.1s,            92da-68e7
+/examples/flexray/performanceB/,                                 -f omnetpp.ini -c General -r 0,                0.1s,            19f1-7afc
+/examples/flexray/performanceC/,                                 -f omnetpp.ini -c General -r 0,                0.1s,            797d-a252
+/examples/flexray/performanceD/,                                 -f omnetpp.ini -c General -r 0,                0.1s,            e7b8-6d05
+/examples/flexray/performanceE/,                                 -f omnetpp.ini -c General -r 0,                0.1s,            53f4-045a
 /examples/flexray/small_network/,                                -f omnetpp.ini -c General -r 0,                0.5s,            e8a6-f2e0
-/examples/flexray/syncnodes/,                                    -f omnetpp.ini -c General -r 0,                0.5s,            3935-7326
+/examples/flexray/syncnodes/,                                    -f omnetpp.ini -c General -r 0,                0.1s,            cc7a-a7cf
