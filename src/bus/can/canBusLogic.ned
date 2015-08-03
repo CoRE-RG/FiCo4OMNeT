@@ -33,6 +33,7 @@ package fico4omnet.bus.can;
 // The bus logic grants the sending permission to the node with the lowest Can ID. Is the frame transmission 
 // completed, the next permission is again granted to the node with the highest priority. 
 //
+// @author Stefan Buschmann
 //
 simple CanBusLogic
 {

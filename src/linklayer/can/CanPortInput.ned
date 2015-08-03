@@ -33,6 +33,8 @@ package fico4omnet.linklayer.can;
 // forwarding to the input buffer, the transmission of remote frames to the source app and the generation
 // of receive errors.
 //
+// @author Stefan Buschmann
+//
 simple CanPortInput
 {
     parameters:
@@ -57,6 +59,7 @@ simple CanPortInput
         @statistic[rxDFPayloadLatency](title="End-to-end latency of data frame payload"; source="timestampAge(rxDFPayload)"; unit=s; record=stats,histogram?,vector; interpolationmode=linear);
         //Statistic about the end to end latency of the payload within the received remote frame. 
         @statistic[rxRFPayloadLatency](title="End-to-end latency of remote frame payload"; source="timestampAge(rxRFPayload)"; unit=s; record=stats,histogram?,vector; interpolationmode=linear);
+        
     gates:
         output out @loose;
         input in @loose;

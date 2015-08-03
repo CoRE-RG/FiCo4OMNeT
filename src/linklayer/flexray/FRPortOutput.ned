@@ -15,6 +15,11 @@
 
 package fico4omnet.linklayer.flexray;
 
+//
+// @todo Documentation
+//
+// @author Stefan Buschmann
+//
 simple FRPortOutput
 {
 //    parameters:

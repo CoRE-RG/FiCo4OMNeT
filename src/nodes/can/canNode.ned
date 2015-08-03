@@ -38,17 +38,19 @@ import fico4omnet.applications.can.sink.CanTrafficSinkAppBase;
 import fico4omnet.scheduler.can.CanClock;
 
 //
-//
 //The node consists of several submodules which have different tasks. The source applications generate data and remote frames,
 //the sink applications process incoming frames, the buffers save the data and remote frames while the portmodule is responsible
 //for receiving and sending data and remote frames.
 //
+// @see ~CanNodePort, ~CanInputBuffer, ~CanOutputBuffer, ~ISourceApplication, ~ISinkApplication, ~CanClock
 //
+// @author Stefan Buschmann
 //
-
 module CanNode
 {
     parameters:
+        @display("i=block/app2;bgb=248,222");
+        
         //Number of source apps in this node
         int numSourceApps = default(1);
         //Number of sink apps in this node
@@ -57,8 +59,6 @@ module CanNode
         int numInputBuffer = default(1);
         //percentage of errors
         int errorperc = default(0);
-
-        @display("i=block/app2;bgb=248,222");
 
     gates:
         inout gate;
@@ -69,25 +69,31 @@ module CanNode
             gates:
                 phygate;
         }
+        
         bufferIn[numInputBuffer]: CanInputBuffer {
             @display("p=203,102");
             gates:
                 in[1];
         }
+        
         bufferOut: CanOutputBuffer {
             @display("p=98,102");
             gates:
                 in[numSourceApps];
         }
+        
         sourceApp[numSourceApps]: <default("CanTrafficSourceAppBase")> like ISourceApplication {
             @display("p=98,32,row,70");
         }
+        
         sinkApp[numSinkApps]: <default("CanTrafficSinkAppBase")> like ISinkApplication {
             @display("p=203,32");
         }
+        
         canClock: CanClock {
             @display("p=149,102");
         }
+        
     connections:
         canNodePort.phygate <--> gate;
         canNodePort.upperLayerIn <-- bufferOut.out;

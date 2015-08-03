@@ -16,9 +16,13 @@
 #ifndef __FICO4OMNET_FRTRAFFICSINKAPPBASE_H_
 #define __FICO4OMNET_FRTRAFFICSINKAPPBASE_H_
 
-#include <omnetpp.h>
+//std
 #include <string.h>
+//OMNeT++
+#include <omnetpp.h>
+//FiCo4OMNeT
 #include "FiCo4OMNeT_FRInputBuffer.h"
+//Auto-generated messages
 #include "FRFrame_m.h"
 
 namespace FiCo4OMNeT {

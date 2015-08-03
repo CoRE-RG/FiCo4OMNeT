@@ -15,12 +15,19 @@
 
 package fico4omnet.scheduler.can;
 
+//
+// @todo Documentation
+//
+// @author Stefan Buschmann
+//
 simple CanClock
 {
     parameters:
     	@display("i=block/cogwheel");
+    	
     	//Signal for the current drift of the clock
     	@signal[clockDrift];
+    	
     	//Statistic about the drift of the clock
     	@statistic[clockDrift](title="clockDrift"; source=clockDrift; unit=s; record=stats,histogram?,vector; interpolationmode=linear);
     	

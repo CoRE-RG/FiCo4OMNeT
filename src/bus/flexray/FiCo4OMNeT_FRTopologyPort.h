@@ -16,10 +16,12 @@
 #ifndef __FICO4OMNET_FRTOPOLOGYPORT_H_
 #define __FICO4OMNET_FRTOPOLOGYPORT_H_
 
+//OMNeT++
 #include <omnetpp.h>
 
 namespace FiCo4OMNeT {
 
+// TODO Documentation
 class FRTopologyPort : public cSimpleModule {
 
 	protected:

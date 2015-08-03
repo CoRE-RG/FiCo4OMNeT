@@ -16,8 +16,10 @@
 #ifndef __FICO4OMNET_FRSYNC_H_
 #define __FICO4OMNET_FRSYNC_H_
 
-#include <omnetpp.h>
+//std
 #include <list>
+//OMNeT++
+#include <omnetpp.h>
 
 namespace FiCo4OMNeT {
 
@@ -71,7 +73,6 @@ class FRSync : public cSimpleModule
 		 * @brief Returns the line number in witch the Deviation Value has to be stored.
 		 */
         virtual size_t getLineNr(int frameID);
-
 
     public:
         /**

@@ -31,10 +31,13 @@ package fico4omnet.linklayer;
 //
 // This module establishes the connection between the node and the bus module.
 //
+// @author Stefan Buschmann
+//
 simple NodePort
 {
     parameters:
         @display("bgb=300,158");
+        
     gates:
         inout phygate;
 		//Input from the upper layer

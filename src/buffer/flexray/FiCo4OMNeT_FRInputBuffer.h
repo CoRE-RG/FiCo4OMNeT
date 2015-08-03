@@ -16,7 +16,9 @@
 #ifndef __FICO4OMNET_FRINPUTBUFFER_H_
 #define __FICO4OMNET_FRINPUTBUFFER_H_
 
+//OMNeT++
 #include <omnetpp.h>
+//FiCo4OMNeT
 #include "FiCo4OMNeT_FRBuffer.h"
 
 namespace FiCo4OMNeT {

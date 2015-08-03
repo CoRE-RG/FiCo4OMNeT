@@ -27,10 +27,17 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package fico4omnet.buffer;
+
+//
+// @todo Documentation
+//
+// @author Stefan Buschmann
+//
 moduleinterface IBuffer
 {
     parameters:
         @display("i=block/buffer");
+        
         //Statistic of the number of packets that were sent by the buffer
         @signal[rxPk](type=cMessage);
         @statistic[rxPk](title="RX Packets"; source=rxPk; record=count,"sum(packetBytes)","vector(packetBytes)"; interpolationmode=none);
@@ -40,6 +47,7 @@ moduleinterface IBuffer
 
         //Comma seperated list of gates where the frames of the buffer are delivered
         string destination_gates;
+        
     gates:
         //The buffers Input
         input in[] @loose;

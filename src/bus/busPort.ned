@@ -33,10 +33,13 @@ package fico4omnet.bus;
 //
 // Incoming frames are distributed to all connected nodes.
 //
+// @author Stefan Buschmann
+//
 simple BusPort
 {
     parameters:
         @display("bgb=300,158");
+        
     gates:
         inout phygate[];
         inout innerGate;

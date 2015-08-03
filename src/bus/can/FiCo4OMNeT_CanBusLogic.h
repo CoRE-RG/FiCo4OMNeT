@@ -29,17 +29,22 @@
 #ifndef __FICO4OMNET_CANBUSLOGIC_H_
 #define __FICO4OMNET_CANBUSLOGIC_H_
 
+//std
 #include <stdio.h>
 #include <string.h>
-#include <omnetpp.h>
 #include <limits>
-#include "CanDataFrame_m.h"
-#include "ErrorFrame_m.h"
+//OMNeT++
+#include <omnetpp.h>
+//FiCo4OMNeT
 #include "FiCo4OMNeT_BusPort.h"
 #include "FiCo4OMNeT_CanID.h"
 #include "FiCo4OMNeT_CanOutputBuffer.h"
+//Auto-generated messages
+#include "CanDataFrame_m.h"
+#include "ErrorFrame_m.h"
 
 namespace FiCo4OMNeT {
+
 /**
  * @brief Represents the logic of the bus. It handles the arbitration for the network and provides several statistic values.
  *
@@ -51,6 +56,7 @@ namespace FiCo4OMNeT {
  * @author Stefan Buschmann
  */
 class CanBusLogic: public cSimpleModule {
+
 public:
     /**
      * @brief Constructor of CanBusLogic
@@ -97,7 +103,6 @@ public:
     int getSendingNodeID();
 
 protected:
-
     enum BusState
     {
         IDLE = 0,
@@ -136,7 +141,6 @@ protected:
     virtual void handleMessage(cMessage *msg);
 
 private:
-
     /**
      * @brief Maximum size of an error frame.
      */
@@ -172,36 +176,43 @@ private:
      *
      */
     simtime_t busytime; //TODO clean this up
+
     /**
      * simtime in the moment of the change from state idle to state busy
      *
      */
     simtime_t busytimestamp;//TODO clean this up
+
     /**
      * The sign-in-time of the current data-frame. Used for forwarding to the node so that they can collect data about the elapsed time.
      *
      */
     simtime_t currsit;  //current sign in time
+
     /**
      * set to true if an error has occured. Prevents the sending of too many messages.
      *
      */
     bool errored;
+
     /**
      * During an error process this marks the position of the error in the data-frame
      *
      */
     int errpos;
+
     /**
      * @brief Bandwidth of the bus in Mbps.
      *
      */
     double bandwidth;
+
     /**
      * true if bus is in idle state; false if in busy state
      *
      */
     bool idle;
+
     /**
      * List of message-IDs that want to send a message. Used like a priority queue.
      *
@@ -285,10 +296,12 @@ private:
      * @brief Colors the connections of the bus to represent it as busy.
      */
     virtual void colorBusy();
+
     /**
      * @brief Colors the connections of the bus to represent it as idle.
      */
     virtual void colorIdle();
+
     /**
      * @brief Colors the connections of the bus to represent a transmission of an error frame.
      */

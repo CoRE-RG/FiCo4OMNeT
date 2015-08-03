@@ -26,7 +26,6 @@
 //(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
 package fico4omnet.buffer.can;
 
 import fico4omnet.buffer.can.ICanBuffer;
@@ -36,14 +35,20 @@ import fico4omnet.buffer.can.ICanBuffer;
 // a message is sent to the sink application. The sink application afterwards requests a frame and
 // the buffer delivers it to the application. 
 //
+// @see ~ICanBuffer
+//
+// @author Stefan Buschmann
+//
 simple CanInputBuffer like ICanBuffer
 {
     parameters:
         @display("i=block/buffer");
+        
         //Signal for received messages
         @signal[rxPk](type=cMessage);
 		//Signal for transmitted messages
 	    @signal[txPk](type=cMessage);
+	    
         //Statistic about the number of packets that were sent by the buffer
         @statistic[rxPk](title="RX Packets"; source=rxPk; record=count,"sum(packetBytes)","vector(packetBytes)"; interpolationmode=none);
         //Statistic about the amount of packets that were sent by the buffer

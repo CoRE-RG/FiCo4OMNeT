@@ -17,6 +17,13 @@ package fico4omnet.applications.flexray.source;
 
 import fico4omnet.applications.ISourceApplication;
 
+//
+// @todo Documentation
+//
+// @see ~ISourceApplication
+//
+// @author Stefan Buschmann
+//
 simple FRTrafficSourceAppBase like ISourceApplication
 {
     parameters:

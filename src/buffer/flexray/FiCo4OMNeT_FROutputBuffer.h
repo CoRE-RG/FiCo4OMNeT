@@ -16,9 +16,12 @@
 #ifndef __FICO4OMNET_FROUTPUTBUFFER_H_
 #define __FICO4OMNET_FROUTPUTBUFFER_H_
 
+//std
 #include <stdio.h>
 #include <string.h>
+//OMNeT++
 #include <omnetpp.h>
+//FiCo4OMNeT
 #include "FiCo4OMNeT_FRBuffer.h"
 #include "FiCo4OMNeT_SchedulerMessageEvents_m.h"
 #include "FiCo4OMNeT_FRScheduler.h"

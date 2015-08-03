@@ -1,10 +1,14 @@
 #ifndef __FICO4OMNET_FRBUFFER_H_
 #define __FICO4OMNET_FRBUFFER_H_
 
+//std
 #include <stdio.h>
 #include <string.h>
+//OMNeT++
 #include "omnetpp.h"
+//FiCo4OMNeT
 #include "FiCo4OMNeT_Buffer.h"
+//Auto-generated messages
 #include "FRFrame_m.h"
 
 namespace FiCo4OMNeT {
@@ -27,6 +31,7 @@ namespace FiCo4OMNeT {
  * @author Stefan Buschmann
  */
 class FRBuffer : public Buffer {
+
 public:
     /**
      * @brief This method registers the gate for the reception of the messages.

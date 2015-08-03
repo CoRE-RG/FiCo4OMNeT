@@ -29,8 +29,10 @@
 #ifndef __FICO4OMNET_BUFFER_H_
 #define __FICO4OMNET_BUFFER_H_
 
+//std
 #include <stdio.h>
 #include <string.h>
+//OMNeT++
 #include <omnetpp.h>
 
 namespace FiCo4OMNeT {
@@ -43,8 +45,8 @@ namespace FiCo4OMNeT {
  * @author Stefan Buschmann
  *
  */
-
 class Buffer: public cSimpleModule {
+
 public:
     /**
      * @brief This method registers the gate for the reception of the messages.
@@ -147,14 +149,10 @@ protected:
     virtual void sendToDestinationGates(cMessage *msg);
 
 private:
-
     /**
      * Initializes the statistics for the module
      */
     void initializeStatistics();
-
-
-
 };
 
 }

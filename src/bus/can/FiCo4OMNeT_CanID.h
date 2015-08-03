@@ -29,13 +29,14 @@
 #ifndef __FICO4OMNET_CANID_H_
 #define __FICO4OMNET_CANID_H_
 
+//std
 #include <stdio.h>
 #include <string.h>
+//OMNeT++
 #include <omnetpp.h>
 #include <cmodule.h>
 
 namespace FiCo4OMNeT {
-
 
 /**
  * @brief Used by the #CanBusLogic for the arbitration of can frames.
@@ -43,8 +44,10 @@ namespace FiCo4OMNeT {
  * This object contains informations about specific message-ID's.
  * The bus can obtain informations about the related node of a message-ID and the configuration of that message-ID. 
  *
+ * @author Stefan Buschmann
  */
 class CanID {
+
 	public:
 		/**
 	     * @brief Constructor
@@ -81,6 +84,7 @@ class CanID {
 		 *
 		 */
 		simtime_t getSignInTime() const;
+
 		/**
 	     * @brief Getter for the RTR-bit of the CanID object
 		 *

@@ -19,6 +19,11 @@ import fico4omnet.linklayer.flexray.FRPortInput;
 import fico4omnet.linklayer.flexray.FRPortOutput;
 import fico4omnet.linklayer.NodePort;
 
+//
+// @todo Documentation
+//
+// @author Stefan Buschmann
+//
 module FRNodePort
 {
     @display("bgb=199,193");
@@ -35,12 +40,15 @@ module FRNodePort
         frPortOutput: FRPortOutput {
             @display("p=54,51");
         }
+        
         frPortInput: FRPortInput {
             @display("p=132,51");
         }
+        
         nodePortChA: NodePort {
             @display("p=54,138");
         }
+        
         nodePortChB: NodePort {
             @display("p=132,138");
         }

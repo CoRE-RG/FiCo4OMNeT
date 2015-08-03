@@ -16,10 +16,13 @@
 #ifndef __FICO4OMNET_FRBUSLOGIC_H_
 #define __FICO4OMNET_FRBUSLOGIC_H_
 
+//std
 #include <stdio.h>
 #include <string.h>
-#include <omnetpp.h>
 #include <limits>
+//OMNeT++
+#include <omnetpp.h>
+//FiCo4OMNeT
 #include "FiCo4OMNeT_BusPort.h"
 #include "FiCo4OMNeT_SchedulerMessage_m.h"
 
@@ -68,14 +71,17 @@ private:
      * @brief Signal for received remote frames.
      */
     simsignal_t rcvdDynamicFrameSignal;
+
     /**
      * @brief Colors the connections of the bus to represent it is busy.
      */
     virtual void colorBusy();
+
     /**
      * @brief Colors the connections of the bus to represent it is idle.
      */
     virtual void colorIdle();
+
     /**
      * @brief Colors the connections of the bus to represent a transmission of an error frame.
      */

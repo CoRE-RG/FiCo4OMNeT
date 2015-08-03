@@ -27,7 +27,6 @@ packet FRFrame {
     bool syncFrameIndicator;
 }
 
-
 //
 // Enum for all possible channel combinations 
 //

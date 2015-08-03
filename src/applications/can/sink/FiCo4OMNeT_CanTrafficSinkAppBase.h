@@ -29,11 +29,15 @@
 #ifndef __FICO4OMNET_CANTRAFFICSINKAPPBASE_H_
 #define __FICO4OMNET_CANTRAFFICSINKAPPBASE_H_
 
-#include <omnetpp.h>
+//std
 #include <string.h>
-#include "CanDataFrame_m.h"
+//OMNeT++
+#include <omnetpp.h>
+//FiCo4OMNeT
 #include "FiCo4OMNeT_CanInputBuffer.h"
 #include "FiCo4OMNeT_CanPortInput.h"
+//Auto-generated messages
+#include "CanDataFrame_m.h"
 
 namespace FiCo4OMNeT {
 
@@ -106,7 +110,6 @@ private:
      * @brief Simsignal for received remote frames.
      */
     simsignal_t rxRFPayloadSignal;
-
 
 };
 

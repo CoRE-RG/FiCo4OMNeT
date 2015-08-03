@@ -37,10 +37,12 @@ import fico4omnet.linklayer.NodePort;
 //
 // It consists of the submodules NodePort, CanPortOutput and CanPortInput.
 //
+// @author Stefan Buschmann
 //
 module CanNodePort
 {
     @display("bgb=199,193");
+    
     gates:
         inout phygate;
         //Input from the upper layer
@@ -52,9 +54,11 @@ module CanNodePort
         canPortInput: CanPortInput {
             @display("p=132,51");
         }
+        
         canPortOutput: CanPortOutput {
             @display("p=54,51");
         }
+        
         nodePort: NodePort {
             @display("p=93,119");
         }
@@ -65,5 +69,4 @@ module CanNodePort
         nodePort.upperLayerIn <-- canPortOutput.out;
         upperLayerIn --> canPortOutput.in;
         upperLayerOut <-- canPortInput.out;
-
 }
