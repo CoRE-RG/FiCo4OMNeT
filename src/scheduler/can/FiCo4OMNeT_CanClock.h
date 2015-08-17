@@ -34,7 +34,13 @@
 
 namespace FiCo4OMNeT {
 
-// TODO Documentation
+/**
+ * @brief The CanClock simulates the clock drift of a can node.
+ *
+ * The drift of the clock of a can node is calculated based on the maximum drift per second, the maximum drift change per second and the time that passed since the last drift update.
+ *
+ * @author Stefan Buschmann
+ */
 class CanClock : public cSimpleModule {
 
 private:

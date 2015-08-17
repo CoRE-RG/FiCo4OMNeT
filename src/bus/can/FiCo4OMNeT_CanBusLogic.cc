@@ -37,8 +37,6 @@ CanBusLogic::CanBusLogic() {
     numRemoteFrames = 0;
     numErrorFrames = 0;
 
-    busytime = 0.0;
-    busytimestamp = 0.0;
     errpos = INT_MAX;
     errored = false;
     idle = true;
@@ -151,8 +149,6 @@ void CanBusLogic::grantSendingPermission() {
                 sendingNode);
         controller->receiveSendingPermission(currentSendingID);
     } else {
-        simtime_t timetaken = simTime() - busytimestamp;
-        busytime += timetaken;
         idle = true;
         getDisplayString().setTagArg("tt", 0, "state: idle");
         bubble("state: idle");
@@ -223,7 +219,6 @@ void CanBusLogic::registerForArbitration(unsigned int canID, cModule *module,
         cMessage *self = new cMessage("idle_signin");
         scheduleAt(simTime() + (1 / (bandwidth)), self);
         idle = false;
-        busytimestamp = simTime();
         bubble("state: busy");
         getDisplayString().setTagArg("tt", 0, "state: busy");
         emit(stateSignal, TRANSMITTING);

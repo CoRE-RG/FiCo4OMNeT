@@ -35,14 +35,4 @@ packet CanDataFrame{
 	unsigned int canID;			// ID of the message
 	bool rtr;			// true if remote-frame
 	int period;			// Periodicy of the message
-	int messageSource;	// Identifies whether the source is a node or a gateway @todo kann auch raus denke ich
-}
-
-//
-// Enum to identify whether the source is a gateway or a node
-// @todo das kann raus denke ich
-// @author Stefan Buschmann 
-enum MessageSource {
-    SOURCE_NODE=0;
-    SOURCE_GW=1;
 }

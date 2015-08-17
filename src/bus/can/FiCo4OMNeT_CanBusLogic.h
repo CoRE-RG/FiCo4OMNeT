@@ -172,18 +172,6 @@ private:
     simsignal_t stateSignal;
 
     /**
-     * amount of time that the bus was in busy-state
-     *
-     */
-    simtime_t busytime; //TODO clean this up
-
-    /**
-     * simtime in the moment of the change from state idle to state busy
-     *
-     */
-    simtime_t busytimestamp;//TODO clean this up
-
-    /**
      * The sign-in-time of the current data-frame. Used for forwarding to the node so that they can collect data about the elapsed time.
      *
      */

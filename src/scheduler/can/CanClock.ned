@@ -16,7 +16,7 @@
 package fico4omnet.scheduler.can;
 
 //
-// @todo Documentation
+// This module simulates the clock drift of a can node. 
 //
 // @author Stefan Buschmann
 //
@@ -31,7 +31,10 @@ simple CanClock
     	//Statistic about the drift of the clock
     	@statistic[clockDrift](title="clockDrift"; source=clockDrift; unit=s; record=stats,histogram?,vector; interpolationmode=linear);
     	
+    	//Maximum drift per second
     	double maxDrift @unit(s) = default(0);
+    	//Maximum drift change per second
     	double maxDriftChange @unit(s) = default(0);
+    	//True if the node should have a random drift at the start of the simulation, false otherwise.
     	bool randomStartDrift = default(true);
 }

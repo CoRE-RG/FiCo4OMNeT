@@ -63,7 +63,7 @@ void CanOutputBuffer::checkoutFromArbitration(unsigned int canID) {
     CanBusLogic *canBusLogic =
             dynamic_cast<CanBusLogic*> (getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->getSubmodule(
                     "canBusLogic"));
-    if (canBusLogic->getCurrentSendingId() != canID && canBusLogic->getSendingNodeID() != this->getId()) { //TODO was ist mit remote frames?
+    if (canBusLogic->getCurrentSendingId() != canID && canBusLogic->getSendingNodeID() != this->getId()) {
         canBusLogic->checkoutFromArbitration(canID);
         deleteFrame(canID);
     }

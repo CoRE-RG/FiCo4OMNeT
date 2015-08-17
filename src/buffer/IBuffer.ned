@@ -29,7 +29,7 @@
 package fico4omnet.buffer;
 
 //
-// @todo Documentation
+// Interface representing a buffer module.
 //
 // @author Stefan Buschmann
 //
@@ -38,11 +38,13 @@ moduleinterface IBuffer
     parameters:
         @display("i=block/buffer");
         
-        //Statistic of the number of packets that were sent by the buffer
+        //Signal for transmitted frames.
         @signal[rxPk](type=cMessage);
+        //Statistic of the number of frames that were sent by the buffer
         @statistic[rxPk](title="RX Packets"; source=rxPk; record=count,"sum(packetBytes)","vector(packetBytes)"; interpolationmode=none);
-//        //Statistic of the amount of packets that were sent by the buffer
+		//Signal for received frames.
         @signal[txPk](type=cMessage);
+        //Statistic of the amount of frames that were sent by the buffer
         @statistic[txPk](title="TX Packets"; source=txPk; record=count,"sum(packetBytes)","vector(packetBytes)"; interpolationmode=none);
 
         //Comma seperated list of gates where the frames of the buffer are delivered
@@ -51,6 +53,7 @@ moduleinterface IBuffer
     gates:
         //The buffers Input
         input in[] @loose;
+        //Direct input for the buffer
         input directIn @directIn;
         //The buffers Output @warning CURRENTLY NOT USED!
         output out @loose;
