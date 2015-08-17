@@ -59,10 +59,10 @@ CanBusLogic::~CanBusLogic() {
 }
 
 void CanBusLogic::initialize() {
-    rcvdSignal = registerSignal("received");
-    rcvdDFSignal = registerSignal("receivedDF");
-    rcvdRFSignal = registerSignal("receivedRF");
-    rcvdEFSignal = registerSignal("receivedEF");
+    rcvdSignal = registerSignal("rxPk");
+    rcvdDFSignal = registerSignal("rxDF");
+    rcvdRFSignal = registerSignal("rxRF");
+    rcvdEFSignal = registerSignal("rxEF");
     stateSignal = registerSignal("state");
 
     char buf[64];

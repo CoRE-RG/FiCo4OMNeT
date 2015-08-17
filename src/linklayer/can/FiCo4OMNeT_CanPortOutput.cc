@@ -55,10 +55,10 @@ void CanPortOutput::initialize() {
 }
 
 void CanPortOutput::initializeStatisticValues(){
-    sentDFSignal = registerSignal("sentDF");
-    sentRFSignal = registerSignal("sentRF");
-    sendErrorsSignal = registerSignal("sendError");
-    receiveErrorsSignal = registerSignal("receiveError");
+    sentDFSignal = registerSignal("txDF");
+    sentRFSignal = registerSignal("txRF");
+    sendErrorsSignal = registerSignal("txEF");
+    receiveErrorsSignal = registerSignal("rxEF");
 }
 
 void CanPortOutput::handleMessage(cMessage *msg) {

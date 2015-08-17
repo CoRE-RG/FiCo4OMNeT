@@ -56,8 +56,8 @@ void CanTrafficSourceAppBase::initialize(int stage) {
         bitStuffingPercentage =
                 getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->par(
                         "bitStuffingPercentage");
-        sentDFSignal = registerSignal("sentDF");
-        sentRFSignal = registerSignal("sentRF");
+        sentDFSignal = registerSignal("txDF");
+        sentRFSignal = registerSignal("txRF");
         checkParameterValues();
     } else if (stage == 2) {
         CanClock* canClock =

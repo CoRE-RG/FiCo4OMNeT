@@ -43,7 +43,7 @@ simple CanPortInput
         //Signal for received payload within a received data frame.
         @signal[rxDFPayload](type=cPacket);
         //Signal for received payload within a received remote frame.
-        @signal[rexRFPayload](type=cPacket);
+        @signal[rxRFPayload](type=cPacket);
         
         //Statistic about the number of received data frames.
         @statistic[rxDF](title="complete data frames received"; source=rxDF; record=count);
