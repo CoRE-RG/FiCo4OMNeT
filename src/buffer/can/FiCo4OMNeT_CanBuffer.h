@@ -29,10 +29,14 @@
 #ifndef __FICO4OMNET_CANBUFFER_H_
 #define __FICO4OMNET_CANBUFFER_H_
 
+//std
 #include <stdio.h>
 #include <string.h>
+//OMNeT++
 #include <omnetpp.h>
+//FiCo4OMNeT
 #include "FiCo4OMNeT_Buffer.h"
+//Auto-generated messages
 #include "CanDataFrame_m.h"
 
 namespace FiCo4OMNeT {
@@ -45,6 +49,7 @@ namespace FiCo4OMNeT {
  * @author Stefan Buschmann
  */
 class CanBuffer : public Buffer {
+
 public:
     /**
      * @brief Searches the collection for a frame with a specific can ID.
@@ -122,7 +127,6 @@ protected:
      * @brief Initialization of the module.
      */
     virtual void initialize();
-
 };
 
 }

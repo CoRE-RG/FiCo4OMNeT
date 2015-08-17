@@ -29,12 +29,16 @@
 #ifndef __FICO4OMNET_CANPORTINPUT_H_
 #define __FICO4OMNET_CANPORTINPUT_H_
 
-#include <omnetpp.h>
+//std
 #include <string.h>
-#include "CanDataFrame_m.h"
-#include "ErrorFrame_m.h"
+//OMNeT++
+#include <omnetpp.h>
+//FiCo4OMNeT
 #include "FiCo4OMNeT_CanPortOutput.h"
 #include "FiCo4OMNeT_CanOutputBuffer.h"
+//Auto-generated messages
+#include "CanDataFrame_m.h"
+#include "ErrorFrame_m.h"
 
 namespace FiCo4OMNeT {
 
@@ -46,6 +50,7 @@ namespace FiCo4OMNeT {
  * @author Stefan Buschmann
  */
 class CanPortInput: public cSimpleModule {
+
 public:
     /**
      * @brief Modules can register their CanIDs so that incoming remote frames are forwarded to them.
@@ -84,7 +89,6 @@ protected:
     virtual void handleMessage(cMessage *msg);
 
 private:
-
     /**
      * @brief Maximum size of an error frame.
      */

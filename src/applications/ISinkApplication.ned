@@ -31,10 +31,13 @@ package fico4omnet.applications;
 // 
 // Interface for a sink application
 //
+// @author Stefan Buschmann
+//
 moduleinterface ISinkApplication
 {
     parameters:
         @display("i=block/sink");
+        
     //gates:
         //input in;
 }

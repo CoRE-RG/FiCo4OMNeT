@@ -29,11 +29,12 @@
 #ifndef FICO4OMNET_CANCLOCK_H_
 #define FICO4OMNET_CANCLOCK_H_
 
+//OMNeT++
 #include <omnetpp.h>
-
 
 namespace FiCo4OMNeT {
 
+// TODO Documentation
 class CanClock : public cSimpleModule {
 
 private:
@@ -41,18 +42,22 @@ private:
      * @brief Signal to emit the current drift.
      */
     simsignal_t clockDriftSignal;
+
     /**
      * @brief contains the current drift
      */
     double currentDrift;
+
     /**
      * @brief The drift of the clock can not exceed this value (positive and negative).
      */
     double maxDrift;
+
     /**
      * @brief Within one second the drift of the clock can not change for more than this value (positive and negative).
      */
     double maxDriftChange;
+
     /**
      * @brief This holds the time when the last drift change was applied.
      */
@@ -62,6 +67,7 @@ private:
      * @brief Calculates the new drift based on #currentDrift, #maxDrift, #maxDriftChange and #lastDriftUpdate
      */
     void calculateNewDrift();
+
     /**
      * @brief If an initial Drift is activated in the ini, a random drift is calculated.
      */
@@ -80,7 +86,6 @@ public:
      * @return returns the current drift of the clock
      */
     double getCurrentDrift();
-
 };
 
 }

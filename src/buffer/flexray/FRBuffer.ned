@@ -17,10 +17,18 @@ package fico4omnet.buffer.flexray;
 
 import fico4omnet.buffer.IBuffer;
 
+//
+// @todo Documentation
+//
+// @see ~IBuffer
+//
+// @author Stefan Buschmann
+//
 moduleinterface IFRBuffer extends IBuffer
 {
     parameters:
         @display("i=block/buffer");
+        
         //Statistic of the amount of packets that were sent by the buffer
         //@statistic[txPk](title="TX Packets"; record=count,vector);
         //End-to-end latency

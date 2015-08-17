@@ -63,8 +63,8 @@ simple CanTrafficSinkAppBase like ISinkApplication
         @statistic[rxDFPayloadLatency](title="End-to-end latency of data frame payload"; source="timestampAge(rxDFPayload)"; unit=s; record=stats,histogram,vector; interpolationmode=linear);
         //Statistic of the end to end latency of the payload within the received remote frame. 
         @statistic[rxRFPayloadLatency](title="End-to-end latency of remote frame payload"; source="timestampAge(rxRFPayload)"; unit=s; record=stats,histogram,vector; interpolationmode=linear);
+        
     gates:
         input controllerIn @directIn;
-        input dataIn @directIn;
-        
+        input dataIn @directIn;      
 }

@@ -32,6 +32,7 @@ package fico4omnet.linklayer.can;
 // This submodule is part of the node port module. Outgoing frames are processed here. This includes the 
 // transmission of data, remote and error frames as well as the generation of send error frames.
 //
+// @author Stefan Buschmann
 //
 simple CanPortOutput
 {

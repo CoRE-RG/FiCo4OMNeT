@@ -17,10 +17,18 @@ package fico4omnet.buffer.flexray;
 
 import fico4omnet.buffer.flexray.IFRBuffer;
 
+//
+// @todo Documentation
+//
+// @see ~IFRBuffer
+//
+// @author Stefan Buschmann
+//
 simple FROutputBuffer like IFRBuffer
 {
-        parameters:
+  	parameters:
         @display("i=block/buffer");
+        
         //Statistic of the amount of packets that were sent by the buffer
         //@statistic[txPk](title="TX Packets"; record=count,vector);
         //End-to-end latency
@@ -35,6 +43,7 @@ simple FROutputBuffer like IFRBuffer
         //Comma seperated list of gates where the frames of the buffer are delivered
         string destination_gates = default("");
         bool MOB = default(true);//If true frames with the same ID will be overwritten.
+        
     gates:
         //The buffers Input
         input in[] @loose @labels(DataFrame);

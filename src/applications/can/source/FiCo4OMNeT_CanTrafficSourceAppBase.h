@@ -30,11 +30,15 @@
 #ifndef __FICO4OMNET_CANTRAFFICSOURCEAPPBASE_H_
 #define __FICO4OMNET_CANTRAFFICSOURCEAPPBASE_H_
 
-#include <omnetpp.h>
+//std
 #include <string.h>
+//OMNeT++
+#include <omnetpp.h>
+//FiCo4OMNeT
 #include "FiCo4OMNeT_CanBuffer.h"
 #include "FiCo4OMNeT_CanPortInput.h"
 #include "FiCo4OMNeT_CanClock.h"
+//Auto-generated messages
 #include "CanDataFrame_m.h"
 
 namespace FiCo4OMNeT {
@@ -53,6 +57,7 @@ public:
      * @brief Constructor of CanTrafficSourceAppBase
      */
     CanTrafficSourceAppBase();
+
     /**
      * @brief Destructor of CanTrafficSourceAppBase
      */

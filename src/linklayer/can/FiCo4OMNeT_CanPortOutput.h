@@ -29,7 +29,9 @@
 #ifndef __FICO4OMNET_CANPORTOUTPUT_H_
 #define __FICO4OMNET_CANPORTOUTPUT_H_
 
+//OMNeT++
 #include <omnetpp.h>
+//FiCo4OMNeT auto-generated messages
 #include "ErrorFrame_m.h"
 #include "CanDataFrame_m.h"
 
@@ -43,6 +45,7 @@ namespace FiCo4OMNeT {
  * @author Stefan Buschmann
  */
 class CanPortOutput: public cSimpleModule {
+
 public:
     /**
      * @brief Destructor
@@ -58,6 +61,7 @@ public:
      * @brief Is called when the transmission of a frame is completed.
      */
     virtual void sendingCompleted();
+
 protected:
     /**
      * @brief Initialization of the module.
@@ -72,7 +76,6 @@ protected:
     virtual void handleMessage(cMessage *msg);
 
 private:
-
     /**
      * @brief Maximum size of an error frame.
      */
@@ -147,7 +150,6 @@ private:
      * @brief Colors the connections to the bus to represent a transmission of an error frame.
      */
     virtual void colorError();
-
 };
 
 }

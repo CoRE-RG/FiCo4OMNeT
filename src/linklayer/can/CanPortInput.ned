@@ -33,6 +33,8 @@ package fico4omnet.linklayer.can;
 // forwarding to the input buffer, the transmission of remote frames to the source app and the generation
 // of receive errors.
 //
+// @author Stefan Buschmann
+//
 simple CanPortInput
 {
     parameters:

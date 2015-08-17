@@ -29,17 +29,32 @@
 package fico4omnet.applications.can.source;
 
 import fico4omnet.applications.ISourceApplication;
+
 //
 // This module generates all data and remote frames for the node. Periodically sent messages
 // are scheduled and forwarded to the output buffer at the given time. A frame with a period 
 // of 0 is only forwarded when a remote frame from another node is received.
 // 
+// @see ~ISourceApplication
+//
+// @author Stefan Buschmann
 //
 simple CanTrafficSourceAppBase like ISourceApplication
 {
     parameters:
         @class(CanTrafficSourceAppBase);
         @display("i=block/source");
+             
+        //Signal for transmitted data frames.
+        @signal[txDF](type=CanDataFrame);
+        //Signal for transmitted remote frames.
+        @signal[txRF](type=CanDataFrame);
+        
+        //Statistic of the number of transmitted data frames.
+        @statistic[txDF](title="source app data frame"; source=txDF; record=count);
+        //Statistic of the number of transmitted remote frames.
+        @statistic[txRF](title="source app remote frame"; source=txRF; record=count);
+        
         //The Data Frames ID(s) - String parameter (int) separated with commas
         string idDataFrames = default("0");					
         //data Frame period(s) for sending of messages - String parameter (int) separated with commas - unit: ms 
@@ -58,16 +73,6 @@ simple CanTrafficSourceAppBase like ISourceApplication
         string initialRemoteFrameOffset = default("0");		
         //Inaccuracy for the node which is added to the schedule time for each frame. 
         double periodInaccurracy @unit(s) = default(0s);
-        
-        //Signal for transmitted data frames.
-        @signal[txDF](type=CanDataFrame);
-        //Signal for transmitted remote frames.
-        @signal[txRF](type=CanDataFrame);
-        
-        //Statistic of the number of transmitted data frames.
-        @statistic[txDF](title="source app data frame"; source=txDF; record=count);
-        //Statistic of the number of transmitted remote frames.
-        @statistic[txRF](title="source app remote frame"; source=txRF; record=count);
         
     gates:
         //Frames are forwarded via this output gate to the next module. 

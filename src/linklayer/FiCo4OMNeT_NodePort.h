@@ -29,8 +29,8 @@
 #ifndef __FICO4OMNET_NODEPORT_H_
 #define __FICO4OMNET_NODEPORT_H_
 
+//OMNeT++
 #include <omnetpp.h>
-
 
 namespace FiCo4OMNeT {
 

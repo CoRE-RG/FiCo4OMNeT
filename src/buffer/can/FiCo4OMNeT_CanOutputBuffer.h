@@ -29,9 +29,12 @@
 #ifndef __FICO4OMNET_CANOUTPUTBUFFER_H_
 #define __FICO4OMNET_CANOUTPUTBUFFER_H_
 
+//std
 #include <stdio.h>
 #include <string.h>
+//OMNeT++
 #include <omnetpp.h>
+//FiCo4OMNeT
 #include "FiCo4OMNeT_CanBuffer.h"
 #include "FiCo4OMNeT_CanBusLogic.h"
 #include "FiCo4OMNeT_CanTrafficSourceAppBase.h"

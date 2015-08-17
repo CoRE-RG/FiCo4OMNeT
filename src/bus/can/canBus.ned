@@ -28,18 +28,21 @@
 
 package fico4omnet.bus.can;
 
-
 import fico4omnet.bus.BusPort;
 import fico4omnet.bus.can.CanBusLogic;
 
+//
 // Central unit of the CAN-Network
 //
 // Forwards data-frames and error-frames to all participating nodes of the network
+//
+// @author Stefan Buschmann
 //
 module CanBus
 {
     parameters:
         @display("i=block/network");
+        
         //bandwidth of the bus
         double bandwidth @unit(bps) = default(1Mbps);
         //Version of CAN-Protocol. 2.0A = 11 Bits identifier, 2.0B = 29 Bits identifier
@@ -56,6 +59,7 @@ module CanBus
             gates:
                 phygate[sizeof(gate)];
         }
+        
         canBusLogic: CanBusLogic {
             @display("p=52,74");                
         }

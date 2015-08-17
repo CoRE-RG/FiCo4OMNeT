@@ -30,6 +30,13 @@ package fico4omnet.buffer.can;
 
 import fico4omnet.buffer.IBuffer;
 
+//
+// @todo Documentation
+//
+// @see ~IBuffer
+//
+// @author Stefan Buschmann
+//
 moduleinterface ICanBuffer extends IBuffer
 {
     parameters:
