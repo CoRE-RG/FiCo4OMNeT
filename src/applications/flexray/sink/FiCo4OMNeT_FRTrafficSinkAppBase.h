@@ -49,7 +49,7 @@ protected:
     /**
      * @brief Initialization of the module.
      */
-    virtual void initialize();
+//    virtual void initialize();
 
     /**
      * @brief Collects incoming message and writes statistics.

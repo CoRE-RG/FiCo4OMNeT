@@ -22,4 +22,3 @@ src/Makefile
 *.dll
 /tests/*/work/
 *.UPDATED
-/Makefile
