@@ -42,6 +42,18 @@ namespace FiCo4OMNeT {
  * @author Stefan Buschmann
  */
 class CanClock : public cSimpleModule {
+public:
+    /**
+     * @brief Constructor
+     */
+    CanClock();
+
+    /**
+     * @brief getter for the current drift
+     *
+     * @return returns the current drift of the clock
+     */
+    double getCurrentDrift();
 
 private:
     /**
@@ -63,6 +75,11 @@ private:
      * @brief Within one second the drift of the clock can not change for more than this value (positive and negative).
      */
     double maxDriftChange;
+	
+	/**
+	 * @brief True if the initial clock drift should be random. False otherwise.
+	 */    
+    bool randomStartDrift;
 
     /**
      * @brief This holds the time when the last drift change was applied.
@@ -85,13 +102,7 @@ protected:
      */
     virtual void initialize();
 
-public:
-    /**
-     * @brief getter for the current drift
-     *
-     * @return returns the current drift of the clock
-     */
-    double getCurrentDrift();
+
 };
 
 }

@@ -48,6 +48,11 @@ class CanPortOutput: public cSimpleModule {
 
 public:
     /**
+     * @brief Constructor
+     */
+    CanPortOutput();
+    
+    /**
      * @brief Destructor
      */
     virtual ~CanPortOutput();

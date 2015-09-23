@@ -36,7 +36,12 @@ namespace FiCo4OMNeT {
  * @author Stefan Buschmann
  */
 class FRPortInput: public cSimpleModule{
-
+public:
+    /**
+     * @brief Constructor
+     */
+    FRPortInput();
+    
 protected:
     /**
      *

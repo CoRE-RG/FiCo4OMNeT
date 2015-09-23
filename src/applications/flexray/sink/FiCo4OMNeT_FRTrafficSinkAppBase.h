@@ -35,7 +35,16 @@ namespace FiCo4OMNeT {
  * @author Stefan Buschmann
  */
 class FRTrafficSinkAppBase : public cSimpleModule{
-
+public:
+    /**
+     * @brief Constructor
+     */
+    FRTrafficSinkAppBase();
+    /**
+     * @brief Destructor
+     */
+    ~FRTrafficSinkAppBase();
+    
 protected:
     /**
      * @brief Initialization of the module.
