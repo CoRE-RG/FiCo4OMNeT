@@ -26,14 +26,26 @@
 //(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-namespace FiCo4OMNeT;
+package fico4omnet.applications.can.source.colouredsourceapp;
+
+import fico4omnet.applications.can.source.CanTrafficSourceAppBase;
 
 //
-// Represents data and remote frames
+// This module generates all data and remote frames for the node. Periodically sent messages
+// are scheduled and forwarded to the output buffer at the given time. A frame with a period 
+// of 0 is only forwarded when a remote frame from another node is received.
+// 
+// @see ~ISourceApplication
 //
-packet CanDataFrame{
-    string displayString;
-	unsigned int canID;			// ID of the message
-	bool rtr;			// true if remote-frame
-	int period;			// Periodicy of the message
+// @author Stefan Buschmann
+//
+simple CanColouredSourceApp extends CanTrafficSourceAppBase
+{
+    parameters:
+        @class(CanColouredSourceApp);
+        @display("i=block/source");
+        
+        //The Data Frames ID(s) - String parameter (int) separated with commas
+        string displayString = default("");					
+
 }

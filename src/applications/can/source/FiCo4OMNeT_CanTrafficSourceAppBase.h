@@ -85,7 +85,7 @@ protected:
     /**
      * @brief Incoming messages are processed.
      *
-     * See #dataFrameTransmission(CanDataFrame *df) for further information.
+     * See #frameTransmission(CanDataFrame *df) for further information.
      *
      * @param msg incoming self message
      */
@@ -101,6 +101,26 @@ protected:
      * @return Returns the size for the can frame without the size needed for the data field.
      */
     unsigned int calculateLength(unsigned int datalength);
+
+    /**
+     * @brief Simsignal for received data frames.
+     */
+    simsignal_t sentDFSignal;
+
+    /**
+     * @brief Simsignal for received remote frames.
+     */
+    simsignal_t sentRFSignal;
+
+    /**
+     * @brief Current drift of the can clock.
+     */
+    double currentDrift;
+
+    /**
+     * @brief Collection including all
+     */
+    std::list<CanDataFrame*> outgoingDataFrames;
 
 private:
     /**
@@ -133,16 +153,6 @@ private:
     static const unsigned int VERSIONBMAX = 536870911;
 
     /**
-     * @brief Simsignal for received data frames.
-     */
-    simsignal_t sentDFSignal;
-
-    /**
-     * @brief Simsignal for received remote frames.
-     */
-    simsignal_t sentRFSignal;
-
-    /**
      * @brief The version of CAN used in this network. Valid values: 2.0A or 2.0B
      */
     std::string canVersion;
@@ -151,11 +161,6 @@ private:
      * @brief Value for the percentage distribution for bit stuffing. Valid values: 0 to 1.
      */
     double bitStuffingPercentage;
-
-    /**
-     * @brief Current drift of the can clock.
-     */
-    double currentDrift;
 
     /**
      * @brief Creates a data frame which will be queued in the buffer.
@@ -168,11 +173,6 @@ private:
      * @param canID the ID of the remote frame
      */
     void registerRemoteFrameAtPort(unsigned int canID);
-
-    /**
-     * @brief Collection including all
-     */
-    std::list<CanDataFrame*> outgoingDataFrames;
 
     /**
      * @brief Creates a data frame which will be queued in the buffer.
