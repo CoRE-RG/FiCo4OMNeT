@@ -49,7 +49,7 @@ import fico4omnet.scheduler.can.CanClock;
 module CanNode
 {
     parameters:
-        @display("i=block/app2;bgb=248,222");
+        @display("i=device/modem;bgb=248,222");
         
         //Number of source apps in this node
         int numSourceApps = default(1);
