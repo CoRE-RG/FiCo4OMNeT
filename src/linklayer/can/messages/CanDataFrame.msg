@@ -28,21 +28,12 @@
 
 namespace FiCo4OMNeT;
 
-// Represents a data-frame
 //
-// contains information about the sending node, data etc.
+// Represents data and remote frames
+//
 packet CanDataFrame{
+    string displayString;
 	unsigned int canID;			// ID of the message
 	bool rtr;			// true if remote-frame
 	int period;			// Periodicy of the message
-	int messageSource;	// Identifies whether the source is a node or a gateway
-}
-
-//
-// Enum to identify whether the source is a gateway or a node
-//
-// @author Stefan Buschmann
-enum MessageSource {
-    SOURCE_NODE=0;
-    SOURCE_GW=1;
 }

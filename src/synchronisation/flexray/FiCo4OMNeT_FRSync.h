@@ -16,8 +16,10 @@
 #ifndef __FICO4OMNET_FRSYNC_H_
 #define __FICO4OMNET_FRSYNC_H_
 
-#include <omnetpp.h>
+//std
 #include <list>
+//OMNeT++
+#include <omnetpp.h>
 
 namespace FiCo4OMNeT {
 
@@ -72,8 +74,12 @@ class FRSync : public cSimpleModule
 		 */
         virtual size_t getLineNr(int frameID);
 
-
     public:
+        /**
+         * @brief Constructor
+         */
+        FRSync();
+
         /**
 		 * @brief Returns the offset correction value zOffsetCorrection
 		 */

@@ -25,85 +25,74 @@
 //ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 //(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// 
 
-#ifndef FICO4OMNET_CANCLOCK_H_
-#define FICO4OMNET_CANCLOCK_H_
+#ifndef __FICO4OMNET_CANCOLOUREDSOURCEAPPE_H_
+#define __FICO4OMNET_CANCOLOUREDSOURCEAPPE_H_
 
+//std
+#include <string.h>
 //OMNeT++
 #include <omnetpp.h>
+//FiCo4OMNeT
+#include "FiCo4OMNeT_CanBuffer.h"
+#include "FiCo4OMNeT_CanPortInput.h"
+#include "FiCo4OMNeT_CanClock.h"
+//Auto-generated messages
+#include "CanDataFrame_m.h"
 
 namespace FiCo4OMNeT {
 
 /**
- * @brief The CanClock simulates the clock drift of a can node.
+ * @brief Traffic source application used to generate outgoing data and remote frames.
  *
- * The drift of the clock of a can node is calculated based on the maximum drift per second, the maximum drift change per second and the time that passed since the last drift update.
+ * @ingroup Applications
  *
  * @author Stefan Buschmann
  */
-class CanClock : public cSimpleModule {
+class CanColouredSourceApp:  public virtual CanTrafficSourceAppBase{
+
 public:
     /**
-     * @brief Constructor
+     * @brief Constructor of CanTrafficSourceAppBase
      */
-    CanClock();
+    CanColouredSourceApp();
 
     /**
-     * @brief getter for the current drift
-     *
-     * @return returns the current drift of the clock
+     * @brief Destructor of CanTrafficSourceAppBase
      */
-    double getCurrentDrift();
-
-private:
-    /**
-     * @brief Signal to emit the current drift.
-     */
-    simsignal_t clockDriftSignal;
-
-    /**
-     * @brief contains the current drift
-     */
-    double currentDrift;
-
-    /**
-     * @brief The drift of the clock can not exceed this value (positive and negative).
-     */
-    double maxDrift;
-
-    /**
-     * @brief Within one second the drift of the clock can not change for more than this value (positive and negative).
-     */
-    double maxDriftChange;
-	
-	/**
-	 * @brief True if the initial clock drift should be random. False otherwise.
-	 */    
-    bool randomStartDrift;
-
-    /**
-     * @brief This holds the time when the last drift change was applied.
-     */
-    simtime_t lastDriftUpdate;
-
-    /**
-     * @brief Calculates the new drift based on #currentDrift, #maxDrift, #maxDriftChange and #lastDriftUpdate
-     */
-    void calculateNewDrift();
-
-    /**
-     * @brief If an initial Drift is activated in the ini, a random drift is calculated.
-     */
-    void calculateInitialDrift();
+    ~CanColouredSourceApp();
 
 protected:
     /**
      * @brief Initialization of the module.
+     *
+     * All data and remote frames this node can send are created within the initialization. See #initialDataFrameCreation() and #initialRemoteFrameCreation() for further information.
+     *
      */
-    virtual void initialize();
+    virtual void initialize(int stage);
 
+    /**
+     * @brief Incoming messages are processed.
+     *
+     * See #frameTransmission(CanDataFrame *df) for further information.
+     *
+     * @param msg incoming self message
+     */
+    virtual void handleMessage(cMessage *msg);
 
+private:
+    /**
+     * @brief Holds the display string configured in the ini file.
+     */
+    const char* frameDisplayString;
+
+    /**
+     * @brief Transmits a data or remote frame to the connected output buffer.
+     *
+     * @param df the frame that should be sent
+     */
+    void frameTransmission(CanDataFrame *df);
 };
-
 }
-#endif /* FICO4OMNET_CANCLOCK_H_ */
+#endif /* CANCOLOUREDSOURCEAPPE_H_ */

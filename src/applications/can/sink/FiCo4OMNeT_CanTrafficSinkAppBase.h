@@ -29,11 +29,15 @@
 #ifndef __FICO4OMNET_CANTRAFFICSINKAPPBASE_H_
 #define __FICO4OMNET_CANTRAFFICSINKAPPBASE_H_
 
-#include <omnetpp.h>
+//std
 #include <string.h>
+//OMNeT++
+#include <omnetpp.h>
+//FiCo4OMNeT
 #include "FiCo4OMNeT_CanInputBuffer.h"
-#include "CanDataFrame_m.h"
 #include "FiCo4OMNeT_CanPortInput.h"
+//Auto-generated messages
+#include "CanDataFrame_m.h"
 
 namespace FiCo4OMNeT {
 
@@ -60,6 +64,11 @@ protected:
     virtual void handleMessage(cMessage *msg);
 
     /**
+     * @brief Requests a frame from the buffer.
+     */
+    void requestFrame();
+
+    /**
      * @brief Number of messages currently in the Buffer
      */
     int bufferMessageCounter;
@@ -74,45 +83,33 @@ protected:
      */
     unsigned int currentFrameID;
 
-    /**
-     * @brief Requests a frame from buffer.
-     */
-    void requestFrame();
-
 private:
-    /**
-     * @brief Registers the canIDs which will be received by this node.
-     */
-//    void registerIncomingDataFramesAtPort();
-
-
     /**
      * @brief The sink processes the frame.
      *
-     * @param workTime represents the time it takes until the sink can process the next frame.
+     * @param workTime represents the time it takes to process the current frame.
      */
     void startWorkOnFrame(float workTime);
 
     /**
      * @brief Simsignal for received data frames.
      */
-    simsignal_t rcvdDFSignal;
+    simsignal_t rxDFSignal;
 
     /**
      * @brief Simsignal for received remote frames.
      */
-    simsignal_t rcvdRFSignal;
+    simsignal_t rxRFSignal;
 
     /**
      * @brief Simsignal for received data frames.
      */
-    simsignal_t receivedDFPayload;
+    simsignal_t rxDFPayloadSignal;
 
     /**
      * @brief Simsignal for received remote frames.
      */
-    simsignal_t receivedRFPayload;
-
+    simsignal_t rxRFPayloadSignal;
 
 };
 

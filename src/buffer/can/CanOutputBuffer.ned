@@ -36,25 +36,33 @@ import fico4omnet.buffer.can.ICanBuffer;
 // the buffer the permission to transmit a frame. In this case the corresponding frame is forwarded
 // to the port module.
 // 
+// @see ~ICanBuffer
+//
+// @author Stefan Buschmann
+//
 simple CanOutputBuffer like ICanBuffer
 {
     parameters:
         @display("i=block/buffer");
-        //Statistic of the number of packets that were sent by the buffer
+        
+		//Signal for received messages
         @signal[rxPk](type=cMessage);
+        //Signal for transmitted messages
+        @signal[txPk](type=cMessage);
+        
+        //Statistic about the number of packets that were sent by the buffer
         @statistic[rxPk](title="RX Packets"; source=rxPk; record=count,"sum(packetBytes)","vector(packetBytes)"; interpolationmode=none);
         //Statistic of the amount of packets that were sent by the buffer
-        @signal[txPk](type=cMessage);
         @statistic[txPk](title="TX Packets"; source=txPk; record=count,"sum(packetBytes)","vector(packetBytes)"; interpolationmode=none);
 
         //Comma seperated list of gates where the frames of the buffer are delivered
         string destination_gates = default("");
         bool MOB = default(true);//If true frames with the same ID will be overwritten.
+        
     gates:
         //The buffers Input
         input in[] @loose @labels(DataFrame);
         input directIn @directIn;
         //The buffers Output @warning CURRENTLY NOT USED!
         output out @loose @labels(DataFrame);
-
 }

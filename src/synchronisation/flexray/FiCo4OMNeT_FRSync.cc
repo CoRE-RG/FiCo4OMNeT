@@ -21,13 +21,19 @@ namespace FiCo4OMNeT {
 
 Define_Module( FRSync);
 
+FRSync::FRSync(){
+    this->zOffsetCorrection = 0;
+    this->zRateCorrection = 0;
+    this->pOffsetCorrectionOut = 0;
+    this->pRateCorrectionOut = 0;
+    this->pClusterDriftDamping = 0;
+    this->T_DevTable = nullptr;
+}
 
 void FRSync::initialize() {
     pOffsetCorrectionOut = par("pOffsetCorrectionOut");
     pRateCorrectionOut = par("pRateCorrectionOut");
     pClusterDriftDamping = par("pClusterDriftDamping");
-    zOffsetCorrection = 0;
-    zRateCorrection = 0;
     // Allocate memory
     T_DevTable = new T_DevValid**[2];
     for (int i = 0; i < 2; ++i) {

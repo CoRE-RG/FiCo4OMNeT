@@ -36,22 +36,12 @@ void CanBuffer::initialize(){
     currentFrame = NULL;
 }
 
-//void CanBuffer::registerDestinationGate() {
-//    cStringTokenizer destinationGatesTokenizer(
-//            getParentModule()->par("destinationGates"), ",");
-//    while (destinationGatesTokenizer.hasMoreTokens()) {
-//        destinationGates.push_back(
-//                (cGate *) getParentModule()->getSubmodule("sinkApp")->gate(
-//                        destinationGatesTokenizer.nextToken()));
-//    }
-//}
-
 CanDataFrame* CanBuffer::getFrame(unsigned int canID) {
     for (std::list<CanDataFrame*>::iterator it = frames.begin();
             it != frames.end(); ++it) {
         CanDataFrame* tmp = *it;
         unsigned int i = tmp->getCanID();
-            if (i == canID) {
+        if (i == canID) {
             return tmp;
         }
     }
@@ -106,4 +96,5 @@ void CanBuffer::deliverNextFrame() {
 CanDataFrame* CanBuffer::getCurrentFrame(){
     return currentFrame;
 }
+
 }

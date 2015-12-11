@@ -29,55 +29,80 @@
 #ifndef __FICO4OMNET_CANBUSLOGIC_H_
 #define __FICO4OMNET_CANBUSLOGIC_H_
 
+//std
 #include <stdio.h>
 #include <string.h>
-#include <omnetpp.h>
 #include <limits>
-#include "CanDataFrame_m.h"
-#include "ErrorFrame_m.h"
+//OMNeT++
+#include <omnetpp.h>
+//FiCo4OMNeT
 #include "FiCo4OMNeT_BusPort.h"
 #include "FiCo4OMNeT_CanID.h"
 #include "FiCo4OMNeT_CanOutputBuffer.h"
+//Auto-generated messages
+#include "CanDataFrame_m.h"
+#include "ErrorFrame_m.h"
 
 namespace FiCo4OMNeT {
+
 /**
  * @brief Represents the logic of the bus. It handles the arbitration for the network and provides several statistic values.
  *
+ * Since it is not effectively possible to realize the arbitration as it is specified, the bus module grants sending permissions to the node with the highest priority frame.
+ * Every node has the possibility to register the frames it wants to send at the bus and wait until it is its turn to transmit the message.
  *
  * @ingroup Bus
  *
  * @author Stefan Buschmann
  */
 class CanBusLogic: public cSimpleModule {
+
 public:
     /**
-     * Constructor of CanBusLogic
+     * @brief Constructor of CanBusLogic
      */
     CanBusLogic();
 
     /**
-     * Destructor of CanBusLogic
+     * @brief Destructor of CanBusLogic
      */
     ~CanBusLogic();
+
     /**
      * @brief Registers the frame of the node for the arbitration.
+     *
+     * @param canID the ID of the can frame
+     * @param node the module which wants to send the message
+     * @param signInTime the time the frame was signed in
+     * @param rtr identifier whether the frame is a remote frame
      */
-    virtual void registerForArbitration(unsigned int id, cModule *node,
+    virtual void registerForArbitration(unsigned int canID, cModule *module,
             simtime_t signInTime, bool rtr);
 
     /**
      * @brief The request for frame with the corresponding ID will be checked out.
+     *
+     * @param canID the ID of the can frame that should be checked out
      */
-    virtual void checkoutFromArbitration(unsigned int id);
+    virtual void checkoutFromArbitration(unsigned int canID);
 
+    /**
+     * @brief getter for #currentSendingID
+     *
+     * @return the can ID of the frame that is currently transmitted.
+     */
     unsigned int getCurrentSendingId() const {
         return currentSendingID;
     }
 
+    /**
+     * @brief Returns the object ID of the currently transmitting module.
+     *
+     * @return object ID  of the currently transmitting module
+     */
     int getSendingNodeID();
 
 protected:
-
     enum BusState
     {
         IDLE = 0,
@@ -116,7 +141,6 @@ protected:
     virtual void handleMessage(cMessage *msg);
 
 private:
-
     /**
      * @brief Maximum size of an error frame.
      */
@@ -148,45 +172,40 @@ private:
     simsignal_t stateSignal;
 
     /**
-     * amount of time that the bus was in busy-state
-     *
-     */
-    simtime_t busytime;
-    /**
-     * simtime in the moment of the change from state idle to state busy
-     *
-     */
-    simtime_t busytimestamp;
-    /**
      * The sign-in-time of the current data-frame. Used for forwarding to the node so that they can collect data about the elapsed time.
      *
      */
     simtime_t currsit;  //current sign in time
+
     /**
      * set to true if an error has occured. Prevents the sending of too many messages.
      *
      */
     bool errored;
+
     /**
      * During an error process this marks the position of the error in the data-frame
      *
      */
     int errpos;
+
     /**
      * @brief Bandwidth of the bus in Mbps.
      *
      */
     double bandwidth;
+
     /**
      * true if bus is in idle state; false if in busy state
      *
      */
     bool idle;
+
     /**
      * List of message-IDs that want to send a message. Used like a priority queue.
      *
      */
-    std::list<CanID*> ids; //Die Nachrichten-IDs der Knoten, die senden wollen
+    std::list<CanID*> ids;
 
     /**
      * Vector with CanIDs which are currently scheduled for arbitration and will be deleted after transmission.
@@ -250,25 +269,27 @@ private:
     /**
      * @brief Is called when a data frame is received.
      *
-     *
+     * @param msg received can data frame
      */
     virtual void handleDataFrame(cMessage *msg);
 
     /**
      * @brief Is called when an error frame is received.
      *
-     *
+     * @param msg received error frame
      */
     virtual void handleErrorFrame(cMessage *msg);
 
     /**
-     * @brief Colors the connections of the bus to represent it is busy.
+     * @brief Colors the connections of the bus to represent it as busy.
      */
     virtual void colorBusy();
+
     /**
-     * @brief Colors the connections of the bus to represent it is idle.
+     * @brief Colors the connections of the bus to represent it as idle.
      */
     virtual void colorIdle();
+
     /**
      * @brief Colors the connections of the bus to represent a transmission of an error frame.
      */

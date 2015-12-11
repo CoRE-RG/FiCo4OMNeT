@@ -56,10 +56,9 @@ void CanTrafficSourceAppBase::initialize(int stage) {
         bitStuffingPercentage =
                 getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->par(
                         "bitStuffingPercentage");
-        sentDFSignal = registerSignal("sentDF");
-        sentRFSignal = registerSignal("sentRF");
+        sentDFSignal = registerSignal("txDF");
+        sentRFSignal = registerSignal("txRF");
         checkParameterValues();
-
     } else if (stage == 2) {
         CanClock* canClock =
                 dynamic_cast<CanClock*>(getParentModule()->getSubmodule("canClock"));
@@ -67,7 +66,6 @@ void CanTrafficSourceAppBase::initialize(int stage) {
         initialDataFrameCreation();
         initialRemoteFrameCreation();
     }
-
 }
 
 void CanTrafficSourceAppBase::checkParameterValues() {
@@ -83,20 +81,17 @@ void CanTrafficSourceAppBase::checkParameterValues() {
 
 void CanTrafficSourceAppBase::handleMessage(cMessage *msg) {
     CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
-    dataFrameTransmission(df);
+    frameTransmission(df);
 }
 
 void CanTrafficSourceAppBase::initialRemoteFrameCreation() {
-
     if (par("idRemoteFrames").stdstringValue() != "0") {
         cStringTokenizer remoteFrameIDsTokenizer(par("idRemoteFrames"), ",");
         std::vector<int> remoteFrameIDs = remoteFrameIDsTokenizer.asIntVector();
         cStringTokenizer remoteFramesPeriodicityTokenizer(
                 par("periodicityRemoteFrames"), ",");
-
         cStringTokenizer dataLengthRemoteFramesTokenizer(
                 par("dataLengthRemoteFrames"), ",");
-
         cStringTokenizer initialRemoteFrameOffsetTokenizer(
                 par("initialRemoteFrameOffset"), ",");
 
@@ -125,7 +120,6 @@ void CanTrafficSourceAppBase::initialRemoteFrameCreation() {
             can_msg->setRtr(true);
             can_msg->setPeriod(
                     atoi(remoteFramesPeriodicityTokenizer.nextToken()));
-            can_msg->setMessageSource(SOURCE_NODE);
             registerRemoteFrameAtPort(can_msg->getCanID());
             if (can_msg->getPeriod() == 0) {
                 EV<< "Remote frame with ID " << can_msg->getCanID()
@@ -151,6 +145,7 @@ void CanTrafficSourceAppBase::initialRemoteFrameCreation() {
             }
 
         }
+
         if (dataLengthRemoteFramesTokenizer.hasMoreTokens()) {
             EV<< "There are more values defined for the data length. Please check your configuration files.";
         }
@@ -173,18 +168,14 @@ void CanTrafficSourceAppBase::initialDataFrameCreation() {
     if (par("idDataFrames").stdstringValue() != "0") {
         cStringTokenizer dataFrameIDsTokenizer(par("idDataFrames"), ",");
         std::vector<int> dataFrameIDs = dataFrameIDsTokenizer.asIntVector();
-
         cStringTokenizer dataFramesPeriodicityTokenizer(
                 par("periodicityDataFrames"), ",");
-
         cStringTokenizer dataLengthDataFramesTokenizer(
                 par("dataLengthDataFrames"), ",");
-
         cStringTokenizer initialDataFrameOffsetTokenizer(
                 par("initialDataFrameOffset"), ",");
 
         for (unsigned int i = 0; i < dataFrameIDs.size(); i++) {
-
             if (!dataLengthDataFramesTokenizer.hasMoreTokens()) {
                 throw cRuntimeError(
                         "No more values for the data frame data length for the next data frame ID. Configuration in the ini file may be incorrect.");
@@ -208,7 +199,6 @@ void CanTrafficSourceAppBase::initialDataFrameCreation() {
             can_msg->encapsulate(payload_packet);
             can_msg->setPeriod(
                     atoi(dataFramesPeriodicityTokenizer.nextToken()));
-            can_msg->setMessageSource(SOURCE_NODE);
             outgoingDataFrames.push_back(can_msg);
             registerDataFrameAtPort(can_msg->getCanID());
             if (can_msg->getPeriod() != 0) {
@@ -231,6 +221,7 @@ void CanTrafficSourceAppBase::initialDataFrameCreation() {
                 }
             }
         }
+
         if (dataLengthDataFramesTokenizer.hasMoreTokens()) {
             EV<< "There are more values defined for the data frame data length. Please check your configuration files.";
         }
@@ -240,7 +231,6 @@ void CanTrafficSourceAppBase::initialDataFrameCreation() {
         if (initialDataFrameOffsetTokenizer.hasMoreTokens()) {
             EV<< "There are more values defined for the data frame offset. Please check your configuration files.";
         }
-
     }
 }
 
@@ -250,19 +240,19 @@ void CanTrafficSourceAppBase::registerDataFrameAtPort(unsigned int canID) {
     port->registerOutgoingDataFrame(canID, this->gate("remoteIn"));
 }
 
-unsigned int CanTrafficSourceAppBase::checkAndReturnID(unsigned int id) {
+unsigned int CanTrafficSourceAppBase::checkAndReturnID(unsigned int canID) {
     if (canVersion.compare("2.0A") == 0) {
-        if (id > VERSIONAMAX) {
-            EV<< "ID " << id << " not valid." << endl;
+        if (canID > VERSIONAMAX) {
+            EV<< "ID " << canID << " not valid." << endl;
             endSimulation();
         }
     } else {
-        if (id > VERSIONBMAX) {
-            EV << "ID " << id << " not valid." << endl;
+        if (canID > VERSIONBMAX) {
+            EV << "ID " << canID << " not valid." << endl;
             endSimulation();
         }
     }
-    return id;
+    return canID;
 }
 
 unsigned int CanTrafficSourceAppBase::calculateLength(unsigned int dataLength) {
@@ -279,7 +269,7 @@ unsigned int CanTrafficSourceAppBase::calculateStuffingBits(unsigned int dataLen
     return static_cast<unsigned int>(((CONTROLBITSFORBITSTUFFING + arbFieldLength + (dataLength * 8) - 1)/ 4) * bitStuffingPercentage);
 }
 
-void CanTrafficSourceAppBase::dataFrameTransmission(CanDataFrame *df) {
+void CanTrafficSourceAppBase::frameTransmission(CanDataFrame *df) {
     CanDataFrame *outgoingFrame = NULL;
 
     if (df->getRtr()) {
@@ -310,6 +300,7 @@ void CanTrafficSourceAppBase::dataFrameTransmission(CanDataFrame *df) {
     } else {
         throw cRuntimeError("CanTrafficSourceApp received an invalid message.");
     }
+
     outgoingFrame->setTimestamp(simTime());
     cPacket* payload_packet = outgoingFrame->decapsulate();
     payload_packet->setTimestamp(simTime());

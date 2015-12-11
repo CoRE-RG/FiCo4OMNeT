@@ -32,19 +32,25 @@ namespace FiCo4OMNeT {
 
 Define_Module(CanPortInput);
 
+CanPortInput::CanPortInput(){
+    this->bandwidth = 0;
+    this->errorperc = 0;
+    this->scheduledDataFrame = nullptr;
+    this->scheduledErrorFrame = nullptr;
+}
+
 void CanPortInput::initialize() {
     bandwidth =
             getParentModule()->getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->par(
                     "bandwidth");
     errorperc = getParentModule()->getParentModule()->par("errorperc");
 
-    scheduledDataFrame = NULL;
-    scheduledErrorFrame = NULL;
 
-    rcvdDFSignal = registerSignal("receivedCompleteDF");
-    rcvdRFSignal = registerSignal("receivedCompleteRF");
-    receivedDFPayload = registerSignal("receivedDFPayload");
-    receivedRFPayload = registerSignal("receivedRFPayload");
+
+    rcvdDFSignal = registerSignal("rxDF");
+    rcvdRFSignal = registerSignal("rxRF");
+    receivedDFPayload = registerSignal("rxDFPayload");
+    receivedRFPayload = registerSignal("rxRFPayload");
     WATCH_MAP(incomingDataFrameIDs);
 }
 
@@ -81,13 +87,12 @@ void CanPortInput::handleMessage(cMessage *msg) {
 }
 
 void CanPortInput::receiveMessage(CanDataFrame *df) {
-    int frameLength = static_cast<int> (df->getBitLength());
     if (scheduledDataFrame != NULL) {
         cancelEvent(scheduledDataFrame);
     }
     delete (scheduledDataFrame);
     scheduledDataFrame = df->dup();
-    scheduleAt((simTime() + calculateScheduleTiming(frameLength)),
+    scheduleAt((simTime() + calculateScheduleTiming(df->getBitLength())),
             scheduledDataFrame);
 }
 
@@ -119,36 +124,28 @@ bool CanPortInput::checkExistence(CanDataFrame *df) {
     }
 }
 
-bool CanPortInput::checkOutgoingDataFrames(unsigned int id) {
+bool CanPortInput::checkOutgoingDataFrames(unsigned int canID) {
     std::map<unsigned int, cGate*>::iterator it;
-    it = outgoingDataFrameIDs.find(id);
+    it = outgoingDataFrameIDs.find(canID);
     if (it != outgoingDataFrameIDs.end()) {
         return true;
     }
     return false;
 }
 
-bool CanPortInput::checkOutgoingRemoteFrames(unsigned int id) {
+bool CanPortInput::checkOutgoingRemoteFrames(unsigned int canID) {
     for (std::vector<unsigned int>::iterator it = outgoingRemoteFrameIDs.begin();
             it != outgoingRemoteFrameIDs.end(); ++it) {
-        if (*it == id) {
+        if (*it == canID) {
             return true;
         }
     }
     return false;
 }
 
-bool CanPortInput::checkIncomingDataFrames(unsigned int id) {
-//    for (std::vector<int>::iterator it = incomingDataFrameIDs.begin();
-//            it != incomingDataFrameIDs.end(); ++it) {
-//        if (*it == id) {
-//            return true;
-//        }
-//    }
-//    return false;
-
+bool CanPortInput::checkIncomingDataFrames(unsigned int canID) {
     std::map<unsigned int, cGate*>::iterator it;
-    it = incomingDataFrameIDs.find(id);
+    it = incomingDataFrameIDs.find(canID);
     if (it != incomingDataFrameIDs.end()) {
         return true;
     }
@@ -225,9 +222,6 @@ void CanPortInput::registerOutgoingRemoteFrame(unsigned int canID) {
 }
 
 void CanPortInput::registerIncomingDataFrame(unsigned int canID, cGate* inGate) {
-//    std::vector<int>::iterator it;
-//    it = incomingDataFrameIDs.begin();
-//    it = incomingDataFrameIDs.insert(it, canID);
     incomingDataFrameIDs.insert(std::pair<int, cGate*>(canID, inGate));
 }
 

@@ -29,36 +29,54 @@
 package fico4omnet.applications.can.source;
 
 import fico4omnet.applications.ISourceApplication;
+
 //
 // This module generates all data and remote frames for the node. Periodically sent messages
 // are scheduled and forwarded to the output buffer at the given time. A frame with a period 
-// of 0 is only forwarded when a remote frame from another node is received. All relevant parameters
-// for the frames are defined in the ini file. 
+// of 0 is only forwarded when a remote frame from another node is received.
 // 
-// 
+// @see ~ISourceApplication
+//
+// @author Stefan Buschmann
 //
 simple CanTrafficSourceAppBase like ISourceApplication
 {
     parameters:
         @class(CanTrafficSourceAppBase);
         @display("i=block/source");
-        string idDataFrames = default("0");					// The Data Frames ID(s) - String parameter (int) separated with commas
-        string periodicityDataFrames = default("0");		// data Frame period(s) for sending of messages - String parameter (int) separated with commas
-        string dataLengthDataFrames = default("0");			// Datafield-length - String parameter (int) separated with commas
-        string initialDataFrameOffset = default("0");		// Offset for the first transmission of the data frames - String parameter (double) separated with commas
-        string idRemoteFrames = default("0");				// The Remote Frame ID(s) - String parameter (int) separated with commas
-        string periodicityRemoteFrames = default("0"); 		// Remote Frame period(s) for sending of messages - String parameter (int) separated with commas
-        string dataLengthRemoteFrames = default("0");		// Datafield-length - String parameter (int) separated with commas
-        string initialRemoteFrameOffset = default("0");		// Offset for the first transmission of the remote frames - String parameter (double) separated with commas
+             
+        //Signal for transmitted data frames.
+        @signal[txDF](type=CanDataFrame);
+        //Signal for transmitted remote frames.
+        @signal[txRF](type=CanDataFrame);
+        
+        //Statistic of the number of transmitted data frames.
+        @statistic[txDF](title="source app data frame"; source=txDF; record=count);
+        //Statistic of the number of transmitted remote frames.
+        @statistic[txRF](title="source app remote frame"; source=txRF; record=count);
+        
+        //The Data Frames ID(s) - String parameter (int) separated with commas
+        string idDataFrames = default("0");					
+        //data Frame period(s) for sending of messages - String parameter (int) separated with commas - unit: ms 
+        string periodicityDataFrames = default("0");		
+        //Datafield-length - String parameter (int) separated with commas - unit: byte
+        string dataLengthDataFrames = default("0");			
+        //Offset for the first transmission of the data frames - String parameter (double) separated with commas - unit: s
+        string initialDataFrameOffset = default("0");		
+        //The Remote Frame ID(s) - String parameter (int) separated with commas
+        string idRemoteFrames = default("0");				
+        //Remote Frame period(s) for sending of messages - String parameter (int) separated with commas - unit: ms
+        string periodicityRemoteFrames = default("0"); 		
+        //Datafield-length - String parameter (int) separated with commas - unit: byte
+        string dataLengthRemoteFrames = default("0");		
+        //Offset for the first transmission of the remote frames - String parameter (double) separated with commas - unit: s
+        string initialRemoteFrameOffset = default("0");		
+        //Inaccuracy for the node which is added to the schedule time for each frame. 
         double periodInaccurracy @unit(s) = default(0s);
         
-        @signal[sentDF](type=CanDataFrame);
-        @signal[sentRF](type=CanDataFrame);
-        
-        @statistic[txDF](title="source app data frame"; source=sentDF; record=count; interpolationmode=none);
-        @statistic[txRF](title="source app remote frame"; source=sentRF; record=count; interpolationmode=none);
-        
     gates:
+        //Frames are forwarded via this output gate to the next module. 
         output out @labels(DataFrame);
+        //Received remote frames are received at this gate. 
         input remoteIn @directIn;
 }

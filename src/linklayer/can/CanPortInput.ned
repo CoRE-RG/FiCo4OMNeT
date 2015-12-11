@@ -33,22 +33,32 @@ package fico4omnet.linklayer.can;
 // forwarding to the input buffer, the transmission of remote frames to the source app and the generation
 // of receive errors.
 //
+// @author Stefan Buschmann
 //
 simple CanPortInput
 {
     parameters:
-        @signal[receivedCompleteDF](type=CanDataFrame);
-        @signal[receivedCompleteRF](type=CanDataFrame);
-        @signal[receivedDFPayload](type=cPacket);
-        @signal[receivedRFPayload](type=cPacket);
+        //Signal for received data frames
+        @signal[rxDF](type=CanDataFrame);
+        //Signal for received remote frames
+        @signal[rxRF](type=CanDataFrame);
+        //Signal for received payload within a received data frame.
+        @signal[rxDFPayload](type=cPacket);
+        //Signal for received payload within a received remote frame.
+        @signal[rxRFPayload](type=cPacket);
         
-        @statistic[receivedCompleteDF](title="complete data frames received"; source=receivedCompleteDF; record=count; interpolationmode=none);
-        @statistic[receivedCompleteRF](title="complete remote frames received"; source=receivedCompleteRF; record=count; interpolationmode=none);
-        
-        @statistic[latencyDF](title="End-to-end latency of data frames"; source="timestampAge(receivedCompleteDF)"; unit=s; record=stats,histogram?,vector; interpolationmode=linear);
-        @statistic[latencyRF](title="End-to-end latency of remote frames"; source="timestampAge(receivedCompleteRF)"; unit=s; record=stats,histogram?,vector; interpolationmode=linear);
-        @statistic[latencyPayloadDF](title="End-to-end latency of data frame payload"; source="timestampAge(receivedDFPayload)"; unit=s; record=stats,histogram?,vector; interpolationmode=linear);
-        @statistic[latencyPayloadRF](title="End-to-end latency of remote frame payload"; source="timestampAge(receivedRFPayload)"; unit=s; record=stats,histogram?,vector; interpolationmode=linear);
+        //Statistic about the number of received data frames.
+        @statistic[rxDF](title="complete data frames received"; source=rxDF; record=count);
+        //Statistic about the number of received remote frames.
+        @statistic[rxRF](title="complete remote frames received"; source=rxRF; record=count);
+        //Statistic about the end to end latency of the received data frames.
+        @statistic[rxDFLatency](title="End-to-end latency of data frames"; source="timestampAge(rxDF)"; unit=s; record=stats,histogram?,vector; interpolationmode=linear);
+        //Statistic about the end to end latency of the received remote frames.
+        @statistic[rxRFLatency](title="End-to-end latency of remote frames"; source="timestampAge(rxRF)"; unit=s; record=stats,histogram?,vector; interpolationmode=linear);
+        //Statistic about the end to end latency of the payload within the received data frame. 
+        @statistic[rxDFPayloadLatency](title="End-to-end latency of data frame payload"; source="timestampAge(rxDFPayload)"; unit=s; record=stats,histogram?,vector; interpolationmode=linear);
+        //Statistic about the end to end latency of the payload within the received remote frame. 
+        @statistic[rxRFPayloadLatency](title="End-to-end latency of remote frame payload"; source="timestampAge(rxRFPayload)"; unit=s; record=stats,histogram?,vector; interpolationmode=linear);
     gates:
         output out @loose;
         input in @loose;

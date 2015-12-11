@@ -23,15 +23,19 @@ import fico4omnet.buffer.flexray.FRInputBuffer;
 import fico4omnet.linklayer.flexray.FRNodePort;
 import fico4omnet.synchronisation.flexray.FRSync;
 
+//
+// @todo Documentation
+//
+// @author Stefan Buschmann
+//
 module FRNode
 {
     parameters:
         @display("bgb=331,272;i=device/device");
-        int pChannels = default(2); //0 = A; 1 = B; 2 = A&B
         
+        int pChannels = default(2); //0 = A; 1 = B; 2 = A&B        
         int gPayloadLengthStatic = default(0);
         int cPayloadLengthMax = default(0);
-
         int gCycleCountMax = default(63); // [7,9,...,63]
         double pdMicrotick @unit(s) = default(12.5ns); //[ns]
         double gdMacrotick @unit(s) = default(1us); //[�s]
@@ -44,7 +48,6 @@ module FRNode
         int gdActionPointOffset = default(1); //[MT]
         int gdMinislotActionPointOffset = default(1); //[MT]
         double bandwidth @unit(bps) = default(10000000bps); //[MBit/s]
-
         double maxDriftChange @unit(s) = default(0);
         double maxDrift @unit(s) = default(0);
 
@@ -55,7 +58,6 @@ module FRNode
         inout channelB @loose;
 
     submodules:
-
         frNodePort: FRNodePort {
             @display("p=128,183");
         }

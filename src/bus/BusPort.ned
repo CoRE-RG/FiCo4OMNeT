@@ -26,22 +26,21 @@
 //(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-package fico4omnet.linklayer;
+package fico4omnet.bus;
 
 //
-// This module establishes the connection between the node and the bus module.
+// The bus port simulates the physical connection between the clients and the bus.
+//
+// Incoming frames are distributed to all connected nodes.
 //
 // @author Stefan Buschmann
 //
-simple NodePort
+simple BusPort
 {
     parameters:
         @display("bgb=300,158");
         
     gates:
-        inout phygate;
-		//Input from the upper layer
-        input upperLayerIn @loose;
-        //Output to the upper layer
-        output upperLayerOut @loose;
+        inout phygate[];
+        inout innerGate;
 }

@@ -15,11 +15,16 @@
 
 package fico4omnet.bus.flexray;
 
-
+//
+// @todo Documentation
+//
+// @author Stefan Buschmann
+//
 simple FRTopologyPort
 {
     parameters:
         @display("bgb=300,158");
+        
     gates:
         inout phyChannelA[];
         inout phyChannelB[];

@@ -29,11 +29,14 @@
 #ifndef __FICO4OMNET_CANINPUTBUFFER_H_
 #define __FICO4OMNET_CANINPUTBUFFER_H_
 
+//OMNeT++
 #include <omnetpp.h>
+//FiCo4OMNeT
 #include "FiCo4OMNeT_CanBuffer.h"
 #include "FiCo4OMNeT_CanPortInput.h"
 
 namespace FiCo4OMNeT {
+
 /**
  * @brief This buffer holds messages which were received by this node.
  *
@@ -60,7 +63,7 @@ protected:
 
 private:
     /**
-     * @brief Registers the canIDs which will be received by this node.
+     * @brief Registers the can IDs which will be received by this node.
      */
     void registerIncomingDataFramesAtPort();
 };

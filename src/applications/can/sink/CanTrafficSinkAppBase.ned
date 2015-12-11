@@ -33,33 +33,38 @@ import fico4omnet.applications.ISinkApplication;
 //
 // Received data frames are processed in this module. When the input buffer receives a frame, 
 // the application gets informed about this. As soon as the application is idle it requests the next frame
-// from the buffer.
+// from the buffer. 
 //
-// In the parameter "idIncomingFrames" all frames are defined which will be received by this node. 
-// 
 //
 simple CanTrafficSinkAppBase like ISinkApplication
 {
     parameters:
         @class(CanTrafficSinkAppBase);
         @display("i=block/sink");
-//        string idIncomingFrames = default("0");				// The Incoming Frame ID(s) - String parameter (int) separated with commas
 
-        @signal[receivedCompleteDF](type=CanDataFrame);
-        @signal[receivedCompleteRF](type=CanDataFrame);
-        @signal[receivedDFPayload](type=cPacket);
-        @signal[receivedRFPayload](type=cPacket);
+		//Signal for received data frames.
+        @signal[rxDF](type=CanDataFrame);
+        //Signal for received remote frames.
+        @signal[rxRF](type=CanDataFrame);
+        //Signal for received payload within a received data frame.
+        @signal[rxDFPayload](type=cPacket);
+        //Signal for received payload within a received remote frame.
+        @signal[rxRFPayload](type=cPacket);
         
-        @statistic[rxDF](title="sink app data frame"; source=receivedCompleteDF; record=count; interpolationmode=none);
-        @statistic[rxRF](title="sink app remote frame"; source=receivedCompleteRF; record=count; interpolationmode=none);
+        //Statistic of the number of received data frames.
+        @statistic[rxDF](title="sink app data frame"; source=rxDF; record=count);
+        //Statistic of the number of received remote frames.
+        @statistic[rxRF](title="sink app remote frame"; source=rxRF; record=count);
+        //Statistic of the end to end latency of the received data frame.
+        @statistic[rxDFLatency](title="End-to-end latency of data frames"; source="timestampAge(rxDF)"; unit=s; record=stats,histogram?,vector; interpolationmode=linear);
+        //Statistic of the end to end latency of the received remote frame.
+        @statistic[rxRFLatency](title="End-to-end latency of remote frames"; source="timestampAge(rxRF)"; unit=s; record=stats,histogram?,vector; interpolationmode=linear);
+        //Statistic of the end to end latency of the payload within the received data frame. 
+        @statistic[rxDFPayloadLatency](title="End-to-end latency of data frame payload"; source="timestampAge(rxDFPayload)"; unit=s; record=stats,histogram,vector; interpolationmode=linear);
+        //Statistic of the end to end latency of the payload within the received remote frame. 
+        @statistic[rxRFPayloadLatency](title="End-to-end latency of remote frame payload"; source="timestampAge(rxRFPayload)"; unit=s; record=stats,histogram,vector; interpolationmode=linear);
         
-        @statistic[latencyDF](title="End-to-end latency of data frames"; source="timestampAge(receivedCompleteDF)"; unit=s; record=stats,histogram?,vector; interpolationmode=linear);
-        @statistic[latencyRF](title="End-to-end latency of remote frames"; source="timestampAge(receivedCompleteRF)"; unit=s; record=stats,histogram?,vector; interpolationmode=linear);
-        @statistic[latencyPayloadDF](title="End-to-end latency of data frame payload"; source="timestampAge(receivedDFPayload)"; unit=s; record=stats,histogram,vector; interpolationmode=linear);
-        @statistic[latencyPayloadRF](title="End-to-end latency of remote frame payload"; source="timestampAge(receivedRFPayload)"; unit=s; record=stats,histogram,vector; interpolationmode=linear);
     gates:
-        //input in @labels(DataFrame);
         input controllerIn @directIn;
-        input dataIn @directIn;
-        
+        input dataIn @directIn;      
 }

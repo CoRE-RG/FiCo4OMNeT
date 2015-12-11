@@ -16,11 +16,15 @@
 #ifndef __FICO4OMNET_FRPORTINPUT_H_
 #define __FICO4OMNET_FRPORTINPUT_H_
 
-#include <omnetpp.h>
+//std
 #include <string.h>
-#include "FRFrame_m.h"
+//OMNeT++
+#include <omnetpp.h>
+//FiCo4OMNeT
 #include "FiCo4OMNeT_FRScheduler.h"
 #include "FiCo4OMNeT_FRSync.h"
+//Auto-generated messages
+#include "FRFrame_m.h"
 
 namespace FiCo4OMNeT {
 
@@ -32,6 +36,12 @@ namespace FiCo4OMNeT {
  * @author Stefan Buschmann
  */
 class FRPortInput: public cSimpleModule{
+public:
+    /**
+     * @brief Constructor
+     */
+    FRPortInput();
+    
 protected:
     /**
      *

@@ -31,10 +31,13 @@ package fico4omnet.applications;
 // 
 // Interface for a source application
 //
+// @author Stefan Buschmann
+//
 moduleinterface ISourceApplication
 {
     parameters:
         @display("i=block/source");
+        
     gates:
         output out;
 }

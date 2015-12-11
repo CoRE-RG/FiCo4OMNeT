@@ -16,8 +16,9 @@
 #ifndef __FICO4OMNET_FRSCHEDULER_H_
 #define __FICO4OMNET_FRSCHEDULER_H_
 
+//OMNeT++
 #include <omnetpp.h>
-
+//FiCo4OMNeT
 #include "FiCo4OMNeT_SchedulerMessage_m.h"
 #include "FiCo4OMNeT_SchedulerMessageEvents_m.h"
 #include "FiCo4OMNeT_SchedulerEvent.h"
@@ -25,6 +26,7 @@
 
 namespace FiCo4OMNeT {
 
+// TODO Documentation
 class FRScheduler : public cSimpleModule {
 	private:
         /**
@@ -163,7 +165,6 @@ class FRScheduler : public cSimpleModule {
         int additionalMinislotsChA;
         int additionalMinislotsChB;
 
-
 	protected:
 //        static simsignal_t newCycle;
 
@@ -208,6 +209,11 @@ class FRScheduler : public cSimpleModule {
         virtual void adjustMacrotick();
 
     public:
+        /**
+         * @brief Constructor
+         */
+        FRScheduler();
+
         /**
          * @brief Returns the current number of ticks
          *
@@ -302,7 +308,6 @@ class FRScheduler : public cSimpleModule {
          * @brief Returns the deviation to the actionpoint in the current slot.
          */
         virtual int calculateDeviationValue();
-
 };
 
 }

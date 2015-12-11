@@ -18,6 +18,11 @@ package fico4omnet.bus.flexray;
 import fico4omnet.bus.BusPort;
 import fico4omnet.bus.flexray.FRBusLogic;
 
+//
+// @todo Documentation
+//
+// @author Stefan Buschmann
+//
 module FRBus
 {
     parameters:
@@ -34,11 +39,13 @@ module FRBus
             gates:
                 phygate[numberOfNodesChannelA];
         }
+        
         busPortChannelB: BusPort {
             @display("p=163,138");
             gates:
                 phygate[numberOfNodesChannelB];
         }
+        
         frBusLogic: FRBusLogic {
             @display("p=116,46");
         }
@@ -53,5 +60,4 @@ module FRBus
 
         frBusLogic.gateChA <--> busPortChannelA.innerGate;
         frBusLogic.gateChB <--> busPortChannelB.innerGate;
-
 }

@@ -16,10 +16,16 @@
 #ifndef __FICO4OMNET_FRTRAFFICSOURCEAPPBASE_H_
 #define __FICO4OMNET_FRTRAFFICSOURCEAPPBASE_H_
 
-#include <omnetpp.h>
+//std
 #include <string.h>
+
+//OMNeT++
+#include <omnetpp.h>
+#include <clistener.h>
+//FiCo4OMNeT
 #include "FiCo4OMNeT_SchedulerMessage_m.h"
 #include "FiCo4OMNeT_FRBuffer.h"
+//Auto-generated messages
 #include "FRFrame_m.h"
 
 namespace FiCo4OMNeT {
@@ -34,9 +40,12 @@ namespace FiCo4OMNeT {
 class FRTrafficSourceAppBase: public cSimpleModule, cListener {
 
 public:
-
+    /**
+     * @brief Constructor
+     */
+    FRTrafficSourceAppBase();
+    
     virtual void receiveSignal(cComponent *source, simsignal_t signalID, long l);
-
 
 protected:
     /**
@@ -50,7 +59,6 @@ protected:
      * @param msg incoming self message
      */
     virtual void handleMessage(cMessage *msg);
-
 
 private:
     /**

@@ -37,8 +37,6 @@ CanBusLogic::CanBusLogic() {
     numRemoteFrames = 0;
     numErrorFrames = 0;
 
-    busytime = 0.0;
-    busytimestamp = 0.0;
     errpos = INT_MAX;
     errored = false;
     idle = true;
@@ -59,17 +57,16 @@ CanBusLogic::~CanBusLogic() {
 }
 
 void CanBusLogic::initialize() {
-    rcvdSignal = registerSignal("received");
-    rcvdDFSignal = registerSignal("receivedDF");
-    rcvdRFSignal = registerSignal("receivedRF");
-    rcvdEFSignal = registerSignal("receivedEF");
+    rcvdSignal = registerSignal("rxPk");
+    rcvdDFSignal = registerSignal("rxDF");
+    rcvdRFSignal = registerSignal("rxRF");
+    rcvdEFSignal = registerSignal("rxEF");
     stateSignal = registerSignal("state");
 
     char buf[64];
     sprintf(buf, "state: idle");
     bubble("state: idle");
     getDisplayString().setTagArg("tt", 0, buf);
-
 
     bandwidth = getParentModule()->par("bandwidth");
 }
@@ -109,7 +106,6 @@ void CanBusLogic::handleMessage(cMessage *msg) {
         colorError();
         handleErrorFrame(msg);
     }
-
     delete msg;
 }
 
@@ -119,8 +115,8 @@ void CanBusLogic::grantSendingPermission() {
 
     for (std::list<CanID*>::iterator it = ids.begin(); it != ids.end(); ++it) {
         CanID *id = *it;
-        if (id->getId() < currentSendingID) {
-            currentSendingID = id->getId();
+        if (id->getCanID() < currentSendingID) {
+            currentSendingID = id->getCanID();
             sendingNode = dynamic_cast<CanOutputBuffer*> (id->getNode());
             currsit = id->getSignInTime();
         }
@@ -130,7 +126,7 @@ void CanBusLogic::grantSendingPermission() {
     bool nodeFound = false;
     for (std::list<CanID*>::iterator it = ids.begin(); it != ids.end(); ++it) {
         CanID *id = *it;
-        if (id->getId() == currentSendingID) {
+        if (id->getCanID() == currentSendingID) {
             if (id->getRtr() == false) { //Data-Frame
                 sendcount++;
                 if (!nodeFound) {
@@ -153,8 +149,6 @@ void CanBusLogic::grantSendingPermission() {
                 sendingNode);
         controller->receiveSendingPermission(currentSendingID);
     } else {
-        simtime_t timetaken = simTime() - busytimestamp;
-        busytime += timetaken;
         idle = true;
         getDisplayString().setTagArg("tt", 0, "state: idle");
         bubble("state: idle");
@@ -213,23 +207,18 @@ void CanBusLogic::handleErrorFrame(cMessage *msg) {
         emit(rcvdEFSignal, ef2);
         errored = true;
         send(msg->dup(), "gate$o");
-
-        //TODO Errorframes statistic?!?!
-        //numFramesSent++;
-        //numBitsSent+=df->getLength();
     }
 }
 
-void CanBusLogic::registerForArbitration(unsigned int id, cModule *node,
+void CanBusLogic::registerForArbitration(unsigned int canID, cModule *module,
         simtime_t signInTime, bool rtr) {
     Enter_Method_Silent
     ();
-    ids.push_back(new CanID(id, node, signInTime, rtr));
+    ids.push_back(new CanID(canID, module, signInTime, rtr));
     if (idle) {
         cMessage *self = new cMessage("idle_signin");
         scheduleAt(simTime() + (1 / (bandwidth)), self);
         idle = false;
-        busytimestamp = simTime();
         bubble("state: busy");
         getDisplayString().setTagArg("tt", 0, "state: busy");
         emit(stateSignal, TRANSMITTING);
@@ -241,7 +230,7 @@ void CanBusLogic::checkoutFromArbitration(unsigned int canID) {
     ();
     for (std::list<CanID*>::iterator it = ids.begin(); it != ids.end(); ++it) {
         CanID* tmp = *it;
-        if (tmp->getId() == canID) {
+        if (tmp->getCanID() == canID) {
             ids.remove(tmp);
             delete tmp;
             break;
@@ -310,4 +299,3 @@ void CanBusLogic::colorError() {
 }
 
 }
-//TEST FR!!!!!!!!!!!!

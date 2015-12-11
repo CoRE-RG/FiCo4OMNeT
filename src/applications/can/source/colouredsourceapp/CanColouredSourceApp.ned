@@ -26,22 +26,26 @@
 //(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-package fico4omnet.linklayer;
+package fico4omnet.applications.can.source.colouredsourceapp;
+
+import fico4omnet.applications.can.source.CanTrafficSourceAppBase;
 
 //
-// This module establishes the connection between the node and the bus module.
+// This module generates all data and remote frames for the node. Periodically sent messages
+// are scheduled and forwarded to the output buffer at the given time. A frame with a period 
+// of 0 is only forwarded when a remote frame from another node is received.
+// 
+// @see ~ISourceApplication
 //
 // @author Stefan Buschmann
 //
-simple NodePort
+simple CanColouredSourceApp extends CanTrafficSourceAppBase
 {
     parameters:
-        @display("bgb=300,158");
+        @class(CanColouredSourceApp);
+        @display("i=block/source");
         
-    gates:
-        inout phygate;
-		//Input from the upper layer
-        input upperLayerIn @loose;
-        //Output to the upper layer
-        output upperLayerOut @loose;
+        //The Data Frames ID(s) - String parameter (int) separated with commas
+        string displayString = default("");					
+
 }

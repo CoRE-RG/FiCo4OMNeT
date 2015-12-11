@@ -16,13 +16,22 @@
 #ifndef __FICO4OMNET_FRPORTOUTPUT_H_
 #define __FICO4OMNET_FRPORTOUTPUT_H_
 
+//OMNeT++
 #include <omnetpp.h>
+//FiCo4OMNeT auto-generated messages
 #include <FRFrame_m.h>
 
 namespace FiCo4OMNeT {
 
+// TODO Documentation
 class FRPortOutput: public cSimpleModule {
+
 public:
+    /**
+     * @brief Constructor
+     */
+    FRPortOutput();
+
     /**
      * @brief Is called when the transmission of a frame is completed.
      */
@@ -44,7 +53,6 @@ protected:
     virtual void handleMessage(cMessage *msg);
 
 private:
-
 //    /**
 //     * @brief Simsignal for sent frames in static segment.
 //     */
@@ -84,7 +92,6 @@ private:
      * @brief Colors the connection to the bus to represent it is idle.
      */
     virtual void colorIdle();
-
 };
 
 }

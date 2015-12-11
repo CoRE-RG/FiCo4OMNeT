@@ -29,8 +29,8 @@
 #ifndef __FICO4OMNET_NODEPORT_H_
 #define __FICO4OMNET_NODEPORT_H_
 
+//OMNeT++
 #include <omnetpp.h>
-
 
 namespace FiCo4OMNeT {
 
@@ -45,10 +45,9 @@ class NodePort : public cSimpleModule {
 
 protected:
     /**
-     * @brief Handles all scheduler messages
+     * @brief Handles incoming messages
      *
-     * Registers self-messages for events sends messages to trigger events in
-     * remote modules.
+     * Messages from the bus and outgoing messages are handled in this module.
      *
      * @param msg the incoming message.
      */
@@ -57,6 +56,8 @@ protected:
 public:
     /**
      * @brief Forward a message to the bus module.
+     *
+     * @param the message to be forwarded
      */
     virtual void sendMsgToBus(cMessage *msg);
 };

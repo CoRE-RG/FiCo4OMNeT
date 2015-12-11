@@ -17,6 +17,13 @@ package fico4omnet.applications.flexray.sink;
 
 import fico4omnet.applications.ISinkApplication;
 
+//
+// @todo Documentation
+//
+// @see ~ISinkApplication
+//
+// @author Stefan Buschmann
+//
 simple FRTrafficSinkAppBase like ISinkApplication
 {
     parameters:

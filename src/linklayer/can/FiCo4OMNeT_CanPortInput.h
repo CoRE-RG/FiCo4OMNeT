@@ -29,12 +29,16 @@
 #ifndef __FICO4OMNET_CANPORTINPUT_H_
 #define __FICO4OMNET_CANPORTINPUT_H_
 
-#include <omnetpp.h>
+//std
 #include <string.h>
-#include "CanDataFrame_m.h"
-#include "ErrorFrame_m.h"
+//OMNeT++
+#include <omnetpp.h>
+//FiCo4OMNeT
 #include "FiCo4OMNeT_CanPortOutput.h"
 #include "FiCo4OMNeT_CanOutputBuffer.h"
+//Auto-generated messages
+#include "CanDataFrame_m.h"
+#include "ErrorFrame_m.h"
 
 namespace FiCo4OMNeT {
 
@@ -46,19 +50,37 @@ namespace FiCo4OMNeT {
  * @author Stefan Buschmann
  */
 class CanPortInput: public cSimpleModule {
+
 public:
     /**
+<<<<<<< HEAD
+     * @brief Modules can register their CanIDs so that incoming remote frames are forwarded to them.
+     *
+     * @param canID the can ID the module wants to register
+     * @param gate the direct input port of the application
+=======
+     * @brief Constructor
+     */
+    CanPortInput();
+
+    /**
      * @brief Source Applications can register their CanIDs so that incoming remote frames are forwarded to them.
+>>>>>>> integration
      */
     virtual void registerOutgoingDataFrame(unsigned int canID, cGate* gate);
 
     /**
-     * @brief Source Applications can register their remote frame CanIDs.
+     * @brief Modules can register their remote frame CanIDs.
+     *
+     * @param canID the can ID the module wants to register
      */
     virtual void registerOutgoingRemoteFrame(unsigned int canID);
 
     /**
-     * @brief Sink Applications can register the CanIDs which they are interested in.
+     * @brief Modules can register the CanIDs which they are interested in.
+     *
+     * @param canID the can ID of frames the module is interested in
+     * @param gate the input port of the module
      */
     virtual void registerIncomingDataFrame(unsigned int canID, cGate* gate);
 
@@ -76,7 +98,6 @@ protected:
     virtual void handleMessage(cMessage *msg);
 
 private:
-
     /**
      * @brief Maximum size of an error frame.
      */
@@ -129,67 +150,99 @@ private:
     int errorperc;
 
     /**
-     * @brief Currently scheduled Data Frame
+     * @brief Currently scheduled data frame
      */
     CanDataFrame *scheduledDataFrame;
 
     /**
-     * @brief Currently scheduled Error Frame
+     * @brief Currently scheduled error frame
      */
     ErrorFrame *scheduledErrorFrame;
 
     /**
-     * @brief Incoming Data frame is scheduled until receiving is completed.
+     * @brief Incoming data frame is scheduled until transmission is completed.
+     *
+     * @param msg the incoming frame
      */
     virtual void receiveMessage(CanDataFrame *msg);
 
     /**
-     * @brief This method generates an error message for the received data frame.
+     * @brief This method generates an error message for the received frame.
+     *
+     * @param df the received frame
      */
     virtual void generateReceiveError(CanDataFrame *df);
 
     /**
      * @brief Checks whether the received frame is relevant for this node.
+     *
+     * @param df the received frame
+     *
+     * @return true if the frame is relevant, false otherwise
      */
     virtual bool checkExistence(CanDataFrame *df);
 
     /**
-     * @brief Checks whether the frame with the corresponding ID is sent by this node.
+     * @brief Checks whether the data frame with the corresponding can ID is sent by this node.
+     *
+     * @param canID the can ID of the searched frame
+     *
+     * @return true if a frame with the can ID is sent by this node, false otherwise
      */
-    virtual bool checkOutgoingDataFrames(unsigned int id);
+    virtual bool checkOutgoingDataFrames(unsigned int canID);
 
     /**
-     * @brief Checks whether the frame with the corresponding ID is sent by this node.
+     * @brief Checks whether the remote frame with the corresponding ID is sent by this node.
+     *
+     * @param canID the can ID of the searched frame
+     *
+     * @return true if a frame with the can ID is sent by this node, false otherwise
      */
-    virtual bool checkOutgoingRemoteFrames(unsigned int id);
+    virtual bool checkOutgoingRemoteFrames(unsigned int canID);
 
     /**
-     * @brief Checks whether the frame is listed in the relevant incoming frames.
+     * @brief Checks whether the frame is listed under the relevant incoming frames.
+     *
+     * @param canID the can ID of the searched frame
+     *
+     * @return true if a frame with the can ID is listed in the incoming frames collection, false otherwise
      */
-    virtual bool checkIncomingDataFrames(unsigned int id);
+    virtual bool checkIncomingDataFrames(unsigned int canID);
 
     /**
      * @brief Calculates when the frame is ready to be forwarded based on the number of bits.
+     *
+     * @param length length of the frame in bit
+     *
+     * @return the duration in seconds until frame transmission is completed
      */
     virtual double calculateScheduleTiming(int length);
 
     /**
-     * @brief Sends the message to the output gate if incomingIDs contains the message ID or to the SourceApp in case of a remote frame.
+     * @brief Forwards the received frame to the responsible module.
+     *
+     * @param msg the received frame
      */
     virtual void forwardDataFrame(CanDataFrame *msg);
 
     /**
      * @brief Sends the error frame to the output gate
+     *
+     * @param ef the generated error frame
      */
     virtual void forwardOwnErrorFrame(ErrorFrame *ef);
 
     /**
      * @brief Called when a error frame is received.
+     *
+     * @param ef the received error frame
      */
     virtual void handleExternErrorFrame(ErrorFrame *ef);
 
     /**
-     * @brief Returns true when this node is the current sending node.
+     * @brief Checks whether this node is the currently sending node.
+     *
+     * @return true if this node is the sending node, false otherwise
      */
     virtual bool amITheSendingNode();
 };

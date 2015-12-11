@@ -32,6 +32,12 @@ namespace FiCo4OMNeT {
 
 Define_Module(CanPortOutput);
 
+CanPortOutput::CanPortOutput(){
+    this->bandwidth = 0;
+    this->errorperc = 0;
+    this->scheduledErrorFrame = nullptr;
+    this->errorReceived = false;
+}
 
 CanPortOutput::~CanPortOutput(){
     cancelAndDelete(scheduledErrorFrame);
@@ -50,17 +56,15 @@ void CanPortOutput::handleReceivedErrorFrame() {
 void CanPortOutput::initialize() {
     bandwidth = getParentModule()->getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->par("bandwidth");
     errorperc = getParentModule()->getParentModule()->par("errorperc");
-
     scheduledErrorFrame = new ErrorFrame();
-
     initializeStatisticValues();
 }
 
 void CanPortOutput::initializeStatisticValues(){
-    sentDFSignal = registerSignal("sentDF");
-    sentRFSignal = registerSignal("sentRF");
-    sendErrorsSignal = registerSignal("sendError");
-    receiveErrorsSignal = registerSignal("receiveError");
+    sentDFSignal = registerSignal("txDF");
+    sentRFSignal = registerSignal("txRF");
+    sendErrorsSignal = registerSignal("txEF");
+    receiveErrorsSignal = registerSignal("rxEF");
 }
 
 void CanPortOutput::handleMessage(cMessage *msg) {

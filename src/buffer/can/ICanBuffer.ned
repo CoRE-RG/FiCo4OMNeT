@@ -30,10 +30,18 @@ package fico4omnet.buffer.can;
 
 import fico4omnet.buffer.IBuffer;
 
+//
+// Interface representing a can buffer module.
+//
+// @see ~IBuffer
+//
+// @author Stefan Buschmann
+//
 moduleinterface ICanBuffer extends IBuffer
 {
     parameters:
         @display("i=block/buffer");
 
-        bool MOB;//If true frames with the same ID will be overwritten.
+		//If true frames with the same ID will be overwritten.
+        bool MOB;
 }
