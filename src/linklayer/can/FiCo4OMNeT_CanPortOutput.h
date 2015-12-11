@@ -37,6 +37,8 @@
 
 namespace FiCo4OMNeT {
 
+using namespace omnetpp;
+
 /**
  * @brief Outgoing messages are handled in this module.
  *

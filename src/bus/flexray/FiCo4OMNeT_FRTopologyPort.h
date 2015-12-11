@@ -21,6 +21,8 @@
 
 namespace FiCo4OMNeT {
 
+using namespace omnetpp;
+
 // TODO Documentation
 class FRTopologyPort : public cSimpleModule {
 

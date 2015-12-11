@@ -23,6 +23,8 @@
 
 namespace FiCo4OMNeT {
 
+using namespace omnetpp;
+
 /**
  * @brief sync module.
  *

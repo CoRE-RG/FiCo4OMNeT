@@ -34,6 +34,8 @@
 
 namespace FiCo4OMNeT {
 
+using namespace omnetpp;
+
 /**
  * @brief The NodePort represents the connection between the bus and the in- and output ports.
  *

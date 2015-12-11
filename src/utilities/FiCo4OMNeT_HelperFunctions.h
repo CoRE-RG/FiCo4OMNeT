@@ -23,6 +23,8 @@
 
 namespace FiCo4OMNeT {
 
+using namespace omnetpp;
+
 /**
  * @brief Returns the gate defined by an object path.
  *

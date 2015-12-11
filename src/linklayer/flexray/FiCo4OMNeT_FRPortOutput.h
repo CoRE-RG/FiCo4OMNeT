@@ -23,6 +23,8 @@
 
 namespace FiCo4OMNeT {
 
+using namespace omnetpp;
+
 // TODO Documentation
 class FRPortOutput: public cSimpleModule {
 

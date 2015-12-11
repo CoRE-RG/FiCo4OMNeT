@@ -5,6 +5,8 @@
 
 namespace FiCo4OMNeT {
 
+using namespace omnetpp;
+
 /**
  * @brief Redefines SchedulerEvent_Base and adds destinationGate
  */

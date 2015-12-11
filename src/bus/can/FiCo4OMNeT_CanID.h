@@ -37,6 +37,8 @@
 
 namespace FiCo4OMNeT {
 
+using namespace omnetpp;
+
 /**
  * @brief Used by the #CanBusLogic for the arbitration of can frames.
  *

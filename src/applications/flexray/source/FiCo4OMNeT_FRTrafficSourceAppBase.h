@@ -20,8 +20,8 @@
 #include <string.h>
 
 //OMNeT++
-#include <omnetpp.h>
-#include <clistener.h>
+#include "omnetpp.h"
+
 //FiCo4OMNeT
 #include "FiCo4OMNeT_SchedulerMessage_m.h"
 #include "FiCo4OMNeT_FRBuffer.h"

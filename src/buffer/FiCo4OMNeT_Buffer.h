@@ -37,6 +37,8 @@
 
 namespace FiCo4OMNeT {
 
+using namespace omnetpp;
+
 /**
  * @brief Represents the content of a physical buffer.
  *

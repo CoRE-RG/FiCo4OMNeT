@@ -34,6 +34,8 @@
 
 namespace FiCo4OMNeT {
 
+using namespace omnetpp;
+
 /**
  * @brief The CanClock simulates the clock drift of a can node.
  *

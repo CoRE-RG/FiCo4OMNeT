@@ -35,6 +35,8 @@
 
 namespace FiCo4OMNeT {
 
+using namespace omnetpp;
+
 /**
  * @brief Represents the connection between the bus and all connected nodes.
  *
