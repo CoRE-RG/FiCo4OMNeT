@@ -45,20 +45,20 @@ public:
      */
     FRTrafficSourceAppBase();
     
-    virtual void receiveSignal(cComponent *source, simsignal_t signalID, long l);
+    virtual void receiveSignal(cComponent *source, simsignal_t signalID, long l, cObject *details) override;
 
 protected:
     /**
      * @brief Initialization of the module.
      */
-    virtual void initialize();
+    virtual void initialize() override;
 
     /**
      * @brief Self messages are processed and outgoing frames are built.
      *
      * @param msg incoming self message
      */
-    virtual void handleMessage(cMessage *msg);
+    virtual void handleMessage(cMessage *msg) override;
 
 private:
     /**

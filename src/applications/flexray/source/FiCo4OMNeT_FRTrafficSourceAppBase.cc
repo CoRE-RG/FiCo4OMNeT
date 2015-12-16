@@ -37,7 +37,7 @@ void FRTrafficSourceAppBase::handleMessage(cMessage *msg) {
 }
 
 void FRTrafficSourceAppBase::receiveSignal(cComponent *source,
-        simsignal_t signalID, long l) {
+        simsignal_t signalID, long l, cObject *details) {
     (void)source;
     (void)signalID;
     //Nachrichten an Buffer bei NEW_CYCLE

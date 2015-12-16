@@ -46,7 +46,7 @@ public:
 class RemoveNaNFilter: public cNumericResultFilter {
 public:
     virtual bool process(simtime_t& t, double& value, cObject *details) override;
-    virtual void addDelegate(cResultListener *delegate);
+    virtual void addDelegate(cResultListener *delegate) override;
 };
 
 
@@ -58,7 +58,7 @@ class RmNaNFilter : public cNumericResultFilter
         RmNaNFilter();
         virtual bool process(simtime_t& t, double& value, cObject *details) override;
     protected:
-        virtual void finish(cResultFilter * prev);
+        virtual void finish(cResultFilter * prev) override;
 };
 
 
