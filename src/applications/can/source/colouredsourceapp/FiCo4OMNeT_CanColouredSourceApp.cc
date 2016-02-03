@@ -66,7 +66,7 @@ void CanColouredSourceApp::frameTransmission(CanDataFrame *df) {
                 dynamic_cast<CanClock*>(getParentModule()->getSubmodule("canClock"));
         currentDrift = canClock->getCurrentDrift();
         scheduleAt(
-                simTime() + (df->getPeriod() / 1000.)
+                simTime() + (df->getPeriod())
                         + SimTime(par("periodInaccurracy").doubleValue() + currentDrift), df);
     } else if (df->arrivedOn("remoteIn")) {
         for (std::list<CanDataFrame*>::iterator it =
