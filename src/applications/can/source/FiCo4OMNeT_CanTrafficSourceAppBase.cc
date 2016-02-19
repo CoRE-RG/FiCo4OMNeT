@@ -119,7 +119,7 @@ void CanTrafficSourceAppBase::initialRemoteFrameCreation() {
             can_msg->encapsulate(payload_packet);
             can_msg->setRtr(true);
             can_msg->setPeriod(
-                    atoi(remoteFramesPeriodicityTokenizer.nextToken()));
+                    atof(remoteFramesPeriodicityTokenizer.nextToken()));
             registerRemoteFrameAtPort(can_msg->getCanID());
             if (can_msg->getPeriod() == 0) {
                 EV<< "Remote frame with ID " << can_msg->getCanID()
@@ -198,10 +198,10 @@ void CanTrafficSourceAppBase::initialDataFrameCreation() {
             payload_packet->setByteLength(dataFieldLength);
             can_msg->encapsulate(payload_packet);
             can_msg->setPeriod(
-                    atoi(dataFramesPeriodicityTokenizer.nextToken()));
+                    atof(dataFramesPeriodicityTokenizer.nextToken()));
             outgoingDataFrames.push_back(can_msg);
             registerDataFrameAtPort(can_msg->getCanID());
-            if (can_msg->getPeriod() != 0) {
+            if (can_msg->getPeriod() > 0.0) {
                 double offset;
                 initialDataFrameOffsetTokenizer.hasMoreTokens() ?
                         offset = atof(
@@ -284,7 +284,7 @@ void CanTrafficSourceAppBase::frameTransmission(CanDataFrame *df) {
                 dynamic_cast<CanClock*>(getParentModule()->getSubmodule("canClock"));
         currentDrift = canClock->getCurrentDrift();
         scheduleAt(
-                simTime() + (df->getPeriod() / 1000.)
+                simTime() + (df->getPeriod())
                         + SimTime(par("periodInaccurracy").doubleValue() + currentDrift), df);
     } else if (df->arrivedOn("remoteIn")) {
         for (std::list<CanDataFrame*>::iterator it =

@@ -35,5 +35,5 @@ packet CanDataFrame{
     string displayString;
 	unsigned int canID;			// ID of the message
 	bool rtr;			// true if remote-frame
-	int period;			// Periodicy of the message
+	double period;			// Periodicy of the message
 }

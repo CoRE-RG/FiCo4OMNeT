@@ -57,16 +57,16 @@ simple CanTrafficSourceAppBase like ISourceApplication
         
         //The Data Frames ID(s) - String parameter (int) separated with commas
         string idDataFrames = default("0");					
-        //data Frame period(s) for sending of messages - String parameter (int) separated with commas - unit: ms 
+        //data Frame period(s) for sending of messages - String parameter (int) separated with commas - unit: s 
         string periodicityDataFrames = default("0");		
         //Datafield-length - String parameter (int) separated with commas - unit: byte
         string dataLengthDataFrames = default("0");			
         //Offset for the first transmission of the data frames - String parameter (double) separated with commas - unit: s
-        string initialDataFrameOffset = default("0");		
+        string initialDataFrameOffset = default("0");
         //The Remote Frame ID(s) - String parameter (int) separated with commas
-        string idRemoteFrames = default("0");				
-        //Remote Frame period(s) for sending of messages - String parameter (int) separated with commas - unit: ms
-        string periodicityRemoteFrames = default("0"); 		
+        string idRemoteFrames = default("0");	
+        //Remote Frame period(s) for sending of messages - String parameter (int) separated with commas - unit: s
+        string periodicityRemoteFrames = default("0");
         //Datafield-length - String parameter (int) separated with commas - unit: byte
         string dataLengthRemoteFrames = default("0");		
         //Offset for the first transmission of the remote frames - String parameter (double) separated with commas - unit: s
