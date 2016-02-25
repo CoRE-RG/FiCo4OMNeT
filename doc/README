@@ -4,4 +4,4 @@ OMNeT++ IDE select: "Project" -> "Generate NED documentation", select
 the project and hit OK. It may take some time to generate the
 documentation.
 You can also access the documentations online at:
-http://fico4omnet.realmv6.org/fico4omnet_documentation
+http://fico4omnet.core-rg.de/fico4omnet_documentation
