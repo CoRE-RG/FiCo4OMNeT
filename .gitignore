@@ -27,4 +27,4 @@ src/Makefile
 # local files not to be committed
 .oppfeaturestate
 .nedexclusions
-src/features.h
+src/fico4omnet/features.h
