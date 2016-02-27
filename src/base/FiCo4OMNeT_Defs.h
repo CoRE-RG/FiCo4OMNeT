@@ -19,6 +19,8 @@
 //OMNeT++
 #include "omnetpp.h"
 
+#include "../features.h"
+
 /**
  * Check for minimal OMNeT++ Version requirements
  */
