@@ -1,4 +1,4 @@
-all: checkmakefiles src/features.h 
+all: checkmakefiles src/fico4omnet/features.h 
 	cd src && $(MAKE)
 
 clean: checkmakefiles
