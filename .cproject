@@ -24,8 +24,6 @@
 							<tool id="cdt.managedbuild.tool.gnu.archiver.base.1462084260" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.base.1616530399" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base">
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1565448744" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
-									<listOptionValue builtIn="false" value="WITH_AS6802_COMMON"/>
-									<listOptionValue builtIn="false" value="WITH_TTE_API"/>
 									<listOptionValue builtIn="false" value="WITH_CAN_COMMON"/>
 									<listOptionValue builtIn="false" value="WITH_FR_COMMON"/>
 								</option>
@@ -33,8 +31,6 @@
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.base.2039297403" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.base">
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1770634839" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
-									<listOptionValue builtIn="false" value="WITH_AS6802_COMMON"/>
-									<listOptionValue builtIn="false" value="WITH_TTE_API"/>
 									<listOptionValue builtIn="false" value="WITH_CAN_COMMON"/>
 									<listOptionValue builtIn="false" value="WITH_FR_COMMON"/>
 								</option>
@@ -58,8 +54,6 @@
 							<tool id="cdt.managedbuild.tool.gnu.archiver.base.694680355" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base.1462084260"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.base.1169686971" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base.1616530399">
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1476212103" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
-									<listOptionValue builtIn="false" value="WITH_AS6802_COMMON"/>
-									<listOptionValue builtIn="false" value="WITH_TTE_API"/>
 									<listOptionValue builtIn="false" value="WITH_CAN_COMMON"/>
 									<listOptionValue builtIn="false" value="WITH_FR_COMMON"/>
 								</option>
@@ -67,8 +61,6 @@
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.base.1886905305" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.base.2039297403">
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1431592648" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
-									<listOptionValue builtIn="false" value="WITH_AS6802_COMMON"/>
-									<listOptionValue builtIn="false" value="WITH_TTE_API"/>
 									<listOptionValue builtIn="false" value="WITH_CAN_COMMON"/>
 									<listOptionValue builtIn="false" value="WITH_FR_COMMON"/>
 								</option>
@@ -87,8 +79,6 @@
 							<tool id="cdt.managedbuild.tool.gnu.archiver.base.334252248" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base.1462084260"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.base.1122260490" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base.1616530399">
 								<option id="gnu.cpp.compiler.option.preprocessor.def.2001343089" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
-									<listOptionValue builtIn="false" value="WITH_AS6802_COMMON"/>
-									<listOptionValue builtIn="false" value="WITH_TTE_API"/>
 									<listOptionValue builtIn="false" value="WITH_CAN_COMMON"/>
 									<listOptionValue builtIn="false" value="WITH_FR_COMMON"/>
 								</option>
@@ -96,8 +86,6 @@
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.base.346713609" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.base.2039297403">
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1195478350" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
-									<listOptionValue builtIn="false" value="WITH_AS6802_COMMON"/>
-									<listOptionValue builtIn="false" value="WITH_TTE_API"/>
 									<listOptionValue builtIn="false" value="WITH_CAN_COMMON"/>
 									<listOptionValue builtIn="false" value="WITH_FR_COMMON"/>
 								</option>
@@ -141,8 +129,6 @@
 							<tool id="cdt.managedbuild.tool.gnu.archiver.base.1483388263" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.base.260786893" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base">
 								<option id="gnu.cpp.compiler.option.preprocessor.def.322621905" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
-									<listOptionValue builtIn="false" value="WITH_AS6802_COMMON"/>
-									<listOptionValue builtIn="false" value="WITH_TTE_API"/>
 									<listOptionValue builtIn="false" value="WITH_CAN_COMMON"/>
 									<listOptionValue builtIn="false" value="WITH_FR_COMMON"/>
 								</option>
@@ -150,8 +136,6 @@
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.base.2019910946" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.base">
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1345472657" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
-									<listOptionValue builtIn="false" value="WITH_AS6802_COMMON"/>
-									<listOptionValue builtIn="false" value="WITH_TTE_API"/>
 									<listOptionValue builtIn="false" value="WITH_CAN_COMMON"/>
 									<listOptionValue builtIn="false" value="WITH_FR_COMMON"/>
 								</option>
@@ -175,8 +159,6 @@
 							<tool id="cdt.managedbuild.tool.gnu.archiver.base.1481608722" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base.1483388263"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.base.269902647" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base.260786893">
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1609751157" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
-									<listOptionValue builtIn="false" value="WITH_AS6802_COMMON"/>
-									<listOptionValue builtIn="false" value="WITH_TTE_API"/>
 									<listOptionValue builtIn="false" value="WITH_CAN_COMMON"/>
 									<listOptionValue builtIn="false" value="WITH_FR_COMMON"/>
 								</option>
@@ -184,8 +166,6 @@
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.base.1433978888" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.base.2019910946">
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.93536697" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
-									<listOptionValue builtIn="false" value="WITH_AS6802_COMMON"/>
-									<listOptionValue builtIn="false" value="WITH_TTE_API"/>
 									<listOptionValue builtIn="false" value="WITH_CAN_COMMON"/>
 									<listOptionValue builtIn="false" value="WITH_FR_COMMON"/>
 								</option>
@@ -204,8 +184,6 @@
 							<tool id="cdt.managedbuild.tool.gnu.archiver.base.1588659405" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base.1483388263"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.base.2001816091" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base.260786893">
 								<option id="gnu.cpp.compiler.option.preprocessor.def.658017610" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
-									<listOptionValue builtIn="false" value="WITH_AS6802_COMMON"/>
-									<listOptionValue builtIn="false" value="WITH_TTE_API"/>
 									<listOptionValue builtIn="false" value="WITH_CAN_COMMON"/>
 									<listOptionValue builtIn="false" value="WITH_FR_COMMON"/>
 								</option>
@@ -213,8 +191,6 @@
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.base.1263730626" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.base.2019910946">
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1957028338" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
-									<listOptionValue builtIn="false" value="WITH_AS6802_COMMON"/>
-									<listOptionValue builtIn="false" value="WITH_TTE_API"/>
 									<listOptionValue builtIn="false" value="WITH_CAN_COMMON"/>
 									<listOptionValue builtIn="false" value="WITH_FR_COMMON"/>
 								</option>
