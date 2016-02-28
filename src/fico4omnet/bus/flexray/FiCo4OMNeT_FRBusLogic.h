@@ -18,7 +18,7 @@
 
 //std
 #include <stdio.h>
-#include <string.h>
+#include <string>
 #include <limits>
 //OMNeT++
 #include <omnetpp.h>

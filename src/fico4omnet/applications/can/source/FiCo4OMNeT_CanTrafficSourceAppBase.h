@@ -31,7 +31,7 @@
 #define __FICO4OMNET_CANTRAFFICSOURCEAPPBASE_H_
 
 //std
-#include <string.h>
+#include <string>
 //OMNeT++
 #include <omnetpp.h>
 //FiCo4OMNeT
