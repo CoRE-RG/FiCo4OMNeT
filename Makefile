@@ -7,7 +7,7 @@ clean: checkmakefiles
 cleanall: checkmakefiles
 	cd src && $(MAKE) MODE=release clean
 	cd src && $(MAKE) MODE=debug clean
-	rm -f src/Makefile src/features.h
+	rm -f src/Makefile src/fico4omnet/features.h
 
 MAKEMAKE_OPTIONS := -f --deep -o FiCo4OMNeT -O out -pFiCo4OMNeT 
 
