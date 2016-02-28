@@ -9,7 +9,7 @@ cleanall: checkmakefiles
 	cd src && $(MAKE) MODE=debug clean
 	rm -f src/Makefile src/features.h
 
-MAKEMAKE_OPTIONS := -f --deep -o FiCo4OMNeT -O out -pFiCo4OMNeT --no-deep-includes -I.
+MAKEMAKE_OPTIONS := -f --deep -o FiCo4OMNeT -O out -pFiCo4OMNeT 
 
 makefiles: src/fico4omnet/features.h makefiles-so
 
