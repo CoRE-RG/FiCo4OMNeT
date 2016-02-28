@@ -29,12 +29,8 @@
 #ifndef __FICO4OMNET_CANID_H_
 #define __FICO4OMNET_CANID_H_
 
-//std
-#include <stdio.h>
-#include <string>
 //OMNeT++
 #include <omnetpp.h>
-#include <cmodule.h>
 
 namespace FiCo4OMNeT {
 

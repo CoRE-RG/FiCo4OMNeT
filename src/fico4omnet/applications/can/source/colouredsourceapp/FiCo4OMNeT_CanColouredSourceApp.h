@@ -30,8 +30,6 @@
 #ifndef __FICO4OMNET_CANCOLOUREDSOURCEAPPE_H_
 #define __FICO4OMNET_CANCOLOUREDSOURCEAPPE_H_
 
-//std
-#include <string>
 //OMNeT++
 #include <omnetpp.h>
 //FiCo4OMNeT

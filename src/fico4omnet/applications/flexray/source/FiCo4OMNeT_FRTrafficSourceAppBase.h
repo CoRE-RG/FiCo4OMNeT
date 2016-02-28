@@ -16,8 +16,6 @@
 #ifndef __FICO4OMNET_FRTRAFFICSOURCEAPPBASE_H_
 #define __FICO4OMNET_FRTRAFFICSOURCEAPPBASE_H_
 
-//std
-#include <string>
 //OMNeT++
 #include <omnetpp.h>
 #include <clistener.h>

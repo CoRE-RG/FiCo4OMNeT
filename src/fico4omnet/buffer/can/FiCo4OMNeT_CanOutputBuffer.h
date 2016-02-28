@@ -29,9 +29,6 @@
 #ifndef __FICO4OMNET_CANOUTPUTBUFFER_H_
 #define __FICO4OMNET_CANOUTPUTBUFFER_H_
 
-//std
-#include <stdio.h>
-#include <string>
 //OMNeT++
 #include <omnetpp.h>
 //FiCo4OMNeT

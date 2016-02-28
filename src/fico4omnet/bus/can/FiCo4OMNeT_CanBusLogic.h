@@ -29,10 +29,6 @@
 #ifndef __FICO4OMNET_CANBUSLOGIC_H_
 #define __FICO4OMNET_CANBUSLOGIC_H_
 
-//std
-#include <stdio.h>
-#include <string>
-#include <limits>
 //OMNeT++
 #include <omnetpp.h>
 //FiCo4OMNeT
