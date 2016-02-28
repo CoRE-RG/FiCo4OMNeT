@@ -16,10 +16,8 @@
 #ifndef __FICO4OMNET_FRPORTOUTPUT_H_
 #define __FICO4OMNET_FRPORTOUTPUT_H_
 
-//OMNeT++
-#include <omnetpp.h>
-//FiCo4OMNeT auto-generated messages
-#include <FRFrame_m.h>
+//FiCo4OMNeT
+#include "fico4omnet/base/Defs.h"
 
 namespace FiCo4OMNeT {
 

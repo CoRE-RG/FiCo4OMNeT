@@ -15,6 +15,9 @@
 
 #include "./FRPortOutput.h"
 
+//Auto-generated messages
+#include "fico4omnet/linklayer/flexray/messages/FRFrame_m.h"
+
 namespace FiCo4OMNeT {
 
 Define_Module(FRPortOutput);
