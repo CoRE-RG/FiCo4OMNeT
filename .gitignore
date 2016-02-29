@@ -23,3 +23,8 @@ src/Makefile
 /tests/*/work/
 *.UPDATED
 *.cmdenv-log
+
+# local files not to be committed
+.oppfeaturestate
+.nedexclusions
+src/fico4omnet/features.h
