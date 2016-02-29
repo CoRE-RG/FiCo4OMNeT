@@ -13,7 +13,7 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include "./FRTrafficSinkAppBase.h"
+#include "fico4omnet/applications/flexray/sink/FRTrafficSinkAppBase.h"
 
 #include "fico4omnet/buffer/flexray/FRInputBuffer.h"
 

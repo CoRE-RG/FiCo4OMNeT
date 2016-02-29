@@ -13,7 +13,7 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include "./FRPortInput.h"
+#include "fico4omnet/linklayer/flexray/FRPortInput.h"
 
 #include "fico4omnet/scheduler/flexray/FRScheduler.h"
 #include "fico4omnet/synchronisation/flexray/FRSync.h"

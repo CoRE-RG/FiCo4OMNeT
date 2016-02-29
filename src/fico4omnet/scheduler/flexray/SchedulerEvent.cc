@@ -13,7 +13,7 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 //
 
-#include "./SchedulerEvent.h"
+#include "fico4omnet/scheduler/flexray/SchedulerEvent.h"
 
 namespace FiCo4OMNeT {
 

@@ -1,5 +1,5 @@
 cplusplus {{
-        #include "SchedulerEvent.h"
+        #include "fico4omnet/scheduler/flexray/SchedulerEvent.h"
 }}
 
 namespace FiCo4OMNeT;

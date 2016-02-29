@@ -26,7 +26,7 @@
 //(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#include "./CanPortOutput.h"
+#include "fico4omnet/linklayer/can/CanPortOutput.h"
 
 //Auto-generated messages
 #include "fico4omnet/linklayer/can/messages/CanDataFrame_m.h"

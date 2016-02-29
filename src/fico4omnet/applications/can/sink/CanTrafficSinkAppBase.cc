@@ -26,7 +26,8 @@
 //(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#include "./CanTrafficSinkAppBase.h"
+#include "fico4omnet/applications/can/sink/CanTrafficSinkAppBase.h"
+
 #include "fico4omnet/linklayer/can/messages/CanDataFrame_m.h"
 #include "fico4omnet/buffer/can/CanInputBuffer.h"
 

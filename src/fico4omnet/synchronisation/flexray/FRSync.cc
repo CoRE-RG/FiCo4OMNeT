@@ -13,7 +13,7 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include "./FRSync.h"
+#include "fico4omnet/synchronisation/flexray/FRSync.h"
 
 namespace FiCo4OMNeT {
 

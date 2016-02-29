@@ -1,4 +1,4 @@
-#include "./ResultFilters.h"
+#include "fico4omnet/utilities/ResultFilters.h"
 
 //Auto-generated messages
 #include "fico4omnet/linklayer/can/messages/CanDataFrame_m.h"

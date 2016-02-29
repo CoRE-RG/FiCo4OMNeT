@@ -1,4 +1,4 @@
-#include "./FRBusLogic.h"
+#include "fico4omnet/bus/flexray/FRBusLogic.h"
 
 #include "fico4omnet/scheduler/flexray/SchedulerMessage_m.h"
 

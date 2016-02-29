@@ -13,7 +13,7 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include "./FRTopologyPort.h"
+#include "fico4omnet/bus/flexray/FRTopologyPort.h"
 
 namespace FiCo4OMNeT {
 

@@ -31,7 +31,7 @@
 #define __FICO4OMNET_CANCOLOUREDSOURCEAPPE_H_
 
 //FiCo4OMNeT
-#include "fico4omnet/base/Defs.h"
+#include "fico4omnet/base/FiCo4OMNeT_Defs.h"
 #include "fico4omnet/applications/can/source/CanTrafficSourceAppBase.h"
 //Auto-generated messages
 #include "fico4omnet/linklayer/can/messages/CanDataFrame_m.h"

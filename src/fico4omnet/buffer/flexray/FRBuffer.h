@@ -2,7 +2,7 @@
 #define __FICO4OMNET_FRBUFFER_H_
 
 //FiCo4OMNeT
-#include "fico4omnet/base/Defs.h"
+#include "fico4omnet/base/FiCo4OMNeT_Defs.h"
 
 #include "fico4omnet/buffer/Buffer.h"
 

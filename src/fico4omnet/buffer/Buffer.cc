@@ -26,7 +26,7 @@
 //(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#include "./Buffer.h"
+#include "fico4omnet/buffer/Buffer.h"
 #include "fico4omnet/utilities/HelperFunctions.h"
 
 namespace FiCo4OMNeT {

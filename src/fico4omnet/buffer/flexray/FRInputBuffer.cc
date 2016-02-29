@@ -13,7 +13,7 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include "./FRInputBuffer.h"
+#include "fico4omnet/buffer/flexray/FRInputBuffer.h"
 
 namespace FiCo4OMNeT {
 

@@ -13,7 +13,7 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include "./FRScheduler.h"
+#include "fico4omnet/scheduler/flexray/FRScheduler.h"
 
 #include "fico4omnet/synchronisation/flexray/FRSync.h"
 

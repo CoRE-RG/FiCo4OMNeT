@@ -1,4 +1,4 @@
-#include "./FRBuffer.h"
+#include "fico4omnet/buffer/flexray/FRBuffer.h"
 
 namespace FiCo4OMNeT {
 

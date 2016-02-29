@@ -26,7 +26,7 @@
 //(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#include "./CanBusLogic.h"
+#include "fico4omnet/bus/can/CanBusLogic.h"
 
 #include "fico4omnet/buffer/can/CanOutputBuffer.h"
 

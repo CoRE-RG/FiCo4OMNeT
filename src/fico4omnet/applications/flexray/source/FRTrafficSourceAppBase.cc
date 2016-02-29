@@ -13,7 +13,7 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include "./FRTrafficSourceAppBase.h"
+#include "fico4omnet/applications/flexray/source/FRTrafficSourceAppBase.h"
 
 #include "fico4omnet/scheduler/flexray/SchedulerMessage_m.h"
 

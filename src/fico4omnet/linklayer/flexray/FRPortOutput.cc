@@ -13,7 +13,7 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include "./FRPortOutput.h"
+#include "fico4omnet/linklayer/flexray/FRPortOutput.h"
 
 //Auto-generated messages
 #include "fico4omnet/linklayer/flexray/messages/FRFrame_m.h"

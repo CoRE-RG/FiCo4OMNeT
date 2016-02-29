@@ -30,7 +30,7 @@
 #define __FICO4OMNET_NODEPORT_H_
 
 //FiCo4OMNeT
-#include "fico4omnet/base/Defs.h"
+#include "fico4omnet/base/FiCo4OMNeT_Defs.h"
 
 namespace FiCo4OMNeT {
 

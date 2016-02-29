@@ -1,4 +1,4 @@
-<features cppSourceRoots="src/fico4omnet">
+<features cppSourceRoots="src">
     <feature
         id="CAN_common"
         name="CAN Common"

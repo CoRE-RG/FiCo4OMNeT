@@ -13,7 +13,7 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include "./FROutputBuffer.h"
+#include "fico4omnet/buffer/flexray/FROutputBuffer.h"
 
 #include "fico4omnet/scheduler/flexray/FRScheduler.h"
 
