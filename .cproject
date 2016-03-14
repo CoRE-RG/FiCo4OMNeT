@@ -27,7 +27,7 @@
 									<listOptionValue builtIn="false" value="WITH_CAN_COMMON"/>
 									<listOptionValue builtIn="false" value="WITH_FR_COMMON"/>
 								</option>
-								<option id="gnu.cpp.compiler.option.include.paths.2108273238" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
+								<option id="gnu.cpp.compiler.option.include.paths.2108273238" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="../../src"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.476395463" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
@@ -134,7 +134,7 @@
 									<listOptionValue builtIn="false" value="WITH_CAN_COMMON"/>
 									<listOptionValue builtIn="false" value="WITH_FR_COMMON"/>
 								</option>
-								<option id="gnu.cpp.compiler.option.include.paths.862330279" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
+								<option id="gnu.cpp.compiler.option.include.paths.862330279" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="../../src"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.293960457" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
@@ -233,8 +233,13 @@
 			<resource resourceType="PROJECT" workspacePath="/BusModel"/>
 		</configuration>
 		<configuration configurationName="gcc-debug">
-			<resource resourceType="PROJECT" workspacePath="/BusModel"/>
+			<resource resourceType="PROJECT" workspacePath="/FiCo4OMNeT"/>
 		</configuration>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
+	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings">
+		<doc-comment-owner id="org.eclipse.cdt.ui.doxygen">
+			<path value=""/>
+		</doc-comment-owner>
+	</storageModule>
 </cproject>
