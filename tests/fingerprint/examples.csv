@@ -1,24 +1,24 @@
 #note that the fingerprints provided may not match your architecture. Thus the test may fail although everything is ok
 # workingdir,                                                     args,                                         simtimelimit,    fingerprint
-/examples/can/arbitration/,                                      -f omnetpp.ini -c General -r 0,                1s,              1077-de06
-/examples/can/bitStuffing/noBitStuffing/,                        -f omnetpp.ini -c General -r 0,                1s,              4362-d651
-/examples/can/bitStuffing/fiftyPercent/,                         -f omnetpp.ini -c General -r 0,                1s,              5351-b01d
-/examples/can/bitStuffing/worstCase/,                            -f omnetpp.ini -c General -r 0,                1s,              da15-d124
-/examples/can/error1/,                                           -f omnetpp.ini -c General -r 0,                1s,              d507-f11a
-/examples/can/error2/,                                           -f omnetpp.ini -c General -r 0,                1s,              3f93-2ae7
-/examples/can/generator/,                                        -f omnetpp.ini -c General -r 0,                1s,              8109-2765
-/examples/can/multipleSourceApps/,                               -f omnetpp.ini -c General -r 0,                1s,              684a-3816
-/examples/can/simpleNewLayout/,                                  -f omnetpp.ini -c General -r 0,                1s,              4362-d651
-/examples/can/bitStuffing/worstCase/,                            -f omnetppDrift.ini -c General -r 0,           1s,              0c81-1ff6
-/examples/can/generatorMulti/,                                   -f omnetppDrift.ini -c General -r 0,           1s,              edf7-5d6c
-/examples/can/multipleSourceApps/,                               -f omnetppDrift.ini -c General -r 0,           1s,              56d5-2e8a
+/examples/can/arbitration/,                                      -f omnetpp.ini -c General -r 0,                1s,              9b6b-467a
+/examples/can/bitStuffing/noBitStuffing/,                        -f omnetpp.ini -c General -r 0,                1s,              51b4-d327
+/examples/can/bitStuffing/fiftyPercent/,                         -f omnetpp.ini -c General -r 0,                1s,              cc7f-4aa2
+/examples/can/bitStuffing/worstCase/,                            -f omnetpp.ini -c General -r 0,                1s,              1f7c-94d6
+/examples/can/error1/,                                           -f omnetpp.ini -c General -r 0,                1s,              b597-67a8
+/examples/can/error2/,                                           -f omnetpp.ini -c General -r 0,                1s,              eb23-7f2a
+/examples/can/generator/,                                        -f omnetpp.ini -c General -r 0,                1s,              5471-4eb6
+/examples/can/multipleSourceApps/,                               -f omnetpp.ini -c General -r 0,                1s,              affd-8733
+/examples/can/simpleNewLayout/,                                  -f omnetpp.ini -c General -r 0,                1s,              17a0-73c4
+/examples/can/bitStuffing/worstCase/,                            -f omnetppDrift.ini -c General -r 0,           1s,              fd30-a5f2
+/examples/can/generatorMulti/,                                   -f omnetppDrift.ini -c General -r 0,           1s,              7734-2417
+/examples/can/multipleSourceApps/,                               -f omnetppDrift.ini -c General -r 0,           1s,              b1a5-3bb2
 
 # FlexRay
-/examples/flexray/dynamic/,                                      -f omnetpp.ini -c General -r 0,                0.5s,            548d-e146
-/examples/flexray/performanceA/,                                 -f omnetpp.ini -c General -r 0,                0.1s,            92da-68e7
-/examples/flexray/performanceB/,                                 -f omnetpp.ini -c General -r 0,                0.1s,            19f1-7afc
-/examples/flexray/performanceC/,                                 -f omnetpp.ini -c General -r 0,                0.1s,            797d-a252
-/examples/flexray/performanceD/,                                 -f omnetpp.ini -c General -r 0,                0.1s,            e7b8-6d05
-/examples/flexray/performanceE/,                                 -f omnetpp.ini -c General -r 0,                0.1s,            53f4-045a
-/examples/flexray/small_network/,                                -f omnetpp.ini -c General -r 0,                0.5s,            e8a6-f2e0
-/examples/flexray/syncnodes/,                                    -f omnetpp.ini -c General -r 0,                0.1s,            cc7a-a7cf
+/examples/flexray/dynamic/,                                      -f omnetpp.ini -c General -r 0,                0.5s,            3663-7fe9
+/examples/flexray/performanceA/,                                 -f omnetpp.ini -c General -r 0,                0.1s,            7ca4-0f53
+/examples/flexray/performanceB/,                                 -f omnetpp.ini -c General -r 0,                0.1s,            549b-02e6
+/examples/flexray/performanceC/,                                 -f omnetpp.ini -c General -r 0,                0.1s,            dbef-79f0
+/examples/flexray/performanceD/,                                 -f omnetpp.ini -c General -r 0,                0.1s,            5d32-acdb
+/examples/flexray/performanceE/,                                 -f omnetpp.ini -c General -r 0,                0.1s,            dea1-b776
+/examples/flexray/small_network/,                                -f omnetpp.ini -c General -r 0,                0.5s,            b3f8-01eb
+/examples/flexray/syncnodes/,                                    -f omnetpp.ini -c General -r 0,                0.1s,            7cf5-078a
