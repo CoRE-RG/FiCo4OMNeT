@@ -50,12 +50,12 @@ class CanID {
 		 *
 		 * Creates an ID object
 		 *
-		 * @param canID the ID of the can frame
-		 * @param node the module which wants to send the message
-		 * @param signInTime the time the frame was signed in
-		 * @param rtr identifier whether the frame is a remote frame
+		 * @param setCanID the ID of the can frame
+		 * @param setModule the module which wants to send the message
+		 * @param setSignInTime the time the frame was signed in
+		 * @param setRtr identifier whether the frame is a remote frame
 		 */
-		CanID(unsigned int canID, cModule* module, simtime_t signInTime, bool rtr);
+		CanID(unsigned int setCanID, cModule *setModule, simtime_t setSignInTime, bool setRtr);
 
 		/**
 	     * @brief Getter for the can ID

@@ -48,19 +48,15 @@ class CanPortInput: public cSimpleModule {
 
 public:
     /**
-<<<<<<< HEAD
-     * @brief Modules can register their CanIDs so that incoming remote frames are forwarded to them.
-     *
-     * @param canID the can ID the module wants to register
-     * @param gate the direct input port of the application
-=======
      * @brief Constructor
      */
     CanPortInput();
 
     /**
      * @brief Source Applications can register their CanIDs so that incoming remote frames are forwarded to them.
->>>>>>> integration
+     *
+     * @param canID the can ID the module wants to register
+     * @param gate the direct input port of the application
      */
     virtual void registerOutgoingDataFrame(unsigned int canID, cGate* gate);
 

@@ -57,7 +57,7 @@ public:
     /**
      * @brief Forward a message to the bus module.
      *
-     * @param the message to be forwarded
+     * @param msg the message to be forwarded
      */
     virtual void sendMsgToBus(cMessage *msg);
 };

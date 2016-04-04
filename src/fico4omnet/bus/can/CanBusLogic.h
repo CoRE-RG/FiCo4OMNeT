@@ -68,7 +68,7 @@ public:
      * @brief Registers the frame of the node for the arbitration.
      *
      * @param canID the ID of the can frame
-     * @param node the module which wants to send the message
+     * @param module the module which wants to send the message
      * @param signInTime the time the frame was signed in
      * @param rtr identifier whether the frame is a remote frame
      */

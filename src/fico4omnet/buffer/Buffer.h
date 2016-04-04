@@ -54,7 +54,7 @@ public:
      *
      * @brief Searches the buffer for a specific frame.
      *
-     * @param objectID The unique identifier for the frame that should be searched.
+     * @param objectId The unique identifier for the frame that should be searched.
      *
      * @return A pointer to the DataFrame with the corresponding object identifier. Returns
      * null if there is no DataFrame in the buffer.
@@ -73,14 +73,14 @@ public:
     /**
      * @brief Deletes the frame with the corresponding object identifier from the collection #frames.
      *
-     * @param objectID The unique identifier for the frame that should be deleted.
+     * @param objectId The unique identifier for the frame that should be deleted.
      */
     void deleteFrame(int objectId);
 
     /**
      * @brief Forwards the frame with the corresponding id to all destination gates.
      *
-     * @param objectID The unique identifier for the frame that should be delivered.
+     * @param objectId The unique identifier for the frame that should be delivered.
      */
     void deliverFrame(int objectId);
 

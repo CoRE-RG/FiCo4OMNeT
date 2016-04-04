@@ -94,7 +94,7 @@ protected:
      *
      * @return Returns the size for the can frame without the size needed for the data field.
      */
-    unsigned int calculateLength(unsigned int datalength);
+    unsigned int calculateLength(unsigned int dataLength);
 
     /**
      * @brief Simsignal for received data frames.
