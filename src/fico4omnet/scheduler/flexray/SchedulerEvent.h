@@ -13,8 +13,8 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 //
 
-#ifndef __FICO4OMNET_SCHEDULEREVENT_H_
-#define __FICO4OMNET_SCHEDULEREVENT_H_
+#ifndef FICO4OMNET_SCHEDULEREVENT_H_
+#define FICO4OMNET_SCHEDULEREVENT_H_
 
 #include "fico4omnet/scheduler/flexray/SchedulerMessage_m.h"
 

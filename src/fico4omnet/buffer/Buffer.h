@@ -26,8 +26,8 @@
 //(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef __FICO4OMNET_BUFFER_H_
-#define __FICO4OMNET_BUFFER_H_
+#ifndef FICO4OMNET_BUFFER_H_
+#define FICO4OMNET_BUFFER_H_
 
 //FiCo4OMNeT
 #include "fico4omnet/base/FiCo4OMNeT_Defs.h"
@@ -56,7 +56,7 @@ public:
      *
      * @brief Searches the buffer for a specific frame.
      *
-     * @param objectID The unique identifier for the frame that should be searched.
+     * @param objectId The unique identifier for the frame that should be searched.
      *
      * @return A pointer to the DataFrame with the corresponding object identifier. Returns
      * null if there is no DataFrame in the buffer.
@@ -75,14 +75,14 @@ public:
     /**
      * @brief Deletes the frame with the corresponding object identifier from the collection #frames.
      *
-     * @param objectID The unique identifier for the frame that should be deleted.
+     * @param objectId The unique identifier for the frame that should be deleted.
      */
     void deleteFrame(int objectId);
 
     /**
      * @brief Forwards the frame with the corresponding id to all destination gates.
      *
-     * @param objectID The unique identifier for the frame that should be delivered.
+     * @param objectId The unique identifier for the frame that should be delivered.
      */
     void deliverFrame(int objectId);
 

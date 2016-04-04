@@ -27,8 +27,8 @@
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
-#ifndef __FICO4OMNET_CANTRAFFICSOURCEAPPBASE_H_
-#define __FICO4OMNET_CANTRAFFICSOURCEAPPBASE_H_
+#ifndef FICO4OMNET_CANTRAFFICSOURCEAPPBASE_H_
+#define FICO4OMNET_CANTRAFFICSOURCEAPPBASE_H_
 
 //FiCo4OMNeT
 #include "fico4omnet/base/FiCo4OMNeT_Defs.h"
@@ -94,7 +94,7 @@ protected:
      *
      * @return Returns the size for the can frame without the size needed for the data field.
      */
-    unsigned int calculateLength(unsigned int datalength);
+    unsigned int calculateLength(unsigned int dataLength);
 
     /**
      * @brief Simsignal for received data frames.

@@ -26,8 +26,8 @@
 //(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef __FICO4OMNET_CANBUSLOGIC_H_
-#define __FICO4OMNET_CANBUSLOGIC_H_
+#ifndef FICO4OMNET_CANBUSLOGIC_H_
+#define FICO4OMNET_CANBUSLOGIC_H_
 
 //FiCo4OMNeT
 #include "fico4omnet/base/FiCo4OMNeT_Defs.h"
@@ -68,7 +68,7 @@ public:
      * @brief Registers the frame of the node for the arbitration.
      *
      * @param canID the ID of the can frame
-     * @param node the module which wants to send the message
+     * @param module the module which wants to send the message
      * @param signInTime the time the frame was signed in
      * @param rtr identifier whether the frame is a remote frame
      */

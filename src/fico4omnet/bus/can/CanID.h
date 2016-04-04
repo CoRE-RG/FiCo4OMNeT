@@ -26,8 +26,8 @@
 //(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef __FICO4OMNET_CANID_H_
-#define __FICO4OMNET_CANID_H_
+#ifndef FICO4OMNET_CANID_H_
+#define FICO4OMNET_CANID_H_
 
 //FiCo4OMNeT
 #include "fico4omnet/base/FiCo4OMNeT_Defs.h"
@@ -52,12 +52,12 @@ class CanID {
 		 *
 		 * Creates an ID object
 		 *
-		 * @param canID the ID of the can frame
-		 * @param node the module which wants to send the message
-		 * @param signInTime the time the frame was signed in
-		 * @param rtr identifier whether the frame is a remote frame
+		 * @param setCanID the ID of the can frame
+		 * @param setModule the module which wants to send the message
+		 * @param setSignInTime the time the frame was signed in
+		 * @param setRtr identifier whether the frame is a remote frame
 		 */
-		CanID(unsigned int canID, cModule* module, simtime_t signInTime, bool rtr);
+		CanID(unsigned int setCanID, cModule *setModule, simtime_t setSignInTime, bool setRtr);
 
 		/**
 	     * @brief Getter for the can ID

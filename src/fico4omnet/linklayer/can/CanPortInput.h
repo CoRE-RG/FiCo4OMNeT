@@ -26,8 +26,8 @@
 //(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 //SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef __FICO4OMNET_CANPORTINPUT_H_
-#define __FICO4OMNET_CANPORTINPUT_H_
+#ifndef FICO4OMNET_CANPORTINPUT_H_
+#define FICO4OMNET_CANPORTINPUT_H_
 
 //FiCo4OMNeT
 #include "fico4omnet/base/FiCo4OMNeT_Defs.h"
@@ -48,19 +48,15 @@ class CanPortInput: public omnetpp::cSimpleModule {
 
 public:
     /**
-<<<<<<< HEAD
-     * @brief Modules can register their CanIDs so that incoming remote frames are forwarded to them.
-     *
-     * @param canID the can ID the module wants to register
-     * @param gate the direct input port of the application
-=======
      * @brief Constructor
      */
     CanPortInput();
 
     /**
      * @brief Source Applications can register their CanIDs so that incoming remote frames are forwarded to them.
->>>>>>> integration
+     *
+     * @param canID the can ID the module wants to register
+     * @param gate the direct input port of the application
      */
     virtual void registerOutgoingDataFrame(unsigned int canID, omnetpp::cGate* gate);
 

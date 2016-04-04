@@ -124,7 +124,10 @@ void CanTrafficSourceAppBase::initialRemoteFrameCreation() {
             can_msg->setPeriod(
                     atof(remoteFramesPeriodicityTokenizer.nextToken()));
             registerRemoteFrameAtPort(can_msg->getCanID());
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wfloat-equal"
             if (can_msg->getPeriod() == 0) {
+#pragma GCC diagnostic pop
                 EV<< "Remote frame with ID " << can_msg->getCanID()
                 << " has no period. Hence it will be ignored.\n";
                 if (initialRemoteFrameOffsetTokenizer.hasMoreTokens()) {

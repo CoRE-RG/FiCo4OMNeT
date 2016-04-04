@@ -95,7 +95,7 @@ void CanPortInput::receiveMessage(CanDataFrame *df) {
     }
     delete (scheduledDataFrame);
     scheduledDataFrame = df->dup();
-    scheduleAt((simTime() + calculateScheduleTiming(df->getBitLength())),
+    scheduleAt((simTime() + calculateScheduleTiming(static_cast<int>(df->getBitLength()))),
             scheduledDataFrame);
 }
 
