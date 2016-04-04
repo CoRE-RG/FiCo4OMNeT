@@ -1,5 +1,5 @@
-#ifndef __FICO4OMNET_FRBUFFER_H_
-#define __FICO4OMNET_FRBUFFER_H_
+#ifndef FICO4OMNET_FRBUFFER_H_
+#define FICO4OMNET_FRBUFFER_H_
 
 //FiCo4OMNeT
 #include "fico4omnet/base/FiCo4OMNeT_Defs.h"
