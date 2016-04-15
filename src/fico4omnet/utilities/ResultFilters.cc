@@ -60,7 +60,7 @@ LowHighRatioFilter::LowHighRatioFilter() {
     last_time = 0;
 }
 
-bool LowHighRatioFilter::process(simtime_t& t, double& value, cObject *details) {
+bool LowHighRatioFilter::process(simtime_t& t, double& value, __attribute__((unused)) cObject *details) {
     if (this->last > 0)
         high += (t - this->last_time);
     else
@@ -81,7 +81,7 @@ RmNaNFilter::RmNaNFilter()
     this->hadValues = false;
 }
 
-bool RmNaNFilter::process(simtime_t& t, double& value, cObject *details)
+bool RmNaNFilter::process(simtime_t& t, double& value, __attribute__((unused)) cObject *details)
 {
     (void)t;
     (void)value;

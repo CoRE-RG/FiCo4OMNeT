@@ -38,8 +38,9 @@ void FRTrafficSourceAppBase::handleMessage(omnetpp::cMessage *msg) {
     //alle static frames + random (?) dynamic frames
 }
 
-void FRTrafficSourceAppBase::receiveSignal(omnetpp::cComponent *source, omnetpp::simsignal_t signalID, long l,
-        omnetpp::cObject *details) {
+void FRTrafficSourceAppBase::receiveSignal(omnetpp::cComponent *source,
+        omnetpp::simsignal_t signalID, long l,
+        __attribute__((unused))  omnetpp::cObject *details) {
     (void) source;
     (void) signalID;
     //Nachrichten an Buffer bei NEW_CYCLE
@@ -109,8 +110,8 @@ void FRTrafficSourceAppBase::setUpDynamicFrames() {
     dynamicFrameCreation(tokenizerChB, CHANNEL_B);
 }
 
-void FRTrafficSourceAppBase::dynamicFrameCreation(omnetpp::cStringTokenizer tokenizer,
-        int channel) {
+void FRTrafficSourceAppBase::dynamicFrameCreation(
+        omnetpp::cStringTokenizer tokenizer, int channel) {
     int gNumberOfMinislots = getParentModule()->par("gNumberOfMinislots");
     while (tokenizer.hasMoreTokens()) {
         int slot = atoi(tokenizer.nextToken());
@@ -160,18 +161,17 @@ int FRTrafficSourceAppBase::calculateLength(int dataLength) {
 }
 
 void FRTrafficSourceAppBase::frameGenerationForNewCycle() {
-    Enter_Method_Silent
-    ();
+    Enter_Method_Silent();
     FRFrame *tmp;
     for (std::vector<FRFrame*>::iterator it = outgoingDynamicFrames.begin();
-            it != outgoingDynamicFrames.end(); ++it) {
+    it != outgoingDynamicFrames.end(); ++it) {
         tmp = *it;
         if (tmp->getCycleNumber() == vCycleCounter) {
             transmitFrame(tmp->dup());
         }
     }
     for (std::vector<FRFrame*>::iterator it = outgoingStaticFrames.begin();
-            it != outgoingStaticFrames.end(); ++it) {
+    it != outgoingStaticFrames.end(); ++it) {
         tmp = *it;
         if (tmp->getCycleNumber() == vCycleCounter) {
             transmitFrame(tmp->dup());
