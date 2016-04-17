@@ -27,7 +27,7 @@
 //
 //
 // <h2>Requirements</h2>
-// - <a href="http://omnetpp.org/" target="_top">OMNeT++</a> (minimum version 4.3)
+// - <a href="http://omnetpp.org/" target="_top">OMNeT++</a> (minimum version 5.0)
 //
 //
 // <h2>Related documentation</h2>
