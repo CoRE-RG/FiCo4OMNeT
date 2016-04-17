@@ -34,7 +34,7 @@ checkmakefiles:
 
 # generate an include file that contains all the WITH_FEATURE macros according to the current enablement of features
 src/fico4omnet/features.h: $(wildcard .oppfeaturestate) .oppfeatures
-	@./fico4omnet_featuretool defines >src/fico4omnet/features.h
+	@opp_featuretool defines >src/fico4omnet/features.h
 
 doxy:
 	doxygen doxy.cfg
