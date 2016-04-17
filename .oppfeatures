@@ -64,18 +64,4 @@
         extraSourceFolders = ""
         linkerFlags = ""
         />
-    <feature
-        id="CAN_FR_serializers"
-        name="CAN and FlexRay serializers (requires INET)"
-        description = "Serializers for CAN and FlexRay (requires INET)"
-        initiallyEnabled = "false"
-        requires = "CAN_common FR_common"
-        labels = ""
-        nedPackages = "
-                       fico4omnet.common.serializer.can
-                       fico4omnet.common.serializer.flexray
-                      "
-        extraSourceFolders = ""
-        linkerFlags = ""
-        />
 </features>
