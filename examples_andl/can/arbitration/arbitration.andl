@@ -1,0 +1,198 @@
+settings {
+
+}
+
+network arbitration {
+	devices {
+		node node1;
+		node node2;
+		node node3;
+		node node4;
+		node node5;
+		canLink bus;
+	}
+
+	connections {
+		segment default {
+			node1 <--> bus;
+			node2 <--> bus;
+			node3 <--> bus;
+			node4 <--> bus;
+			node5 <--> bus;
+		}
+	}
+
+	communication {
+		message id1 {
+			sender node1;
+			receivers node2;
+			payload 0B;
+			period 500ms;
+			mapping {
+				default : can{id 1;};
+			}
+		}
+		message id2 {
+			sender node1;
+			receivers node2;
+			payload 0B;
+			period 510ms;
+			mapping {
+				default : can{id 2;};
+			}
+		}
+		message id3 {
+			sender node1;
+			receivers node2;
+			payload 0B;
+			period 530ms;
+			mapping {
+				default : can{id 3;};
+			}
+		}
+		message id4 {
+			sender node1;
+			receivers node2;
+			payload 0B;
+			period 570ms;
+			mapping {
+				default : can{id 4;};
+			}
+		}
+		message id15 {
+			sender node1;
+			receivers node2;
+			payload 0B;
+			period 650ms;
+			mapping {
+				default : can{id 5;};
+			}
+		}
+		message id6 {
+			sender node1;
+			receivers node2;
+			payload 0B;
+			period 652ms;
+			mapping {
+				default : can{id 6;};
+			}
+		}
+		message id7 {
+			sender node1;
+			receivers node2;
+			payload 0B;
+			period 500ms;
+			mapping {
+				default : can{id 7;};
+			}
+		}
+		message id10 {
+			sender node2;
+			receivers node3;
+			payload 0B;
+			period 510ms;
+			mapping {
+				default : can{id 10;};
+			}
+		}
+		message id20 {
+			sender node2;
+			receivers node3;
+			payload 0B;
+			period 530ms;
+			mapping {
+				default : can{id 20;};
+			}
+		}
+		message id30 {
+			sender node2;
+			receivers node3;
+			payload 0B;
+			period 570ms;
+			mapping {
+				default : can{id 30;};
+			}
+		}
+		message id40 {
+			sender node2;
+			receivers node3;
+			payload 0B;
+			period 650ms;
+			mapping {
+				default : can{id 40;};
+			}
+		}
+		message id50 {
+			sender node2;
+			receivers node3;
+			payload 0B;
+			period 651ms;
+			mapping {
+				default : can{id 50;};
+			}
+		}
+		message id100 {
+			sender node3;
+			receivers node4;
+			payload 0B;
+			period 530ms;
+			mapping {
+				default : can{id 100;};
+			}
+		}
+		message id200 {
+			sender node3;
+			receivers node4;
+			payload 0B;
+			period 570ms;
+			mapping {
+				default : can{id 200;};
+			}
+		}
+		message id300 {
+			sender node3;
+			receivers node4;
+			payload 0B;
+			period 650ms;
+			mapping {
+				default : can{id 300;};
+			}
+		}
+		message id400 {
+			sender node3;
+			receivers node4;
+			payload 0B;
+			period 654ms;
+			mapping {
+				default : can{id 400;};
+			}
+		}
+		message id1000 {
+			sender node4;
+			receivers node5;
+			payload 0B;
+			period 570ms;
+			mapping {
+				default : can{id 1000;};
+			}
+		}
+		message id2000 {
+			sender node4;
+			receivers node5;
+			payload 0B;
+			period 650ms;
+			mapping {
+				default : can{id 2000;};
+			}
+		}
+		message id2047 {
+			sender node5;
+			receivers node1;
+			payload 0B;
+			period 650ms;
+			mapping {
+				default : can{id 2047;};
+			}
+		}
+	}
+}
