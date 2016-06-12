@@ -93,7 +93,7 @@ void CanBusLogic::handleMessage(cMessage *msg) {
             sendingCompleted();
         } else if (dynamic_cast<ErrorFrame *>(msg)) {
             colorIdle();
-            emit(stateSignal, IDLE);
+            emit(stateSignal, static_cast<long>(State::IDLE));
             if (scheduledDataFrame != NULL) {
                 cancelEvent(scheduledDataFrame);
             }
@@ -105,7 +105,7 @@ void CanBusLogic::handleMessage(cMessage *msg) {
         grantSendingPermission();
     } else if (dynamic_cast<CanDataFrame *>(msg)) {
         colorBusy();
-        emit(stateSignal, TRANSMITTING);
+        emit(stateSignal, static_cast<long>(State::TRANSMITTING));
         handleDataFrame(msg);
     } else if (dynamic_cast<ErrorFrame *>(msg)) {
         colorError();
@@ -162,7 +162,7 @@ void CanBusLogic::grantSendingPermission() {
 
 void CanBusLogic::sendingCompleted() {
     colorIdle();
-    emit(stateSignal, IDLE);
+    emit(stateSignal, static_cast<long>(State::IDLE));
     CanOutputBuffer* controller = check_and_cast<CanOutputBuffer*>(sendingNode);
     controller->sendingCompleted();
     for (unsigned int it = 0; it != eraseids.size(); it++) {
@@ -226,7 +226,7 @@ void CanBusLogic::registerForArbitration(unsigned int canID, cModule *module,
         idle = false;
         bubble("state: busy");
         getDisplayString().setTagArg("tt", 0, "state: busy");
-        emit(stateSignal, TRANSMITTING);
+        emit(stateSignal, static_cast<long>(State::TRANSMITTING));
     }
 }
 

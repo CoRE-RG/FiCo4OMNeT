@@ -99,7 +99,7 @@ public:
     int getSendingNodeID();
 
 protected:
-    enum BusState
+    enum class State
     {
         IDLE = 0,
         TRANSMITTING = 1
