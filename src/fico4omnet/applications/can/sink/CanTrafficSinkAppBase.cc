@@ -56,15 +56,13 @@ void CanTrafficSinkAppBase::handleMessage(cMessage *msg) {
         unsigned int i = frame->getCanID();
         currentFrameID = i;
         bufferMessageCounter--;
-        cPacket* payload_packet = frame->decapsulate();
         if (frame->getRtr()) {
             emit(rxRFSignal, frame);
-            emit(rxRFPayloadSignal, payload_packet);
+            emit(rxRFPayloadSignal, frame->getEncapsulatedPacket());
         } else {
             emit(rxDFSignal, frame);
-            emit(rxDFPayloadSignal, payload_packet);
+            emit(rxDFPayloadSignal, frame->getEncapsulatedPacket());
         }
-        frame->encapsulate(payload_packet);
         startWorkOnFrame(0);
     } else if (msg->isSelfMessage()) {
         CanInputBuffer *buffer = dynamic_cast<CanInputBuffer*> (getParentModule()->getSubmodule("bufferIn"));
