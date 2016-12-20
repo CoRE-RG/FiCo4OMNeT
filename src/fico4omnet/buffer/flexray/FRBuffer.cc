@@ -31,12 +31,18 @@ FRFrame* FRBuffer::getFrame(int frameId) {
 void FRBuffer::putFrame(cMessage* msg){
     FRFrame *frame = dynamic_cast<FRFrame *>(msg);
     frames.push_back(frame);
+    emit(queueLengthSignal, static_cast<unsigned long>(frames.size()));
+    queueSize+=static_cast<size_t>(frame->getByteLength());
+    emit(queueSizeSignal, queueSize);
 }
 
 void FRBuffer::deleteFrame(int frameId) {
     Enter_Method_Silent();
     FRFrame *tmp = getFrame(frameId);
     frames.remove(tmp);
+    emit(queueLengthSignal, static_cast<unsigned long>(frames.size()));
+    queueSize-=static_cast<size_t>(tmp->getByteLength());
+    emit(queueSizeSignal, queueSize);
     delete tmp;
 }
 

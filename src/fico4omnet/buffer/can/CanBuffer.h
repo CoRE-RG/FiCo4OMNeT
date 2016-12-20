@@ -101,22 +101,6 @@ public:
 
 protected:
     /**
-     * @brief Caches the queuesize sum of all bytes of frames
-     * increased with incoming frame, decreased with outgoing frame
-     */
-    size_t queueSize;
-    /**
-     * @brief Signal containing the queue length, that is emitted every time a frame
-     * was inserted or removed.
-     */
-    static simsignal_t queueLengthSignal;
-    /**
-     * @brief Signal containing the queue size in byte, that is emitted every time a frame
-     * was inserted or removed.
-     */
-    static simsignal_t queueSizeSignal;
-
-    /**
      * @brief Stores the Gates to that the messages are delivered
      */
     std::list<cGate*> destinationGates;

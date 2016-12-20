@@ -30,14 +30,10 @@
 
 namespace FiCo4OMNeT {
 
-simsignal_t CanBuffer::queueLengthSignal = registerSignal("length");
-simsignal_t CanBuffer::queueSizeSignal = registerSignal("size");
-
 void CanBuffer::initialize(){
     Buffer::initialize();
     MOB = par("MOB");
     currentFrame = NULL;
-    queueSize = 0;
 }
 
 CanDataFrame* CanBuffer::getFrame(unsigned int canID) {

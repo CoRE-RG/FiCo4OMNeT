@@ -30,6 +30,9 @@ void FROutputBuffer::putFrame(cMessage* msg) {
         deleteFrame(frame->getFrameID());
     }
     frames.push_back(frame);
+    emit(queueLengthSignal, static_cast<unsigned long>(frames.size()));
+    queueSize+=static_cast<size_t>(frame->getByteLength());
+    emit(queueSizeSignal, queueSize);
 }
 
 void FROutputBuffer::sendingCompleted(int id) {

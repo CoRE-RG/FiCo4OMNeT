@@ -31,10 +31,13 @@
 
 namespace FiCo4OMNeT {
 
+simsignal_t Buffer::queueLengthSignal = registerSignal("length");
+simsignal_t Buffer::queueSizeSignal = registerSignal("size");
+
 void Buffer::initialize() {
     initializeStatistics();
     registerDestinationGate();
-
+    queueSize = 0;
 }
 
 void Buffer::handleMessage(cMessage *msg) {
@@ -82,6 +85,12 @@ cMessage* Buffer::getFrame(long objectId) {
 
 void Buffer::putFrame(cMessage* frame) {
     frames.push_back(frame);
+    emit(queueLengthSignal, static_cast<unsigned long>(frames.size()));
+    if(cPacket* packet = dynamic_cast<cPacket*>(frame))
+    {
+        queueSize+=static_cast<size_t>(packet->getByteLength());
+    }
+    emit(queueSizeSignal, queueSize);
 }
 
 void Buffer::deleteFrame(int objectId) {
@@ -89,6 +98,12 @@ void Buffer::deleteFrame(int objectId) {
     ();
     cMessage *tmp = getFrame(objectId);
     frames.remove(tmp);
+    emit(queueLengthSignal, static_cast<unsigned long>(frames.size()));
+    if(cPacket* packet = dynamic_cast<cPacket*>(tmp))
+    {
+        queueSize-=static_cast<size_t>(packet->getByteLength());
+    }
+    emit(queueSizeSignal, queueSize);
     delete tmp;
 }
 
