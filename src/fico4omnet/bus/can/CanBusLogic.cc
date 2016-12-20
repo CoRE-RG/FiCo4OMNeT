@@ -109,6 +109,7 @@ void CanBusLogic::handleMessage(cMessage *msg) {
         handleDataFrame(msg);
     } else if (dynamic_cast<ErrorFrame *>(msg)) {
         colorError();
+        emit(stateSignal, static_cast<long>(State::TRANSMITTING));
         handleErrorFrame(msg);
     }
     delete msg;

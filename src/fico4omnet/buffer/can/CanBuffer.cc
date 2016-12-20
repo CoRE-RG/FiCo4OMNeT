@@ -30,10 +30,14 @@
 
 namespace FiCo4OMNeT {
 
+simsignal_t CanBuffer::queueLengthSignal = registerSignal("length");
+simsignal_t CanBuffer::queueSizeSignal = registerSignal("size");
+
 void CanBuffer::initialize(){
     Buffer::initialize();
     MOB = par("MOB");
     currentFrame = NULL;
+    queueSize = 0;
 }
 
 CanDataFrame* CanBuffer::getFrame(unsigned int canID) {
@@ -51,18 +55,27 @@ CanDataFrame* CanBuffer::getFrame(unsigned int canID) {
 void CanBuffer::putFrame(cMessage* msg){
     CanDataFrame *frame = check_and_cast<CanDataFrame *>(msg);
     frames.push_back(frame);
+    emit(queueLengthSignal, static_cast<unsigned long>(frames.size()));
+    queueSize+=static_cast<size_t>(frame->getByteLength());
+    emit(queueSizeSignal, queueSize);
 }
 
 void CanBuffer::deleteFrame(unsigned int canID) {
     Enter_Method_Silent();
     CanDataFrame *tmp = getFrame(canID);
     frames.remove(tmp);
+    emit(queueLengthSignal, static_cast<unsigned long>(frames.size()));
+    queueSize-=static_cast<size_t>(tmp->getByteLength());
+    emit(queueSizeSignal, queueSize);
     delete tmp;
 }
 
 void CanBuffer::deleteFrame(CanDataFrame* frame) {
     Enter_Method_Silent();
     frames.remove(frame);
+    emit(queueLengthSignal, static_cast<unsigned long>(frames.size()));
+    queueSize-=static_cast<size_t>(frame->getByteLength());
+    emit(queueSizeSignal, queueSize);
     delete frame;
 }
 

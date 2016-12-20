@@ -49,12 +49,20 @@ simple CanOutputBuffer like ICanBuffer
         @signal[rxPk](type=cMessage);
         //Signal for transmitted messages
         @signal[txPk](type=cMessage);
+        //Signal emitted when queuelength changes, contains new length
+        @signal[length](type=unsigned long; unit=packets);
+        //Signal emitted when queuelength changes, contains new size in bytes
+        @signal[size](type=unsigned long; unit=B);
         
         //Statistic about the number of packets that were sent by the buffer
         @statistic[rxPk](title="RX Packets"; source=rxPk; record=count,"sum(packetBytes)","vector(packetBytes)"; interpolationmode=none);
         //Statistic of the amount of packets that were sent by the buffer
         @statistic[txPk](title="TX Packets"; source=txPk; record=count,"sum(packetBytes)","vector(packetBytes)"; interpolationmode=none);
-
+        //Statistic of the queue length of the buffer
+        @statistic[length](title="Queue Length"; source=length; unit=packets; record=vector,stats; interpolationmode=sample-hold);
+        //Statistic of the queue size of the buffer in bytes
+        @statistic[size](title="Queue Size"; source=size; record=vector,stats; unit=B; interpolationmode=sample-hold);
+        
         //Comma seperated list of gates where the frames of the buffer are delivered
         string destination_gates = default("");
         bool MOB = default(true);//If true frames with the same ID will be overwritten.
