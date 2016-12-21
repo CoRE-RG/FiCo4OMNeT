@@ -182,8 +182,7 @@ void CanBusLogic::handleDataFrame(cMessage *msg) {
     CanDataFrame *df = check_and_cast<CanDataFrame *>(msg);
     int64_t length = df->getBitLength();
     double nextidle;
-    //We use length-1 here as the first bit was already transmitted during "arbitration"
-    nextidle = static_cast<double> (length-1) / bandwidth;
+    nextidle = static_cast<double> (length) / bandwidth;
     if (scheduledDataFrame != NULL) {
         cancelEvent(scheduledDataFrame);
     }

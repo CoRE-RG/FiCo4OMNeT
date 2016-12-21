@@ -57,7 +57,7 @@ LowHighRatioFilter::LowHighRatioFilter() {
     low = 0;
     high = 0;
     last = 0;
-    last_time = -1;
+    last_time = SimTime(-1);
 }
 
 bool LowHighRatioFilter::process(simtime_t& t, double& value, __attribute__((unused)) cObject *details) {
