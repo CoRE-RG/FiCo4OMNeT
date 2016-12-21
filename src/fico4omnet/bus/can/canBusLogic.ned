@@ -66,7 +66,7 @@ simple CanBusLogic
 		//Statistic about the frames per second over the whole simulation time
 		@statistic[framesPerSec](title="Frames/sec"; unit="fps"; source="sumPerDuration(constant1(rxPk))"; record=last);
 		//Statistic about the bits per second over the whole simulation time
-        @statistic[bitsPerSec](title="Bits/sec"; unit="bps"; source="sumPerDuration(packetBits(rxDF))+sumPerDuration(packetBits(rxEF))+sumPerDuration(packetBits(rxRF))"; record=last);
+        @statistic[bitsPerSec](title="Bits/sec"; unit="bps"; source="sumPerDuration(packetBits(rxPk))"; record=last);
         //Statistic about the percentage utilization of the bus. 
         @statistic[utilization](title="Utilization"; unit="%"; source="lowHighRatio(state)*100"; record=last);
         
