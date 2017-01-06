@@ -67,6 +67,7 @@ void CanBusLogic::initialize() {
     rcvdRFSignal = registerSignal("rxRF");
     rcvdEFSignal = registerSignal("rxEF");
     stateSignal = registerSignal("state");
+    arbitrationLengthSignal = registerSignal("arbitrationLength");
 
     char buf[64];
     sprintf(buf, "state: idle");
@@ -170,6 +171,7 @@ void CanBusLogic::sendingCompleted() {
         ids.erase(eraseids.at(it));
         delete *(eraseids.at(it));
     }
+    emit(arbitrationLengthSignal,ids.size());
     eraseids.clear();
     errored = false;
     if (scheduledDataFrame != NULL) {
@@ -221,6 +223,7 @@ void CanBusLogic::registerForArbitration(unsigned int canID, cModule *module,
     Enter_Method_Silent
     ();
     ids.push_back(new CanID(canID, module, signInTime, rtr));
+    emit(arbitrationLengthSignal,ids.size());
     if (idle) {
         cMessage *self = new cMessage("idle_signin");
         scheduleAt(simTime() + (1 / (bandwidth)), self);
@@ -242,6 +245,7 @@ void CanBusLogic::checkoutFromArbitration(unsigned int canID) {
             break;
         }
     }
+    emit(arbitrationLengthSignal,ids.size());
 }
 
 void CanBusLogic::colorBusy() {
