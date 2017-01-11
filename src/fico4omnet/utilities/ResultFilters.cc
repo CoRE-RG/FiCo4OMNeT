@@ -57,20 +57,28 @@ LowHighRatioFilter::LowHighRatioFilter() {
     low = 0;
     high = 0;
     last = 0;
-    last_time = 0;
+    last_time = SimTime(-1);
 }
 
 bool LowHighRatioFilter::process(simtime_t& t, double& value, __attribute__((unused)) cObject *details) {
-    if (this->last > 0)
-        high += (t - this->last_time);
-    else
-        low += (t - this->last_time);
-    this->last = value;
-    this->last_time = t;
-    if ((high + low) > 0)
-        value = high / (high + low);
-    else
+    //no value yet? we start calculating with the first emitted value to prevent wrong calculation in warmup
+    if (this->last_time < 0){
+        this->last = value;
+        this->last_time = t;
         value = 0;
+    }
+    else{
+        if (this->last > 0)
+            high += (t - this->last_time);
+        else
+            low += (t - this->last_time);
+        this->last = value;
+        this->last_time = t;
+        if ((high + low) > 0)
+            value = high / (high + low);
+        else
+            value = 0;
+    }
     return true;
 }
 

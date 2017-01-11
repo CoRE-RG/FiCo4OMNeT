@@ -50,6 +50,8 @@ simple CanBusLogic
         @signal[rxEF](type=ErrorFrame);
         //Signal for the state of the bus - idle or busy
         @signal[state];
+        //Signal frames for arbitration (all frames at all senders ready to be transmitted)
+        @signal[arbitrationLength](type=unsigned long; unit=packets);
         
         //Statistic about the number of received data frames
         @statistic[rxDF](title="data frames received"; source=rxDF; record=count; interpolationmode=none);
@@ -66,9 +68,11 @@ simple CanBusLogic
 		//Statistic about the frames per second over the whole simulation time
 		@statistic[framesPerSec](title="Frames/sec"; unit="fps"; source="sumPerDuration(constant1(rxPk))"; record=last);
 		//Statistic about the bits per second over the whole simulation time
-        @statistic[bitsPerSec](title="Bits/sec"; unit="bps"; source="sumPerDuration(packetBits(rxDF))"; record=last);
+        @statistic[bitsPerSec](title="Bits/sec"; unit="bps"; source="sumPerDuration(packetBits(rxPk))"; record=last);
         //Statistic about the percentage utilization of the bus. 
         @statistic[utilization](title="Utilization"; unit="%"; source="lowHighRatio(state)*100"; record=last);
+        //Statistic of the number of frames at all senders ready to be sent
+        @statistic[arbitrationLength](title="Arbitration Length"; source=arbitrationLength; unit=packets; record=vector,stats; interpolationmode=sample-hold);
         
     gates:
         inout gate;

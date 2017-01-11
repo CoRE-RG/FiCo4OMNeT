@@ -45,7 +45,7 @@ namespace FiCo4OMNeT {
  *
  * @author Stefan Buschmann
  */
-class CanBuffer : public Buffer {
+class CanBuffer: public Buffer {
 
 public:
     /**

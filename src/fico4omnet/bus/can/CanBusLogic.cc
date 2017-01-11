@@ -67,6 +67,7 @@ void CanBusLogic::initialize() {
     rcvdRFSignal = registerSignal("rxRF");
     rcvdEFSignal = registerSignal("rxEF");
     stateSignal = registerSignal("state");
+    arbitrationLengthSignal = registerSignal("arbitrationLength");
 
     char buf[64];
     sprintf(buf, "state: idle");
@@ -93,7 +94,7 @@ void CanBusLogic::handleMessage(cMessage *msg) {
             sendingCompleted();
         } else if (dynamic_cast<ErrorFrame *>(msg)) {
             colorIdle();
-            emit(stateSignal, IDLE);
+            emit(stateSignal, static_cast<long>(State::IDLE));
             if (scheduledDataFrame != NULL) {
                 cancelEvent(scheduledDataFrame);
             }
@@ -105,10 +106,11 @@ void CanBusLogic::handleMessage(cMessage *msg) {
         grantSendingPermission();
     } else if (dynamic_cast<CanDataFrame *>(msg)) {
         colorBusy();
-        emit(stateSignal, TRANSMITTING);
+        emit(stateSignal, static_cast<long>(State::TRANSMITTING));
         handleDataFrame(msg);
     } else if (dynamic_cast<ErrorFrame *>(msg)) {
         colorError();
+        emit(stateSignal, static_cast<long>(State::TRANSMITTING));
         handleErrorFrame(msg);
     }
     delete msg;
@@ -162,13 +164,14 @@ void CanBusLogic::grantSendingPermission() {
 
 void CanBusLogic::sendingCompleted() {
     colorIdle();
-    emit(stateSignal, IDLE);
+    emit(stateSignal, static_cast<long>(State::IDLE));
     CanOutputBuffer* controller = check_and_cast<CanOutputBuffer*>(sendingNode);
     controller->sendingCompleted();
     for (unsigned int it = 0; it != eraseids.size(); it++) {
         ids.erase(eraseids.at(it));
         delete *(eraseids.at(it));
     }
+    emit(arbitrationLengthSignal,ids.size());
     eraseids.clear();
     errored = false;
     if (scheduledDataFrame != NULL) {
@@ -220,13 +223,14 @@ void CanBusLogic::registerForArbitration(unsigned int canID, cModule *module,
     Enter_Method_Silent
     ();
     ids.push_back(new CanID(canID, module, signInTime, rtr));
+    emit(arbitrationLengthSignal,ids.size());
     if (idle) {
         cMessage *self = new cMessage("idle_signin");
         scheduleAt(simTime() + (1 / (bandwidth)), self);
         idle = false;
         bubble("state: busy");
         getDisplayString().setTagArg("tt", 0, "state: busy");
-        emit(stateSignal, TRANSMITTING);
+        emit(stateSignal, static_cast<long>(State::TRANSMITTING));
     }
 }
 
@@ -241,6 +245,7 @@ void CanBusLogic::checkoutFromArbitration(unsigned int canID) {
             break;
         }
     }
+    emit(arbitrationLengthSignal,ids.size());
 }
 
 void CanBusLogic::colorBusy() {

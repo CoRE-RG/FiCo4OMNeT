@@ -34,10 +34,8 @@
 
 #include "fico4omnet/bus/can/CanID.h"
 
-
 //Auto-generated messages
 #include "fico4omnet/linklayer/can/messages/CanDataFrame_m.h"
-
 
 namespace FiCo4OMNeT {
 
@@ -99,10 +97,8 @@ public:
     int getSendingNodeID();
 
 protected:
-    enum BusState
-    {
-        IDLE = 0,
-        TRANSMITTING = 1
+    enum class State {
+        IDLE = 0, TRANSMITTING = 1
     };
 
     /**
@@ -166,6 +162,11 @@ private:
      * @brief Signal for the current state of the bus.
      */
     simsignal_t stateSignal;
+
+    /**
+     * @brief Signal frames for arbitration (all frames at all senders ready to be transmitted)
+     */
+    simsignal_t arbitrationLengthSignal;
 
     /**
      * The sign-in-time of the current data-frame. Used for forwarding to the node so that they can collect data about the elapsed time.
