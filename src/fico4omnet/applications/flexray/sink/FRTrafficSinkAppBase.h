@@ -78,7 +78,7 @@ private:
      *
      * @param workTime represents the time it takes until the sink can process the next frame.
      */
-    void startWorkOnFrame(float workTime);
+    void startWorkOnFrame(double workTime);
 };
 
 }

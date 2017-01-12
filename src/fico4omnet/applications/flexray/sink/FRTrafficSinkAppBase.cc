@@ -65,7 +65,7 @@ void FRTrafficSinkAppBase::requestFrame() {
     idle = false;
 }
 
-void FRTrafficSinkAppBase::startWorkOnFrame(float workTime) {
+void FRTrafficSinkAppBase::startWorkOnFrame(double workTime) {
     cMessage *msg = new cMessage("workFinished");
     scheduleAt(simTime() + workTime, msg);
 }
