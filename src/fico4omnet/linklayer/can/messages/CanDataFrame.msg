@@ -28,6 +28,14 @@
 
 namespace FiCo4OMNeT;
 
+cplusplus {{
+#if defined(__clang__)
+#  pragma clang diagnostic ignored "-Winconsistent-missing-override"
+#elif defined(__GNUC__)
+#  pragma GCC diagnostic ignored "-Winconsistent-missing-override"
+#endif
+}}
+
 //
 // Represents data and remote frames
 //
