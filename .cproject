@@ -23,20 +23,14 @@
 							<builder id="org.omnetpp.cdt.gnu.builder.debug.1315019725" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="OMNeT++ Make Builder (opp_makemake)" parallelBuildOn="false" superClass="org.omnetpp.cdt.gnu.builder.debug"/>
 							<tool id="cdt.managedbuild.tool.gnu.archiver.base.1462084260" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.base.1616530399" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base">
-								<option id="gnu.cpp.compiler.option.preprocessor.def.1565448744" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
-									<listOptionValue builtIn="false" value="WITH_CAN_COMMON"/>
-									<listOptionValue builtIn="false" value="WITH_FR_COMMON"/>
-								</option>
-								<option id="gnu.cpp.compiler.option.include.paths.2108273238" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
+								<option id="gnu.cpp.compiler.option.preprocessor.def.1565448744" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" useByScannerDiscovery="false" valueType="definedSymbols"/>
+								<option id="gnu.cpp.compiler.option.include.paths.2108273238" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="../../src"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.476395463" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.base.2039297403" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.base">
-								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1770634839" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
-									<listOptionValue builtIn="false" value="WITH_CAN_COMMON"/>
-									<listOptionValue builtIn="false" value="WITH_FR_COMMON"/>
-								</option>
+								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1770634839" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" useByScannerDiscovery="false" valueType="definedSymbols"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.699650478" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.base.1486477775" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base"/>
@@ -56,17 +50,11 @@
 							<targetPlatform binaryParser="org.eclipse.cdt.core.ELF;org.eclipse.cdt.core.MachO64;org.eclipse.cdt.core.PE" id="org.omnetpp.cdt.targetPlatform" isAbstract="false" name="Windows, Linux, Mac" osList="win32,linux,macosx" superClass="org.omnetpp.cdt.targetPlatform"/>
 							<tool id="cdt.managedbuild.tool.gnu.archiver.base.694680355" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base.1462084260"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.base.1169686971" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base.1616530399">
-								<option id="gnu.cpp.compiler.option.preprocessor.def.1476212103" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
-									<listOptionValue builtIn="false" value="WITH_CAN_COMMON"/>
-									<listOptionValue builtIn="false" value="WITH_FR_COMMON"/>
-								</option>
+								<option id="gnu.cpp.compiler.option.preprocessor.def.1476212103" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1396767531" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.base.1886905305" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.base.2039297403">
-								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1431592648" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
-									<listOptionValue builtIn="false" value="WITH_CAN_COMMON"/>
-									<listOptionValue builtIn="false" value="WITH_FR_COMMON"/>
-								</option>
+								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1431592648" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1291355576" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.base.357716725" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base.1486477775"/>
@@ -81,17 +69,11 @@
 							<targetPlatform binaryParser="org.eclipse.cdt.core.ELF;org.eclipse.cdt.core.MachO64;org.eclipse.cdt.core.PE" id="org.omnetpp.cdt.targetPlatform" isAbstract="false" name="Windows, Linux, Mac" osList="win32,linux,macosx" superClass="org.omnetpp.cdt.targetPlatform"/>
 							<tool id="cdt.managedbuild.tool.gnu.archiver.base.334252248" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base.1462084260"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.base.1122260490" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base.1616530399">
-								<option id="gnu.cpp.compiler.option.preprocessor.def.2001343089" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
-									<listOptionValue builtIn="false" value="WITH_CAN_COMMON"/>
-									<listOptionValue builtIn="false" value="WITH_FR_COMMON"/>
-								</option>
+								<option id="gnu.cpp.compiler.option.preprocessor.def.2001343089" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1601758975" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.base.346713609" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.base.2039297403">
-								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1195478350" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
-									<listOptionValue builtIn="false" value="WITH_CAN_COMMON"/>
-									<listOptionValue builtIn="false" value="WITH_FR_COMMON"/>
-								</option>
+								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1195478350" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.902240948" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.base.1795750744" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base.1486477775"/>
@@ -130,20 +112,14 @@
 							<builder id="org.omnetpp.cdt.gnu.builder.release.1296328587" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="OMNeT++ Make Builder (opp_makemake)" superClass="org.omnetpp.cdt.gnu.builder.release"/>
 							<tool id="cdt.managedbuild.tool.gnu.archiver.base.1483388263" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.base.260786893" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base">
-								<option id="gnu.cpp.compiler.option.preprocessor.def.322621905" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
-									<listOptionValue builtIn="false" value="WITH_CAN_COMMON"/>
-									<listOptionValue builtIn="false" value="WITH_FR_COMMON"/>
-								</option>
-								<option id="gnu.cpp.compiler.option.include.paths.862330279" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
+								<option id="gnu.cpp.compiler.option.preprocessor.def.322621905" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" useByScannerDiscovery="false" valueType="definedSymbols"/>
+								<option id="gnu.cpp.compiler.option.include.paths.862330279" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="../../src"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.293960457" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.base.2019910946" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.base">
-								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1345472657" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
-									<listOptionValue builtIn="false" value="WITH_CAN_COMMON"/>
-									<listOptionValue builtIn="false" value="WITH_FR_COMMON"/>
-								</option>
+								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1345472657" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" useByScannerDiscovery="false" valueType="definedSymbols"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1493920076" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.base.1850626019" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base"/>
@@ -163,17 +139,11 @@
 							<targetPlatform binaryParser="org.eclipse.cdt.core.ELF;org.eclipse.cdt.core.MachO64;org.eclipse.cdt.core.PE" id="org.omnetpp.cdt.targetPlatform" isAbstract="false" name="Windows, Linux, Mac" osList="win32,linux,macosx" superClass="org.omnetpp.cdt.targetPlatform"/>
 							<tool id="cdt.managedbuild.tool.gnu.archiver.base.1481608722" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base.1483388263"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.base.269902647" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base.260786893">
-								<option id="gnu.cpp.compiler.option.preprocessor.def.1609751157" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
-									<listOptionValue builtIn="false" value="WITH_CAN_COMMON"/>
-									<listOptionValue builtIn="false" value="WITH_FR_COMMON"/>
-								</option>
+								<option id="gnu.cpp.compiler.option.preprocessor.def.1609751157" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1691417685" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.base.1433978888" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.base.2019910946">
-								<option id="gnu.c.compiler.option.preprocessor.def.symbols.93536697" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
-									<listOptionValue builtIn="false" value="WITH_CAN_COMMON"/>
-									<listOptionValue builtIn="false" value="WITH_FR_COMMON"/>
-								</option>
+								<option id="gnu.c.compiler.option.preprocessor.def.symbols.93536697" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1005976985" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.base.1934987263" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base.1850626019"/>
@@ -188,17 +158,11 @@
 							<targetPlatform binaryParser="org.eclipse.cdt.core.ELF;org.eclipse.cdt.core.MachO64;org.eclipse.cdt.core.PE" id="org.omnetpp.cdt.targetPlatform" isAbstract="false" name="Windows, Linux, Mac" osList="win32,linux,macosx" superClass="org.omnetpp.cdt.targetPlatform"/>
 							<tool id="cdt.managedbuild.tool.gnu.archiver.base.1588659405" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base.1483388263"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.base.2001816091" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base.260786893">
-								<option id="gnu.cpp.compiler.option.preprocessor.def.658017610" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
-									<listOptionValue builtIn="false" value="WITH_CAN_COMMON"/>
-									<listOptionValue builtIn="false" value="WITH_FR_COMMON"/>
-								</option>
+								<option id="gnu.cpp.compiler.option.preprocessor.def.658017610" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1347572356" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.base.1263730626" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.base.2019910946">
-								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1957028338" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
-									<listOptionValue builtIn="false" value="WITH_CAN_COMMON"/>
-									<listOptionValue builtIn="false" value="WITH_FR_COMMON"/>
-								</option>
+								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1957028338" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.681309552" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.base.1358809644" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base.1850626019"/>
@@ -242,4 +206,5 @@
 			<path value=""/>
 		</doc-comment-owner>
 	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
 </cproject>

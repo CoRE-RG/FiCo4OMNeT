@@ -33,7 +33,7 @@ void FRBuffer::putFrame(cMessage* msg){
     frames.push_back(frame);
     emit(queueLengthSignal, static_cast<unsigned long>(frames.size()));
     queueSize+=static_cast<size_t>(frame->getByteLength());
-    emit(queueSizeSignal, queueSize);
+    emit(queueSizeSignal, static_cast<unsigned long>(queueSize));
 }
 
 void FRBuffer::deleteFrame(int frameId) {
@@ -42,7 +42,7 @@ void FRBuffer::deleteFrame(int frameId) {
     frames.remove(tmp);
     emit(queueLengthSignal, static_cast<unsigned long>(frames.size()));
     queueSize-=static_cast<size_t>(tmp->getByteLength());
-    emit(queueSizeSignal, queueSize);
+    emit(queueSizeSignal, static_cast<unsigned long>(queueSize));
     delete tmp;
 }
 

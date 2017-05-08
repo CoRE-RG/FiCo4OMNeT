@@ -90,7 +90,7 @@ void Buffer::putFrame(cMessage* frame) {
     {
         queueSize+=static_cast<size_t>(packet->getByteLength());
     }
-    emit(queueSizeSignal, queueSize);
+    emit(queueSizeSignal, static_cast<unsigned long>(queueSize));
 }
 
 void Buffer::deleteFrame(int objectId) {
@@ -103,7 +103,7 @@ void Buffer::deleteFrame(int objectId) {
     {
         queueSize-=static_cast<size_t>(packet->getByteLength());
     }
-    emit(queueSizeSignal, queueSize);
+    emit(queueSizeSignal, static_cast<unsigned long>(queueSize));
     delete tmp;
 }
 

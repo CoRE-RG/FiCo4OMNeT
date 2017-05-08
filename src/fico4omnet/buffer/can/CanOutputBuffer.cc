@@ -53,7 +53,7 @@ void CanOutputBuffer::putFrame(cMessage* msg) {
     frames.push_back(frame);
     emit(queueLengthSignal, static_cast<unsigned long>(frames.size()));
     queueSize+=static_cast<size_t>(frame->getByteLength());
-    emit(queueSizeSignal, queueSize);
+    emit(queueSizeSignal, static_cast<unsigned long>(queueSize));
     registerForArbitration(frame->getCanID(), frame->getRtr());
     emit(rxPkSignal, msg);
 }
