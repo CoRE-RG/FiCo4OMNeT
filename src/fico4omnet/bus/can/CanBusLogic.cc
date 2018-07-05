@@ -149,7 +149,9 @@ void CanBusLogic::grantSendingPermission() {
     }
 
     if (sendcount > 1) {
-        cComponent::bubble("More than one node sends with the same ID.");
+        getParentModule()->cComponent::bubble("More than one node sends with the same ID.");
+        getParentModule()->getDisplayString().setTagArg("i2", 0, "status/excl3");
+        getParentModule()->getDisplayString().setTagArg("tt", 0, "WARNING: More than one node sends with the same ID.");
     }
     if (sendingNode != NULL) {
         CanOutputBuffer* controller = check_and_cast<CanOutputBuffer *>(
