@@ -170,8 +170,8 @@ void CanBusLogic::sendingCompleted() {
     CanOutputBuffer* controller = check_and_cast<CanOutputBuffer*>(sendingNode);
     controller->sendingCompleted();
     for (unsigned int it = 0; it != eraseids.size(); it++) {
-        ids.erase(eraseids.at(it));
         delete *(eraseids.at(it));
+        ids.erase(eraseids.at(it));
     }
     emit(arbitrationLengthSignal, static_cast<unsigned long>(ids.size()));
     eraseids.clear();
