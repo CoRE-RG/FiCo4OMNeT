@@ -129,7 +129,7 @@ void FRScheduler::handleMessage(cMessage *msg) {
                   << "\n";
         delete msg;
     } else if (msg->isSelfMessage()
-            && (msg->getKind() == STATIC_EVENT || DYNAMIC_EVENT)) {
+            && (msg->getKind() == STATIC_EVENT || msg->getKind() == DYNAMIC_EVENT)) {
         SchedulerEvent *event = dynamic_cast<SchedulerEvent*> (msg);
         registeredEvents.remove(event);
         sendDirect(event, event->getDestinationGate());
@@ -165,7 +165,7 @@ unsigned long FRScheduler::getCycles() {
 bool FRScheduler::registerEvent(SchedulerEvent *event) {
     take(event);
     registeredEvents.push_back(event);
-    if (event->getKind() == STATIC_EVENT || DYNAMIC_EVENT) {
+    if (event->getKind() == STATIC_EVENT || event->getKind() == DYNAMIC_EVENT) {
         SchedulerActionTimeEvent *actionTimeEvent =
                 dynamic_cast<SchedulerActionTimeEvent*> (event);
         if (event->getKind() == DYNAMIC_EVENT) {
@@ -215,7 +215,7 @@ void FRScheduler::correctEvents() {
     for (std::list<SchedulerEvent*>::const_iterator registeredEvent =
             registeredEvents.begin(); registeredEvent != registeredEvents.end();
             ++registeredEvent) {
-        if ((*registeredEvent)->getKind() == DYNAMIC_EVENT || STATIC_EVENT) {
+        if ((*registeredEvent)->getKind() == DYNAMIC_EVENT || (*registeredEvent)->getKind() == STATIC_EVENT) {
             SchedulerActionTimeEvent *actionTimeEvent =
                     dynamic_cast<SchedulerActionTimeEvent*> (*registeredEvent);
             cancelEvent(actionTimeEvent);

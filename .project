@@ -3,7 +3,6 @@
 	<name>FiCo4OMNeT</name>
 	<comment></comment>
 	<projects>
-		<project>inet</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
