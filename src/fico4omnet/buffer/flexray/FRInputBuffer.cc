@@ -21,7 +21,7 @@ Define_Module(FRInputBuffer);
 
 void FRInputBuffer::putFrame(cMessage* msg) {
     FRFrame *frame = dynamic_cast<FRFrame*>(msg);
-    if (getFrame(frame->getFrameID()) != NULL) {
+    if (getFrame(frame->getFrameID()) != nullptr) {
         deleteFrame(frame->getFrameID());
     } else {
         cModule *frSinkApp = getParentModule()->getSubmodule("frSinkApp");

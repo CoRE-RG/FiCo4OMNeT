@@ -36,7 +36,7 @@ namespace FiCo4OMNeT {
 Define_Module(CanOutputBuffer);
 
 CanOutputBuffer::~CanOutputBuffer(){
-    for (std::list<CanDataFrame*>::iterator it =  frames.begin(); it != frames.end(); ++it)
+    for (std::list<cMessage*>::iterator it =  frames.begin(); it != frames.end(); ++it)
     {
             cancelAndDelete((*it));
     }
@@ -46,7 +46,7 @@ CanOutputBuffer::~CanOutputBuffer(){
 void CanOutputBuffer::putFrame(cMessage* msg) {
     CanDataFrame *frame = dynamic_cast<CanDataFrame *>(msg);
     if (MOB == true) {
-        if (getFrame(frame->getCanID()) != NULL) {
+        if (getFrame(frame->getCanID()) != nullptr) {
             checkoutFromArbitration(frame->getCanID());
         }
     }
@@ -85,7 +85,7 @@ void CanOutputBuffer::sendingCompleted() {
     Enter_Method_Silent
     ();
     deleteFrame(currentFrame);
-    currentFrame = NULL;
+    currentFrame = nullptr;
     CanPortOutput* portOutput = check_and_cast<CanPortOutput*>(
             getParentModule()->getSubmodule("canNodePort")->getSubmodule(
                     "canPortOutput"));

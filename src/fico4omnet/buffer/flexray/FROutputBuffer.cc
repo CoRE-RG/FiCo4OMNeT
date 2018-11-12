@@ -26,7 +26,7 @@ Define_Module(FROutputBuffer);
 
 void FROutputBuffer::putFrame(cMessage* msg) {
     FRFrame *frame = dynamic_cast<FRFrame*>(msg);
-    if (getFrame(frame->getFrameID()) != NULL) {
+    if (getFrame(frame->getFrameID()) != nullptr) {
         deleteFrame(frame->getFrameID());
     }
     frames.push_back(frame);

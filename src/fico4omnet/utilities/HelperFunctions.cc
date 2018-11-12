@@ -32,7 +32,7 @@ cGate* gateByFullPath(const std::string &path)
             return module->gate(gateName.c_str());
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 cGate* gateByShortPath(const std::string &nameAndGate, cModule *from)
@@ -48,7 +48,7 @@ cGate* gateByShortPath(const std::string &nameAndGate, cModule *from)
             return module->gate(gateName.c_str());
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 static cModule *findSubmodRecursive(cModule *curmod, const char *name)
@@ -62,12 +62,12 @@ static cModule *findSubmodRecursive(cModule *curmod, const char *name)
         if (foundmod)
             return foundmod;
     }
-    return NULL;
+    return nullptr;
 }
 
 cModule *findModuleWhereverInNode(const char *name, cModule *from)
 {
-    cModule *mod = NULL;
+    cModule *mod = nullptr;
     for (cModule *curmod=from; curmod; curmod=curmod->getParentModule())
     {
         mod = findSubmodRecursive(curmod, name);

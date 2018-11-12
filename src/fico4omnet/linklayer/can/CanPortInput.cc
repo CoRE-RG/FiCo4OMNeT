@@ -61,11 +61,11 @@ void CanPortInput::handleMessage(cMessage *msg) {
     if (msg->isSelfMessage()) {
         if (ErrorFrame *ef = dynamic_cast<ErrorFrame *>(msg)) {
             forwardOwnErrorFrame(ef);
-            scheduledErrorFrame = NULL;
+            scheduledErrorFrame = nullptr;
 
         } else if (CanDataFrame *df = dynamic_cast<CanDataFrame *>(msg)) {
             forwardDataFrame(df);
-            scheduledDataFrame = NULL;
+            scheduledDataFrame = nullptr;
         }
     } else if (CanDataFrame *df = dynamic_cast<CanDataFrame *>(msg)) {
 //        if (checkExistence(df)) {
@@ -76,11 +76,11 @@ void CanPortInput::handleMessage(cMessage *msg) {
             }
             receiveMessage(df);
         } else {
-            if (scheduledDataFrame != NULL) {
+            if (scheduledDataFrame != nullptr) {
                 cancelEvent(scheduledDataFrame);
             }
             dropAndDelete(scheduledDataFrame);
-            scheduledDataFrame = NULL;
+            scheduledDataFrame = nullptr;
         }
         delete msg;
     } else if (ErrorFrame *ef = dynamic_cast<ErrorFrame *>(msg)) {
@@ -90,7 +90,7 @@ void CanPortInput::handleMessage(cMessage *msg) {
 }
 
 void CanPortInput::receiveMessage(CanDataFrame *df) {
-    if (scheduledDataFrame != NULL) {
+    if (scheduledDataFrame != nullptr) {
         cancelEvent(scheduledDataFrame);
     }
     delete (scheduledDataFrame);
@@ -107,7 +107,7 @@ void CanPortInput::generateReceiveError(CanDataFrame *df) {
     if (errorPos > 0)
         errorPos--;
     errorMsg->setPos(errorPos);
-    if (scheduledErrorFrame != NULL) {
+    if (scheduledErrorFrame != nullptr) {
         cancelEvent(scheduledErrorFrame);
     }
     delete (scheduledErrorFrame);
@@ -200,17 +200,17 @@ void CanPortInput::handleExternErrorFrame(ErrorFrame *ef) {
         }
     }
 
-    if (scheduledDataFrame != NULL && scheduledDataFrame->isScheduled()
+    if (scheduledDataFrame != nullptr && scheduledDataFrame->isScheduled()
 
     && (ef->getCanID() == scheduledDataFrame->getCanID())) {
         cancelAndDelete(scheduledDataFrame);
-        scheduledDataFrame = NULL;
+        scheduledDataFrame = nullptr;
     }
 
-    if (scheduledErrorFrame != NULL && scheduledErrorFrame->isScheduled()
+    if (scheduledErrorFrame != nullptr && scheduledErrorFrame->isScheduled()
             && ef->getCanID() == scheduledErrorFrame->getCanID()) {
         cancelAndDelete(scheduledErrorFrame);
-        scheduledErrorFrame = NULL;
+        scheduledErrorFrame = nullptr;
     }
 }
 
@@ -231,7 +231,7 @@ void CanPortInput::registerIncomingDataFrame(unsigned int canID, cGate* inGate) 
 bool CanPortInput::amITheSendingNode(){
     CanOutputBuffer* outputBuffer =
                 dynamic_cast<CanOutputBuffer*> (getParentModule()->getParentModule()->getSubmodule("bufferOut"));
-    return (outputBuffer->getCurrentFrame() != NULL);
+    return (outputBuffer->getCurrentFrame() != nullptr);
 }
 
 }

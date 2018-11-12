@@ -69,10 +69,8 @@ void CanBusLogic::initialize() {
     stateSignal = registerSignal("state");
     arbitrationLengthSignal = registerSignal("arbitrationLength");
 
-    char buf[64];
-    sprintf(buf, "state: idle");
     bubble("state: idle");
-    getDisplayString().setTagArg("tt", 0, buf);
+    getDisplayString().setTagArg("tt", 0, "state: idle");
 
     bandwidth = getParentModule()->par("bandwidth");
 }
@@ -82,7 +80,7 @@ void CanBusLogic::finish() {
 }
 
 int CanBusLogic::getSendingNodeID() {
-    if (sendingNode != NULL) {
+    if (sendingNode != nullptr) {
         return sendingNode->getId();
     }
     return -1;
@@ -95,11 +93,11 @@ void CanBusLogic::handleMessage(cMessage *msg) {
         } else if (dynamic_cast<ErrorFrame *>(msg)) {
             colorIdle();
             emit(stateSignal, static_cast<long>(State::IDLE));
-            if (scheduledDataFrame != NULL) {
+            if (scheduledDataFrame != nullptr) {
                 cancelEvent(scheduledDataFrame);
             }
             delete scheduledDataFrame;
-            scheduledDataFrame = NULL;
+            scheduledDataFrame = nullptr;
             errored = false;
             eraseids.clear();
         }
@@ -118,7 +116,7 @@ void CanBusLogic::handleMessage(cMessage *msg) {
 
 void CanBusLogic::grantSendingPermission() {
     currentSendingID = INT_MAX;
-    sendingNode = NULL;
+    sendingNode = nullptr;
 
     for (std::list<CanID*>::iterator it = ids.begin(); it != ids.end(); ++it) {
         CanID *id = *it;
@@ -153,7 +151,7 @@ void CanBusLogic::grantSendingPermission() {
         getParentModule()->getDisplayString().setTagArg("i2", 0, "status/excl3");
         getParentModule()->getDisplayString().setTagArg("tt", 0, "WARNING: More than one node sends with the same ID.");
     }
-    if (sendingNode != NULL) {
+    if (sendingNode != nullptr) {
         CanOutputBuffer* controller = check_and_cast<CanOutputBuffer *>(
                 sendingNode);
         controller->receiveSendingPermission(currentSendingID);
@@ -176,10 +174,10 @@ void CanBusLogic::sendingCompleted() {
     emit(arbitrationLengthSignal, static_cast<unsigned long>(ids.size()));
     eraseids.clear();
     errored = false;
-    if (scheduledDataFrame != NULL) {
+    if (scheduledDataFrame != nullptr) {
         cancelEvent(scheduledDataFrame);
     }
-    scheduledDataFrame = NULL;
+    scheduledDataFrame = nullptr;
 }
 
 void CanBusLogic::handleDataFrame(cMessage *msg) {
@@ -187,7 +185,7 @@ void CanBusLogic::handleDataFrame(cMessage *msg) {
     int64_t length = df->getBitLength();
     double nextidle;
     nextidle = static_cast<double> (length) / bandwidth;
-    if (scheduledDataFrame != NULL) {
+    if (scheduledDataFrame != nullptr) {
         cancelEvent(scheduledDataFrame);
     }
     delete (scheduledDataFrame);
@@ -207,7 +205,7 @@ void CanBusLogic::handleDataFrame(cMessage *msg) {
 }
 
 void CanBusLogic::handleErrorFrame(cMessage *msg) {
-    if (scheduledDataFrame != NULL) {
+    if (scheduledDataFrame != nullptr) {
         cancelEvent(scheduledDataFrame);
     }
     if (!errored) {

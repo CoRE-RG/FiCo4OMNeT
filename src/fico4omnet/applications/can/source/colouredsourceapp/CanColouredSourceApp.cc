@@ -54,7 +54,7 @@ void CanColouredSourceApp::handleMessage(cMessage *msg) {
 }
 
 void CanColouredSourceApp::frameTransmission(CanDataFrame *df) {
-    CanDataFrame *outgoingFrame = NULL;
+    CanDataFrame *outgoingFrame = nullptr;
 
     if (df->getRtr()) {
         emit(sentRFSignal, df);

@@ -276,7 +276,7 @@ unsigned int CanTrafficSourceAppBase::calculateStuffingBits(unsigned int dataLen
 }
 
 void CanTrafficSourceAppBase::frameTransmission(CanDataFrame *df) {
-    CanDataFrame *outgoingFrame = NULL;
+    CanDataFrame *outgoingFrame = nullptr;
 
     if (df->getRtr()) {
         emit(sentRFSignal, df);

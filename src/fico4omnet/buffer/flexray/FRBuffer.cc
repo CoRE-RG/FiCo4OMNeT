@@ -17,15 +17,15 @@ void FRBuffer::initialize(){
 //}
 
 FRFrame* FRBuffer::getFrame(int frameId) {
-    for (std::list<FRFrame*>::iterator it = frames.begin();
+    for (std::list<cMessage*>::iterator it = frames.begin();
             it != frames.end(); ++it) {
-        FRFrame* tmp = *it;
+        FRFrame* tmp = dynamic_cast<FRFrame*>(*it);
         int i = tmp->getFrameID();
             if (i == frameId) {
             return tmp;
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 void FRBuffer::putFrame(cMessage* msg){
@@ -49,7 +49,7 @@ void FRBuffer::deleteFrame(int frameId) {
 void FRBuffer::deliverFrame(int frameId) {
     Enter_Method_Silent();
     FRFrame *tmp = getFrame(frameId);
-    if (tmp != NULL) {
+    if (tmp != nullptr) {
         sendToDestinationGates(tmp->dup());
         deleteFrame(frameId);
     }
@@ -58,10 +58,10 @@ void FRBuffer::deliverFrame(int frameId) {
 void FRBuffer::deliverPrioFrame() {
     Enter_Method_Silent();
     int prioId = INT_MAX;
-    FRFrame *prioFrame = NULL;
-    for (std::list<FRFrame*>::iterator it = frames.begin();
+    FRFrame *prioFrame = nullptr;
+    for (std::list<cMessage*>::iterator it = frames.begin();
             it != frames.end(); ++it) {
-        FRFrame *tmp = *it;
+        FRFrame *tmp = dynamic_cast<FRFrame*>(*it);
         int i = tmp->getFrameID();
         if ((i < prioId)) {
             prioFrame = tmp;

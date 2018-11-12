@@ -33,19 +33,19 @@ namespace FiCo4OMNeT {
 void CanBuffer::initialize(){
     Buffer::initialize();
     MOB = par("MOB");
-    currentFrame = NULL;
+    currentFrame = nullptr;
 }
 
 CanDataFrame* CanBuffer::getFrame(unsigned int canID) {
-    for (std::list<CanDataFrame*>::iterator it = frames.begin();
+    for (std::list<cMessage*>::iterator it = frames.begin();
             it != frames.end(); ++it) {
-        CanDataFrame* tmp = *it;
+        CanDataFrame* tmp = dynamic_cast<CanDataFrame*>(*it);
         unsigned int i = tmp->getCanID();
         if (i == canID) {
             return tmp;
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 void CanBuffer::putFrame(cMessage* msg){
@@ -84,10 +84,10 @@ void CanBuffer::deliverFrame(unsigned int canID) {
 void CanBuffer::deliverPrioFrame() {
     Enter_Method_Silent();
     unsigned int prioId = INT_MAX;
-    CanDataFrame *prioFrame = NULL;
-    for (std::list<CanDataFrame*>::iterator it = frames.begin();
+    CanDataFrame *prioFrame = nullptr;
+    for (std::list<cMessage*>::iterator it = frames.begin();
             it != frames.end(); ++it) {
-        CanDataFrame *tmp = *it;
+        CanDataFrame *tmp = dynamic_cast<CanDataFrame*>(*it);
         unsigned int i = tmp->getCanID();
         if ((i < prioId)) {
             prioFrame = tmp;

@@ -101,16 +101,6 @@ public:
 
 protected:
     /**
-     * @brief Stores the Gates to that the messages are delivered
-     */
-    std::list<cGate*> destinationGates;
-
-    /**
-     * @brief Queue for the EtherFrames in the Buffer.
-     */
-    std::list<CanDataFrame*> frames;
-
-    /**
      * @brief If the message object buffer (MOB) is true frames with the same ID will be overwritten.
      */
     bool MOB;

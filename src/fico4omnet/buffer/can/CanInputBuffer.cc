@@ -56,7 +56,7 @@ void CanInputBuffer::registerIncomingDataFramesAtPort() {
 void CanInputBuffer::putFrame(cMessage* msg) {
     CanDataFrame *frame = dynamic_cast<CanDataFrame *>(msg);
     if (MOB == true) {
-        if (getFrame(frame->getCanID()) != NULL) {
+        if (getFrame(frame->getCanID()) != nullptr) {
             deleteFrame(frame->getCanID());
         } else {
             sendToDestinationGates(frame);

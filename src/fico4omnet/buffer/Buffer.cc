@@ -80,7 +80,7 @@ cMessage* Buffer::getFrame(long objectId) {
             return tmp;
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 void Buffer::putFrame(cMessage* frame) {

@@ -48,11 +48,11 @@ CanPortOutput::~CanPortOutput(){
 
 void CanPortOutput::handleReceivedErrorFrame() {
     errorReceived = true;
-    if (scheduledErrorFrame != NULL && scheduledErrorFrame->isScheduled()) {
+    if (scheduledErrorFrame != nullptr && scheduledErrorFrame->isScheduled()) {
         EV<< getParentModule()->getParentModule()->getId() << ": error frame wird gedescheduled\n";
         cancelEvent(scheduledErrorFrame);
         delete scheduledErrorFrame;
-        scheduledErrorFrame = NULL;
+        scheduledErrorFrame = nullptr;
     }
 }
 
@@ -80,7 +80,7 @@ void CanPortOutput::handleMessage(cMessage *msg) {
             }
             colorError();
             send(msg, "out");
-            scheduledErrorFrame = NULL;
+            scheduledErrorFrame = nullptr;
         } else {
             delete msg;
         }
@@ -98,10 +98,10 @@ void CanPortOutput::handleMessage(cMessage *msg) {
                 if (position > 0)
                     position--;
                 errself->setPos(position);
-                if (scheduledErrorFrame != NULL && scheduledErrorFrame->isScheduled()) {
+                if (scheduledErrorFrame != nullptr && scheduledErrorFrame->isScheduled()) {
                     cancelEvent(scheduledErrorFrame);
                     delete(scheduledErrorFrame);
-                    scheduledErrorFrame = NULL;
+                    scheduledErrorFrame = nullptr;
                 }
                 scheduledErrorFrame = errself;
                 scheduleAt((simTime() + calculateScheduleTiming(position)),

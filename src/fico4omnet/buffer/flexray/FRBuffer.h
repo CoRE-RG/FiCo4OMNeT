@@ -74,16 +74,6 @@ public:
 
 protected:
     /**
-     * Stores the Gates to that the messages are delivered
-     */
-    std::list<cGate*> destinationGates;
-
-    /**
-     * @brief Queue for the EtherFrames in the Buffer.
-     */
-    std::list<FRFrame*> frames;
-
-    /**
      * @brief Initialization of the module.
      */
     virtual void initialize();
