@@ -38,13 +38,14 @@ network SimpleNewLayout
 {
 	parameters: 
     	@display("bgb=550,350,white");
-	    node[*].sourceApp[*].typename ="CanTrafficSourceAppBase";
+    	
     submodules:
         bus: CanBus {
             gates:
                 gate[2];
         }
         node[2]: CanNode;
+        
     connections:
         bus.gate[0] <--> node[0].gate;
         bus.gate[1] <--> node[1].gate;
