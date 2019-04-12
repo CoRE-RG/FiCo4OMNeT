@@ -55,7 +55,7 @@ public:
     /**
      * @brief Destructor of CanTrafficSourceAppBase
      */
-    ~CanTrafficSourceAppBase();
+    virtual ~CanTrafficSourceAppBase();
 
 protected:
     /**

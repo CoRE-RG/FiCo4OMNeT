@@ -33,8 +33,7 @@
 
 namespace FiCo4OMNeT {
 
-Define_Module(CanTrafficSourceAppBase)
-;
+Define_Module(CanTrafficSourceAppBase);
 
 CanTrafficSourceAppBase::CanTrafficSourceAppBase()
 {
