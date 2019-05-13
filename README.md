@@ -2,7 +2,7 @@
 
 FiCo4OMNeT is an open source simulation model for the event-based simulation of fieldbus technologies in the [OMNEST/OMNeT++](https://omnetpp.org/) simulation system. It enables the simulation of CAN and Flexray technologies.
 
-<img src="/doc/images/fico4omnet.png" alt="CoRE4INET Environment" width="35%">
+<img src="/doc/images/fico4omnet.png" alt="FiCo4OMNeT Environment" width="35%">
 
 
 ## Quick Start
