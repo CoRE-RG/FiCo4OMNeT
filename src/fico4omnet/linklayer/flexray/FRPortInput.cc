@@ -30,7 +30,7 @@ FRPortInput::FRPortInput(){
 }
 
 void FRPortInput::initialize() {
-    bandwidth = getParentModule()->getParentModule()->par("bandwidth");
+    bandwidth = getParentModule()->getParentModule()->par("bandwidth").doubleValue();
 
     rcvdSFSignal = registerSignal("receivedCompleteSF");
     rcvdDFSignal = registerSignal("receivedCompleteDF");

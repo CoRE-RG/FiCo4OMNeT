@@ -31,7 +31,7 @@
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.base.2039297403" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.base">
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1770634839" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" useByScannerDiscovery="false"/>
-								<option id="gnu.c.compiler.option.include.paths.1679712303" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath"/>
+								<option id="gnu.c.compiler.option.include.paths.1679712303" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.699650478" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.base.1486477775" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base"/>
@@ -42,8 +42,24 @@
 								</inputType>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.base.1445650139" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.base">
-								<option id="gnu.both.asm.option.include.paths.86324533" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath"/>
+								<option id="gnu.both.asm.option.include.paths.86324533" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths"/>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1325792278" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
+							</tool>
+						</toolChain>
+					</folderInfo>
+					<folderInfo id="org.omnetpp.cdt.gnu.config.debug.52770529.607267723" name="/" resourcePath="src">
+						<toolChain id="org.omnetpp.cdt.gnu.toolchain.debug.1661964335" name="GCC for OMNeT++" superClass="org.omnetpp.cdt.gnu.toolchain.debug" unusedChildren="">
+							<tool id="cdt.managedbuild.tool.gnu.archiver.base.354050061" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base.1462084260"/>
+							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.base.1324629373" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base.1616530399">
+								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1706692571" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.c.compiler.base.1561590620" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.base.2039297403">
+								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1202278052" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.c.linker.base.239024094" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base.1486477775"/>
+							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.base.141260065" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.base.257576178"/>
+							<tool id="cdt.managedbuild.tool.gnu.assembler.base.1977918678" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.base.1445650139">
+								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.482764923" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
 						</toolChain>
 					</folderInfo>
@@ -95,6 +111,22 @@
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.base.916733250" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.base">
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.2044579269" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
+							</tool>
+						</toolChain>
+					</folderInfo>
+					<folderInfo id="org.omnetpp.cdt.gnu.config.release.566834436.429728232" name="/" resourcePath="src">
+						<toolChain id="org.omnetpp.cdt.gnu.toolchain.release.592703300" name="GCC for OMNeT++" superClass="org.omnetpp.cdt.gnu.toolchain.release" unusedChildren="">
+							<tool id="cdt.managedbuild.tool.gnu.archiver.base.913941052" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base.1483388263"/>
+							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.base.799431095" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base.260786893">
+								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.2022956598" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.c.compiler.base.486667062" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.base.2019910946">
+								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1011906476" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.c.linker.base.917189573" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base.1850626019"/>
+							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.base.1936553938" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.base.161081997"/>
+							<tool id="cdt.managedbuild.tool.gnu.assembler.base.767242953" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.base.916733250">
+								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.692946118" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
 						</toolChain>
 					</folderInfo>

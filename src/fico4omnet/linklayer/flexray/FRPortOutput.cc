@@ -27,7 +27,7 @@ FRPortOutput::FRPortOutput(){
 }
 
 void FRPortOutput::initialize() {
-    bandwidth = getParentModule()->getParentModule()->par("bandwidth");
+    bandwidth = getParentModule()->getParentModule()->par("bandwidth").doubleValue();
 //    initializeStatisticValues();
 }
 
