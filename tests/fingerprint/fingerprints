@@ -37,7 +37,7 @@ sep = ";" if sys.platform == 'win32' else ':'
 nedPath = fico4omnetRoot + "/src" + sep + fico4omnetRoot + "/examples" + sep + fico4omnetRoot + "/tests/smoke"
 fico4omnetLib = fico4omnetRoot + "/src/FiCo4OMNeT"
 
-cpuTimeLimit = "30s"
+cpuTimeLimit = "60s"
 logFile = "test.out"
 extraOppRunArgs = ""
 exitCode = 0
