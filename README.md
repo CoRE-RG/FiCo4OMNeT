@@ -6,7 +6,7 @@ FiCo4OMNeT is an open source simulation model for the event-based simulation of 
 
 
 ## Quick Start
-1. Download OMNeT++ 5.4.1
+1. Download OMNeT++ 5.1.1 or 5.4.1
     * [https://omnetpp.org/download/old](https://omnetpp.org/download/old)
 2. Install OMNeT++
     * [https://doc.omnetpp.org/omnetpp/InstallGuide.pdf](https://doc.omnetpp.org/omnetpp/InstallGuide.pdf)
