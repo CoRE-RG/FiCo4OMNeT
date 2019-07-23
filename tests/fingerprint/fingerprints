@@ -31,12 +31,10 @@ from distutils import spawn
 from StringIO import StringIO
 
 fico4omnetRoot = os.path.abspath("../..")
-#TODO: Make test read paths from somewhere else
-#inetRoot = os.path.abspath("../../../inet")
 sep = ";" if sys.platform == 'win32' else ':'
 nedPath = fico4omnetRoot + "/src" + sep + fico4omnetRoot + "/examples" + sep + fico4omnetRoot + "/tests/smoke"
 fico4omnetLib = fico4omnetRoot + "/src/FiCo4OMNeT"
-
+executable = "opp_run"
 cpuTimeLimit = "60s"
 logFile = "test.out"
 extraOppRunArgs = ""
@@ -48,6 +46,7 @@ elif spawn.find_executable("opp_run"):
     executable = "opp_run"
 elif spawn.find_executable("opp_run_release"):
     executable = "opp_run_release"
+
 
 class FingerprintTestCaseGenerator():
     fileToSimulationsMap = {}
@@ -334,8 +333,8 @@ class FingerprintTestCase(SimulationTestCase):
             # process the result
             # note: fingerprint mismatch is technically NOT an error in 4.2 or before! (exitcode==0)
             self.storeExitcodeCallback(result.exitcode)
-            if result.exitcode != 0:
-                raise Exception("runtime error:" + result.errormsg)
+            if result.exitcode != 0 && result.exitcode != 134:
+                raise Exception("runtime error(" + str(result.exitcode) + "):" + result.errormsg)
             elif result.cpuTimeLimitReached:
                 raise Exception("cpu time limit exceeded")
             elif result.simulatedTime == 0 and self.simtimelimit != '0s':
