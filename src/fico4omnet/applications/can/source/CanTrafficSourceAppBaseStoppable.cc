@@ -29,7 +29,7 @@ void CanTrafficSourceAppBaseStoppable::initialize(int stage) {
 void CanTrafficSourceAppBaseStoppable::frameTransmission(CanDataFrame *df) {
     if (!(simTime() >= this->_endTime)) {
         CanTrafficSourceAppBase::frameTransmission(df);
-    } else {
+    } else if (!df->isSelfMessage()){
         delete df;
     }
 }

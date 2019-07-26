@@ -18,7 +18,7 @@ package fico4omnet.applications.can.source;
 simple CanTrafficSourceAppBaseStoppable extends CanTrafficSourceAppBase
 {
     parameters:
-        @class(FiCo4OMNeT::CanTrafficSourceAppBaseStoppable);
+        @class(CanTrafficSourceAppBaseStoppable);
         @display("i=block/source");
         
         double endTime @unit(s) = default(0s);

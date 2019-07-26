@@ -27,12 +27,8 @@ namespace FiCo4OMNeT {
 /**
  * TODO - Generated class
  */
-class CanTrafficSourceAppBaseStoppable : public CanTrafficSourceAppBase
+class CanTrafficSourceAppBaseStoppable : public virtual CanTrafficSourceAppBase
 {
-  public:
-    CanTrafficSourceAppBaseStoppable();
-    virtual ~CanTrafficSourceAppBaseStoppable();
-
   protected:
     virtual void frameTransmission(CanDataFrame *df) override;
     virtual void initialize(int stage) override;
