@@ -97,6 +97,13 @@ protected:
     unsigned int calculateLength(unsigned int dataLength);
 
     /**
+     * @brief Transmits a data or remote frame to the connected output buffer.
+     *
+     * @param df the frame that should be sent
+     */
+    virtual void frameTransmission(CanDataFrame *df);
+
+    /**
      * @brief Simsignal for received data frames.
      */
     omnetpp::simsignal_t sentDFSignal;
@@ -215,13 +222,6 @@ private:
      * @return Returns the number of stuffing bits.
      */
     unsigned int calculateStuffingBits(unsigned int dataLength, unsigned int arbFieldLength);
-
-    /**
-     * @brief Transmits a data or remote frame to the connected output buffer.
-     *
-     * @param df the frame that should be sent
-     */
-    void frameTransmission(CanDataFrame *df);
 };
 }
 #endif /* CANTRAFFICSOURCEAPPBASE_H_ */
