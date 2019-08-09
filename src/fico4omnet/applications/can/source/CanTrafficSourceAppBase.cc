@@ -89,77 +89,101 @@ void CanTrafficSourceAppBase::handleMessage(cMessage *msg) {
 void CanTrafficSourceAppBase::initialRemoteFrameCreation() {
     if (par("idRemoteFrames").stdstringValue() != "0") {
         cStringTokenizer remoteFrameIDsTokenizer(par("idRemoteFrames"), ",");
-        std::vector<int> remoteFrameIDs = remoteFrameIDsTokenizer.asIntVector();
-        cStringTokenizer remoteFramesPeriodicityTokenizer(
-                par("periodicityRemoteFrames"), ",");
-        cStringTokenizer dataLengthRemoteFramesTokenizer(
-                par("dataLengthRemoteFrames"), ",");
-        cStringTokenizer initialRemoteFrameOffsetTokenizer(
-                par("initialRemoteFrameOffset"), ",");
+        cStringTokenizer remoteFramesPeriodicityTokenizer(par("periodicityRemoteFrames"), ",");
+        cStringTokenizer dataLengthRemoteFramesTokenizer(par("dataLengthRemoteFrames"), ",");
+        cStringTokenizer initialRemoteFrameOffsetTokenizer(par("initialRemoteFrameOffset"), ",");
 
-        for (unsigned int i = 0; i < remoteFrameIDs.size(); i++) {
-            if (!dataLengthRemoteFramesTokenizer.hasMoreTokens()) {
-                throw cRuntimeError(
-                        "No more values for the remote frame data length for the next remote frame ID. Configuration in the ini file may be incorrect.");
-            }
-            if (!remoteFramesPeriodicityTokenizer.hasMoreTokens()) {
-                throw cRuntimeError(
-                        "No more values for the remote frame period for the next remote frame ID. Configuration in the ini file may be incorrect.");
-            }
-            if (!remoteFramesPeriodicityTokenizer.hasMoreTokens()) {
-                throw cRuntimeError(
-                        "No more values for the remote frame offset for the next remote frame ID. Configuration in the ini file may be incorrect.");
-            }
-            CanDataFrame *can_msg = new CanDataFrame("remoteFrame");
-            can_msg->setCanID(checkAndReturnID(static_cast<unsigned int> (remoteFrameIDs.at(i))));
-            unsigned int dataFieldLength = static_cast<unsigned int> (atoi(dataLengthRemoteFramesTokenizer.nextToken()));
-            can_msg->setBitLength(
-                    calculateLength(dataFieldLength));
-            cPacket *payload_packet = new cPacket;
-            payload_packet->setTimestamp();
-            payload_packet->setByteLength(dataFieldLength);
-            can_msg->encapsulate(payload_packet);
+        initialFrameCreation("remote", remoteFrameIDsTokenizer, remoteFramesPeriodicityTokenizer,
+                dataLengthRemoteFramesTokenizer, initialRemoteFrameOffsetTokenizer);
+    }
+}
+
+void CanTrafficSourceAppBase::initialDataFrameCreation() {
+    if (par("idDataFrames").stdstringValue() != "0") {
+        cStringTokenizer dataFrameIDsTokenizer(par("idDataFrames"), ",");
+        cStringTokenizer dataFramesPeriodicityTokenizer(par("periodicityDataFrames"), ",");
+        cStringTokenizer dataLengthDataFramesTokenizer(par("dataLengthDataFrames"), ",");
+        cStringTokenizer initialDataFrameOffsetTokenizer(par("initialDataFrameOffset"), ",");
+
+        initialFrameCreation("data", dataFrameIDsTokenizer, dataFramesPeriodicityTokenizer,
+                dataLengthDataFramesTokenizer, initialDataFrameOffsetTokenizer);
+    }
+}
+
+void CanTrafficSourceAppBase::initialFrameCreation(std::string type,
+        cStringTokenizer frameIDsTokenizer, cStringTokenizer framesPeriodicityTokenizer,
+        cStringTokenizer dataLengthFramesTokenizer, cStringTokenizer initialFrameOffsetTokenizer) {
+
+    const char *frameType = "";
+    if (type.compare("data") == 0) {
+        frameType = "message";
+    } else {
+        frameType = "remoteFrame";
+    }
+    std::vector<int> frameIDs = frameIDsTokenizer.asIntVector();
+
+    for (unsigned int i = 0; i < frameIDs.size(); i++) {
+        if (!dataLengthFramesTokenizer.hasMoreTokens()) {
+            throw cRuntimeError("No more values for the %s frame data length for the next %s frame ID. Configuration in the ini file may be incorrect.", type, type);
+        }
+        if (!framesPeriodicityTokenizer.hasMoreTokens()) {
+            throw cRuntimeError("No more values for the %s frame period for the next %s frame ID. Configuration in the ini file may be incorrect.", type, type);
+        }
+        if (!initialFrameOffsetTokenizer.hasMoreTokens()) {
+            throw cRuntimeError("No more values for the %s frame offset for the next %s frame ID. Configuration in the ini file may be incorrect.", type, type);
+        }
+        CanDataFrame *can_msg = new CanDataFrame(frameType);
+        can_msg->setCanID(checkAndReturnID(static_cast<unsigned int> (frameIDs.at(i))));
+        unsigned int dataFieldLength = static_cast<unsigned int> (atoi(dataLengthFramesTokenizer.nextToken()));
+        can_msg->setBitLength(calculateLength(dataFieldLength));
+        cPacket *payload_packet = new cPacket;
+        payload_packet->setTimestamp();
+        payload_packet->setByteLength(dataFieldLength);
+        can_msg->encapsulate(payload_packet);
+        can_msg->setPeriod(atof(framesPeriodicityTokenizer.nextToken()));
+
+        if (type.compare("data") == 0) {
+            outgoingDataFrames.push_back(can_msg);
+            registerDataFrameAtPort(can_msg->getCanID());
+        } else {
             can_msg->setRtr(true);
-            can_msg->setPeriod(
-                    atof(remoteFramesPeriodicityTokenizer.nextToken()));
             registerRemoteFrameAtPort(can_msg->getCanID());
+        }
+
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wfloat-equal"
-            if (can_msg->getPeriod() == 0) {
+        if (type.compare("remote") == 0 && can_msg->getPeriod() == 0) {
 #pragma GCC diagnostic pop
-                EV<< "Remote frame with ID " << can_msg->getCanID()
-                << " has no period. Hence it will be ignored.\n";
-                if (initialRemoteFrameOffsetTokenizer.hasMoreTokens()) {
-                    initialRemoteFrameOffsetTokenizer.nextToken();
-                }
-                delete can_msg;
-            } else {
-                double offset;
-                initialRemoteFrameOffsetTokenizer.hasMoreTokens() ?
-                offset = atof(
-                        initialRemoteFrameOffsetTokenizer.nextToken()) :
-                offset = 0;
-                simtime_t scheduleTime = simTime() + SimTime(offset)
-                        + SimTime(par("periodInaccurracy").doubleValue()
-                                + currentDrift);
-                if (scheduleTime >= 0) {
-                    scheduleAt(scheduleTime, can_msg);
-                } else {
-                    scheduleAt(simTime(), can_msg);
-                }
+            EV<< "Remote frame with ID " << can_msg->getCanID()<< " has no period. Hence it will be ignored.\n";
+            if (initialFrameOffsetTokenizer.hasMoreTokens()) {
+                initialFrameOffsetTokenizer.nextToken();
             }
-
+            delete can_msg;
+        } else if (type.compare("remote") == 0 || can_msg->getPeriod() > 0.0) {
+            double offset;
+            initialFrameOffsetTokenizer.hasMoreTokens() ?
+                    offset = atof(initialFrameOffsetTokenizer.nextToken()) : offset = 0;
+            simtime_t scheduleTime = simTime() + SimTime(offset)
+                    + SimTime(par("periodInaccurracy").doubleValue() + currentDrift);
+            if (scheduleTime >= 0 ) {
+                scheduleAt(scheduleTime,can_msg);
+            } else {
+                scheduleAt(simTime(),can_msg);
+            }
+        } else {
+            if (initialFrameOffsetTokenizer.hasMoreTokens()) {
+                initialFrameOffsetTokenizer.nextToken();
+            }
         }
-
-        if (dataLengthRemoteFramesTokenizer.hasMoreTokens()) {
-            EV<< "There are more values defined for the data length. Please check your configuration files.";
-        }
-        if (remoteFramesPeriodicityTokenizer.hasMoreTokens()) {
-            EV<< "There are more values defined for the period. Please check your configuration files.";
-        }
-        if (initialRemoteFrameOffsetTokenizer.hasMoreTokens()) {
-            EV<< "There are more values defined for the remote frame offset. Please check your configuration files.";
-        }
+    }
+    if (dataLengthFramesTokenizer.hasMoreTokens()) {
+        EV<< "There are more values defined for the " << type << " frame data length. Please check your configuration files.";
+    }
+    if (framesPeriodicityTokenizer.hasMoreTokens()) {
+        EV<< "There are more values defined for the " << type << " frame period. Please check your configuration files.";
+    }
+    if (initialFrameOffsetTokenizer.hasMoreTokens()) {
+        EV<< "There are more values defined for the " << type << " frame offset. Please check your configuration files.";
     }
 }
 
@@ -167,76 +191,6 @@ void CanTrafficSourceAppBase::registerRemoteFrameAtPort(unsigned int canID) {
     CanPortInput* port = dynamic_cast<CanPortInput*> (getParentModule()->getSubmodule(
             "canNodePort")->getSubmodule("canPortInput"));
     port->registerOutgoingRemoteFrame(canID);
-}
-
-void CanTrafficSourceAppBase::initialDataFrameCreation() {
-    if (par("idDataFrames").stdstringValue() != "0") {
-        cStringTokenizer dataFrameIDsTokenizer(par("idDataFrames"), ",");
-        std::vector<int> dataFrameIDs = dataFrameIDsTokenizer.asIntVector();
-        cStringTokenizer dataFramesPeriodicityTokenizer(
-                par("periodicityDataFrames"), ",");
-        cStringTokenizer dataLengthDataFramesTokenizer(
-                par("dataLengthDataFrames"), ",");
-        cStringTokenizer initialDataFrameOffsetTokenizer(
-                par("initialDataFrameOffset"), ",");
-
-        for (unsigned int i = 0; i < dataFrameIDs.size(); i++) {
-            if (!dataLengthDataFramesTokenizer.hasMoreTokens()) {
-                throw cRuntimeError(
-                        "No more values for the data frame data length for the next data frame ID. Configuration in the ini file may be incorrect.");
-            }
-            if (!dataFramesPeriodicityTokenizer.hasMoreTokens()) {
-                throw cRuntimeError(
-                        "No more values for the data frame period for the next data frame ID. Configuration in the ini file may be incorrect.");
-            }
-            if (!initialDataFrameOffsetTokenizer.hasMoreTokens()) {
-                throw cRuntimeError(
-                        "No more values for the data frame offset for the next data frame ID. Configuration in the ini file may be incorrect.");
-            }
-            CanDataFrame *can_msg = new CanDataFrame("message");
-            can_msg->setCanID(checkAndReturnID(static_cast<unsigned int> (dataFrameIDs.at(i))));
-            unsigned int dataFieldLength = static_cast<unsigned int> (atoi(dataLengthDataFramesTokenizer.nextToken()));
-            can_msg->setBitLength(
-                    calculateLength(dataFieldLength));
-            cPacket *payload_packet = new cPacket;
-            payload_packet->setTimestamp();
-            payload_packet->setByteLength(dataFieldLength);
-            can_msg->encapsulate(payload_packet);
-            can_msg->setPeriod(
-                    atof(dataFramesPeriodicityTokenizer.nextToken()));
-            outgoingDataFrames.push_back(can_msg);
-            registerDataFrameAtPort(can_msg->getCanID());
-            if (can_msg->getPeriod() > 0.0) {
-                double offset;
-                initialDataFrameOffsetTokenizer.hasMoreTokens() ?
-                        offset = atof(
-                                initialDataFrameOffsetTokenizer.nextToken()) :
-                        offset = 0;
-                simtime_t scheduleTime = simTime() + SimTime(offset)
-                        + SimTime(par("periodInaccurracy").doubleValue()
-                                + currentDrift);
-                if (scheduleTime >= 0 ) {
-                    scheduleAt(scheduleTime,can_msg);
-                } else {
-                    scheduleAt(simTime(),can_msg);
-                }
-            } else {
-                if (initialDataFrameOffsetTokenizer.hasMoreTokens()) {
-                    initialDataFrameOffsetTokenizer.nextToken();
-                }
-            }
-        }
-
-        if (dataLengthDataFramesTokenizer.hasMoreTokens()) {
-            EV<< "There are more values defined for the data frame data length. Please check your configuration files.";
-        }
-        if (dataFramesPeriodicityTokenizer.hasMoreTokens()) {
-            EV<< "There are more values defined for the data frame period. Please check your configuration files.";
-        }
-        if (initialDataFrameOffsetTokenizer.hasMoreTokens()) {
-            EV<< "There are more values defined for the data frame offset. Please check your configuration files.";
-        }
-    }
 }
 
 void CanTrafficSourceAppBase::registerDataFrameAtPort(unsigned int canID) {
