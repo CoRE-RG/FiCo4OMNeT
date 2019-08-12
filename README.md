@@ -51,4 +51,14 @@ The build state of the master branch is monitored:
   </tr>
 </table>
 
-For further informations please see [INSTALL](/INSTALL) and [doc/](/doc)
+
+## Further Information
+
+# Installation
+Please see [INSTALL](/INSTALL)
+
+# Documentation
+Please see [doc/](/doc)
+
+## IMPORTANT
+The FiCo4OMNeT model is under continuous development: new parts are added, bugs are corrected, and so on. We cannot assert that the implementation will work fully according to the specifications. YOU ARE RESPONSIBLE YOURSELF TO MAKE SURE THAT THE MODELS YOU USE IN YOUR SIMULATIONS WORK CORRECTLY, AND YOU'RE GETTING VALID RESULTS.
