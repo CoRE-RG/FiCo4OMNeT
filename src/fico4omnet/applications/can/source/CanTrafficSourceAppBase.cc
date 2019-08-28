@@ -124,13 +124,13 @@ void CanTrafficSourceAppBase::initialFrameCreation(std::string type,
 
     for (unsigned int i = 0; i < frameIDs.size(); i++) {
         if (!dataLengthFramesTokenizer.hasMoreTokens()) {
-            throw cRuntimeError("No more values for the %s frame data length for the next %s frame ID. Configuration in the ini file may be incorrect.", type, type);
+            throw cRuntimeError("No more values for the %s frame data length for the next %s frame ID (at index %d). Configuration in the ini file may be incorrect.", type.c_str(), type.c_str(), i);
         }
         if (!framesPeriodicityTokenizer.hasMoreTokens()) {
-            throw cRuntimeError("No more values for the %s frame period for the next %s frame ID. Configuration in the ini file may be incorrect.", type, type);
+            throw cRuntimeError("No more values for the %s frame period for the next %s frame ID (at index %d). Configuration in the ini file may be incorrect.", type.c_str(), type.c_str(), i);
         }
         if (!initialFrameOffsetTokenizer.hasMoreTokens()) {
-            throw cRuntimeError("No more values for the %s frame offset for the next %s frame ID. Configuration in the ini file may be incorrect.", type, type);
+            throw cRuntimeError("No more values for the %s frame offset for the next %s frame ID (at index %d). Configuration in the ini file may be incorrect.", type.c_str(), type.c_str(), i);
         }
         CanDataFrame *can_msg = new CanDataFrame(frameType);
         can_msg->setCanID(checkAndReturnID(static_cast<unsigned int> (frameIDs.at(i))));
