@@ -28,9 +28,9 @@ FiCo4OMNeT is an open source simulation model for the event-based simulation of 
 
 The build state of the master branch is monitored:
 * Building:
-<a href="https://jenkins.core-rg.de/job/FiCo4OMNeT/job/FiCo4OMNeT/lastBuild/"><img src="https://jenkins.core-rg.de/buildStatus/icon?job=FiCo4OMNeT/FiCo4OMNeT"></a>
+<p><img src="https://jenkins.core-rg.de/buildStatus/icon?job=FiCo4OMNeT/FiCo4OMNeT"></p>
 * Tests:
-<a href="https://jenkins.core-rg.de/job/FiCo4OMNeT/job/FiCo4OMNeT_tests/lastBuild/"><img src="https://jenkins.core-rg.de/buildStatus/icon?job=FiCo4OMNeT/FiCo4OMNeT_tests"></a>
+<p><img src="https://jenkins.core-rg.de/buildStatus/icon?job=FiCo4OMNeT/FiCo4OMNeT_tests"></p>
 
 
 <table>
@@ -41,13 +41,13 @@ The build state of the master branch is monitored:
   </tr>
   <tr>
     <td>Building</td>
-    <td><a href="https://jenkins.core-rg.de/job/FiCo4OMNeT/job/FiCo4OMNeT/Nodes=Ubuntu_18.04/lastBuild/"><img src="https://jenkins.core-rg.de/buildStatus/icon?job=FiCo4OMNeT/FiCo4OMNeT/Nodes=Ubuntu_18.04"></a></td>
-    <td><a href="https://jenkins.core-rg.de/job/FiCo4OMNeT/job/FiCo4OMNeT/Nodes=Windows_10/lastBuild/"><img src="https://jenkins.core-rg.de/buildStatus/icon?job=FiCo4OMNeT/FiCo4OMNeT/Nodes=Windows_10"></a></td>
+    <td><img src="https://jenkins.core-rg.de/buildStatus/icon?job=FiCo4OMNeT/FiCo4OMNeT/Nodes=Ubuntu_18.04"></td>
+    <td><img src="https://jenkins.core-rg.de/buildStatus/icon?job=FiCo4OMNeT/FiCo4OMNeT/Nodes=Windows_10"></td>
   </tr>
   <tr>
     <td>Tests</td>
-    <td><a href="https://jenkins.core-rg.de/job/FiCo4OMNeT/job/FiCo4OMNeT_tests/Nodes=Ubuntu_18.04/lastBuild/"><img src="https://jenkins.core-rg.de/buildStatus/icon?job=FiCo4OMNeT/FiCo4OMNeT_tests/Nodes=Ubuntu_18.04"></a></td>
-    <td><a href="https://jenkins.core-rg.de/job/FiCo4OMNeT/job/FiCo4OMNeT_tests/Nodes=Windows_10/lastBuild/"><img src="https://jenkins.core-rg.de/buildStatus/icon?job=FiCo4OMNeT/FiCo4OMNeT_tests/Nodes=Windows_10"></a></td>
+    <td><img src="https://jenkins.core-rg.de/buildStatus/icon?job=FiCo4OMNeT/FiCo4OMNeT_tests/Nodes=Ubuntu_18.04"></td>
+    <td><img src="https://jenkins.core-rg.de/buildStatus/icon?job=FiCo4OMNeT/FiCo4OMNeT_tests/Nodes=Windows_10"></td>
   </tr>
 </table>
 
