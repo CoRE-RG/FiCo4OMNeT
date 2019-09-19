@@ -24,6 +24,7 @@ import sys
 import time
 import unittest
 import csv
+from distutils import spawn
 
 fico4omnetRoot = os.path.abspath("../..")
 #TODO: Make test read paths from somewhere else
