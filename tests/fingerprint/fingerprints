@@ -31,9 +31,16 @@ fico4omnetRoot = os.path.abspath("../..")
 sep = ";" if sys.platform == 'win32' else ':'
 nedPath = fico4omnetRoot + "/src" + sep + fico4omnetRoot + "/examples" + sep + fico4omnetRoot + "/tests/smoke"
 fico4omnetLib = fico4omnetRoot + "/src/FiCo4OMNeT"
-opp_run = "opp_run_dbg"
+opp_run = "opp_run"
 cpuTimeLimit = "30s"
 logFile = "test.out"
+
+if spawn.find_executable("opp_run_dbg"):
+    opp_run = "opp_run_dbg"
+elif spawn.find_executable("opp_run"):
+    opp_run = "opp_run"
+elif spawn.find_executable("opp_run_release"):
+    opp_run = "opp_run_release"
 
 class FingerprintTestCaseGenerator():
     fileToSimulationsMap = {}
