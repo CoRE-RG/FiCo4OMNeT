@@ -6,11 +6,11 @@ FiCo4OMNeT is an open source simulation model for the event-based simulation of 
 
 
 ## Quick Start
-1. Download OMNeT++ 5.1.1 or 5.4.1
-    * [https://omnetpp.org/download/old](https://omnetpp.org/download/old)
+1. Download OMNeT++ 5.5.1
+    * [https://omnetpp.org/download/](https://omnetpp.org/download/)
 2. Install OMNeT++
     * [https://doc.omnetpp.org/omnetpp/InstallGuide.pdf](https://doc.omnetpp.org/omnetpp/InstallGuide.pdf)
-3. Get INET framework 3.6.5 (optional)
+3. Get INET framework 3.6.6 (optional)
     * [https://inet.omnetpp.org/Download.html](https://inet.omnetpp.org/Download.html)
 4. Install CoRE plugins (optional)
     * OMNEST/OMNeT++ -> Help -> Install New Software...
@@ -28,9 +28,9 @@ FiCo4OMNeT is an open source simulation model for the event-based simulation of 
 
 The build state of the master branch is monitored:
 * Building:
-<p><img src="https://jenkins.core-rg.de/buildStatus/icon?job=FiCo4OMNeT/FiCo4OMNeT"></p>
+<a><img src="https://jenkins.core-rg.de/buildStatus/icon?job=FiCo4OMNeT/FiCo4OMNeT"></a>
 * Tests:
-<p><img src="https://jenkins.core-rg.de/buildStatus/icon?job=FiCo4OMNeT/FiCo4OMNeT_tests"></p>
+<a><img src="https://jenkins.core-rg.de/buildStatus/icon?job=FiCo4OMNeT/FiCo4OMNeT_tests"></a>
 
 
 <table>
