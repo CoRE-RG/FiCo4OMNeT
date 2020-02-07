@@ -32,9 +32,9 @@ simple CanClock
     	@statistic[clockDrift](title="clockDrift"; source=clockDrift; unit=s; record=stats,histogram?,vector; interpolationmode=linear);
     	
     	//Maximum drift per second
-    	double maxDrift @unit(s) = default(0);
+    	double maxDrift @unit(s) = default(0s);
     	//Maximum drift change per second
-    	double maxDriftChange @unit(s) = default(0);
+    	double maxDriftChange @unit(s) = default(0s);
     	//True if the node should have a random drift at the start of the simulation, false otherwise.
     	bool randomStartDrift = default(true);
 }

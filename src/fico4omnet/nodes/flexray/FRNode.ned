@@ -48,8 +48,8 @@ module FRNode
         int gdActionPointOffset = default(1); //[MT]
         int gdMinislotActionPointOffset = default(1); //[MT]
         double bandwidth @unit(bps) = default(10000000bps); //[MBit/s]
-        double maxDriftChange @unit(s) = default(0);
-        double maxDrift @unit(s) = default(0);
+        double maxDriftChange @unit(s) = default(0s);
+        double maxDrift @unit(s) = default(0s);
 
 //        @node;
 
