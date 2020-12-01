@@ -65,3 +65,5 @@ endif
 
 COPTS += $(SYSINCLUDES) -isystem $(OMNETPP_INCL_DIR)
 
+# use legacy message compiler (available since OMNeT++ 5.3)
+MSGC += --msg4
