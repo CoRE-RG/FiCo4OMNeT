@@ -26,7 +26,7 @@ cGate* gateByFullPath(const std::string &path)
     {
         std::string modulePath = path.substr(0, pos);
         std::string gateName = path.substr(pos + 1);
-        cModule* module = cSimulation::getActiveSimulation()->getModuleByPath(modulePath.c_str());
+        cModule* module = cSimulation::getActiveSimulation()->findModuleByPath(modulePath.c_str());
         if (module)
         {
             return module->gate(gateName.c_str());
