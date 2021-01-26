@@ -1,9 +1,19 @@
+# generated files
 .settings/
-*.DS_Store
-/out
 *_m.*
+/src/Makefile
+/src/Makefile.vc
+/doc/doxy/
+/doc/neddoc/
+/doc/index.html
 
-#results
+# settings
+*.qtenvrc
+*.tkenvrc
+*.tkenvlog
+*.cmdenv-log
+
+# results
 /examples/*/results/
 /examples/*/*/results/
 /examples/*/*/*/results/
@@ -12,20 +22,25 @@
 *.sca
 *.anf
 
-*.tkenvrc
-*.tkenvlog
-/doc/doxy/
-/doc/neddoc/
-/doc/index.html
-src/Makefile
+# tests
+/tests/*/work/
+
+# binary files
+/out
 *.so
 *.dylib
 *.dll
-/tests/*/work/
-*.UPDATED
-*.cmdenv-log
+*.def
+*.a
+*.lib
+*.exe
+*.o
+*.obj
 
 # local files not to be committed
 .oppfeaturestate
 .nedexclusions
 src/fico4omnet/features.h
+
+# apple files
+.DS_Store
