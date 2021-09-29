@@ -177,16 +177,16 @@ private:
      * @brief Creates a frame which will be queued in the buffer.
      *
      * @param type \"data\" for data frames, \"remote\" for remote frames
-     * @param frameIDsTokenizer Tokenizer for the IDs of the data or remote frames
-     * @param framesPeriodicityTokenizer Tokenizer for the transmission-periods of the frames
-     * @param dataLengthFramesTokenizer Tokenizer for the datafield-length of the frames
-     * @param initialFrameOffsetTokenizer Tokenizer for the first transmission-times of the frames
+     * @param frameIDsParName Parameter name for the IDs of the data or remote frames
+     * @param framesPeriodicityParName Parameter name for the transmission-periods of the frames
+     * @param dataLengthFramesParName Parameter name for the datafield-length of the frames
+     * @param initialFrameOffsetParName Parameter name for the first transmission-times of the frames
      */
-    void initialFrameCreation(std::string type,
-            omnetpp::cStringTokenizer frameIDsTokenizer,
-            omnetpp::cStringTokenizer framesPeriodicityTokenizer,
-            omnetpp::cStringTokenizer dataLengthFramesTokenizer,
-            omnetpp::cStringTokenizer initialFrameOffsetTokenizer);
+    void initialFrameCreation(const char *type,
+                              const char *frameIDsParName,
+                              const char *framesPeriodicityParName,
+                              const char *dataLengthFramesParName,
+                              const char *initialFrameOffsetParName);
 
     /**
      * @brief Registers the outgoing remote frame at the port.

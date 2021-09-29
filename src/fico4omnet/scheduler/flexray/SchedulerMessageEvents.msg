@@ -1,10 +1,6 @@
-cplusplus {{
-        #include "fico4omnet/scheduler/flexray/SchedulerEvent.h"
-}}
+import fico4omnet.scheduler.flexray.SchedulerMessage;
 
 namespace FiCo4OMNeT;
-
-class SchedulerEvent;
 
 //
 // Message used for events of TTEScheduler that are triggered at a specified time in cycle (action_time).
