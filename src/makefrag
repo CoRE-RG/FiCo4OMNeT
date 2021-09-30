@@ -63,3 +63,5 @@ else
 endif
 
 COPTS += $(SYSINCLUDES) -isystem $(OMNETPP_INCL_DIR)
+
+MSGC += -I.

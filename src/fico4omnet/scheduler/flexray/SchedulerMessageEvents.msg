@@ -1,5 +1,9 @@
 import fico4omnet.scheduler.flexray.SchedulerMessage;
 
+cplusplus {{
+        #include "fico4omnet/scheduler/flexray/SchedulerEvent.h"
+}}
+
 namespace FiCo4OMNeT;
 
 //
