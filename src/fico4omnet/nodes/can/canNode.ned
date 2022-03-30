@@ -79,7 +79,7 @@ module CanNode
         bufferOut: CanOutputBuffer {
             @display("p=98,102");
             gates:
-                in[numSourceApps];
+                in[parent.numSourceApps];
         }
         
         sourceApp[numSourceApps]: <default("CanTrafficSourceAppBase")> like ISourceApplication {
