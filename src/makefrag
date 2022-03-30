@@ -1,13 +1,7 @@
-# USAGE:
-# Set Environment Variables:
-# EXTENDED_WARNINGS=1
-# for stricter warnings and
-#
-# WARNINGS_ERROR=1
-# for -Werror
 
 CFLAGS += -std=c++14
 MSGC += -I.
+
 
 UNAME_S := $(shell uname -s)
 
@@ -22,6 +16,15 @@ endif
 ifeq ($(UNAME_S),Darwin)
     LDFLAGS += -headerpad_max_install_names 
 endif
+
+
+# USAGE:
+# Set Environment Variables:
+# EXTENDED_WARNINGS=1
+# for stricter warnings and
+#
+# WARNINGS_ERROR=1
+# for -Werror
 
 #Warnings generate errors
 ifdef WARNINGS_ERROR
@@ -63,5 +66,3 @@ else
 endif
 
 COPTS += $(SYSINCLUDES) -isystem $(OMNETPP_INCL_DIR)
-
-MSGC += -I.
