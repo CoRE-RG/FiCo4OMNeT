@@ -111,8 +111,8 @@ void CanTrafficSourceAppBase::initialDataFrameCreation() {
 }
 
 void CanTrafficSourceAppBase::initialFrameCreation(std::string type,
-        cStringTokenizer frameIDsTokenizer, cStringTokenizer framesPeriodicityTokenizer,
-        cStringTokenizer dataLengthFramesTokenizer, cStringTokenizer initialFrameOffsetTokenizer) {
+        cStringTokenizer& frameIDsTokenizer, cStringTokenizer& framesPeriodicityTokenizer,
+        cStringTokenizer& dataLengthFramesTokenizer, cStringTokenizer& initialFrameOffsetTokenizer) {
 
     const char *frameType = "";
     if (type.compare("data") == 0) {

@@ -111,7 +111,7 @@ void FRTrafficSourceAppBase::setUpDynamicFrames() {
 }
 
 void FRTrafficSourceAppBase::dynamicFrameCreation(
-        omnetpp::cStringTokenizer tokenizer, int channel) {
+        omnetpp::cStringTokenizer& tokenizer, int channel) {
     int gNumberOfMinislots = getParentModule()->par("gNumberOfMinislots");
     while (tokenizer.hasMoreTokens()) {
         int slot = atoi(tokenizer.nextToken());

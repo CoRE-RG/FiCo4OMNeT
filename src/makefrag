@@ -6,7 +6,7 @@
 # WARNINGS_ERROR=1
 # for -Werror
 
-CFLAGS += -std=c++11
+CFLAGS += -std=c++17
 
 UNAME_S := $(shell uname -s)
 
@@ -62,6 +62,3 @@ else
 endif
 
 COPTS += $(SYSINCLUDES) -isystem $(OMNETPP_INCL_DIR)
-
-# use legacy message compiler (available since OMNeT++ 5.3)
-MSGC += --msg4

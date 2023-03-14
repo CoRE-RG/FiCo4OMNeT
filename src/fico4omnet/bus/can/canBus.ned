@@ -57,7 +57,7 @@ module CanBus
         busPort: BusPort {
             @display("p=163,74");
             gates:
-                phygate[sizeof(gate)];
+                phygate[sizeof(parent.gate)];
         }
         
         canBusLogic: CanBusLogic {

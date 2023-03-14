@@ -183,10 +183,10 @@ private:
      * @param initialFrameOffsetTokenizer Tokenizer for the first transmission-times of the frames
      */
     void initialFrameCreation(std::string type,
-            omnetpp::cStringTokenizer frameIDsTokenizer,
-            omnetpp::cStringTokenizer framesPeriodicityTokenizer,
-            omnetpp::cStringTokenizer dataLengthFramesTokenizer,
-            omnetpp::cStringTokenizer initialFrameOffsetTokenizer);
+            omnetpp::cStringTokenizer& frameIDsTokenizer,
+            omnetpp::cStringTokenizer& framesPeriodicityTokenizer,
+            omnetpp::cStringTokenizer& dataLengthFramesTokenizer,
+            omnetpp::cStringTokenizer& initialFrameOffsetTokenizer);
 
     /**
      * @brief Registers the outgoing remote frame at the port.

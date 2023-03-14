@@ -84,7 +84,7 @@ private:
     /**
      *
      */
-    void dynamicFrameCreation(omnetpp::cStringTokenizer tokenizer, int channel);
+    void dynamicFrameCreation(omnetpp::cStringTokenizer& tokenizer, int channel);
 
     /**
      *
