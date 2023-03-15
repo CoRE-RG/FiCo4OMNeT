@@ -26,6 +26,15 @@ FRTrafficSourceAppBase::FRTrafficSourceAppBase() {
 
 }
 
+FRTrafficSourceAppBase::~FRTrafficSourceAppBase() {
+    for(FRFrame* element : outgoingStaticFrames){
+        delete element;
+    }
+    for(FRFrame* element : outgoingDynamicFrames){
+        delete element;
+    }
+}
+
 void FRTrafficSourceAppBase::initialize() {
     getParentModule()->subscribe("newCycle", this);
 //    subscribe("newCycle", this);
@@ -68,7 +77,7 @@ void FRTrafficSourceAppBase::setUpStaticFrames() {
     }
 
     while (!staticSlotsChA.empty() || !staticSlotsChB.empty()) {
-        FRFrame * frMsg = new FRFrame();
+        FRFrame * frMsg = nullptr;
         if ((staticSlotsChA.front() == staticSlotsChB.front())
                 && !staticSlotsChA.empty() && !staticSlotsChB.empty()) {
             cycleNr = static_cast<int>(ceil(

@@ -34,6 +34,11 @@ namespace FiCo4OMNeT {
 simsignal_t Buffer::queueLengthSignal = registerSignal("length");
 simsignal_t Buffer::queueSizeSignal = registerSignal("size");
 
+Buffer::~Buffer(){
+    for (cMessage* element: frames){
+        delete element;
+    }
+}
 void Buffer::initialize() {
     initializeStatistics();
     registerDestinationGate();
