@@ -45,6 +45,12 @@ namespace FiCo4OMNeT {
 class CanInputBuffer: public CanBuffer {
 
 public:
+
+    /**
+     * @brief Destructor
+     */
+    virtual ~CanInputBuffer() = default;
+
     /**
      * @brief Puts the frame into the collection and informs the connected gates about the receiption.
      *

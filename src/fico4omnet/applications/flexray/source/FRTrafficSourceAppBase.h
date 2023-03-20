@@ -39,7 +39,7 @@ public:
      */
     FRTrafficSourceAppBase();
 
-    ~FRTrafficSourceAppBase();
+    virtual ~FRTrafficSourceAppBase();
 
     virtual void receiveSignal(omnetpp::cComponent *source,
             omnetpp::simsignal_t signalID, long l, omnetpp::cObject *details) override;

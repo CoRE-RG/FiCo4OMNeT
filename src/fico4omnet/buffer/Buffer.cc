@@ -36,9 +36,11 @@ simsignal_t Buffer::queueSizeSignal = registerSignal("size");
 
 Buffer::~Buffer(){
     for (cMessage* element: frames){
-        delete element;
+        cancelAndDelete(element);
     }
+    frames.clear();
 }
+
 void Buffer::initialize() {
     initializeStatistics();
     registerDestinationGate();

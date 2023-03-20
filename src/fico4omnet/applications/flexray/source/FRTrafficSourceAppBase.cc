@@ -28,10 +28,10 @@ FRTrafficSourceAppBase::FRTrafficSourceAppBase() {
 
 FRTrafficSourceAppBase::~FRTrafficSourceAppBase() {
     for(FRFrame* element : outgoingStaticFrames){
-        delete element;
+        cancelAndDelete(element);
     }
     for(FRFrame* element : outgoingDynamicFrames){
-        delete element;
+        cancelAndDelete(element);
     }
 }
 
