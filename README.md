@@ -5,6 +5,12 @@ FiCo4OMNeT is an open source simulation model for the event-based simulation of 
 <img src="/doc/images/fico4omnet.png" alt="FiCo4OMNeT Environment" width="35%">
 
 
+## History
+FiCo4OMNeT was first introduced as FlexRay simulation model at the 6th International Workshop on OMNeT++ (2013) along with the 6th International ICST Conference on Simulation Tools and Techniques (2013). You can find the [publication](https://core.inet.haw-hamburg.de/assets/bibliography/eigene/bsks-stafc-13.pdf) and [slides](https://core.inet.haw-hamburg.de/assets/bibliography/eigene/bsks-stafc-13_Slides.pdf) here.
+
+To merge the simulation models of CAN and FlexRay significant changes were necessary. The result of this merging process is the FieldBus for OMNeT++ Simulation model (FiCo4OMNeT).
+
+
 ## Features
 
 ### CAN
@@ -17,16 +23,12 @@ The arbitration ensures that the frame with the highest priority is transmitted 
 Each node can transmit messages in the assigned slots within the static and the dynamic segment. Based on the configuration the frame is transmitted on channel A, channel B or on both. Every member of the network has an own clock. Based on the configuration each clock has an inaccuracy. The implemented synchronisation compensates theses drifts.
 
 
-## History
-FiCo4OMNeT was first introduced as !FlexRay simulation model at the [6th International Workshop on OMNeT++ (2013)](http://www.omnet-workshop.org/2013/) along with the [6th International ICST Conference on Simulation Tools and Techniques (2013)](http://www.simutools.org/2013/). You can find the [publication](http://core.informatik.haw-hamburg.de/images/publications/papers/bsks-stafc-13a.pdf) and [slides](http://core.informatik.haw-hamburg.de/images/publications/papers/bsks-stafc-13b.pdf) here.
+## Reference
+If you would like to reference this project please use the following [publication](https://link.springer.com/chapter/10.1007/978-3-030-12842-5_10):
 
-To merge the simulation models of CAN and !FlexRay significant changes were necessary. The result of this merging process is the FieldBus for OMNeT++ Simulation model (FiCo4OMNeT).
+Philipp Meyer, Franz Korf, Till Steinbach, Thomas C. Schmidt, Simulation of Mixed Critical In-vehicular Networks, In: Recent Advances in Network Simulation, (Antonio Virdis, Michael Kirsche Ed.), ser. EAI/Springer Innovations in Communication and Computing, May 2019. [https://doi.org/10.1007/978-3-030-12842-5_10](https://doi.org/10.1007/978-3-030-12842-5_10) 
 
-
-## References
-If you would like to reference this model please use the following [publication](http://core.informatik.haw-hamburg.de/images/publications/papers/bsks-stafc-13a.pdf):
-
-S. Buschmann, T. Steinbach, F. Korf, and T. C. Schmidt. Simulation based Timing Analysis of FlexRay Communication at System Level. In Proceedings of the 6th International ICST Conference on Simulation Tools and Techniques, pages 285-290, New York, Mar. 2013. ACM-DL.
+* [arXiv preprint](https://arxiv.org/abs/1808.03081)
 
 
 ## Quick Start
