@@ -26,6 +26,15 @@ FRTrafficSourceAppBase::FRTrafficSourceAppBase() {
 
 }
 
+FRTrafficSourceAppBase::~FRTrafficSourceAppBase() {
+    for(FRFrame* element : outgoingStaticFrames){
+        cancelAndDelete(element);
+    }
+    for(FRFrame* element : outgoingDynamicFrames){
+        cancelAndDelete(element);
+    }
+}
+
 void FRTrafficSourceAppBase::initialize() {
     getParentModule()->subscribe("newCycle", this);
 //    subscribe("newCycle", this);
@@ -68,7 +77,7 @@ void FRTrafficSourceAppBase::setUpStaticFrames() {
     }
 
     while (!staticSlotsChA.empty() || !staticSlotsChB.empty()) {
-        FRFrame * frMsg = new FRFrame();
+        FRFrame * frMsg = nullptr;
         if ((staticSlotsChA.front() == staticSlotsChB.front())
                 && !staticSlotsChA.empty() && !staticSlotsChB.empty()) {
             cycleNr = static_cast<int>(ceil(
@@ -111,7 +120,7 @@ void FRTrafficSourceAppBase::setUpDynamicFrames() {
 }
 
 void FRTrafficSourceAppBase::dynamicFrameCreation(
-        omnetpp::cStringTokenizer tokenizer, int channel) {
+        omnetpp::cStringTokenizer& tokenizer, int channel) {
     int gNumberOfMinislots = getParentModule()->par("gNumberOfMinislots");
     while (tokenizer.hasMoreTokens()) {
         int slot = atoi(tokenizer.nextToken());

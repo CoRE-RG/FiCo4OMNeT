@@ -49,7 +49,7 @@ public:
     /**
      * @brief Destructor
      */
-    virtual ~CanOutputBuffer();
+    virtual ~CanOutputBuffer() = default;
 
     /**
      * @brief Is called by the bus logic to permit the frame transmission.

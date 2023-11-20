@@ -92,6 +92,9 @@ public:
     virtual void deliverNextFrame();
 
 protected:
+
+    ~Buffer();
+    
     /**
      * @brief Caches the queuesize sum of all bytes of frames
      * increased with incoming frame, decreased with outgoing frame

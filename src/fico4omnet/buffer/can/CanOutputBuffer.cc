@@ -35,14 +35,6 @@ namespace FiCo4OMNeT {
 
 Define_Module(CanOutputBuffer);
 
-CanOutputBuffer::~CanOutputBuffer(){
-    for (std::list<cMessage*>::iterator it =  frames.begin(); it != frames.end(); ++it)
-    {
-            cancelAndDelete((*it));
-    }
-    frames.clear();
-}
-
 void CanOutputBuffer::putFrame(cMessage* msg) {
     CanDataFrame *frame = dynamic_cast<CanDataFrame *>(msg);
     if (MOB == true) {

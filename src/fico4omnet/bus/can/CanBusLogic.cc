@@ -59,6 +59,9 @@ CanBusLogic::~CanBusLogic() {
     if(scheduledDataFrame){
         cancelAndDelete(scheduledDataFrame);
     }
+    for (auto* id : ids){
+        delete id;
+    }
 }
 
 void CanBusLogic::initialize() {

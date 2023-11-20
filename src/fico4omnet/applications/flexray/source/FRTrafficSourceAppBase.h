@@ -39,6 +39,8 @@ public:
      */
     FRTrafficSourceAppBase();
 
+    virtual ~FRTrafficSourceAppBase();
+
     virtual void receiveSignal(omnetpp::cComponent *source,
             omnetpp::simsignal_t signalID, long l, omnetpp::cObject *details) override;
 
@@ -84,7 +86,7 @@ private:
     /**
      *
      */
-    void dynamicFrameCreation(omnetpp::cStringTokenizer tokenizer, int channel);
+    void dynamicFrameCreation(omnetpp::cStringTokenizer& tokenizer, int channel);
 
     /**
      *

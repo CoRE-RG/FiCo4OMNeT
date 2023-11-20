@@ -50,8 +50,7 @@ void CanPortOutput::handleReceivedErrorFrame() {
     errorReceived = true;
     if (scheduledErrorFrame != nullptr && scheduledErrorFrame->isScheduled()) {
         EV<< getParentModule()->getParentModule()->getId() << ": error frame wird gedescheduled\n";
-        cancelEvent(scheduledErrorFrame);
-        delete scheduledErrorFrame;
+        cancelAndDelete(scheduledErrorFrame);
         scheduledErrorFrame = nullptr;
     }
 }
@@ -59,7 +58,6 @@ void CanPortOutput::handleReceivedErrorFrame() {
 void CanPortOutput::initialize() {
     bandwidth = getParentModule()->getParentModule()->gate("gate$o")->getPathEndGate()->getOwnerModule()->getParentModule()->par("bandwidth");
     errorperc = getParentModule()->getParentModule()->par("errorperc");
-    scheduledErrorFrame = new ErrorFrame();
     initializeStatisticValues();
 }
 
@@ -98,11 +96,8 @@ void CanPortOutput::handleMessage(cMessage *msg) {
                 if (position > 0)
                     position--;
                 errself->setPos(position);
-                if (scheduledErrorFrame != nullptr && scheduledErrorFrame->isScheduled()) {
-                    cancelEvent(scheduledErrorFrame);
-                    delete(scheduledErrorFrame);
-                    scheduledErrorFrame = nullptr;
-                }
+                cancelAndDelete(scheduledErrorFrame);
+                
                 scheduledErrorFrame = errself;
                 scheduleAt((simTime() + calculateScheduleTiming(position)),
                         scheduledErrorFrame);
