@@ -37,13 +37,13 @@ module FRBus
         busPortChannelA: BusPort {
             @display("p=68,138");
             gates:
-                phygate[numberOfNodesChannelA];
+                phygate[parent.numberOfNodesChannelA];
         }
         
         busPortChannelB: BusPort {
             @display("p=163,138");
             gates:
-                phygate[numberOfNodesChannelB];
+                phygate[parent.numberOfNodesChannelB];
         }
         
         frBusLogic: FRBusLogic {

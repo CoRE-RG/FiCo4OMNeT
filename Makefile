@@ -1,4 +1,6 @@
-all: checkmakefiles src/fico4omnet/features.h 
+FEATURES_H = src/fico4omnet/features.h
+
+all: checkmakefiles $(FEATURES_H)
 	cd src && $(MAKE)
 
 clean: checkmakefiles
@@ -7,19 +9,19 @@ clean: checkmakefiles
 cleanall: checkmakefiles
 	cd src && $(MAKE) MODE=release clean
 	cd src && $(MAKE) MODE=debug clean
-	rm -f src/Makefile src/fico4omnet/features.h
+	rm -f src/Makefile $(FEATURES_H)
 
-MAKEMAKE_OPTIONS := -f --deep --no-deep-includes -I.
+MAKEMAKE_OPTIONS := -f --deep -I.
 
-makefiles: src/fico4omnet/features.h makefiles-so
+makefiles: makefiles-so
 
-makefiles-so:
+makefiles-so: $(FEATURES_H)
 	@FEATURE_OPTIONS=$$(opp_featuretool options -f -l -c) && cd src && opp_makemake --make-so $(MAKEMAKE_OPTIONS) $$FEATURE_OPTIONS
 
-makefiles-lib:
+makefiles-lib: $(FEATURES_H)
 	@FEATURE_OPTIONS=$$(opp_featuretool options -f -l -c) && cd src && opp_makemake --make-lib $(MAKEMAKE_OPTIONS) $$FEATURE_OPTIONS
 
-makefiles-exe:
+makefiles-exe: $(FEATURES_H)
 	@FEATURE_OPTIONS=$$(opp_featuretool options -f -l -c) && cd src && opp_makemake $(MAKEMAKE_OPTIONS) $$FEATURE_OPTIONS
 
 checkmakefiles:
@@ -33,8 +35,8 @@ checkmakefiles:
 	fi
 
 # generate an include file that contains all the WITH_FEATURE macros according to the current enablement of features
-src/fico4omnet/features.h: $(wildcard .oppfeaturestate) .oppfeatures
-	@opp_featuretool defines >src/fico4omnet/features.h
+$(FEATURES_H): $(wildcard .oppfeaturestate) .oppfeatures
+	@opp_featuretool defines >$(FEATURES_H)
 
-doxy:
+doc:
 	doxygen doxy.cfg
