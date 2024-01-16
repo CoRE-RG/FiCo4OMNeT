@@ -11,6 +11,10 @@ FiCo4OMNeT was first introduced as FlexRay simulation model at the 6th Internati
 To merge the simulation models of CAN and FlexRay significant changes were necessary. The result of this merging process is the FieldBus for OMNeT++ Simulation model (FiCo4OMNeT).
 
 
+## News
+* Updated dependency to OMNeT++ 6.0.2
+
+
 ## Features
 
 ### CAN
