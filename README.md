@@ -40,16 +40,9 @@ Philipp Meyer, Franz Korf, Till Steinbach, Thomas C. Schmidt, Simulation of Mixe
     * [https://omnetpp.org/download/](https://omnetpp.org/download/)
 2. Install OMNeT++
     * [https://doc.omnetpp.org/omnetpp/InstallGuide.pdf](https://doc.omnetpp.org/omnetpp/InstallGuide.pdf)
-3. Get INET framework 3.8.3 (optional)
-    * [https://inet.omnetpp.org/Download.html](https://inet.omnetpp.org/Download.html)
-4. Install CoRE plugins (optional)
-    * OMNEST/OMNeT++ -> Help -> Install New Software...
-    * URL `http://sim.core-rg.de/updates/`
-    * Check [Abstract Network Description Language] | [CoRE Simulation Model Installer] | [Gantt Chart Timing Analyzer]
-5. Get CoRE framework (GitHub or CoRE Simulation Model Installer)
-    * GitHub: Clone framework and import it in OMNEST/OMNeT++
-    * CoRE Simulation Model Installer: OMNEST/OMNeT++ -> Help -> Install CoRE Simulation Models...
-6. Working with the framework
+3. Get CoRE framework
+    * GitHub: Clone this repository and import it in OMNEST/OMNeT++
+4. Working with the framework
     * See the documentation in [doc/](/doc)
     * Start the examples in the framework
     
@@ -71,7 +64,7 @@ The build state of the master branch is monitored:
   </tr>
   <tr>
     <td>Building</td>
-    <td><img src="https://jenkins.core-rg.de/buildStatus/icon?job=FiCo4OMNeT/FiCo4OMNeT/Nodes=Ubuntu_22.-04"></td>
+    <td><img src="https://jenkins.core-rg.de/buildStatus/icon?job=FiCo4OMNeT/FiCo4OMNeT/Nodes=Ubuntu_22.04"></td>
     <td><img src="https://jenkins.core-rg.de/buildStatus/icon?job=FiCo4OMNeT/FiCo4OMNeT/Nodes=Windows_11"></td>
   </tr>
   <tr>
